@@ -11,6 +11,7 @@ import { findCompanyByCode, findCompanyCustomer } from "./people";
 export type RegisterResult =
   | { status: "unknown_company" }
   | { status: "unknown_person" }
+  | { status: "owned_by_other_company" }
   | { status: "ok"; companyName: string; personName: string | null; label: string | null; deviceToken: string };
 
 /** Person and label fields to write. Missing input keeps the stored value, unless the computer moves to another company. */
@@ -36,7 +37,13 @@ export async function registerDevice(input: RegisterInput): Promise<RegisterResu
   if (input.personId && !(await findCompanyCustomer(company.id, input.personId))) return { status: "unknown_person" };
 
   const db = await getDb();
-  const [existing] = await db.select({ companyId: devices.companyId }).from(devices).where(eq(devices.deskId, input.deskId));
+  const [existing] = await db
+    .select({ companyId: devices.companyId, deviceTokenHash: devices.deviceTokenHash })
+    .from(devices)
+    .where(eq(devices.deskId, input.deskId));
+  // Anyone can see a desk ID, so a computer already registered by the app cannot be pulled into another company
+  // with just some company code; staff removes it from the panel first.
+  if (existing?.deviceTokenHash && existing.companyId !== company.id) return { status: "owned_by_other_company" };
   const deviceToken = newToken();
   const now = new Date();
   const fields = {
