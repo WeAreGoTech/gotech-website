@@ -1,0 +1,55 @@
+import { count } from "drizzle-orm";
+import { hashPassword } from "@/lib/auth/password";
+import type { Database } from "./index";
+import { companies, users } from "./schema";
+import { hoursAgo } from "./seed-helpers";
+import { seedSupport } from "./seed-support";
+import { seedWork } from "./seed-work";
+
+// Shown on the login page in development so the panels can be tried right away.
+export const DEMO_ACCOUNTS = {
+  staff: { email: "ekip@gotech.local", password: "gotech-demo-1" },
+  customer: { email: "ayse@kavurma.example", password: "musteri-demo-1" },
+};
+
+export async function seedDemoData(db: Database) {
+  const [{ value: userCount }] = await db.select({ value: count() }).from(users);
+  if (userCount > 0) return;
+
+  const staffHash = await hashPassword(DEMO_ACCOUNTS.staff.password);
+  const customerHash = await hashPassword(DEMO_ACCOUNTS.customer.password);
+
+  const [deniz, can, elif] = await db
+    .insert(users)
+    .values([
+      { name: "Deniz Arslan", email: DEMO_ACCOUNTS.staff.email, role: "staff", title: "Destek ekibi lideri", passwordHash: staffHash },
+      { name: "Can Demir", email: "can@gotech.local", role: "staff", title: "Yazılım geliştirici", passwordHash: staffHash },
+      { name: "Elif Koç", email: "elif@gotech.local", role: "staff", title: "Proje yöneticisi", passwordHash: staffHash },
+    ])
+    .returning();
+
+  const [kavurma, nova] = await db
+    .insert(companies)
+    .values([
+      { name: "Kavurma Atölyesi", createdAt: hoursAgo(24 * 220) },
+      { name: "Nova Diş Kliniği", createdAt: hoursAgo(24 * 70) },
+    ])
+    .returning();
+
+  const [ayse, emre, , burak] = await db
+    .insert(users)
+    .values([
+      { name: "Ayşe Kaya", email: DEMO_ACCOUNTS.customer.email, role: "customer", companyId: kavurma.id, title: "Kurucu", phone: "0532 111 22 33", passwordHash: customerHash },
+      { name: "Emre Şahin", email: "emre@kavurma.example", role: "customer", companyId: kavurma.id, title: "Depo sorumlusu", passwordHash: customerHash },
+      // invited, has not set a password yet
+      { name: "Selin Aksoy", email: "selin@kavurma.example", role: "customer", companyId: kavurma.id, title: "Muhasebe" },
+      { name: "Burak Yıldız", email: "burak@novadis.example", role: "customer", companyId: nova.id, title: "Klinik müdürü", passwordHash: customerHash },
+    ])
+    .returning();
+
+  const people = { deniz, can, elif, ayse, emre, burak };
+  await seedSupport(db, { kavurma, nova }, people);
+  await seedWork(db, { kavurma, nova }, people);
+
+  console.info("[seed] Demo verisi oluşturuldu. Ekip: %s, müşteri: %s", DEMO_ACCOUNTS.staff.email, DEMO_ACCOUNTS.customer.email);
+}

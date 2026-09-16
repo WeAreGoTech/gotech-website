@@ -1,0 +1,87 @@
+/* Compare, FAQ, contact, footer */
+
+/* ---------- compare ---------- */
+.compare{background:var(--ink);color:#fff}
+.compare-table{width:100%;border-collapse:separate;border-spacing:0;font-size:1rem}
+.compare-table th,.compare-table td{text-align:left;vertical-align:top;padding:22px 26px;border-bottom:1px solid rgba(255,255,255,.1)}
+.compare-table thead th{font-weight:400;color:rgba(255,255,255,.6)}
+.compare-table tbody th{width:18%;font-weight:500;padding-left:0}
+.compare-table td{width:41%;color:rgba(255,255,255,.62)}
+.compare-table .is-us{background:rgba(47,69,255,.2);color:#fff}
+.compare-table thead .is-us{border-radius:20px 20px 0 0;font-weight:500}
+.compare-table tbody tr:last-child .is-us{border-radius:0 0 20px 20px;border-bottom:0}
+.compare-table td.is-us::before{content:"";display:inline-block;width:8px;height:8px;margin-right:12px;border-radius:50%;background:var(--signal);vertical-align:middle;transform:translateY(-1px)}
+
+/* ---------- faq ---------- */
+.faq{background:var(--ground)}
+.faq-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(40px,7vw,120px);align-items:start}
+.faq-aside{position:sticky;top:calc(var(--nav-h) + 40px);display:grid;gap:22px;justify-items:start}
+.faq-list{border-top:1px solid var(--line)}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-item summary{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:26px 0;list-style:none;cursor:pointer;font-size:clamp(1.15rem,1.6vw,1.45rem);letter-spacing:-.02em}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-icon{flex:none;position:relative;width:38px;height:38px;border-radius:50%;box-shadow:inset 0 0 0 1px rgba(19,26,51,.2);transition:background .3s,color .3s,box-shadow .3s}
+.faq-icon::before,.faq-icon::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.5px;background:currentColor;transform:translate(-50%,-50%);transition:transform .35s var(--ease-out)}
+.faq-icon::after{transform:translate(-50%,-50%) rotate(90deg)}
+.faq-item[open] .faq-icon{background:var(--cobalt);color:#fff;box-shadow:none}
+.faq-item[open] .faq-icon::after{transform:translate(-50%,-50%) rotate(0deg)}
+.faq-item p{margin:0;padding:0 62px 28px 0;max-width:40em;color:var(--ink-soft)}
+.faq-item[open] p{animation:faq-in .45s var(--ease-out)}
+@keyframes faq-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* ---------- contact ---------- */
+.contact{background:var(--cobalt-deep);color:#fff}
+.contact-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(40px,6vw,100px);align-items:start}
+.contact-intro{display:grid;gap:26px}
+.contact-title{font-weight:400;font-size:clamp(2.8rem,6.4vw,7rem);line-height:.98;letter-spacing:-.045em;margin:0}
+.contact-info{display:grid;gap:18px;margin:14px 0 0;padding-top:28px;border-top:1px solid rgba(255,255,255,.15)}
+.contact-info div{display:grid;gap:2px}
+.contact-info dt{font-size:.85rem;color:rgba(255,255,255,.55)}
+.contact-info dd{margin:0;font-size:1.15rem}
+.contact-info a:hover{text-decoration:underline}
+.form-card{background:var(--paper);color:var(--ink);border-radius:var(--radius-lg);padding:clamp(22px,3.4vw,44px);box-shadow:0 40px 90px -40px rgba(5,10,40,.7)}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:20px 16px}
+.consent{grid-column:1/-1;display:grid;grid-template-columns:20px 1fr;gap:6px 12px;font-size:.88rem;color:var(--ink-soft)}
+.consent label{font-size:inherit;font-weight:inherit}
+.consent input{width:18px;height:18px;margin:2px 0 0;accent-color:var(--cobalt)}
+.consent a{color:var(--ink);text-decoration:underline}
+.consent .field-error{grid-column:2}
+.form-foot{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px 20px;margin-top:4px}
+.form-foot small{max-width:24em;color:var(--ink-soft);font-size:.84rem}
+.form-done{display:grid;justify-items:start;gap:16px;padding:20px 0}
+.form-done .check{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--ok-bg);color:var(--ok-ink)}
+.form-done h3{font-weight:400;font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:-.035em;margin:0}
+.form-done h3:focus{outline:none}
+.form-done p{margin:0;max-width:30em;color:var(--ink-soft)}
+
+/* ---------- footer ---------- */
+.footer{background:var(--ink);color:rgba(255,255,255,.66);padding:72px var(--gutter) 40px;font-size:.95rem}
+.footer-top{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:40px;padding-bottom:56px;border-bottom:1px solid rgba(255,255,255,.1)}
+.footer .logo{color:#fff}
+.footer-brand p{margin:14px 0 0;max-width:24em}
+.footer-h{margin:0 0 14px;font-size:.95rem;font-weight:500;color:#fff}
+.footer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.footer a{transition:color .2s}
+.footer a:hover{color:#fff}
+.footer-bottom{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;padding-top:28px;font-size:.88rem}
+.footer-bottom nav{display:flex;flex-wrap:wrap;gap:8px 24px}
+
+@media (max-width:900px){
+  .faq-grid,.contact-grid{grid-template-columns:1fr}
+  .faq-aside{position:static}
+  .footer-top{grid-template-columns:1fr 1fr}
+  .footer-brand{grid-column:1/-1}
+}
+@media (max-width:760px){
+  .compare-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .compare-table,.compare-table tbody,.compare-table tr,.compare-table th,.compare-table td{display:block;width:auto}
+  .compare-table tr{padding:22px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+  .compare-table th,.compare-table td{padding:0;border:0}
+  .compare-table tbody th{width:auto;margin-bottom:12px;font-size:1.1rem}
+  .compare-table td{margin-top:8px}
+  .compare-table td.is-us,.compare-table tbody tr:last-child .is-us{padding:12px 14px;border-radius:14px}
+  .compare-table td::before,.compare-table td.is-us::before{content:attr(data-label);display:block;width:auto;height:auto;margin:0 0 4px;border-radius:0;background:none;transform:none;font-size:.8rem;color:rgba(255,255,255,.5)}
+  .compare-table td:not(.is-us){padding:0 14px}
+  .form{grid-template-columns:1fr}
+  .faq-item p{padding-right:0}
+}

@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GoTech | Mikro ERP, web sitesi ve yönetim paneli</title>
+<meta name="description" content="Mikro ERP, web sitesi ve yönetim paneli. Tasarımından kurulumuna tek ekip.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/hero-b.css">
+<link rel="stylesheet" href="css/hero-c.css">
+<link rel="stylesheet" href="css/showcase.css">
+<link rel="stylesheet" href="css/closing.css">
+</head>
+<body data-concept="b">
+<a class="skip" href="#hizmetler">İçeriğe geç</a>
+
+<header class="nav" data-tone="dark">
+  <a class="logo" href="#top" aria-label="GoTech ana sayfa">GoTech</a>
+  <nav class="nav-links" aria-label="Ana menü">
+    <a href="#hizmetler">Çözümler</a><a href="#surec">Süreç</a><a href="#isler">İşler</a><a href="#sss">SSS</a><a href="#iletisim">İletişim</a>
+  </nav>
+  <a class="btn btn-small nav-cta" href="#iletisim">Teklif iste</a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu">Menü</button>
+</header>
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <nav aria-label="Mobil menü">
+    <a href="#hizmetler">Çözümler</a><a href="#surec">Süreç</a><a href="#isler">İşler</a><a href="#sss">SSS</a><a href="#iletisim">İletişim</a>
+  </nav>
+  <a class="btn btn-signal" href="#iletisim">Teklif iste</a>
+</div>
+
+<main id="top">
+<div class="hero-slot">
+
+<!-- ============ HERO B: AKIŞ ============ -->
+<section class="concept" id="concept-b" data-key="b">
+  <div class="pin b-pin">
+    <div class="sticky b-stage">
+      <div class="b-dots" aria-hidden="true"></div>
+
+      <div class="b-stepper" aria-hidden="true">
+        <ol><li><b>1</b>Sipariş</li><li><b>2</b>Stok</li><li><b>3</b>Fatura</li><li><b>4</b>Rapor</li></ol>
+        <div class="b-stepper-track"><i></i></div>
+      </div>
+
+      <div class="b-track">
+        <svg class="b-line" aria-hidden="true">
+          <defs><clipPath id="b-clip"><rect class="b-clip-rect" x="0" y="0" width="0" height="0"/></clipPath></defs>
+          <path class="b-path-base"/>
+          <path class="b-path-lit" clip-path="url(#b-clip)"/>
+        </svg>
+
+        <div class="b-panel b-intro">
+          <h1 class="b-title">
+            <span class="ln"><span>Siparişten</span></span>
+            <span class="ln"><span>faturaya, işiniz</span></span>
+            <span class="ln"><span>kendiliğinden akar.</span></span>
+          </h1>
+          <div class="b-intro-foot">
+            <p class="lede">Web sitenizden gelen sipariş stoğa, stoktan faturaya, faturadan rapora kendiliğinden geçer. Bu akışı işletmenize göre kuruyoruz.</p>
+            <div class="cta-row"><a class="btn btn-signal" href="#iletisim">Projenizi anlatın</a><a class="btn btn-ghost" href="#surec">Nasıl çalışır</a></div>
+          </div>
+        </div>
+
+        <div class="b-panel b-step">
+          <div class="b-cell b-cell-card">
+            <div class="b-card">
+              <div class="bc-head"><span class="bc-title">Sipariş #1042</span><span class="bc-pill swap"><span class="off">Web sitesinden</span><span class="on">Kaydedildi</span></span></div>
+              <div class="bc-person"><span class="bc-avatar">AK</span><span>Ayşe Kaya<small>Kadıköy, İstanbul</small></span></div>
+              <ul class="bc-items"><li><span>Kavrulmuş kahve, 1 kg</span><span>2 × ₺520</span></li><li><span>Filtre kağıdı</span><span>1 × ₺200</span></li></ul>
+              <div class="bc-total"><span>Toplam</span><strong>₺1.240</strong></div>
+            </div>
+          </div>
+          <div class="b-cell b-cell-text"><span class="b-num">1</span><h2>Sipariş düşer</h2><p>Web sitenizden, telefondan ya da mağazadan gelen sipariş aynı panele kaydolur.</p></div>
+        </div>
+
+        <div class="b-panel b-step is-down">
+          <div class="b-cell b-cell-card">
+            <div class="b-card">
+              <div class="bc-head"><span class="bc-title">Stok</span><span class="bc-sub">Ana depo</span></div>
+              <div class="bc-stock"><div class="bc-row"><span>Kavrulmuş kahve, 1 kg</span><span class="num swap"><span class="off">88 adet</span><span class="on">86 adet</span></span></div><div class="bc-meter"><i style="--from:74%;--to:72%"></i></div></div>
+              <div class="bc-stock is-low"><div class="bc-row"><span>Filtre kağıdı</span><span class="num swap"><span class="off">10 adet</span><span class="on">9 adet</span></span></div><div class="bc-meter"><i style="--from:16%;--to:13%"></i></div></div>
+              <div class="bc-alert"><div><p>Filtre kağıdı azaldı. Tedarikçiye sipariş taslağı hazır.</p></div></div>
+            </div>
+          </div>
+          <div class="b-cell b-cell-text"><span class="b-num">2</span><h2>Stok güncellenir</h2><p>Satılan ürün depodan düşer. Azalan ürün için tedarik taslağı kendiliğinden hazırlanır.</p></div>
+        </div>
+
+        <div class="b-panel b-step">
+          <div class="b-cell b-cell-card">
+            <div class="b-card">
+              <div class="bc-head"><span class="bc-title">e-Fatura</span><span class="bc-pill swap"><span class="off">Hazırlanıyor</span><span class="on">Gönderildi</span></span></div>
+              <dl class="bc-dl"><div><dt>Fatura no</dt><dd>GT2026000118</dd></div><div><dt>Alıcı</dt><dd>Ayşe Kaya</dd></div><div><dt>Tarih</dt><dd>16.09.2026</dd></div></dl>
+              <ul class="bc-items"><li><span>Kavrulmuş kahve, 1 kg × 2</span><span>₺1.040</span></li><li><span>Filtre kağıdı × 1</span><span>₺200</span></li></ul>
+              <div class="bc-total"><span>KDV dahil</span><strong>₺1.240,00</strong></div>
+            </div>
+          </div>
+          <div class="b-cell b-cell-text"><span class="b-num">3</span><h2>Fatura kesilir</h2><p>e-Fatura hazırlanır ve müşterinize gönderilir. Kimse elle yazmaz.</p></div>
+        </div>
+
+        <div class="b-panel b-step is-down">
+          <div class="b-cell b-cell-card">
+            <div class="b-card">
+              <div class="bc-head"><span class="bc-title">Bugünkü satış</span><span class="bc-sub">16 Eylül</span></div>
+              <div class="bc-kpi"><strong class="swap"><span class="off">₺17.220</span><span class="on">₺18.460</span></strong><small>Geçen haftanın aynı gününe göre %8 fazla</small></div>
+              <div class="bc-chart"><i style="--h:42%"></i><i style="--h:58%"></i><i style="--h:36%"></i><i style="--h:71%"></i><i style="--h:63%"></i><i style="--h:80%"></i><i class="is-today" style="--h:70%;--h2:92%"></i></div>
+            </div>
+          </div>
+          <div class="b-cell b-cell-text"><span class="b-num">4</span><h2>Rapor hazır</h2><p>Günün satışı, kârı ve kritik stoğu siz sormadan önünüzde.</p></div>
+        </div>
+
+        <div class="b-panel b-end">
+          <div class="b-end-inner">
+            <h2>Bu akışı sizin işinize göre kuralım.</h2>
+            <p class="lede">İşletmenizi dinliyor, gereken modülleri seçiyor, web siteniz ve panelinizle birlikte kuruyoruz.</p>
+            <div class="cta-row"><a class="btn btn-signal" href="#iletisim">Görüşme planlayın</a><a class="btn btn-ghost" href="#isler">Yaptığımız işler</a></div>
+          </div>
+        </div>
+
+        <div class="b-packet" aria-hidden="true"><div class="b-packet-chip"><i class="b-packet-dot"></i><span class="b-packet-label">Yeni sipariş #1042</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HERO C: DALIŞ ============ -->
+<section class="concept" id="concept-c" data-key="c" hidden>
+  <div class="pin c-pin">
+    <div class="sticky c-stage">
+      <h1 class="sr-only">İşiniz ekranda.</h1>
+      <span class="c-word c-word-l" aria-hidden="true">İşiniz</span>
+      <span class="c-word c-word-r" aria-hidden="true">ekranda.</span>
+      <div class="c-screen">
+        <div class="c-inner">
+          <div class="dash">
+            <aside class="d-side">
+              <div class="d-logo">GoTech</div>
+              <ul><li class="on">Özet</li><li>Siparişler</li><li>Stok</li><li>Faturalar</li><li>Cari hesaplar</li><li>Personel</li><li>Raporlar</li><li>Web sitesi</li></ul>
+            </aside>
+            <div class="d-main">
+              <div class="d-head"><div><small>16 Eylül 2026</small><h3>Günaydın</h3></div><div class="d-search">Ürün, müşteri veya fatura ara</div></div>
+              <div class="d-kpis">
+                <div><small>Bugünkü satış</small><b>₺18.460</b></div>
+                <div><small>Açık sipariş</small><b>57</b></div>
+                <div><small>Bekleyen fatura</small><b>12</b></div>
+                <div><small>Kritik stok</small><b>4 ürün</b></div>
+              </div>
+              <div class="d-row">
+                <div class="d-card"><small>Son 14 gün satış</small>
+                  <div class="d-bars"><i style="height:38%"></i><i style="height:52%"></i><i style="height:44%"></i><i style="height:61%"></i><i style="height:48%"></i><i style="height:70%"></i><i style="height:57%"></i><i style="height:66%"></i><i style="height:74%"></i><i style="height:59%"></i><i style="height:81%"></i><i style="height:69%"></i><i style="height:88%"></i><i style="height:96%"></i></div>
+                </div>
+                <div class="d-card"><small>Kritik stok</small>
+                  <div class="d-list"><div><span>Filtre kağıdı</span><em>9 adet</em></div><div><span>Karton kutu</span><em>22 adet</em></div><div><span>Etiket rulosu</span><em>3 adet</em></div><div><span>Kahve 250 g</span><em>14 adet</em></div></div>
+                </div>
+              </div>
+              <div class="d-table">
+                <div><span>#1042</span><span>Kavrulmuş kahve 1 kg × 2</span><span>Web sitesi</span><span>Faturalandı</span></div>
+                <div><span>#1041</span><span>Filtre kağıdı × 10</span><span>Telefon</span><span>Hazırlanıyor</span></div>
+                <div><span>#1040</span><span>Kahve 250 g × 6</span><span>Web sitesi</span><span>Kargoda</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="c-end">
+          <h2>Bu ekran sizin işletmenize göre çizilir.</h2>
+          <p>Mikro ERP, web sitesi ve yönetim paneli. Tasarımından kurulumuna tek ekip.</p>
+          <div class="cta-row"><a class="btn" href="#iletisim">Demo isteyin</a></div>
+        </div>
+      </div>
+      <div class="c-sub">
+        <p class="lede">Mikro ERP, web sitesi ve yönetim paneli. Tasarımından kurulumuna tek ekip.</p>
+        <div class="cta-row"><a class="btn" href="#iletisim">Projenizi anlatın</a><a class="btn btn-ghost" href="#isler">Yaptığımız işler</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- ============ LOGOS ============ -->
+<section class="logos" data-nav-tone="light" aria-label="Çalıştığımız işletmeler">
+  <p>Stoklarını, siparişlerini ve sitelerini bize emanet eden işletmeler</p>
+  <ul><li>Logo</li><li>Logo</li><li>Logo</li><li>Logo</li><li>Logo</li><li>Logo</li></ul>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section class="section services" id="hizmetler" data-nav-tone="light">
+  <div class="services-grid">
+    <div class="services-aside">
+      <h2 class="h2">Üç iş yapıyoruz, üçü de birbirine bağlı.</h2>
+      <p class="lede">İsterseniz birini, isterseniz üçünü birlikte kuruyoruz. Hepsi aynı ekipten çıktığı için birbirleriyle konuşur.</p>
+      <ul class="services-index">
+        <li><a href="#hizmet-erp">Mikro ERP</a></li>
+        <li><a href="#hizmet-web">Web siteleri</a></li>
+        <li><a href="#hizmet-panel">Yönetim panelleri</a></li>
+      </ul>
+    </div>
+    <div class="service-list">
+      <article class="service" id="hizmet-erp">
+        <div class="ph">Görsel alanı: ERP panel ekranı</div>
+        <h3>Mikro ERP</h3>
+        <p>Stok, cari hesap, fatura, sipariş ve personel takibi tek yerde. İhtiyacınız olan modüllerle başlar, işiniz büyüdükçe genişler.</p>
+        <dl class="service-meta">
+          <dt>Neler dahil</dt>
+          <dd><ul class="chips"><li>Stok ve depo</li><li>Cari hesap</li><li>e-Fatura ve e-Arşiv</li><li>Sipariş</li><li>Personel</li><li>Raporlar</li></ul></dd>
+          <dt>Kimler için</dt>
+          <dd>Üretim atölyeleri, toptancılar, çok şubeli mağazalar</dd>
+        </dl>
+      </article>
+      <article class="service" id="hizmet-web">
+        <div class="ph">Görsel alanı: web sitesi örnekleri</div>
+        <h3>Web siteleri</h3>
+        <p>Kurumsal site, e-ticaret ya da kampanya sayfası. Hızlı açılan, kolay yönetilen ve aramalarda bulunan siteler kuruyoruz. Gelen siparişler doğrudan ERP'nize düşer.</p>
+        <dl class="service-meta">
+          <dt>Neler dahil</dt>
+          <dd><ul class="chips"><li>Kurumsal site</li><li>E-ticaret</li><li>Çok dilli yapı</li><li>Arama motoru uyumu</li><li>İçerik yönetimi</li></ul></dd>
+          <dt>Kimler için</dt>
+          <dd>Yeni kurulan markalar, sitesini yenilemek isteyen firmalar</dd>
+        </dl>
+      </article>
+      <article class="service" id="hizmet-panel">
+        <div class="ph">Görsel alanı: yönetim paneli arayüzü</div>
+        <h3>Yönetim panelleri</h3>
+        <p>Bayi portalı, randevu sistemi, saha ekibi takibi. Ekibinizin her gün kullandığı iç araçları iş akışınıza göre sıfırdan tasarlıyoruz.</p>
+        <dl class="service-meta">
+          <dt>Neler dahil</dt>
+          <dd><ul class="chips"><li>Rol ve yetki yönetimi</li><li>Bayi ve müşteri portalı</li><li>Mobil uyum</li><li>Bildirimler</li><li>Diğer sistemlerle entegrasyon</li></ul></dd>
+          <dt>Kimler için</dt>
+          <dd>Hazır yazılımın yetmediği, kendine özgü süreci olan ekipler</dd>
+        </dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROCESS ============ -->
+<section class="section process" id="surec" data-nav-tone="light">
+  <div class="section-head">
+    <h2 class="h2">İlk görüşmeden canlıya, beş adımda.</h2>
+    <p class="lede">Her adımın sonunda elinizde somut bir çıktı olur. Neyin ne zaman yapılacağını baştan bilirsiniz.</p>
+  </div>
+  <div class="steps-wrap">
+    <div class="steps-rail" aria-hidden="true"><i></i></div>
+    <ol class="steps">
+      <li class="step"><span class="step-num">1</span><h3>Tanışma</h3><p class="step-desc">İşinizi, bugün nasıl yürüdüğünü ve nerede zorlandığınızı dinliyoruz.</p><p class="step-out"><span>Çıktı</span>İhtiyaç notları</p></li>
+      <li class="step"><span class="step-num">2</span><h3>Keşif ve teklif</h3><p class="step-desc">Hangi modüllerin gerektiğini birlikte netleştiriyor, kapsamı ve takvimi yazılı olarak sunuyoruz.</p><p class="step-out"><span>Çıktı</span>Kapsam dokümanı ve teklif</p></li>
+      <li class="step"><span class="step-num">3</span><h3>Tasarım</h3><p class="step-desc">Ekranları gerçek verilerinizle tasarlıyoruz. Siz onaylamadan koda geçmiyoruz.</p><p class="step-out"><span>Çıktı</span>Tıklanabilir prototip</p></li>
+      <li class="step"><span class="step-num">4</span><h3>Geliştirme</h3><p class="step-desc">Düzenli aralıklarla çalışan sürümü size gösteriyoruz. Süreci baştan sona görürsünüz.</p><p class="step-out"><span>Çıktı</span>Test ortamı</p></li>
+      <li class="step"><span class="step-num">5</span><h3>Kurulum ve eğitim</h3><p class="step-desc">Mevcut verilerinizi aktarıyor, ekibinize kullanımı öğretiyor ve sistemi canlıya alıyoruz.</p><p class="step-out"><span>Çıktı</span>Canlı sistem ve eğitimli ekip</p></li>
+    </ol>
+  </div>
+  <p class="steps-after">Canlıya aldıktan sonra da buradayız. Bakım, destek ve yeni modüller için aynı ekiple çalışırsınız.</p>
+</section>
+
+<!-- ============ WORK ============ -->
+<section class="section work" id="isler" data-nav-tone="light">
+  <div class="work-head">
+    <div class="section-head">
+      <span class="tag">Örnek içerik</span>
+      <h2 class="h2">Son işlerimizden birkaçı.</h2>
+    </div>
+    <a class="btn btn-ghost" href="#">Tüm işleri görün</a>
+  </div>
+  <div class="work-grid">
+    <article class="project is-feature">
+      <div class="ph">Görsel alanı: proje ekran görüntüleri</div>
+      <dl class="project-meta"><div><dt>Sektör</dt><dd>Gıda üretimi</dd></div><div><dt>Kapsam</dt><dd>Mikro ERP ve e-ticaret sitesi</dd></div></dl>
+      <h3>Kahve kavurma atölyesi için sipariş, stok ve fatura sistemi</h3>
+      <p>Web sitesinden gelen siparişler, depo ve muhasebe artık aynı panelde.</p>
+    </article>
+    <div class="work-side">
+      <article class="project">
+        <div class="ph">Görsel alanı: bayi portalı</div>
+        <dl class="project-meta"><div><dt>Sektör</dt><dd>Otomotiv yedek parça</dd></div><div><dt>Kapsam</dt><dd>Yönetim paneli</dd></div></dl>
+        <h3>Toptancı için bayi portalı</h3>
+        <p>Bayiler stok ve fiyatı kendileri görüyor, siparişi panelden veriyor.</p>
+      </article>
+      <article class="project">
+        <div class="ph">Görsel alanı: randevu ekranı</div>
+        <dl class="project-meta"><div><dt>Sektör</dt><dd>Sağlık</dd></div><div><dt>Kapsam</dt><dd>Web sitesi ve randevu paneli</dd></div></dl>
+        <h3>Diş kliniği için online randevu sistemi</h3>
+        <p>Siteden alınan randevu doğrudan klinik takvimine düşüyor.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARE ============ -->
+<section class="section compare" data-nav-tone="dark" aria-labelledby="compare-title">
+  <div class="section-head">
+    <h2 class="h2" id="compare-title">Hazır paket program mı, işinize göre kurulan sistem mi?</h2>
+    <p class="lede">Paket programlar çoğu işletme için iyi bir başlangıçtır. İşiniz programa sığmamaya başladığında fark burada ortaya çıkar.</p>
+  </div>
+  <table class="compare-table">
+    <thead><tr><th scope="col"><span class="sr-only">Konu</span></th><th scope="col">Hazır paket program</th><th scope="col" class="is-us">GoTech ile</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">Modüller</th><td data-label="Hazır paket program">Herkese aynı menü, kullanmadığınız özelliklerle birlikte gelir.</td><td class="is-us" data-label="GoTech ile">Yalnızca ihtiyacınız olanlar kurulur, gerektikçe eklenir.</td></tr>
+      <tr><th scope="row">Ekranlar</th><td data-label="Hazır paket program">İş akışınızı programa uydurursunuz.</td><td class="is-us" data-label="GoTech ile">Program iş akışınıza göre tasarlanır.</td></tr>
+      <tr><th scope="row">Web sitesi</th><td data-label="Hazır paket program">Ayrı firma, ayrı sistem. Siparişler elle aktarılır.</td><td class="is-us" data-label="GoTech ile">Aynı ekip kurar. Siparişler panele kendiliğinden düşer.</td></tr>
+      <tr><th scope="row">Verileriniz</th><td data-label="Hazır paket program">Başka bir sisteme taşımak zor olabilir.</td><td class="is-us" data-label="GoTech ile">Verileriniz sizindir, istediğiniz zaman dışa aktarılır.</td></tr>
+      <tr><th scope="row">Destek</th><td data-label="Hazır paket program">Genel destek hattı.</td><td class="is-us" data-label="GoTech ile">Sistemi kuran ekiple doğrudan konuşursunuz.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section faq" id="sss" data-nav-tone="light">
+  <div class="faq-grid">
+    <div class="faq-aside">
+      <h2 class="h2">Sık sorulan sorular</h2>
+      <p class="lede">Aradığınız cevap burada yoksa bize yazın, sorunuzu birlikte netleştirelim.</p>
+      <a class="btn btn-ghost" href="#iletisim">Bize yazın</a>
+    </div>
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary>Mikro ERP bizim ölçeğimize uygun mu?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <p>Mikro ERP, büyük kurumsal sistemlerin karmaşıklığı olmadan küçük ve orta ölçekli işletmeler için kurulur. İhtiyacınız olan modülle başlar, büyüdükçe genişletirsiniz.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Excel'deki verilerimizi aktarabilir miyiz?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <p>Evet. Ürün, cari hesap ve stok listelerinizi kurulum sırasında sisteme aktarıyoruz. Kullandığınız eski programdan da veri alabiliyoruz.</p>
+      </details>
+      <details class="faq-item">
+        <summary>e-Fatura ve e-Arşiv ile çalışıyor mu?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <p>Kullandığınız entegratörle bağlantı kuruyoruz. Faturalar sistemin içinden kesilir ve müşterinize gönderilir.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Ne kadar sürer, fiyat nasıl belirlenir?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <p>Süre ve fiyat seçilen modüllere ve entegrasyonlara göre değişir. Keşif görüşmesinden sonra yazılı teklif ve takvim veriyoruz.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Kurulumdan sonra destek veriyor musunuz?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <p>Evet. Bakım, güncelleme ve yeni ihtiyaçlarınız için destek anlaşması sunuyoruz.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Verilerimiz nerede saklanıyor?<span class="faq-icon" aria-hidden="true"></span></summary>
+        <p>Tercihinize göre bulut sunucuda ya da kendi sunucunuzda. Düzenli yedekleme kurulumun bir parçasıdır.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="section contact" id="iletisim" data-nav-tone="dark">
+  <div class="contact-grid">
+    <div class="contact-intro">
+      <h2 class="contact-title">Projenizi anlatın.</h2>
+      <p class="lede">Formu doldurun, işinizi konuşmak için size dönelim. Aceleniz varsa doğrudan arayabilirsiniz.</p>
+      <dl class="contact-info">
+        <div><dt>E-posta</dt><dd><a href="mailto:iletisim@ornek.com">iletisim@ornek.com</a></dd></div>
+        <div><dt>Telefon</dt><dd><a href="tel:+900000000000">+90 (000) 000 00 00</a></dd></div>
+        <div><dt>Adres</dt><dd>Şehir, ilçe (adres bilgisi)</dd></div>
+        <div><dt>Çalışma saatleri</dt><dd>Hafta içi 09.00–18.00</dd></div>
+      </dl>
+    </div>
+    <div class="form-card">
+      <form class="form" id="contact-form" novalidate>
+        <div class="field" data-field>
+          <label for="f-name">Ad soyad</label>
+          <input class="input" id="f-name" name="name" autocomplete="name" required data-validate aria-describedby="e-name">
+          <p class="field-error" id="e-name" hidden>Adınızı ve soyadınızı yazın.</p>
+        </div>
+        <div class="field">
+          <label for="f-company">Şirket <span class="opt">(isteğe bağlı)</span></label>
+          <input class="input" id="f-company" name="company" autocomplete="organization">
+        </div>
+        <div class="field" data-field>
+          <label for="f-email">E-posta</label>
+          <input class="input" id="f-email" name="email" type="email" autocomplete="email" required data-validate aria-describedby="e-email">
+          <p class="field-error" id="e-email" hidden>Geçerli bir e-posta adresi yazın, örneğin ad@sirket.com.</p>
+        </div>
+        <div class="field">
+          <label for="f-phone">Telefon <span class="opt">(isteğe bağlı)</span></label>
+          <input class="input" id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="05xx xxx xx xx">
+        </div>
+        <fieldset class="field is-wide">
+          <legend>Neyle ilgileniyorsunuz?</legend>
+          <div class="choice-group">
+            <label class="choice"><input type="checkbox" name="topic" value="erp"><span>Mikro ERP</span></label>
+            <label class="choice"><input type="checkbox" name="topic" value="web"><span>Web sitesi</span></label>
+            <label class="choice"><input type="checkbox" name="topic" value="panel"><span>Yönetim paneli</span></label>
+            <label class="choice"><input type="checkbox" name="topic" value="unsure"><span>Henüz emin değilim</span></label>
+          </div>
+        </fieldset>
+        <div class="field is-wide">
+          <label for="f-msg">Mesajınız <span class="opt">(isteğe bağlı)</span></label>
+          <textarea class="input" id="f-msg" name="message" rows="4" placeholder="İşinizden ve çözmek istediğiniz sorundan kısaca bahsedin."></textarea>
+        </div>
+        <div class="consent" data-field>
+          <input type="checkbox" id="f-consent" name="consent" required data-validate aria-describedby="e-consent">
+          <label for="f-consent">Kişisel verilerimin iletişim amacıyla işlenmesine ilişkin <a href="#">aydınlatma metnini</a> okudum.</label>
+          <p class="field-error" id="e-consent" hidden>Devam etmek için aydınlatma metnini onaylayın.</p>
+        </div>
+        <div class="form-foot">
+          <small>Bilgileriniz yalnızca size dönüş yapmak için kullanılır.</small>
+          <button class="btn" type="submit">Mesajı gönder</button>
+        </div>
+      </form>
+      <div class="form-done" hidden>
+        <span class="check" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+        <h3 tabindex="-1">Mesajınız gönderildi.</h3>
+        <p>Teşekkürler. İşinizi konuşmak için en kısa sürede size dönüş yapacağız.</p>
+        <button class="btn btn-ghost" type="button">Yeni mesaj yazın</button>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="footer" data-nav-tone="dark">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="logo" href="#top">GoTech</a>
+      <p>Mikro ERP, web sitesi ve yönetim paneli. Tasarımından kurulumuna tek ekip.</p>
+    </div>
+    <div>
+      <h2 class="footer-h">Çözümler</h2>
+      <ul><li><a href="#hizmet-erp">Mikro ERP</a></li><li><a href="#hizmet-web">Web siteleri</a></li><li><a href="#hizmet-panel">Yönetim panelleri</a></li></ul>
+    </div>
+    <div>
+      <h2 class="footer-h">Şirket</h2>
+      <ul><li><a href="#isler">İşler</a></li><li><a href="#surec">Süreç</a></li><li><a href="#sss">SSS</a></li><li><a href="#iletisim">İletişim</a></li></ul>
+    </div>
+    <div>
+      <h2 class="footer-h">Takip edin</h2>
+      <ul><li><a href="#">LinkedIn</a></li><li><a href="#">Instagram</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 GoTech</span>
+    <nav aria-label="Yasal bağlantılar"><a href="#">KVKK aydınlatma metni</a><a href="#">Çerez politikası</a></nav>
+  </div>
+</footer>
+
+<!-- mockup-only: hero switcher and concept notes -->
+<p class="scroll-hint">Aşağı kaydırın</p>
+<aside class="note" aria-live="polite" hidden>
+  <h3 class="note-title"></h3>
+  <p class="note-body"></p>
+  <dl><dt>Neden</dt><dd class="note-why"></dd><dt>Dikkat</dt><dd class="note-care"></dd></dl>
+</aside>
+<div class="switch" role="group" aria-label="Hero alternatifleri">
+  <button type="button" data-key="b"><b>B</b>Akış</button>
+  <button type="button" data-key="c"><b>C</b>Dalış</button>
+  <button type="button" class="note-toggle" aria-expanded="false">Konsept notu</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="js/core.js"></script>
+<script src="js/hero-b.js"></script>
+<script src="js/hero-c.js"></script>
+<script src="js/page.js"></script>
+</body>
+</html>

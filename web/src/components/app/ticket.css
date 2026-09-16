@@ -1,0 +1,92 @@
+/* Ticket detail: header, chat-style conversation, composer, status tracker */
+.t-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:28px}
+.t-head-text{min-width:0}
+.t-head h1{margin:0;font-weight:800;font-size:clamp(1.7rem,3vw,2.6rem);line-height:1.05;letter-spacing:-.05em;overflow-wrap:anywhere}
+.t-meta{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin-top:10px;color:var(--w-ink-3);font-size:.92rem}
+.t-back{margin-bottom:18px}
+.t-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+.t-side{position:sticky;top:24px;align-self:start;display:grid;gap:16px}
+.card.compact{padding:18px 20px}
+.card.compact h2{margin-bottom:12px}
+.compact.form-stack{gap:12px}
+.compact .field{gap:5px}
+.compact .field > label{font-size:.84rem}
+.compact .input{padding:.55rem .85rem;border-radius:10px;font-size:.95rem}
+.compact .btn{min-height:42px}
+.compact .drows div{padding:8px 0}
+.compact .drows div:first-child{padding-top:0}
+.drows-note{margin:12px 0 0;padding:10px 12px;border-radius:12px;background:var(--w-page);font-size:.92rem}
+
+/* status stepper: one row under the title */
+.hstepper{display:flex;align-items:center;list-style:none;margin:0 0 20px;padding:14px 20px;border-radius:20px;background:#fff}
+.hstepper li{display:flex;align-items:center;gap:10px;flex:1;min-width:0}
+.hstepper li:last-child{flex:none}
+.hstepper li:not(:last-child)::after{content:"";flex:1;min-width:16px;height:2px;margin:0 14px;border-radius:2px;background:var(--w-line)}
+.hstepper li.is-done::after{background:var(--w-forest)}
+.hstepper .tracker-dot{flex:none;width:24px;height:24px}
+.hstepper-text{display:grid;min-width:0}
+.hstepper strong{font-weight:600;font-size:.92rem;white-space:nowrap}
+.hstepper .is-upcoming strong{color:var(--w-ink-3);font-weight:500}
+.hstepper small{font-size:.8rem;color:var(--w-ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* conversation: stretches to the side column so both end on the same line, composer pinned to the bottom */
+.convo{align-self:stretch;display:flex;flex-direction:column;border-radius:24px;background:#fff;overflow:hidden}
+.convo-log{flex:1;display:flex;flex-direction:column;gap:10px;padding:20px 24px 24px}
+.day{align-self:center;margin:10px 0 4px;padding:.2rem .8rem;border-radius:999px;background:var(--w-page);color:var(--w-ink-3);font-size:.8rem;font-weight:600}
+.bubble-row{display:flex;align-items:flex-end;gap:10px;max-width:min(78%,620px)}
+.bubble-row.is-mine{align-self:flex-end;flex-direction:row-reverse}
+.bubble{padding:12px 16px;border-radius:22px 22px 22px 6px;background:var(--w-page)}
+.bubble-row.is-mine .bubble{border-radius:22px 22px 6px 22px;background:var(--w-forest);color:#fff}
+.bubble-name{display:block;margin-bottom:3px;font-size:.8rem;font-weight:600;color:var(--w-ink-2)}
+.bubble p{margin:0;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}
+.bubble time{display:block;margin-top:4px;font-size:.74rem;text-align:right;opacity:.6}
+.inote{align-self:center;display:flex;gap:12px;width:min(92%,640px);margin:4px 0;padding:12px 16px;border-radius:18px;background:var(--w-warning-bg);color:var(--w-warning)}
+.inote svg{flex:none;margin-top:2px}
+.inote strong{display:block;font-size:.82rem;font-weight:700}
+.inote p{margin:2px 0 0;color:var(--w-ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.inote time{display:block;margin-top:4px;font-size:.74rem;opacity:.75}
+
+/* composer */
+.composer{display:grid;gap:12px;padding:16px 20px 20px;border-top:1px solid var(--w-line);background:#fff}
+.composer textarea.input{min-height:92px;border-radius:18px;padding:14px 16px;resize:vertical}
+.composer:has(input[value="note"]:checked) textarea.input{background-color:#FFFBEA;border-color:#E3C24A}
+.composer-foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px}
+.composer-foot small{color:var(--w-ink-3);font-size:.85rem}
+
+/* status tracker, like a transfer timeline */
+.tracker{list-style:none;margin:0;padding:0}
+.tracker li{position:relative;display:grid;grid-template-columns:28px minmax(0,1fr);gap:12px;padding-bottom:18px}
+.tracker li:last-child{padding-bottom:0}
+.tracker li::before{content:"";position:absolute;left:13px;top:30px;bottom:2px;width:2px;border-radius:2px;background:var(--w-line)}
+.tracker li:last-child::before{display:none}
+.tracker li.is-done::before{background:var(--w-forest)}
+.tracker-dot{display:grid;place-items:center;width:28px;height:28px;border:2px solid var(--w-border);border-radius:50%;background:#fff;color:var(--w-accent)}
+.is-done .tracker-dot{border-color:var(--w-forest);background:var(--w-forest)}
+.is-current .tracker-dot{border-color:var(--w-forest);background:var(--w-accent);box-shadow:inset 0 0 0 4px #fff}
+.tracker strong{display:block;min-height:28px;line-height:28px;font-weight:600}
+.is-upcoming strong{color:var(--w-ink-3);font-weight:500}
+.tracker small{display:block;color:var(--w-ink-3);font-size:.85rem}
+
+/* key-value rows */
+.drows{margin:0}
+.drows div{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--w-line)}
+.drows div:first-child{padding-top:0}
+.drows div:last-child{padding-bottom:0;border-bottom:0}
+.drows dt{color:var(--w-ink-3)}
+.drows dd{margin:0;text-align:right;font-weight:500;overflow-wrap:anywhere}
+
+@media (max-width:1100px){
+  .t-layout{grid-template-columns:minmax(0,1fr)}
+  .t-side{position:static;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .hstepper li:not(.is-current) small{display:none}
+}
+@media (max-width:700px){
+  .hstepper{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .hstepper li:not(:last-child)::after{display:none}
+}
+@media (max-width:600px){
+  .convo-log{padding:16px 14px 20px}
+  .bubble-row{max-width:92%}
+  .composer{padding:14px}
+  .t-head .w-icon{display:none}
+}
