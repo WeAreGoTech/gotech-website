@@ -15,6 +15,13 @@
       "when": 1789577991216,
       "tag": "0001_panels",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1789586288192,
+      "tag": "0002_uzak_destek",
+      "breakpoints": true
     }
   ]
 }

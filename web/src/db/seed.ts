@@ -1,7 +1,9 @@
 import { count } from "drizzle-orm";
+import { newCustomerCode } from "@/features/customers/customer-code";
 import { hashPassword } from "@/lib/auth/password";
 import type { Database } from "./index";
 import { companies, users } from "./schema";
+import { seedDevices } from "./seed-devices";
 import { hoursAgo } from "./seed-helpers";
 import { seedSupport } from "./seed-support";
 import { seedWork } from "./seed-work";
@@ -14,8 +16,12 @@ export const DEMO_ACCOUNTS = {
 
 export async function seedDemoData(db: Database) {
   const [{ value: userCount }] = await db.select({ value: count() }).from(users);
-  if (userCount > 0) return;
+  if (userCount === 0) await seedAccountsAndWork(db);
+  // separate guard so databases seeded before remote support existed get demo computers too
+  await seedDevices(db);
+}
 
+async function seedAccountsAndWork(db: Database) {
   const staffHash = await hashPassword(DEMO_ACCOUNTS.staff.password);
   const customerHash = await hashPassword(DEMO_ACCOUNTS.customer.password);
 
@@ -28,12 +34,13 @@ export async function seedDemoData(db: Database) {
     ])
     .returning();
 
-  const [kavurma, nova] = await db
+  const [kavurma] = await db
     .insert(companies)
-    .values([
-      { name: "Kavurma Atölyesi", createdAt: hoursAgo(24 * 220) },
-      { name: "Nova Diş Kliniği", createdAt: hoursAgo(24 * 70) },
-    ])
+    .values({ name: "Kavurma Atölyesi", customerCode: await newCustomerCode(db), createdAt: hoursAgo(24 * 220) })
+    .returning();
+  const [nova] = await db
+    .insert(companies)
+    .values({ name: "Nova Diş Kliniği", customerCode: await newCustomerCode(db), createdAt: hoursAgo(24 * 70) })
     .returning();
 
   const [ayse, emre, , burak] = await db

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import "@/components/app/app.css";
 import "@/components/app/ticket.css";
 import "@/components/app/modules.css";
+import "@/components/app/desk.css";
 
 export const metadata: Metadata = { robots: { index: false, follow: false } };
 

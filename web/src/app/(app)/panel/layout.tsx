@@ -18,6 +18,7 @@ export default async function CustomerPanelLayout({ children }: { children: Reac
         { href: "/panel/projeler", label: "Projeler", icon: "folder" },
         { href: "/panel/faturalar", label: "Faturalar", icon: "receipt" },
         { href: "/panel/dokumanlar", label: "Dokümanlar", icon: "file" },
+        { href: "/panel/uzak-destek", label: "Uzak Destek", icon: "monitor" },
         { href: "/panel/ekip", label: "Ekibim", icon: "users" },
         { href: "/panel/hesap", label: "Hesabım", icon: "user" },
       ]}

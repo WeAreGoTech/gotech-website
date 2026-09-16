@@ -12,6 +12,7 @@ export const SERVICE_KINDS = ["erp", "web", "panel"] as const;
 export const PROJECT_STAGES = ["discovery", "design", "development", "testing", "live"] as const;
 export const INVOICE_STATUSES = ["pending", "paid", "cancelled"] as const;
 export const DOCUMENT_KINDS = ["contract", "proposal", "guide", "report"] as const;
+export const DEVICE_CONNECTION_KINDS = ["connect", "file_transfer"] as const;
 const TICKET_NUMBER_START = 1001;
 
 export const userRole = pgEnum("user_role", USER_ROLES);
@@ -24,12 +25,15 @@ export const serviceKind = pgEnum("service_kind", SERVICE_KINDS);
 export const projectStage = pgEnum("project_stage", PROJECT_STAGES);
 export const invoiceStatus = pgEnum("invoice_status", INVOICE_STATUSES);
 export const documentKind = pgEnum("document_kind", DOCUMENT_KINDS);
+export const deviceConnectionKind = pgEnum("device_connection_kind", DEVICE_CONNECTION_KINDS);
 
 const createdAt = () => timestamp("created_at", { withTimezone: true }).notNull().defaultNow();
 
 export const companies = pgTable("companies", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
+  // 6-digit number the customer types into GoTech Desk to register a computer
+  customerCode: text("customer_code").notNull().unique(),
   createdAt: createdAt(),
 });
 
@@ -188,6 +192,37 @@ export const documents = pgTable(
   (t) => [index("documents_company_idx").on(t.companyId)],
 );
 
+// Computers running GoTech Desk (our RustDesk fork), registered by the desktop app with a customer code
+export const devices = pgTable(
+  "devices",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    companyId: uuid("company_id").notNull().references(() => companies.id, { onDelete: "restrict" }),
+    deskId: text("desk_id").notNull().unique(),
+    hostname: text("hostname").notNull(),
+    platform: text("platform").notNull(),
+    appVersion: text("app_version").notNull(),
+    // AES-256-GCM, see lib/desk/crypto; null when the customer has unattended access turned off
+    unattendedPasswordEnc: text("unattended_password_enc"),
+    registeredAt: timestamp("registered_at", { withTimezone: true }).notNull().defaultNow(),
+    lastRegisteredAt: timestamp("last_registered_at", { withTimezone: true }).notNull().defaultNow(),
+    createdAt: createdAt(),
+  },
+  (t) => [index("devices_company_idx").on(t.companyId)],
+);
+
+export const deviceConnections = pgTable(
+  "device_connections",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    deviceId: uuid("device_id").notNull().references(() => devices.id, { onDelete: "cascade" }),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+    kind: deviceConnectionKind("kind").notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [index("device_connections_device_idx").on(t.deviceId), index("device_connections_created_idx").on(t.createdAt)],
+);
+
 export type User = typeof users.$inferSelect;
 export type UserRole = (typeof USER_ROLES)[number];
 export type TicketStatus = (typeof TICKET_STATUSES)[number];
@@ -199,3 +234,4 @@ export type ServiceKind = (typeof SERVICE_KINDS)[number];
 export type ProjectStage = (typeof PROJECT_STAGES)[number];
 export type InvoiceStatus = (typeof INVOICE_STATUSES)[number];
 export type DocumentKind = (typeof DOCUMENT_KINDS)[number];
+export type DeviceConnectionKind = (typeof DEVICE_CONNECTION_KINDS)[number];

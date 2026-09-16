@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { getDb } from "@/db";
 import { companies, leads, users, type UserRole } from "@/db/schema";
+import { newCustomerCode } from "@/features/customers/customer-code";
 import { createPasswordLink, PASSWORD_LINK_HOURS } from "@/lib/auth/password-tokens";
 import { requireCustomer, requireStaff } from "@/lib/auth/session";
 import { fieldErrors, success, text, type ActionState } from "@/lib/forms";
@@ -62,7 +63,7 @@ export async function convertLeadToCustomer(leadId: string) {
   const [lead] = await db.select().from(leads).where(eq(leads.id, leadId));
   if (!lead) throw new Error("Başvuru bulunamadı.");
 
-  const [company] = await db.insert(companies).values({ name: lead.company || lead.name }).returning();
+  const [company] = await db.insert(companies).values({ name: lead.company || lead.name, customerCode: await newCustomerCode(db) }).returning();
   const created = await createInvitedUser({ name: lead.name, email: lead.email, title: "" }, "customer", company.id);
   if (created) {
     await sendMail(inviteMail({ to: lead.email, name: lead.name, companyName: company.name, link: created.link, validHours: PASSWORD_LINK_HOURS }));

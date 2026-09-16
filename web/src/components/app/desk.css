@@ -1,0 +1,25 @@
+/* GoTech Desk remote support: device rows, online dot, customer number card */
+.desk-row{flex-wrap:wrap}
+.desk-row .w-row-main{min-width:200px}
+.desk-row .row-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-left:auto}
+.desk-icon{position:relative}
+.desk-dot{position:absolute;right:-1px;bottom:-1px;display:grid;place-items:center;width:15px;height:15px;border:2px solid #fff;border-radius:50%;background:#9A9C98;color:#fff;font-size:.6rem;font-weight:800;line-height:1}
+.desk-dot.is-online{background:#3C8A1E}
+.desk-dot.is-unknown{background:var(--w-border);color:var(--w-ink-2)}
+.desk-id{font-variant-numeric:tabular-nums;white-space:nowrap}
+.desk-company{color:var(--w-forest);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.desk-notice{margin-bottom:16px}
+
+.desk-code{display:grid;gap:18px;padding:clamp(20px,3vw,32px);border-radius:24px;background:var(--w-forest);color:#fff}
+.desk-code-label{color:rgba(255,255,255,.78);font-weight:500}
+.desk-code-value{margin:0;font-weight:800;font-size:clamp(2.6rem,6vw,4rem);line-height:1;letter-spacing:.06em;color:var(--w-accent);font-variant-numeric:tabular-nums}
+.desk-steps{display:grid;gap:10px;margin:0;padding-left:1.3rem}
+.desk-steps a{color:var(--w-accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.desk-downloads{display:flex;flex-wrap:wrap;gap:10px}
+.desk-downloads .btn-ghost{background:rgba(255,255,255,.12);color:#fff}
+.desk-downloads .btn-ghost:hover{background:rgba(255,255,255,.2)}
+
+@media (max-width:600px){
+  .desk-row .w-icon{grid-row:span 3}
+  .desk-row .row-actions{grid-column:2;margin-left:0}
+}

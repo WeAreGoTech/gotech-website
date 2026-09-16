@@ -10,6 +10,7 @@ import { requireStaff } from "@/lib/auth/session";
 import { failure, fieldErrors, success, text, type ActionState } from "@/lib/forms";
 import { sendMail } from "@/lib/mail/send";
 import { inviteMail } from "@/lib/mail/templates";
+import { newCustomerCode } from "./customer-code";
 
 const NEW_COMPANY = "new";
 
@@ -47,7 +48,7 @@ export async function inviteCustomer(_prev: ActionState, formData: FormData): Pr
 
   const company =
     input.companyId === NEW_COMPANY
-      ? (await db.insert(companies).values({ name: input.companyName }).returning())[0]
+      ? (await db.insert(companies).values({ name: input.companyName, customerCode: await newCustomerCode(db) }).returning())[0]
       : (await db.select().from(companies).where(eq(companies.id, input.companyId)))[0];
   if (!company) return failure("Seçilen firma bulunamadı.");
 
