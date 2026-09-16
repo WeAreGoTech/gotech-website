@@ -10,6 +10,7 @@ const HTTP_UNAUTHORIZED = 401;
 const HTTP_FORBIDDEN = 403;
 const HTTP_NOT_FOUND = 404;
 
+const ALLOWED_FETCH_SITES = new Set(["same-origin", "none"]);
 const DESK_ACTIONS = { connect: "connect", file_transfer: "file-transfer" } as const;
 const isConnectParam = (value: string | null): value is ConnectParam => value !== null && Object.hasOwn(CONNECT_PARAM_KINDS, value);
 
@@ -18,6 +19,10 @@ const plain = (message: string, status: number) => new Response(message, { statu
 
 /** Logs the connection and hands the staff member's browser over to the GoTech Desk app via gotechdesk:// */
 export async function GET(request: Request, ctx: RouteContext<"/yonetim/cihazlar/[id]/baglan">) {
+  // Only follow clicks from our own pages; blocks other sites from triggering a connection (CSRF).
+  const fetchSite = request.headers.get("sec-fetch-site");
+  if (fetchSite && !ALLOWED_FETCH_SITES.has(fetchSite)) return plain("Geçersiz istek kaynağı.", HTTP_FORBIDDEN);
+
   const user = await getCurrentUser();
   if (!user) return plain("Önce giriş yapın.", HTTP_UNAUTHORIZED);
   if (user.role !== "staff") return plain("Bu işlem yalnızca GoTech ekibine açık.", HTTP_FORBIDDEN);
