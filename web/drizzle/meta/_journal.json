@@ -22,6 +22,13 @@
       "when": 1789586288192,
       "tag": "0002_uzak_destek",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1789590040729,
+      "tag": "0003_firma_kisi",
+      "breakpoints": true
     }
   ]
 }

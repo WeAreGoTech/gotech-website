@@ -80,6 +80,8 @@ export const tickets = pgTable(
     // 1-5, given by the customer after the ticket is closed
     rating: integer("rating"),
     ratingComment: text("rating_comment"),
+    // set when the customer asked for help from the GoTech Desk app on that computer
+    deviceId: uuid("device_id").references(() => devices.id, { onDelete: "set null" }),
     createdAt: createdAt(),
     updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
   },
@@ -192,12 +194,19 @@ export const documents = pgTable(
   (t) => [index("documents_company_idx").on(t.companyId)],
 );
 
-// Computers running GoTech Desk (our RustDesk fork), registered by the desktop app with a customer code
+// Computers running GoTech Desk (our RustDesk fork), registered by the desktop app with a company code
 export const devices = pgTable(
   "devices",
   {
     id: uuid("id").primaryKey().defaultRandom(),
     companyId: uuid("company_id").notNull().references(() => companies.id, { onDelete: "restrict" }),
+    // the person using this computer: a panel user of the company, or just a name when they have no account
+    userId: uuid("user_id").references(() => users.id, { onDelete: "set null" }),
+    contactName: text("contact_name"),
+    // for shared computers, e.g. "Resepsiyon"
+    label: text("label"),
+    // SHA-256 of the token the app got at registration (see lib/auth/tokens); null for devices registered before tokens existed
+    deviceTokenHash: text("device_token_hash"),
     deskId: text("desk_id").notNull().unique(),
     hostname: text("hostname").notNull(),
     platform: text("platform").notNull(),
@@ -208,7 +217,7 @@ export const devices = pgTable(
     lastRegisteredAt: timestamp("last_registered_at", { withTimezone: true }).notNull().defaultNow(),
     createdAt: createdAt(),
   },
-  (t) => [index("devices_company_idx").on(t.companyId)],
+  (t) => [index("devices_company_idx").on(t.companyId), index("devices_user_idx").on(t.userId)],
 );
 
 export const deviceConnections = pgTable(
@@ -218,6 +227,8 @@ export const deviceConnections = pgTable(
     deviceId: uuid("device_id").notNull().references(() => devices.id, { onDelete: "cascade" }),
     userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "restrict" }),
     kind: deviceConnectionKind("kind").notNull(),
+    // the ticket the connection was opened from, if any
+    ticketId: uuid("ticket_id").references(() => tickets.id, { onDelete: "set null" }),
     createdAt: createdAt(),
   },
   (t) => [index("device_connections_device_idx").on(t.deviceId), index("device_connections_created_idx").on(t.createdAt)],

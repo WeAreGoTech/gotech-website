@@ -14,6 +14,7 @@ const listColumns = {
   status: tickets.status,
   priority: tickets.priority,
   category: tickets.category,
+  deviceId: tickets.deviceId,
   updatedAt: tickets.updatedAt,
 };
 

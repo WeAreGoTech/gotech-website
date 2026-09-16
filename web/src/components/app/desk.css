@@ -23,3 +23,20 @@
   .desk-row .w-icon{grid-row:span 3}
   .desk-row .row-actions{grid-column:2;margin-left:0}
 }
+
+/* person, labels and device pages */
+.desk-hint{margin:0;color:var(--w-ink-3);font-weight:400}
+.desk-row strong a,.desk-ticket-row strong a{color:inherit;text-decoration:underline;text-decoration-color:var(--w-line);text-underline-offset:3px}
+.desk-row strong a:hover,.desk-ticket-row strong a:hover{text-decoration-color:currentColor}
+.desk-head{flex-wrap:wrap}
+.desk-head .t-head-text{flex:1}
+.desk-head-actions{display:flex;flex-wrap:wrap;gap:8px}
+.desk-ticket{display:grid;gap:12px}
+.desk-ticket h2{margin-bottom:0}
+.desk-ticket-sub{margin:4px 0 0;font-size:.92rem;font-weight:600;color:var(--w-ink-3)}
+.desk-ticket-list{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.desk-ticket-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.desk-ticket-row .w-row-main{min-width:140px}
+.desk-ticket-row.is-prominent{padding:12px;border-radius:16px;background:var(--w-page)}
+.desk-ticket-actions{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
+.t-device{display:inline-flex;align-items:center;gap:4px;margin-left:8px;color:var(--w-forest);font-weight:600;vertical-align:middle}

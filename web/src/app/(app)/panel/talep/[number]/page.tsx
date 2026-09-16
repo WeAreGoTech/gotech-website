@@ -5,6 +5,7 @@ import { Conversation } from "@/components/app/Conversation";
 import { RatingForm, RatingStars } from "@/components/app/rating";
 import { DetailRows, StatusStepper, TicketHeader } from "@/components/app/ticket-detail";
 import { Composer } from "@/components/app/ticket-forms";
+import { getCompanyDeviceName } from "@/features/devices/queries";
 import { closeTicketAsCustomer, rateTicket, replyAsCustomer } from "@/features/tickets/actions";
 import { PRIORITY_LABELS } from "@/features/tickets/labels";
 import { getCompanyTicket, listTicketMessages } from "@/features/tickets/queries";
@@ -19,7 +20,10 @@ export default async function CustomerTicketPage({ params }: PageProps<"/panel/t
   const ticket = Number.isInteger(number) ? await getCompanyTicket(number, user.companyId) : null;
   if (!ticket) notFound();
 
-  const messages = await listTicketMessages(ticket.id, { includeInternal: false });
+  const [messages, deviceName] = await Promise.all([
+    listTicketMessages(ticket.id, { includeInternal: false }),
+    ticket.deviceId ? getCompanyDeviceName(ticket.deviceId, user.companyId) : null,
+  ]);
   const closed = ticket.status === "closed";
 
   return (
@@ -38,6 +42,7 @@ export default async function CustomerTicketPage({ params }: PageProps<"/panel/t
             rows={[
               ["Öncelik", PRIORITY_LABELS[ticket.priority]],
               ["Son hareket", formatDateTime(ticket.updatedAt)],
+              ...(deviceName ? ([["Bilgisayar", deviceName]] as [string, ReactNode][]) : []),
               ...(ticket.rating ? ([["Değerlendirmeniz", <RatingStars key="rating" rating={ticket.rating} />]] as [string, ReactNode][]) : []),
             ]}
           >

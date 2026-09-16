@@ -6,7 +6,7 @@ import { formatShortDate } from "./format";
 import { CATEGORY_ICONS, Icon } from "./Icon";
 
 export type Audience = "staff" | "customer";
-type Row = CompanyTicketRow & { companyName?: string; assigneeName?: string | null };
+type Row = Omit<CompanyTicketRow, "deviceId"> & { deviceId?: string | null; companyName?: string; assigneeName?: string | null };
 
 export function StatusPill({ status, audience }: { status: TicketStatus; audience: Audience }) {
   return <span className={`status is-${status}`}>{STATUS_LABELS[audience][status]}</span>;
@@ -30,6 +30,9 @@ export function TicketList({ rows, audience }: { rows: Row[]; audience: Audience
               <small>
                 {row.companyName ? `${row.companyName}, ` : ""}#{row.number}, {CATEGORY_LABELS[row.category]}
                 {row.priority !== "normal" && <>, <PriorityText priority={row.priority} /></>}
+                {audience === "staff" && row.deviceId && (
+                  <span className="t-device" title="GoTech Desk üzerinden açıldı"><Icon name="monitor" size={14} /> Uzak destek</span>
+                )}
               </small>
             </span>
             <span className="w-row-side">

@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { CONNECT_PARAM_KINDS, type ConnectParam } from "@/features/devices/labels";
 import { getDevice, logConnection } from "@/features/devices/queries";
+import { getCompanyTicket } from "@/features/tickets/queries";
 import { getCurrentUser } from "@/lib/auth/session";
 import { decryptSecret } from "@/lib/desk/crypto";
 
@@ -13,6 +14,13 @@ const HTTP_NOT_FOUND = 404;
 const ALLOWED_FETCH_SITES = new Set(["same-origin", "none"]);
 const DESK_ACTIONS = { connect: "connect", file_transfer: "file-transfer" } as const;
 const isConnectParam = (value: string | null): value is ConnectParam => value !== null && Object.hasOwn(CONNECT_PARAM_KINDS, value);
+
+/** The ticket to link the connection to: only a ticket of the device's own company, otherwise none. */
+async function ticketIdFor(talep: string | null, companyId: string) {
+  const number = Number(talep);
+  if (!talep || !Number.isInteger(number)) return null;
+  return (await getCompanyTicket(number, companyId))?.id ?? null;
+}
 
 const noStore = { "Cache-Control": "private, no-store", "Referrer-Policy": "no-referrer" };
 const plain = (message: string, status: number) => new Response(message, { status, headers: noStore });
@@ -27,7 +35,8 @@ export async function GET(request: Request, ctx: RouteContext<"/yonetim/cihazlar
   if (!user) return plain("Önce giriş yapın.", HTTP_UNAUTHORIZED);
   if (user.role !== "staff") return plain("Bu işlem yalnızca GoTech ekibine açık.", HTTP_FORBIDDEN);
 
-  const param = new URL(request.url).searchParams.get("tur");
+  const { searchParams } = new URL(request.url);
+  const param = searchParams.get("tur");
   if (!isConnectParam(param)) return plain("Bağlantı türü geçersiz.", HTTP_BAD_REQUEST);
 
   const { id } = await ctx.params;
@@ -35,7 +44,7 @@ export async function GET(request: Request, ctx: RouteContext<"/yonetim/cihazlar
   if (!device) return plain("Cihaz bulunamadı.", HTTP_NOT_FOUND);
 
   const kind = CONNECT_PARAM_KINDS[param];
-  await logConnection(device.id, user.id, kind);
+  await logConnection(device.id, user.id, kind, await ticketIdFor(searchParams.get("talep"), device.companyId));
 
   let target = `gotechdesk://${DESK_ACTIONS[kind]}/${device.deskId}`;
   if (device.unattendedPasswordEnc) target += `?password=${encodeURIComponent(decryptSecret(device.unattendedPasswordEnc))}`;

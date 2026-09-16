@@ -1,0 +1,22 @@
+import { notRegistered, readDeskRequest } from "@/features/devices/api-http";
+import { heartbeatSchema } from "@/features/devices/api-schemas";
+import { authenticateDevice, getDeviceSummary, touchDevice } from "@/features/devices/device-auth";
+
+// Sent by the GoTech Desk app while it runs; returns the registration so edits made by staff show up in the app.
+// Generous limit: an office behind one IP can have many computers.
+const HEARTBEATS_PER_MINUTE = 120;
+
+export async function POST(request: Request) {
+  const input = await readDeskRequest(request, { bucket: "heartbeat", perMinute: HEARTBEATS_PER_MINUTE }, heartbeatSchema);
+  if ("response" in input) return input.response;
+  const { deskId, deviceToken, hostname, appVersion } = input.data;
+
+  const device = await authenticateDevice(deskId, deviceToken);
+  if (!device) return notRegistered();
+  await touchDevice(device.id, { hostname, appVersion });
+
+  const summary = await getDeviceSummary(device.id);
+  if (!summary) return notRegistered();
+  const { companyName, customerCode, personName, label, unattended } = summary;
+  return Response.json({ ok: true, companyName, customerCode, personName, label, unattended });
+}

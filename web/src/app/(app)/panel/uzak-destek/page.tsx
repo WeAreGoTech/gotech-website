@@ -5,6 +5,7 @@ import { Section } from "@/components/app/dashboard";
 import { DeviceList, StatusUnknownNotice } from "@/components/app/devices";
 import { Icon } from "@/components/app/Icon";
 import { getCompany } from "@/features/customers/queries";
+import { claimDevice } from "@/features/devices/actions";
 import { listDevices } from "@/features/devices/queries";
 import { requireCustomer } from "@/lib/auth/session";
 import { env } from "@/lib/env";
@@ -20,6 +21,9 @@ export default async function RemoteSupportPage() {
   const user = await requireCustomer();
   const [company, { devices, statusKnown }] = await Promise.all([getCompany(user.companyId), listDevices(user.companyId)]);
   const downloads = DOWNLOADS.filter((d) => d.url);
+  const mine = devices.filter((d) => d.userId === user.id);
+  const others = devices.filter((d) => d.userId !== user.id);
+  const claim = (deviceId: string) => claimDevice.bind(null, deviceId);
 
   return (
     <>
@@ -27,12 +31,12 @@ export default async function RemoteSupportPage() {
       <div className="two-col">
         <section className="desk-code" aria-labelledby="desk-code-label">
           <div>
-            <span className="desk-code-label" id="desk-code-label">Müşteri numaranız</span>
+            <span className="desk-code-label" id="desk-code-label">Firma kodunuz</span>
             <p className="desk-code-value">{company?.customerCode}</p>
           </div>
           <ol className="desk-steps">
             <li>GoTech Desk&apos;i bilgisayarınıza indirip kurun.</li>
-            <li>Program ilk açıldığında müşteri numaranızı girin. Bilgisayarınız aşağıdaki listeye eklenir.</li>
+            <li>Açılışta firma kodunu girin ve listeden adınızı seçin. Bilgisayarınız aşağıdaki listeye eklenir.</li>
             <li>
               Destek gerektiğinde bizi arayın ya da <Link href="/panel/talep/yeni">destek talebi oluşturun</Link>.
             </li>
@@ -48,10 +52,19 @@ export default async function RemoteSupportPage() {
             </div>
           )}
         </section>
-        <Section title="Bilgisayarlarınız">
+        <div>
           <StatusUnknownNotice show={!statusKnown} />
-          <DeviceList devices={devices} audience="customer" />
-        </Section>
+          <Section title="Benim bilgisayarlarım">
+            <DeviceList
+              devices={mine}
+              audience="customer"
+              emptyText="Size bağlı bilgisayar yok. GoTech Desk'i kurup firma kodunu girin ve listeden adınızı seçin ya da aşağıdan bilgisayarınızı sahiplenin."
+            />
+          </Section>
+          <Section title="Firmadaki diğer bilgisayarlar">
+            <DeviceList devices={others} audience="customer" emptyText="Firmada başka kayıtlı bilgisayar yok." claimAction={claim} />
+          </Section>
+        </div>
       </div>
     </>
   );

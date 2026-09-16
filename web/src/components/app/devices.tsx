@@ -1,12 +1,15 @@
 import Link from "next/link";
-import { CONNECTION_KIND_LABELS, connectHref, formatDeskId, platformLabel } from "@/features/devices/labels";
+import { CONNECTION_KIND_LABELS, connectHref, deviceHref, deviceTitle, formatDeskId, platformLabel } from "@/features/devices/labels";
 import type { ConnectionRow, DeviceRow } from "@/features/devices/queries";
 import { formatDateTime } from "@/lib/format";
 import { Icon } from "./Icon";
 
-const onlineText = (online: boolean | null) => (online === null ? "Durum bilinmiyor" : online ? "Çevrimiçi" : "Çevrimdışı");
+type Audience = "staff" | "customer";
+type RowAction = (deviceId: string) => () => Promise<void>;
 
-function DeviceIcon({ online }: { online: boolean | null }) {
+export const onlineText = (online: boolean | null) => (online === null ? "Durum bilinmiyor" : online ? "Çevrimiçi" : "Çevrimdışı");
+
+export function DeviceIcon({ online }: { online: boolean | null }) {
   const state = online === null ? "unknown" : online ? "online" : "offline";
   return (
     <span className="w-icon desk-icon">
@@ -16,40 +19,65 @@ function DeviceIcon({ online }: { online: boolean | null }) {
   );
 }
 
+/** Linked panel user or the name typed in the app; staff also sees when that person has no panel account. */
+export function DevicePerson({ device, audience }: { device: Pick<DeviceRow, "personName" | "personIsUser">; audience: Audience }) {
+  if (!device.personName) return <>—</>;
+  return (
+    <>
+      {device.personName}
+      {audience === "staff" && !device.personIsUser && <span className="desk-hint"> (panelde yok)</span>}
+    </>
+  );
+}
+
+export function ConnectButtons({ deviceId, ticketNumber }: { deviceId: string; ticketNumber?: number }) {
+  return (
+    <>
+      <a className="btn btn-small" href={connectHref(deviceId, "connect", ticketNumber)} rel="noreferrer">Bağlan</a>
+      <a className="btn btn-ghost btn-small" href={connectHref(deviceId, "file", ticketNumber)} rel="noreferrer">Dosya</a>
+    </>
+  );
+}
+
 type DeviceListProps = {
   devices: DeviceRow[];
-  audience: "staff" | "customer";
+  audience: Audience;
+  emptyText?: string;
   showCompany?: boolean;
-  removeAction?: (deviceId: string) => () => Promise<void>;
+  removeAction?: RowAction;
+  claimAction?: RowAction;
 };
 
-export function DeviceList({ devices, audience, showCompany = false, removeAction }: DeviceListProps) {
+const DEFAULT_EMPTY: Record<Audience, string> = {
+  staff: "Kayıtlı cihaz yok.",
+  customer: "Henüz kayıtlı bilgisayar yok. GoTech Desk'i kurup firma kodunu girdiğinizde burada görünür.",
+};
+
+export function DeviceList({ devices, audience, emptyText, showCompany = false, removeAction, claimAction }: DeviceListProps) {
   return (
     <ul className="w-list">
-      {devices.length === 0 && (
-        <li className="empty-row">
-          {audience === "staff" ? "Kayıtlı cihaz yok." : "Henüz kayıtlı bilgisayarınız yok. GoTech Desk'i kurup müşteri numaranızı girdiğinizde burada görünür."}
-        </li>
-      )}
+      {devices.length === 0 && <li className="empty-row">{emptyText ?? DEFAULT_EMPTY[audience]}</li>}
       {devices.map((device) => (
         <li key={device.id} className="w-row desk-row">
           <DeviceIcon online={device.online} />
           <span className="w-row-main">
-            <strong>{device.hostname}</strong>
+            <strong>{audience === "staff" ? <Link href={deviceHref(device.id)}>{deviceTitle(device)}</Link> : deviceTitle(device)}</strong>
             <small>
+              {device.label && <>{device.hostname}, </>}
               {onlineText(device.online)}, <span className="desk-id">{formatDeskId(device.deskId)}</span>, {platformLabel(device.platform)} {device.appVersion}
               {showCompany && (
                 <>, <Link className="desk-company" href={`/yonetim/musteriler/${device.companyId}`}>{device.companyName}</Link></>
               )}
             </small>
-            <small>Son kayıt: {formatDateTime(device.lastRegisteredAt)}</small>
+            <small>
+              Kişi: <DevicePerson device={device} audience={audience} />, son kayıt: {formatDateTime(device.lastRegisteredAt)}
+            </small>
           </span>
           <span className="row-actions">
             {audience === "staff" ? (
               <>
                 {device.unattended && <span className="badge is-active">Gözetimsiz</span>}
-                <a className="btn btn-small" href={connectHref(device.id, "connect")} rel="noreferrer">Bağlan</a>
-                <a className="btn btn-ghost btn-small" href={connectHref(device.id, "file")} rel="noreferrer">Dosya</a>
+                <ConnectButtons deviceId={device.id} />
                 {removeAction && (
                   <form action={removeAction(device.id)}>
                     <button className="btn btn-ghost btn-small" type="submit" title="Cihazı listeden kaldır">Kaldır</button>
@@ -57,7 +85,14 @@ export function DeviceList({ devices, audience, showCompany = false, removeActio
                 )}
               </>
             ) : (
-              <span className={`badge${device.unattended ? " is-active" : ""}`}>Gözetimsiz erişim {device.unattended ? "açık" : "kapalı"}</span>
+              <>
+                {claimAction && !device.userId && (
+                  <form action={claimAction(device.id)}>
+                    <button className="btn btn-ghost btn-small" type="submit">Bu benim bilgisayarım</button>
+                  </form>
+                )}
+                <span className={`badge${device.unattended ? " is-active" : ""}`}>Gözetimsiz erişim {device.unattended ? "açık" : "kapalı"}</span>
+              </>
             )}
           </span>
         </li>
@@ -66,7 +101,8 @@ export function DeviceList({ devices, audience, showCompany = false, removeActio
   );
 }
 
-export function ConnectionList({ connections }: { connections: ConnectionRow[] }) {
+/** Connection log; showDevice=false on a device's own page, where every row is the same computer. */
+export function ConnectionList({ connections, showDevice = true }: { connections: ConnectionRow[]; showDevice?: boolean }) {
   return (
     <ul className="w-list">
       {connections.length === 0 && <li className="empty-row">Henüz bağlantı yapılmadı.</li>}
@@ -75,9 +111,18 @@ export function ConnectionList({ connections }: { connections: ConnectionRow[] }
           <span className="w-icon"><Icon name={c.kind === "connect" ? "monitor" : "file"} size={18} /></span>
           <span className="w-row-main">
             <strong>{c.userName}, {CONNECTION_KIND_LABELS[c.kind]}</strong>
-            <small>
-              {c.hostname} ({formatDeskId(c.deskId)}), <Link className="desk-company" href={`/yonetim/musteriler/${c.companyId}`}>{c.companyName}</Link>
-            </small>
+            {(showDevice || c.ticketNumber !== null) && (
+              <small>
+                {showDevice && (
+                  <>
+                    <Link href={deviceHref(c.deviceId)}>{deviceTitle(c)}</Link> ({formatDeskId(c.deskId)}),{" "}
+                    <Link className="desk-company" href={`/yonetim/musteriler/${c.companyId}`}>{c.companyName}</Link>
+                  </>
+                )}
+                {showDevice && c.ticketNumber !== null && ", "}
+                {c.ticketNumber !== null && <Link className="desk-company" href={`/yonetim/talep/${c.ticketNumber}`}>Talep #{c.ticketNumber}</Link>}
+              </small>
+            )}
           </span>
           <span className="w-row-side"><small>{formatDateTime(c.createdAt)}</small></span>
         </li>

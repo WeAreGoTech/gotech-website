@@ -17,7 +17,7 @@ export default async function DevicesPage() {
     <>
       <PageHeader
         title="Cihazlar"
-        description={`GoTech Desk kurulu müşteri bilgisayarları${statusKnown ? `, ${onlineCount} tanesi çevrimiçi` : ""}. Bağlan uzak masaüstünü, Dosya dosya aktarımını açar.`}
+        description={`GoTech Desk kurulu müşteri bilgisayarları${statusKnown ? `, ${onlineCount} tanesi çevrimiçi` : ""}. Bağlan uzak masaüstünü, Dosya dosya aktarımını açar; kişi ve etiket için cihazın adına tıklayın.`}
       />
       <StatusUnknownNotice show={!statusKnown} />
       <Section title="Tüm cihazlar">

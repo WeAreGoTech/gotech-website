@@ -14,7 +14,7 @@ import { TicketList } from "@/components/app/TicketList";
 import { resendInvite } from "@/features/customers/actions";
 import { getCompany, listCompanyPeople } from "@/features/customers/queries";
 import { removeDevice } from "@/features/devices/actions";
-import { listDevices } from "@/features/devices/queries";
+import { countDevicesByUser, listDevices } from "@/features/devices/queries";
 import { addDocument } from "@/features/documents/actions";
 import { listDocuments } from "@/features/documents/queries";
 import { listInvoices } from "@/features/invoices/queries";
@@ -31,13 +31,14 @@ export default async function CompanyPage({ params }: PageProps<"/yonetim/muster
   const company = z.uuid().safeParse(id).success ? await getCompany(id) : null;
   if (!company) notFound();
 
-  const [people, projects, invoices, documents, tickets, deviceList] = await Promise.all([
+  const [people, projects, invoices, documents, tickets, deviceList, deviceCounts] = await Promise.all([
     listCompanyPeople(id),
     listProjects(id),
     listInvoices(id),
     listDocuments({ companyId: id }),
     listCompanyTickets(id),
     listDevices(id),
+    countDevicesByUser(id),
   ]);
   const unpaid = invoices.filter((i) => i.state === "pending" || i.state === "overdue");
   const overdue = unpaid.filter((i) => i.state === "overdue");
@@ -52,7 +53,7 @@ export default async function CompanyPage({ params }: PageProps<"/yonetim/muster
           <h1>{company.name}</h1>
           <div className="t-meta">
             <span>{formatDate(company.createdAt)} tarihinden beri müşteri</span>
-            <span>Müşteri numarası: <b>{company.customerCode}</b></span>
+            <span>Firma kodu: <b>{company.customerCode}</b></span>
           </div>
         </div>
       </header>
@@ -61,7 +62,7 @@ export default async function CompanyPage({ params }: PageProps<"/yonetim/muster
         <Stat hero label="Açık bakiye" icon="wallet" value={formatMoney(unpaid.reduce((s, i) => s + i.total, 0))} note={overdue.length ? `${overdue.length} fatura vadesi geçmiş` : `${unpaid.length} fatura bekliyor`} alert={overdue.length > 0} />
         <Stat label="Açık talepler" icon="inbox" value={openTickets.length} note={`Toplam ${tickets.length} talep`} />
         <Stat label="Projeler" icon="folder" value={projects.length} note={`${projects.filter((p) => p.stage === "live").length} canlıda`} />
-        <Stat label="Müşteri numarası" icon="monitor" value={company.customerCode} note={`${deviceList.devices.length} cihaz kayıtlı`} />
+        <Stat label="Firma kodu" icon="monitor" value={company.customerCode} note={`${deviceList.devices.length} cihaz kayıtlı`} />
       </div>
 
       <div className="two-col">
@@ -81,7 +82,7 @@ export default async function CompanyPage({ params }: PageProps<"/yonetim/muster
         </div>
         <div>
           <Section title="Kişiler">
-            <PeopleList people={people} tone="customer" resendAction={(personId) => resendInvite.bind(null, personId)} />
+            <PeopleList people={people} tone="customer" deviceCounts={deviceCounts} resendAction={(personId) => resendInvite.bind(null, personId)} />
           </Section>
           <Section title="Cihazlar" href="/yonetim/cihazlar" linkLabel="Tüm cihazlar">
             <StatusUnknownNotice show={!deviceList.statusKnown} />

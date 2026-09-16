@@ -1,29 +1,43 @@
 import "server-only";
 import { eq } from "drizzle-orm";
-import { z } from "zod";
 import { getDb } from "@/db";
-import { companies, devices } from "@/db/schema";
-import { CUSTOMER_CODE_PATTERN } from "@/features/customers/customer-code";
+import { devices } from "@/db/schema";
+import { hashToken, newToken } from "@/lib/auth/tokens";
 import { encryptSecret } from "@/lib/desk/crypto";
+import type { RegisterInput } from "./api-schemas";
+import { getDeviceSummary } from "./device-auth";
+import { findCompanyByCode, findCompanyCustomer } from "./people";
 
-export const registerSchema = z.object({
-  customerCode: z.string().regex(CUSTOMER_CODE_PATTERN),
-  deskId: z.string().regex(/^\d{6,12}$/),
-  hostname: z.string().trim().min(1).max(100),
-  platform: z.string().trim().min(1).max(20),
-  appVersion: z.string().trim().min(1).max(30),
-  // null or missing means the customer turned unattended access off
-  unattendedPassword: z.string().min(8).max(128).nullish(),
-});
+export type RegisterResult =
+  | { status: "unknown_company" }
+  | { status: "unknown_person" }
+  | { status: "ok"; companyName: string; personName: string | null; label: string | null; deviceToken: string };
 
-export type RegisterInput = z.infer<typeof registerSchema>;
+/** Person and label fields to write. Missing input keeps the stored value, unless the computer moves to another company. */
+function assignmentFields(input: RegisterInput, movedCompany: boolean) {
+  const fields: { userId?: string | null; contactName?: string | null; label?: string | null } = {};
+  if (input.personId !== undefined || input.personName !== undefined) {
+    // a panel user wins over a typed name
+    fields.userId = input.personId ?? null;
+    fields.contactName = input.personId ? null : (input.personName ?? null);
+  } else if (movedCompany) {
+    fields.userId = null;
+    fields.contactName = null;
+  }
+  if (input.label !== undefined) fields.label = input.label;
+  else if (movedCompany) fields.label = null;
+  return fields;
+}
 
-/** Creates or updates the device by desk ID. Returns the company name, or null for an unknown customer code. */
-export async function registerDevice(input: RegisterInput): Promise<string | null> {
+/** Creates or updates the device by desk ID and hands out a fresh device token (only its hash is stored). */
+export async function registerDevice(input: RegisterInput): Promise<RegisterResult> {
+  const company = await findCompanyByCode(input.customerCode);
+  if (!company) return { status: "unknown_company" };
+  if (input.personId && !(await findCompanyCustomer(company.id, input.personId))) return { status: "unknown_person" };
+
   const db = await getDb();
-  const [company] = await db.select({ id: companies.id, name: companies.name }).from(companies).where(eq(companies.customerCode, input.customerCode));
-  if (!company) return null;
-
+  const [existing] = await db.select({ companyId: devices.companyId }).from(devices).where(eq(devices.deskId, input.deskId));
+  const deviceToken = newToken();
   const now = new Date();
   const fields = {
     // a computer can be re-registered under another customer
@@ -32,11 +46,16 @@ export async function registerDevice(input: RegisterInput): Promise<string | nul
     platform: input.platform,
     appVersion: input.appVersion,
     unattendedPasswordEnc: typeof input.unattendedPassword === "string" ? encryptSecret(input.unattendedPassword) : null,
+    deviceTokenHash: hashToken(deviceToken),
     lastRegisteredAt: now,
+    ...assignmentFields(input, existing !== undefined && existing.companyId !== company.id),
   };
-  await db
+  const [device] = await db
     .insert(devices)
     .values({ ...fields, deskId: input.deskId, registeredAt: now })
-    .onConflictDoUpdate({ target: devices.deskId, set: fields });
-  return company.name;
+    .onConflictDoUpdate({ target: devices.deskId, set: fields })
+    .returning({ id: devices.id });
+
+  const summary = await getDeviceSummary(device.id);
+  return { status: "ok", companyName: company.name, personName: summary?.personName ?? null, label: summary?.label ?? null, deviceToken };
 }

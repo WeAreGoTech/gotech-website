@@ -6,9 +6,11 @@ type PeopleListProps = {
   tone: "team" | "customer";
   youId?: string;
   resendAction?: (personId: string) => () => Promise<void>;
+  // GoTech Desk computers linked to each person, by user ID
+  deviceCounts?: Record<string, number>;
 };
 
-export function PeopleList({ people, tone, youId, resendAction }: PeopleListProps) {
+export function PeopleList({ people, tone, youId, resendAction, deviceCounts }: PeopleListProps) {
   return (
     <ul className="w-list">
       {people.map((person) => (
@@ -16,7 +18,7 @@ export function PeopleList({ people, tone, youId, resendAction }: PeopleListProp
           <Avatar name={person.name} tone={tone} />
           <span className="w-row-main">
             <strong>{person.name}{person.id === youId ? " (siz)" : ""}</strong>
-            <small>{[person.title, person.email, person.phone].filter(Boolean).join(", ")}</small>
+            <small>{[person.title, person.email, person.phone, deviceCounts?.[person.id] && `${deviceCounts[person.id]} bilgisayar`].filter(Boolean).join(", ")}</small>
           </span>
           <span className="row-actions">
             {person.active ? (
