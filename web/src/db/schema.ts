@@ -47,6 +47,10 @@ export const users = pgTable("users", {
   title: text("title"),
   phone: text("phone"),
   notifyByEmail: boolean("notify_by_email").notNull().default(true),
+  // "firma yetkilisi": the person who manages their company's people. Only meaningful for role = "customer".
+  isCompanyAdmin: boolean("is_company_admin").notNull().default(false),
+  // soft removal: the person can no longer sign in, but their tickets, messages and history stay intact
+  removedAt: timestamp("removed_at", { withTimezone: true }),
   createdAt: createdAt(),
 });
 

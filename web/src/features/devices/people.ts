@@ -1,5 +1,5 @@
 import "server-only";
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, eq, isNull } from "drizzle-orm";
 import { getDb } from "@/db";
 import { companies, users } from "@/db/schema";
 
@@ -20,7 +20,8 @@ export async function findCompanyByCode(customerCode: string) {
   return company ?? null;
 }
 
-const customerOf = (companyId: string) => and(eq(users.companyId, companyId), eq(users.role, "customer"));
+// people taken out of the company are gone from the desktop app too
+const customerOf = (companyId: string) => and(eq(users.companyId, companyId), eq(users.role, "customer"), isNull(users.removedAt));
 
 /** The company and its panel users with masked names, or null for an unknown code. */
 export async function lookupCompany(customerCode: string) {

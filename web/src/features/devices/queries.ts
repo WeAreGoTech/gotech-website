@@ -26,7 +26,7 @@ const deviceColumns = {
 async function queryDevices(where: SQL | undefined) {
   const db = await getDb();
   const rows = await db
-    .select({ device: deviceColumns, companyName: companies.name, userName: users.name })
+    .select({ device: deviceColumns, companyName: companies.name, userName: users.name, userRemovedAt: users.removedAt })
     .from(devices)
     .innerJoin(companies, eq(companies.id, devices.companyId))
     .leftJoin(users, eq(users.id, devices.userId))
@@ -37,12 +37,14 @@ async function queryDevices(where: SQL | undefined) {
   // the encrypted password never leaves the server either; pages only need to know whether one is stored
   return {
     statusKnown: states !== null,
-    devices: rows.map(({ device: { unattendedPasswordEnc, ...device }, companyName, userName }) => ({
+    devices: rows.map(({ device: { unattendedPasswordEnc, ...device }, companyName, userName, userRemovedAt }) => ({
       ...device,
       companyName,
       // a linked panel user, else the name typed in the app; personIsUser tells the two apart
       personName: userName ?? device.contactName,
       personIsUser: userName !== null,
+      // the computer stays registered when its person leaves the company; staff sees who it was
+      personRemoved: userName !== null && userRemovedAt !== null,
       unattended: unattendedPasswordEnc !== null,
       online: states ? (states.get(device.deskId) ?? false) : null,
     })),

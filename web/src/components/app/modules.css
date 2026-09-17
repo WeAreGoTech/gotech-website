@@ -98,6 +98,7 @@ button.stagebar-step.is-current:hover{background:var(--w-forest);color:#fff}
 .people-row{flex-wrap:wrap}
 .people-row .w-row-main{min-width:180px}
 .people-row .row-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-left:auto}
+.badge.is-admin{background:var(--w-forest);color:var(--w-accent-soft)}
 
 @media (max-width:1000px){
   .two-col{grid-template-columns:minmax(0,1fr)}
@@ -111,4 +112,6 @@ button.stagebar-step.is-current:hover{background:var(--w-forest);color:#fff}
   .ms-actions{width:100%}
   .wise .ms-actions .btn-small{flex:1 1 auto;min-height:44px}
   .ms-actions .icon-btn{width:44px;height:44px}
+  .people-row .row-actions{width:100%;margin-left:0}
+  .wise .people-row .btn-small{min-height:44px}
 }

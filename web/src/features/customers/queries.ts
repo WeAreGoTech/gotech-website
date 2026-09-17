@@ -1,7 +1,10 @@
 import "server-only";
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, eq, isNull } from "drizzle-orm";
 import { getDb } from "@/db";
 import { companies, users } from "@/db/schema";
+
+// People taken out of a company keep their history but are gone from every list.
+const stillHere = isNull(users.removedAt);
 
 export async function listCompaniesWithCustomers() {
   const db = await getDb();
@@ -15,7 +18,7 @@ export async function listCompaniesWithCustomers() {
       hasPassword: users.passwordHash,
     })
     .from(companies)
-    .leftJoin(users, and(eq(users.companyId, companies.id), eq(users.role, "customer")))
+    .leftJoin(users, and(eq(users.companyId, companies.id), eq(users.role, "customer"), stillHere))
     .orderBy(asc(companies.name), asc(users.name));
 
   const byCompany = new Map<string, { id: string; name: string; customers: { id: string; name: string; email: string; active: boolean }[] }>();
@@ -44,9 +47,17 @@ export async function getCompany(companyId: string) {
 export async function listCompanyPeople(companyId: string) {
   const db = await getDb();
   const rows = await db
-    .select({ id: users.id, name: users.name, email: users.email, title: users.title, phone: users.phone, passwordHash: users.passwordHash })
+    .select({
+      id: users.id,
+      name: users.name,
+      email: users.email,
+      title: users.title,
+      phone: users.phone,
+      isCompanyAdmin: users.isCompanyAdmin,
+      passwordHash: users.passwordHash,
+    })
     .from(users)
-    .where(and(eq(users.companyId, companyId), eq(users.role, "customer")))
+    .where(and(eq(users.companyId, companyId), eq(users.role, "customer"), stillHere))
     .orderBy(asc(users.name));
   return rows.map(({ passwordHash, ...person }) => ({ ...person, active: Boolean(passwordHash) }));
 }
@@ -56,7 +67,7 @@ export async function listStaff() {
   const rows = await db
     .select({ id: users.id, name: users.name, email: users.email, title: users.title, passwordHash: users.passwordHash })
     .from(users)
-    .where(eq(users.role, "staff"))
+    .where(and(eq(users.role, "staff"), stillHere))
     .orderBy(asc(users.name));
   return rows.map(({ passwordHash, ...person }) => ({ ...person, active: Boolean(passwordHash) }));
 }

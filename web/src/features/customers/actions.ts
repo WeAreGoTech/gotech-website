@@ -2,9 +2,11 @@
 
 import { and, eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { z } from "zod";
 import { getDb } from "@/db";
 import { companies, users } from "@/db/schema";
+import { changeMember, companyPage, findMemberCompany, isFirstMember, MEMBER_ERRORS, noticeHref, type MemberChange } from "@/features/team/membership";
 import { createPasswordLink, PASSWORD_LINK_HOURS } from "@/lib/auth/password-tokens";
 import { requireStaff } from "@/lib/auth/session";
 import { failure, fieldErrors, success, text, type ActionState } from "@/lib/forms";
@@ -52,7 +54,9 @@ export async function inviteCustomer(_prev: ActionState, formData: FormData): Pr
       : (await db.select().from(companies).where(eq(companies.id, input.companyId)))[0];
   if (!company) return failure("Seçilen firma bulunamadı.");
 
-  const [user] = await db.insert(users).values({ name: input.name, email: input.email, role: "customer", companyId: company.id }).returning();
+  // the company's first person is its firma yetkilisi
+  const isCompanyAdmin = await isFirstMember(company.id);
+  const [user] = await db.insert(users).values({ name: input.name, email: input.email, role: "customer", companyId: company.id, isCompanyAdmin }).returning();
   await sendInvite(user, company.name);
   revalidatePath("/yonetim/musteriler");
   return success(`${user.name} için davet e-postası gönderildi.`);
@@ -69,4 +73,25 @@ export async function resendInvite(userId: string) {
   if (!row) throw new Error("Müşteri bulunamadı.");
   await sendInvite(row, row.companyName);
   revalidatePath("/yonetim/mailler");
+}
+
+/** GoTech staff manages a customer company's people; the "at least one yetkili" rule still applies. */
+async function managePerson(personId: string, change: MemberChange) {
+  await requireStaff();
+  const companyId = await findMemberCompany(personId);
+  if (!companyId) throw new Error(MEMBER_ERRORS.notFound);
+  const error = await changeMember(companyId, personId, change);
+  redirect(error ? noticeHref(companyPage(companyId), error) : companyPage(companyId));
+}
+
+export async function promotePerson(personId: string) {
+  await managePerson(personId, "promote");
+}
+
+export async function demotePerson(personId: string) {
+  await managePerson(personId, "demote");
+}
+
+export async function removePerson(personId: string) {
+  await managePerson(personId, "remove");
 }

@@ -1,5 +1,5 @@
 import "server-only";
-import { and, eq, gt } from "drizzle-orm";
+import { and, eq, gt, isNull } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
@@ -12,7 +12,7 @@ const SESSION_COOKIE = "gt_session";
 const SESSION_DAYS = 30;
 const DAY_MS = 86_400_000;
 
-export type SessionUser = Pick<User, "id" | "name" | "email" | "role" | "companyId">;
+export type SessionUser = Pick<User, "id" | "name" | "email" | "role" | "companyId" | "isCompanyAdmin">;
 export type CustomerUser = SessionUser & { companyId: string };
 
 export const homeFor = (role: UserRole) => (role === "staff" ? "/yonetim" : "/panel");
@@ -41,10 +41,11 @@ export const getCurrentUser = cache(async (): Promise<SessionUser | null> => {
   if (!token) return null;
   const db = await getDb();
   const [user] = await db
-    .select({ id: users.id, name: users.name, email: users.email, role: users.role, companyId: users.companyId })
+    .select({ id: users.id, name: users.name, email: users.email, role: users.role, companyId: users.companyId, isCompanyAdmin: users.isCompanyAdmin })
     .from(sessions)
     .innerJoin(users, eq(users.id, sessions.userId))
-    .where(and(eq(sessions.id, hashToken(token)), gt(sessions.expiresAt, new Date())))
+    // a person taken out of their company is gone for every page, even with a session cookie still in hand
+    .where(and(eq(sessions.id, hashToken(token)), gt(sessions.expiresAt, new Date()), isNull(users.removedAt)))
     .limit(1);
   return user ?? null;
 });

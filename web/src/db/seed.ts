@@ -46,11 +46,12 @@ async function seedAccountsAndWork(db: Database) {
   const [ayse, emre, , burak] = await db
     .insert(users)
     .values([
-      { name: "Ayşe Kaya", email: DEMO_ACCOUNTS.customer.email, role: "customer", companyId: kavurma.id, title: "Kurucu", phone: "0532 111 22 33", passwordHash: customerHash },
+      // the first person of each company is its firma yetkilisi
+      { name: "Ayşe Kaya", email: DEMO_ACCOUNTS.customer.email, role: "customer", companyId: kavurma.id, title: "Kurucu", phone: "0532 111 22 33", passwordHash: customerHash, isCompanyAdmin: true },
       { name: "Emre Şahin", email: "emre@kavurma.example", role: "customer", companyId: kavurma.id, title: "Depo sorumlusu", passwordHash: customerHash },
       // invited, has not set a password yet
       { name: "Selin Aksoy", email: "selin@kavurma.example", role: "customer", companyId: kavurma.id, title: "Muhasebe" },
-      { name: "Burak Yıldız", email: "burak@novadis.example", role: "customer", companyId: nova.id, title: "Klinik müdürü", passwordHash: customerHash },
+      { name: "Burak Yıldız", email: "burak@novadis.example", role: "customer", companyId: nova.id, title: "Klinik müdürü", passwordHash: customerHash, isCompanyAdmin: true },
     ])
     .returning();
 

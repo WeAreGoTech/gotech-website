@@ -19,13 +19,14 @@ export function DeviceIcon({ online }: { online: boolean | null }) {
   );
 }
 
-/** Linked panel user or the name typed in the app; staff also sees when that person has no panel account. */
-export function DevicePerson({ device, audience }: { device: Pick<DeviceRow, "personName" | "personIsUser">; audience: Audience }) {
+/** Linked panel user or the name typed in the app; staff also sees when that person has no panel account or left the company. */
+export function DevicePerson({ device, audience }: { device: Pick<DeviceRow, "personName" | "personIsUser" | "personRemoved">; audience: Audience }) {
   if (!device.personName) return <>—</>;
   return (
     <>
       {device.personName}
       {audience === "staff" && !device.personIsUser && <span className="desk-hint"> (panelde yok)</span>}
+      {audience === "staff" && device.personRemoved && <span className="desk-hint"> (çıkarıldı)</span>}
     </>
   );
 }

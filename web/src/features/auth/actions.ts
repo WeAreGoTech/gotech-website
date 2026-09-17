@@ -14,6 +14,7 @@ import { clientIp, isRateLimited } from "@/lib/rate-limit";
 const LOGIN_ATTEMPTS = 8;
 const LOGIN_WINDOW_MS = 15 * 60_000;
 const WRONG_CREDENTIALS = "E-posta ya da şifre hatalı.";
+const REMOVED_ACCOUNT = "Bu hesap firmanızdan çıkarıldı. Firma yetkilinizle görüşün.";
 // compared against when the e-mail is unknown, so both cases take the same time
 const DUMMY_HASH = hashPassword("gotech-timing-equalizer");
 
@@ -35,6 +36,8 @@ export async function login(_prev: ActionState, formData: FormData): Promise<Act
   const [user] = await db.select().from(users).where(eq(users.email, email)).limit(1);
   const valid = await verifyPassword(password, user?.passwordHash ?? (await DUMMY_HASH));
   if (!user?.passwordHash || !valid) return failure(WRONG_CREDENTIALS);
+  // checked after the password so a wrong guess still cannot tell the two cases apart
+  if (user.removedAt) return failure(REMOVED_ACCOUNT);
 
   await startSession(user.id);
   redirect(homeFor(user.role));

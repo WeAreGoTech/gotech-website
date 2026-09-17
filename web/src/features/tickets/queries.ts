@@ -1,5 +1,5 @@
 import "server-only";
-import { and, asc, count, desc, eq, ne, type SQL } from "drizzle-orm";
+import { and, asc, count, desc, eq, isNull, ne, type SQL } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { getDb } from "@/db";
 import { companies, ticketMessages, tickets, users, type TicketStatus } from "@/db/schema";
@@ -109,7 +109,11 @@ export async function listTicketMessages(ticketId: string, { includeInternal }: 
 
 export async function listStaffMembers() {
   const db = await getDb();
-  return db.select({ id: users.id, name: users.name, email: users.email }).from(users).where(eq(users.role, "staff")).orderBy(asc(users.name));
+  return db
+    .select({ id: users.id, name: users.name, email: users.email })
+    .from(users)
+    .where(and(eq(users.role, "staff"), isNull(users.removedAt)))
+    .orderBy(asc(users.name));
 }
 
 export type TicketMessage = Awaited<ReturnType<typeof listTicketMessages>>[number];

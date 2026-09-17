@@ -6,26 +6,33 @@ import { Section, Stat } from "@/components/app/dashboard";
 import { DeviceList, StatusUnknownNotice } from "@/components/app/devices";
 import { DocumentList } from "@/components/app/documents";
 import { Icon } from "@/components/app/Icon";
-import { PeopleList } from "@/components/app/people";
+import { PeopleList, PeopleNotice } from "@/components/app/people";
 import { ProjectCard } from "@/components/app/projects";
 import { AddDocumentForm } from "@/components/app/staff-forms";
 import { TicketList } from "@/components/app/TicketList";
-import { resendInvite } from "@/features/customers/actions";
+import { demotePerson, promotePerson, removePerson, resendInvite } from "@/features/customers/actions";
 import { getCompany, listCompanyPeople } from "@/features/customers/queries";
 import { removeDevice } from "@/features/devices/actions";
 import { countDevicesByUser, listDevices } from "@/features/devices/queries";
 import { addDocument } from "@/features/documents/actions";
 import { listDocuments } from "@/features/documents/queries";
 import { listProjects } from "@/features/projects/queries";
+import { readNotice } from "@/features/team/membership";
 import { listCompanyTickets } from "@/features/tickets/queries";
 import { requireStaff } from "@/lib/auth/session";
 import { formatDate } from "@/lib/format";
 
 export const metadata: Metadata = { title: "Müşteri" };
 
-export default async function CompanyPage({ params }: PageProps<"/yonetim/musteriler/[id]">) {
+const PEOPLE_CONTROLS = {
+  promote: (personId: string) => promotePerson.bind(null, personId),
+  demote: (personId: string) => demotePerson.bind(null, personId),
+  remove: (personId: string) => removePerson.bind(null, personId),
+};
+
+export default async function CompanyPage({ params, searchParams }: PageProps<"/yonetim/musteriler/[id]">) {
   await requireStaff();
-  const { id } = await params;
+  const [{ id }, { uyari }] = await Promise.all([params, searchParams]);
   const company = z.uuid().safeParse(id).success ? await getCompany(id) : null;
   if (!company) notFound();
 
@@ -75,7 +82,14 @@ export default async function CompanyPage({ params }: PageProps<"/yonetim/muster
         </div>
         <div>
           <Section title="Kişiler">
-            <PeopleList people={people} tone="customer" deviceCounts={deviceCounts} resendAction={(personId) => resendInvite.bind(null, personId)} />
+            <PeopleNotice message={readNotice(uyari)} />
+            <PeopleList
+              people={people}
+              tone="customer"
+              deviceCounts={deviceCounts}
+              resendAction={(personId) => resendInvite.bind(null, personId)}
+              controls={PEOPLE_CONTROLS}
+            />
           </Section>
           <Section title="Cihazlar" href="/yonetim/cihazlar" linkLabel="Tüm cihazlar">
             <StatusUnknownNotice show={!deviceList.statusKnown} />
