@@ -5,15 +5,12 @@ const shortDate = new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "sho
 const longDay = new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", timeZone: TIME_ZONE });
 const fullDate = new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", year: "numeric", timeZone: TIME_ZONE });
 const time = new Intl.DateTimeFormat("tr-TR", { hour: "2-digit", minute: "2-digit", timeZone: TIME_ZONE });
-const money = new Intl.NumberFormat("tr-TR", { style: "currency", currency: "TRY" });
 
 export { dayKey };
 export const formatDateTime = (date: Date) => dateTime.format(date);
 export const formatShortDate = (date: Date) => shortDate.format(date);
 export const formatDate = (date: Date) => fullDate.format(date);
 export const formatTime = (date: Date) => time.format(date);
-/** Amounts are stored in kuruş. */
-export const formatMoney = (kurus: number) => money.format(kurus / 100);
 
 export function dayLabel(date: Date, now = new Date()) {
   const key = dayKey(date);

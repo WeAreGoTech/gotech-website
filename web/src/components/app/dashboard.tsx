@@ -30,7 +30,7 @@ export function Section({ title, href, linkLabel = "Tümünü gör", children }:
   );
 }
 
-const FEED_ICONS: Record<ActivityItem["kind"], IconName> = { message: "chat", document: "file", milestone: "check", invoice: "receipt" };
+const FEED_ICONS: Record<ActivityItem["kind"], IconName> = { message: "chat", document: "file", milestone: "check" };
 
 export function ActivityFeed({ items }: { items: ActivityItem[] }) {
   return (

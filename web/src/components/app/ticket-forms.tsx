@@ -5,20 +5,20 @@ import { FormMessage, SelectField, TextAreaField, TextField, toOptions } from "@
 import { useFormAction } from "@/components/forms/use-form-action";
 import type { TicketCategory, TicketPriority, TicketStatus } from "@/db/schema";
 import { createTicket } from "@/features/tickets/actions";
-import { CATEGORY_HINTS, CATEGORY_LABELS, PRIORITY_LABELS, STATUS_LABELS } from "@/features/tickets/labels";
+import { CATEGORY_HINTS, CATEGORY_LABELS, NEW_TICKET_CATEGORIES, PRIORITY_LABELS, STATUS_LABELS } from "@/features/tickets/labels";
 import type { ActionState } from "@/lib/forms";
 import { CATEGORY_ICONS, Icon } from "./Icon";
 
 type BoundAction = (prev: ActionState, formData: FormData) => Promise<ActionState>;
 
-export function NewTicketForm({ defaultCategory = "support", defaultSubject = "" }: { defaultCategory?: TicketCategory; defaultSubject?: string }) {
+export function NewTicketForm({ defaultCategory = "support" }: { defaultCategory?: TicketCategory }) {
   const { state, pending, onSubmit, errorFor } = useFormAction(createTicket);
   return (
     <form className="card form-stack" onSubmit={onSubmit} noValidate>
       <fieldset className="field">
         <legend>Ne ile ilgili?</legend>
         <div className="tiles">
-          {(Object.keys(CATEGORY_LABELS) as TicketCategory[]).map((category) => (
+          {NEW_TICKET_CATEGORIES.map((category) => (
             <label key={category} className="tile">
               <input type="radio" name="category" value={category} defaultChecked={category === defaultCategory} />
               <span>
@@ -29,7 +29,7 @@ export function NewTicketForm({ defaultCategory = "support", defaultSubject = ""
           ))}
         </div>
       </fieldset>
-      <TextField label="Konu" name="subject" defaultValue={defaultSubject} placeholder="Örneğin: Fatura ekranında kaydet butonu çalışmıyor" error={errorFor("subject")} />
+      <TextField label="Konu" name="subject" placeholder="Örneğin: Sipariş ekranında kaydet butonu çalışmıyor" error={errorFor("subject")} />
       <TextAreaField label="Ne oldu?" name="body" rows={6} placeholder="Hangi ekranda, ne yapmaya çalışırken oldu? Hata mesajı çıktıysa aynen yazın." error={errorFor("body")} />
       <fieldset className="field">
         <legend>Ne kadar acil?</legend>

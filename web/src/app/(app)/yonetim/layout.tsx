@@ -12,7 +12,6 @@ export default async function TeamPanelLayout({ children }: { children: ReactNod
     <AppShell
       area="Yönetim paneli"
       user={user}
-      cta={{ href: "/yonetim/faturalar/yeni", label: "Fatura kes" }}
       links={[
         { href: "/yonetim", label: "Genel bakış", icon: "home" },
         { href: "/yonetim/talep", label: "Destek talepleri", icon: "inbox", count: counts.open },
@@ -20,7 +19,6 @@ export default async function TeamPanelLayout({ children }: { children: ReactNod
         { href: "/yonetim/musteriler", label: "Müşteriler", icon: "building" },
         { href: "/yonetim/cihazlar", label: "Cihazlar", icon: "monitor" },
         { href: "/yonetim/projeler", label: "Projeler", icon: "folder" },
-        { href: "/yonetim/faturalar", label: "Faturalar", icon: "receipt" },
         { href: "/yonetim/ekip", label: "Ekip", icon: "users" },
         { href: "/yonetim/mailler", label: "Giden mailler", icon: "mail" },
         { href: "/yonetim/hesap", label: "Hesabım", icon: "user" },

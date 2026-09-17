@@ -56,7 +56,7 @@ export function NotificationForm({ enabled, audience }: { enabled: boolean; audi
         <span>
           E-posta ile haber ver
           <small className="muted" style={{ display: "block" }}>
-            {audience === "customer" ? "Talebinize yanıt geldiğinde ve yeni faturanız kesildiğinde." : "Size atanan taleplere müşteri yanıt yazdığında."}
+            {audience === "customer" ? "Talebinize yanıt geldiğinde." : "Size atanan taleplere müşteri yanıt yazdığında."}
           </small>
         </span>
       </label>

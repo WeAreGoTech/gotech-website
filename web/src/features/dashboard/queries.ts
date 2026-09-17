@@ -2,22 +2,26 @@ import "server-only";
 import { and, avg, count, desc, eq, isNotNull, ne } from "drizzle-orm";
 import { getDb } from "@/db";
 import { companies, documents, projectMilestones, projects, ticketMessages, tickets, users } from "@/db/schema";
-import { listInvoices } from "@/features/invoices/queries";
+import { listDevices } from "@/features/devices/queries";
 import { listProjects, listUpcomingMilestones } from "@/features/projects/queries";
 import { countNewLeads } from "@/features/leads/queries";
-import { dayKey } from "@/lib/dates";
 
 const FEED_SIZE = 6;
 const UPCOMING_DAYS = 14;
 
-export type ActivityItem = { id: string; kind: "message" | "document" | "milestone" | "invoice"; title: string; detail: string; at: Date; href: string };
+/** Registered computers and how many are online; online is null when the status server cannot be reached. */
+function deviceSummary({ devices, statusKnown }: Awaited<ReturnType<typeof listDevices>>) {
+  return { total: devices.length, online: statusKnown ? devices.filter((d) => d.online).length : null };
+}
+
+export type ActivityItem = { id: string; kind: "message" | "document" | "milestone"; title: string; detail: string; at: Date; href: string };
 
 export async function customerOverview(companyId: string) {
   const db = await getDb();
-  const [openTickets, projectList, invoiceList, recentMessages, recentDocuments, recentMilestones] = await Promise.all([
+  const [openTickets, projectList, deviceList, recentMessages, recentDocuments, recentMilestones] = await Promise.all([
     db.select({ value: count() }).from(tickets).where(and(eq(tickets.companyId, companyId), ne(tickets.status, "closed"))),
     listProjects(companyId),
-    listInvoices(companyId),
+    listDevices(companyId),
     db
       .select({ id: ticketMessages.id, at: ticketMessages.createdAt, author: users.name, subject: tickets.subject, number: tickets.number })
       .from(ticketMessages)
@@ -36,14 +40,10 @@ export async function customerOverview(companyId: string) {
       .limit(FEED_SIZE),
   ]);
 
-  const unpaid = invoiceList.filter((i) => i.state === "pending" || i.state === "overdue");
-  const nextInvoice = [...unpaid].sort((a, b) => a.dueOn.getTime() - b.dueOn.getTime())[0] ?? null;
-
   const feed: ActivityItem[] = [
     ...recentMessages.map((m) => ({ id: m.id, kind: "message" as const, title: `${m.author} yanıt yazdı`, detail: m.subject, at: m.at, href: `/panel/talep/${m.number}` })),
     ...recentDocuments.map((d) => ({ id: d.id, kind: "document" as const, title: "Yeni doküman eklendi", detail: d.title, at: d.createdAt, href: "/panel/dokumanlar" })),
     ...recentMilestones.map((m) => ({ id: m.id, kind: "milestone" as const, title: `${m.title} tamamlandı`, detail: m.projectName, at: m.at!, href: `/panel/projeler/${m.projectId}` })),
-    ...invoiceList.slice(0, FEED_SIZE).map((i) => ({ id: i.id, kind: "invoice" as const, title: "Fatura kesildi", detail: i.number, at: new Date(`${dayKey(i.issuedOn)}T09:00:00+03:00`), href: `/panel/faturalar/${i.number}` })),
   ]
     .sort((a, b) => b.at.getTime() - a.at.getTime())
     .slice(0, FEED_SIZE);
@@ -52,17 +52,14 @@ export async function customerOverview(companyId: string) {
     openTickets: openTickets[0].value,
     activeProjects: projectList.filter((p) => p.stage !== "live"),
     liveProjects: projectList.filter((p) => p.stage === "live").length,
-    unpaidTotal: unpaid.reduce((sum, i) => sum + i.total, 0),
-    unpaidCount: unpaid.length,
-    overdueCount: unpaid.filter((i) => i.state === "overdue").length,
-    nextInvoice,
+    devices: deviceSummary(deviceList),
     feed,
   };
 }
 
 export async function staffOverview(staffId: string) {
   const db = await getDb();
-  const [statusCounts, urgentOpen, mine, rating, newLeads, invoiceList, upcoming, customerCount] = await Promise.all([
+  const [statusCounts, urgentOpen, mine, rating, newLeads, deviceList, upcoming, customerCount] = await Promise.all([
     db.select({ status: tickets.status, value: count() }).from(tickets).groupBy(tickets.status),
     db.select({ value: count() }).from(tickets).where(and(eq(tickets.priority, "urgent"), ne(tickets.status, "closed"))),
     db
@@ -73,13 +70,12 @@ export async function staffOverview(staffId: string) {
       .orderBy(desc(tickets.updatedAt)),
     db.select({ value: avg(tickets.rating), rated: count(tickets.rating) }).from(tickets).where(isNotNull(tickets.rating)),
     countNewLeads(),
-    listInvoices(),
+    listDevices(),
     listUpcomingMilestones(UPCOMING_DAYS),
     db.select({ value: count() }).from(companies),
   ]);
 
   const byStatus = Object.fromEntries(statusCounts.map((s) => [s.status, s.value]));
-  const thisMonth = dayKey(new Date()).slice(0, 7);
   return {
     open: byStatus.open ?? 0,
     active: (byStatus.open ?? 0) + (byStatus.in_progress ?? 0) + (byStatus.waiting_customer ?? 0),
@@ -88,8 +84,7 @@ export async function staffOverview(staffId: string) {
     rating: rating[0].value ? Number(rating[0].value) : null,
     ratedCount: rating[0].rated,
     newLeads,
-    collectedThisMonth: invoiceList.filter((i) => i.paidAt && dayKey(i.paidAt).startsWith(thisMonth)).reduce((sum, i) => sum + i.total, 0),
-    overdue: invoiceList.filter((i) => i.state === "overdue"),
+    devices: deviceSummary(deviceList),
     upcoming,
     customerCount: customerCount[0].value,
   };

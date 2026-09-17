@@ -1,7 +1,6 @@
 import type { LeadTopic, TicketCategory, TicketPriority } from "@/db/schema";
 import { TOPIC_LABELS } from "@/features/leads/labels";
 import { CATEGORY_LABELS, PRIORITY_LABELS } from "@/features/tickets/labels";
-import { formatDate, formatMoney } from "@/lib/format";
 import { env } from "@/lib/env";
 import type { Mail } from "./send";
 
@@ -90,24 +89,6 @@ export function inviteMail(i: { to: string; name: string; companyName: string; l
       i.link,
       "",
       `Bağlantı ${i.validHours} saat geçerlidir.`,
-      "",
-      SIGNATURE,
-    ),
-  };
-}
-
-export function newInvoiceMail(i: { to: string; name: string; number: string; total: number; dueOn: Date }): Mail {
-  return {
-    to: i.to,
-    subject: `Yeni faturanız: ${i.number}`,
-    text: join(
-      `Merhaba ${i.name},`,
-      "",
-      `${i.number} numaralı faturanız kesildi.`,
-      `Tutar (KDV dahil): ${formatMoney(i.total)}`,
-      `Son ödeme tarihi: ${formatDate(i.dueOn)}`,
-      "",
-      `Faturayı panelinizden görüntüleyip yazdırabilirsiniz: ${env.siteUrl}/panel/faturalar/${i.number}`,
       "",
       SIGNATURE,
     ),

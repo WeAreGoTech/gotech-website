@@ -51,6 +51,13 @@ export async function countTicketsByStatus(): Promise<Record<TicketStatus, numbe
   return counts;
 }
 
+/** Not-closed tickets per company id; companies without any are missing from the map. */
+export async function countOpenTicketsByCompany(): Promise<Map<string, number>> {
+  const db = await getDb();
+  const rows = await db.select({ companyId: tickets.companyId, value: count() }).from(tickets).where(ne(tickets.status, "closed")).groupBy(tickets.companyId);
+  return new Map(rows.map((r) => [r.companyId, r.value]));
+}
+
 export async function getCompanyTicket(number: number, companyId: string) {
   const db = await getDb();
   const [ticket] = await db

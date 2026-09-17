@@ -1,9 +1,8 @@
 import { dayOffset } from "@/lib/dates";
 import type { Database } from "./index";
-import { documents, invoiceLines, invoices, projectMilestones, projects } from "./schema";
+import { documents, projectMilestones, projects } from "./schema";
 import { hoursAgo, type SeedCompanies, type SeedPeople } from "./seed-helpers";
 
-const TRY = 100; // kuruş per lira
 const done = (daysAgo: number) => hoursAgo(daysAgo * 24);
 
 export async function seedWork(db: Database, { kavurma, nova }: SeedCompanies, p: SeedPeople) {
@@ -30,29 +29,6 @@ export async function seedWork(db: Database, { kavurma, nova }: SeedCompanies, p
     { projectId: booking.id, title: "Randevu paneli", position: 2, dueOn: dayOffset(-10), completedAt: done(9) },
     { projectId: booking.id, title: "SMS hatırlatma", position: 3, dueOn: dayOffset(2) },
     { projectId: booking.id, title: "Klinikte eğitim", position: 4, dueOn: dayOffset(7) },
-  ]);
-
-  const invoiceRows = await db
-    .insert(invoices)
-    .values([
-      { number: "GT-2026-0081", companyId: kavurma.id, projectId: erp.id, issuedOn: dayOffset(-150), dueOn: dayOffset(-135), status: "paid", paidAt: done(137) },
-      { number: "GT-2026-0096", companyId: kavurma.id, issuedOn: dayOffset(-65), dueOn: dayOffset(-35), status: "paid", paidAt: done(40) },
-      { number: "GT-2026-0099", companyId: nova.id, projectId: booking.id, issuedOn: dayOffset(-50), dueOn: dayOffset(-20), status: "paid", paidAt: done(22) },
-      { number: "GT-2026-0102", companyId: kavurma.id, issuedOn: dayOffset(-35), dueOn: dayOffset(-5), note: "Aylık bakım ve destek paketi." },
-      { number: "GT-2026-0114", companyId: kavurma.id, projectId: shop.id, issuedOn: dayOffset(-10), dueOn: dayOffset(20) },
-      { number: "GT-2026-0115", companyId: nova.id, projectId: booking.id, issuedOn: dayOffset(-3), dueOn: dayOffset(27) },
-    ])
-    .returning({ id: invoices.id, number: invoices.number });
-  const byNumber = Object.fromEntries(invoiceRows.map((r) => [r.number, r.id]));
-
-  await db.insert(invoiceLines).values([
-    { invoiceId: byNumber["GT-2026-0081"], description: "Mikro ERP kurulumu, 2. taksit", quantity: 1, unitPrice: 45_000 * TRY, position: 0 },
-    { invoiceId: byNumber["GT-2026-0096"], description: "Temmuz bakım ve destek", quantity: 1, unitPrice: 4_500 * TRY, position: 0 },
-    { invoiceId: byNumber["GT-2026-0099"], description: "Online randevu sistemi, 1. taksit", quantity: 1, unitPrice: 30_000 * TRY, position: 0 },
-    { invoiceId: byNumber["GT-2026-0102"], description: "Ağustos bakım ve destek", quantity: 1, unitPrice: 4_500 * TRY, position: 0 },
-    { invoiceId: byNumber["GT-2026-0114"], description: "E-ticaret sitesi, tasarım aşaması", quantity: 1, unitPrice: 18_000 * TRY, position: 0 },
-    { invoiceId: byNumber["GT-2026-0114"], description: "Ürün fotoğrafı düzenleme", quantity: 40, unitPrice: 75 * TRY, position: 1 },
-    { invoiceId: byNumber["GT-2026-0115"], description: "Online randevu sistemi, 2. taksit", quantity: 1, unitPrice: 30_000 * TRY, position: 0 },
   ]);
 
   await db.insert(documents).values([

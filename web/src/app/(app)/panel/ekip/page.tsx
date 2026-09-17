@@ -15,7 +15,7 @@ export default async function CustomerTeamPage() {
 
   return (
     <>
-      <PageHeader title="Ekibim" description="Firmanızdan panele girebilen kişiler. Talepleri, projeleri ve faturaları hepsi görebilir." />
+      <PageHeader title="Ekibim" description="Firmanızdan panele girebilen kişiler. Talepleri, projeleri ve dokümanları hepsi görebilir." />
       <div className="t-layout">
         <PeopleList people={people} tone="customer" youId={user.id} deviceCounts={deviceCounts} />
         <InvitePersonForm

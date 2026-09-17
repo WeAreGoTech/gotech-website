@@ -1,4 +1,4 @@
-/* Dashboards, projects, invoices, documents, people, rating, invoice printing */
+/* Dashboards, projects, documents, people, rating */
 
 /* ---------- dashboard ---------- */
 .greeting{margin:0 0 6px;font-weight:800;font-size:clamp(2rem,3.6vw,3.2rem);line-height:1.02;letter-spacing:-.05em}
@@ -48,42 +48,6 @@ a.project-card:hover{box-shadow:0 0 0 2px var(--w-accent)}
 .tracker.has-actions li{grid-template-columns:28px minmax(0,1fr) auto;align-items:start}
 .tracker form{margin-top:-2px}
 
-/* ---------- invoice + ticket state pills (share .status) ---------- */
-.status.is-pending{--dot:#E3A300}
-.status.is-overdue{--dot:#D0331F;background:var(--w-negative-bg);color:var(--w-negative)}
-.status.is-paid{--dot:#3C8A1E}
-.status.is-cancelled{--dot:#9A9C98;color:var(--w-ink-3)}
-
-/* ---------- invoice document ---------- */
-.invoice-doc{display:grid;gap:28px;padding:clamp(22px,4vw,48px);border-radius:24px;background:#fff}
-.invoice-top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px}
-.invoice-top .logo{font-weight:800;font-size:1.7rem;letter-spacing:-.05em;color:var(--w-forest)}
-.invoice-top h2{margin:0;font-weight:800;font-size:1.6rem;letter-spacing:-.04em;text-align:right}
-.invoice-top p{margin:4px 0 0;color:var(--w-ink-3);text-align:right}
-.invoice-top .invoice-issuer{text-align:left}
-.invoice-parties{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:20px}
-.invoice-parties h3{margin:0 0 4px;font-size:.82rem;font-weight:600;color:var(--w-ink-3)}
-.invoice-parties p{margin:0;line-height:1.5}
-.invoice-lines{width:100%;border-collapse:collapse;font-size:.95rem}
-.invoice-lines th{padding:10px 0;border-bottom:1px solid var(--w-line);text-align:left;font-size:.82rem;font-weight:600;color:var(--w-ink-3)}
-.invoice-lines td{padding:14px 0;border-bottom:1px solid var(--w-line);vertical-align:top}
-.invoice-lines .num{padding-left:16px;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.invoice-totals{justify-self:end;width:min(340px,100%);margin:0}
-.invoice-totals div{display:flex;justify-content:space-between;gap:16px;padding:6px 0;font-variant-numeric:tabular-nums}
-.invoice-totals dt{color:var(--w-ink-2)}
-.invoice-totals dd{margin:0}
-.invoice-totals .grand{margin-top:6px;padding-top:12px;border-top:2px solid var(--w-ink);font-weight:800;font-size:1.3rem}
-.invoice-totals .grand dt{color:var(--w-ink)}
-.pay-box{display:grid;gap:4px;padding:16px 18px;border-radius:16px;background:var(--w-page);font-size:.92rem}
-.pay-box strong{font-weight:700}
-
-/* ---------- invoice line editor ---------- */
-.line-rows{display:grid;gap:10px}
-.line-row{display:grid;grid-template-columns:minmax(0,1fr) 84px 150px 40px;gap:8px;align-items:center}
-.line-row-head{font-size:.82rem;font-weight:600;color:var(--w-ink-3)}
-.line-totals{display:grid;justify-items:end;gap:2px;font-variant-numeric:tabular-nums}
-.line-totals strong{font-weight:800;font-size:1.3rem;letter-spacing:-.02em}
-
 /* ---------- rating ---------- */
 .stars{display:flex;gap:8px}
 .star-btn{display:grid;place-items:center;width:46px;height:46px;border:0;border-radius:50%;background:var(--w-neutral);color:var(--w-ink-3);transition:background .15s,color .15s,transform .15s}
@@ -101,16 +65,6 @@ a.project-card:hover{box-shadow:0 0 0 2px var(--w-accent)}
   .two-col{grid-template-columns:minmax(0,1fr)}
 }
 @media (max-width:600px){
-  .line-row{grid-template-columns:64px minmax(0,1fr) 40px}
-  .line-row > :first-child{grid-column:1/-1}
-  .line-row-head{display:none}
   .stats{grid-template-columns:1fr 1fr}
   .stat{padding:16px}
-  .invoice-top h2,.invoice-top p{text-align:left}
-}
-@media print{
-  .sidebar,.no-print,nextjs-portal{display:none!important}
-  body,.shell{display:block;background:#fff}
-  .main{max-width:none;padding:0}
-  .invoice-doc{padding:0;border-radius:0}
 }

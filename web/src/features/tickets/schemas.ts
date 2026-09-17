@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { TICKET_CATEGORIES, TICKET_PRIORITIES, TICKET_STATUSES } from "@/db/schema";
+import { TICKET_PRIORITIES, TICKET_STATUSES } from "@/db/schema";
+import { NEW_TICKET_CATEGORIES } from "./labels";
 
 const MESSAGE_MAX = 5000;
 export const SUBJECT_MAX = 140;
@@ -12,7 +13,7 @@ const messageBody = z
 
 export const newTicketSchema = z.object({
   subject: z.string().trim().min(5, { error: "Konuyu en az 5 karakterle yazın." }).max(SUBJECT_MAX, { error: `Konu en fazla ${SUBJECT_MAX} karakter olabilir.` }),
-  category: z.enum(TICKET_CATEGORIES, { error: "Talep türünü seçin." }),
+  category: z.enum(NEW_TICKET_CATEGORIES, { error: "Talep türünü seçin." }),
   priority: z.enum(TICKET_PRIORITIES, { error: "Önceliği seçin." }),
   body: messageBody.min(10, { error: "Sorunu birkaç cümleyle anlatın (en az 10 karakter)." }),
 });

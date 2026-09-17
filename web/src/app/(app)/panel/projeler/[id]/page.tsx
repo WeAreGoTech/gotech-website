@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { z } from "zod";
 import { ProjectView } from "@/components/app/ProjectView";
 import { listDocuments } from "@/features/documents/queries";
-import { listInvoices } from "@/features/invoices/queries";
 import { getProject } from "@/features/projects/queries";
 import { requireCustomer } from "@/lib/auth/session";
 
@@ -15,14 +14,12 @@ export default async function CustomerProjectPage({ params }: PageProps<"/panel/
   const project = z.uuid().safeParse(id).success ? await getProject(id, user.companyId) : null;
   if (!project) notFound();
 
-  const [documents, invoices] = await Promise.all([listDocuments({ companyId: user.companyId, projectId: id }), listInvoices(user.companyId)]);
+  const documents = await listDocuments({ companyId: user.companyId, projectId: id });
   return (
     <ProjectView
       project={project}
       documents={documents}
-      invoices={invoices.filter((i) => i.projectId === id)}
       backHref="/panel/projeler"
-      invoiceBase="/panel/faturalar"
     />
   );
 }

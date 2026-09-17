@@ -1,5 +1,8 @@
 import type { TicketCategory, TicketPriority, TicketStatus } from "@/db/schema";
 
+// "billing" stays in the database for old tickets, but new tickets can no longer choose it
+export const NEW_TICKET_CATEGORIES = ["support", "bug", "request"] as const satisfies readonly TicketCategory[];
+
 export const CATEGORY_LABELS: Record<TicketCategory, string> = {
   support: "Destek",
   bug: "Hata bildirimi",

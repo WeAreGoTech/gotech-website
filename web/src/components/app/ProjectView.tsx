@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import type { DocumentRow } from "@/features/documents/queries";
-import type { InvoiceSummary } from "@/features/invoices/queries";
 import { SERVICE_LABELS } from "@/features/projects/labels";
 import type { ProjectDetail } from "@/features/projects/queries";
 import { formatDate } from "@/lib/format";
@@ -8,23 +7,20 @@ import { BackButton } from "./AppShell";
 import { Section } from "./dashboard";
 import { DocumentList } from "./documents";
 import { Icon, SERVICE_ICONS } from "./Icon";
-import { InvoiceList } from "./invoices";
 import { MilestoneTimeline, ProgressBar, StagePill } from "./projects";
 import { DetailRows } from "./ticket-detail";
 
 type ProjectViewProps = {
   project: ProjectDetail;
   documents: DocumentRow[];
-  invoices: InvoiceSummary[];
   backHref: string;
-  invoiceBase: string;
   showCompany?: boolean;
   stageControl?: ReactNode;
   toggleAction?: (milestoneId: string) => () => Promise<void>;
 };
 
 /** Project page shared by both panels; the team version adds stage and milestone controls. */
-export function ProjectView({ project, documents, invoices, backHref, invoiceBase, showCompany, stageControl, toggleAction }: ProjectViewProps) {
+export function ProjectView({ project, documents, backHref, showCompany, stageControl, toggleAction }: ProjectViewProps) {
   return (
     <>
       <BackButton href={backHref} label="Projelere dön" />
@@ -47,7 +43,6 @@ export function ProjectView({ project, documents, invoices, backHref, invoiceBas
             <MilestoneTimeline project={project} toggleAction={toggleAction} />
           </div>
           <Section title="Dokümanlar"><DocumentList documents={documents} /></Section>
-          <Section title="Faturalar"><InvoiceList invoices={invoices} basePath={invoiceBase} /></Section>
         </div>
         <aside className="t-side">
           <DetailRows
