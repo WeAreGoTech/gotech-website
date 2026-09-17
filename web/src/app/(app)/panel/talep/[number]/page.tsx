@@ -5,6 +5,7 @@ import { Conversation } from "@/components/app/Conversation";
 import { RatingForm, RatingStars } from "@/components/app/rating";
 import { DetailRows, StatusStepper, TicketHeader } from "@/components/app/ticket-detail";
 import { Composer } from "@/components/app/ticket-forms";
+import { listTicketAttachments } from "@/features/attachments/queries";
 import { getCompanyDeviceName } from "@/features/devices/queries";
 import { closeTicketAsCustomer, rateTicket, replyAsCustomer } from "@/features/tickets/actions";
 import { PRIORITY_LABELS } from "@/features/tickets/labels";
@@ -20,8 +21,9 @@ export default async function CustomerTicketPage({ params }: PageProps<"/panel/t
   const ticket = Number.isInteger(number) ? await getCompanyTicket(number, user.companyId) : null;
   if (!ticket) notFound();
 
-  const [messages, deviceName] = await Promise.all([
+  const [messages, attachments, deviceName] = await Promise.all([
     listTicketMessages(ticket.id, { includeInternal: false }),
+    listTicketAttachments(ticket.id, { includeInternal: false }),
     ticket.deviceId ? getCompanyDeviceName(ticket.deviceId, user.companyId) : null,
   ]);
   const closed = ticket.status === "closed";
@@ -32,7 +34,7 @@ export default async function CustomerTicketPage({ params }: PageProps<"/panel/t
       <StatusStepper status={ticket.status} audience="customer" createdAt={ticket.createdAt} updatedAt={ticket.updatedAt} />
       <div className="t-layout">
         <section className="convo" aria-label="Mesajlar">
-          <Conversation messages={messages} viewerId={user.id} viewerRole="customer" />
+          <Conversation messages={messages} attachments={attachments} viewerId={user.id} viewerRole="customer" />
           <Composer action={replyAsCustomer.bind(null, ticket.number)} closed={closed} />
         </section>
         <aside className="t-side">

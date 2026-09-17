@@ -6,6 +6,7 @@ import { TicketDevices } from "@/components/app/device-detail";
 import { RatingStars } from "@/components/app/rating";
 import { DetailRows, StatusStepper, TicketHeader } from "@/components/app/ticket-detail";
 import { Composer, StaffTicketForm } from "@/components/app/ticket-forms";
+import { listTicketAttachments } from "@/features/attachments/queries";
 import { getDeviceView, listDevices } from "@/features/devices/queries";
 import { replyAsStaff, updateTicketAsStaff } from "@/features/tickets/actions";
 import { getStaffTicket, listStaffMembers, listTicketMessages } from "@/features/tickets/queries";
@@ -20,8 +21,9 @@ export default async function TeamTicketPage({ params }: PageProps<"/yonetim/tal
   if (!row) notFound();
 
   const { ticket } = row;
-  const [messages, staff, companyDevices] = await Promise.all([
+  const [messages, attachments, staff, companyDevices] = await Promise.all([
     listTicketMessages(ticket.id, { includeInternal: true }),
+    listTicketAttachments(ticket.id, { includeInternal: true }),
     listStaffMembers(),
     listDevices(ticket.companyId),
   ]);
@@ -36,8 +38,8 @@ export default async function TeamTicketPage({ params }: PageProps<"/yonetim/tal
       <StatusStepper status={ticket.status} audience="staff" createdAt={ticket.createdAt} updatedAt={ticket.updatedAt} />
       <div className="t-layout">
         <section className="convo" aria-label="Mesajlar">
-          <Conversation messages={messages} viewerId={user.id} viewerRole="staff" />
-          <Composer action={replyAsStaff.bind(null, ticket.number)} allowInternal />
+          <Conversation messages={messages} attachments={attachments} viewerId={user.id} viewerRole="staff" />
+          <Composer action={replyAsStaff.bind(null, ticket.number)} allowInternal uploadCompanyId={ticket.companyId} />
         </section>
         <aside className="t-side">
           <StaffTicketForm

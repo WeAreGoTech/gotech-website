@@ -29,6 +29,13 @@
       "when": 1789590040729,
       "tag": "0003_firma_kisi",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1789630533321,
+      "tag": "0004_ticket_attachments",
+      "breakpoints": true
     }
   ]
 }

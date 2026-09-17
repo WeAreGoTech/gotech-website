@@ -1,4 +1,6 @@
 // Also read by CLI scripts (tsx), so this module must not import "server-only".
+import path from "node:path";
+
 const DEFAULT_SMTP_PORT = 587;
 const DEFAULT_DESK_SERVER_HOST = "152.53.142.222";
 const DEFAULT_DESK_NAT_PORT = 21115;
@@ -16,6 +18,8 @@ export const env = {
     user: process.env.SMTP_USER || "",
     pass: process.env.SMTP_PASS || "",
   },
+  // ticket attachments; in production a mounted volume at /app/.data/uploads (the default under WORKDIR /app)
+  uploadDir: process.env.UPLOAD_DIR || path.join(process.cwd(), ".data", "uploads"),
   desk: {
     secretKey: process.env.DESK_SECRET_KEY || "",
     serverHost: process.env.DESK_SERVER_HOST || DEFAULT_DESK_SERVER_HOST,

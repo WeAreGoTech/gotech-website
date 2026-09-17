@@ -1,0 +1,43 @@
+/* Ticket attachments: picker in the message forms, files under messages */
+.field-label{font-weight:600;font-size:.92rem;color:var(--w-ink)}
+
+/* picker */
+.picker{display:grid;gap:10px;min-width:0}
+.picker-drop{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:12px 14px;border:1px dashed var(--w-border);border-radius:16px;background:#fff;transition:border-color .15s,background .15s}
+.picker-drop.is-dragging{border-color:var(--w-forest);background:var(--w-positive-bg)}
+.picker-drop small{flex:1 1 220px;color:var(--w-ink-3);font-size:.84rem;line-height:1.4}
+.wise .picker-drop .btn{min-height:40px}
+.picker-list{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.picker-item{display:flex;align-items:center;gap:10px;padding:8px 8px 8px 12px;border-radius:12px;background:var(--w-page)}
+.picker-item > svg{flex:none;color:var(--w-ink-3)}
+.picker-item.is-done > svg{color:var(--w-positive)}
+.picker-item.is-error{background:var(--w-negative-bg)}
+.picker-main{display:grid;gap:3px;flex:1;min-width:0}
+.picker-name{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.92rem;font-weight:500}
+.picker-main small{color:var(--w-ink-3);font-size:.8rem}
+.picker-main progress{width:100%;height:6px;border:0;border-radius:999px;background:var(--w-neutral);overflow:hidden;appearance:none}
+.picker-main progress::-webkit-progress-bar{background:var(--w-neutral)}
+.picker-main progress::-webkit-progress-value{background:var(--w-forest);border-radius:999px}
+.picker-main progress::-moz-progress-bar{background:var(--w-forest);border-radius:999px}
+.picker-remove{width:32px;height:32px}
+
+/* files under a message */
+.attachments{display:grid;gap:8px;margin:8px 0 0;padding:0;list-style:none}
+.attachment{display:grid;gap:4px;min-width:0}
+.attachment-thumb{display:block;justify-self:start;max-width:100%;border-radius:14px;overflow:hidden;background:var(--w-neutral)}
+.attachment-thumb img{display:block;max-width:min(100%,320px);max-height:240px;object-fit:cover}
+.attachment-video{display:block;width:min(100%,420px);max-height:320px;border-radius:14px;background:#000}
+.attachment-chip{display:flex;align-items:center;gap:8px;justify-self:start;max-width:100%;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.7);color:var(--w-forest);font-size:.86rem;font-weight:500}
+.attachment-chip:hover{background:#fff}
+.attachment-chip svg{flex:none}
+.attachment-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.attachment-chip small{flex:none;color:var(--w-ink-3);font-weight:400}
+.attachment.is-image .attachment-chip,.attachment.is-video .attachment-chip{padding:2px 8px;background:transparent;font-size:.8rem}
+.bubble-row.is-mine .attachment-chip{background:rgba(255,255,255,.14);color:#fff}
+.bubble-row.is-mine .attachment-chip small{color:rgba(255,255,255,.7)}
+.bubble-row.is-mine .attachment.is-image .attachment-chip,.bubble-row.is-mine .attachment.is-video .attachment-chip{background:transparent}
+
+@media (max-width:600px){
+  .attachment-thumb img{max-width:100%}
+  .picker-drop small{flex-basis:100%}
+}

@@ -102,6 +102,25 @@ export const ticketMessages = pgTable(
   (t) => [index("ticket_messages_ticket_idx").on(t.ticketId)],
 );
 
+// Files attached to ticket messages. Stored on disk under UPLOAD_DIR by storage_key; the original name is only shown.
+// ticket_id and message_id stay null ("pending") from upload until the message is sent.
+export const ticketAttachments = pgTable(
+  "ticket_attachments",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    companyId: uuid("company_id").notNull().references(() => companies.id, { onDelete: "restrict" }),
+    ticketId: uuid("ticket_id").references(() => tickets.id, { onDelete: "cascade" }),
+    messageId: uuid("message_id").references(() => ticketMessages.id, { onDelete: "cascade" }),
+    uploadedById: uuid("uploaded_by_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+    originalName: text("original_name").notNull(),
+    mimeType: text("mime_type").notNull(),
+    sizeBytes: integer("size_bytes").notNull(),
+    storageKey: text("storage_key").notNull().unique(),
+    createdAt: createdAt(),
+  },
+  (t) => [index("ticket_attachments_company_idx").on(t.companyId), index("ticket_attachments_message_idx").on(t.messageId)],
+);
+
 export const leads = pgTable("leads", {
   id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull(),
@@ -235,6 +254,7 @@ export const deviceConnections = pgTable(
 );
 
 export type User = typeof users.$inferSelect;
+export type TicketAttachment = typeof ticketAttachments.$inferSelect;
 export type UserRole = (typeof USER_ROLES)[number];
 export type TicketStatus = (typeof TICKET_STATUSES)[number];
 export type TicketPriority = (typeof TICKET_PRIORITIES)[number];

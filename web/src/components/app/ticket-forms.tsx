@@ -7,12 +7,14 @@ import type { TicketCategory, TicketPriority, TicketStatus } from "@/db/schema";
 import { createTicket } from "@/features/tickets/actions";
 import { CATEGORY_HINTS, CATEGORY_LABELS, NEW_TICKET_CATEGORIES, PRIORITY_LABELS, STATUS_LABELS } from "@/features/tickets/labels";
 import type { ActionState } from "@/lib/forms";
+import { AttachmentPicker } from "./AttachmentPicker";
 import { CATEGORY_ICONS, Icon } from "./Icon";
 
 type BoundAction = (prev: ActionState, formData: FormData) => Promise<ActionState>;
 
 export function NewTicketForm({ defaultCategory = "support" }: { defaultCategory?: TicketCategory }) {
   const { state, pending, onSubmit, errorFor } = useFormAction(createTicket);
+  const [uploading, setUploading] = useState(false);
   return (
     <form className="card form-stack" onSubmit={onSubmit} noValidate>
       <fieldset className="field">
@@ -31,6 +33,10 @@ export function NewTicketForm({ defaultCategory = "support" }: { defaultCategory
       </fieldset>
       <TextField label="Konu" name="subject" placeholder="Örneğin: Sipariş ekranında kaydet butonu çalışmıyor" error={errorFor("subject")} />
       <TextAreaField label="Ne oldu?" name="body" rows={6} placeholder="Hangi ekranda, ne yapmaya çalışırken oldu? Hata mesajı çıktıysa aynen yazın." error={errorFor("body")} />
+      <div className="field">
+        <span className="field-label">Dosyalar <span className="opt">(isteğe bağlı)</span></span>
+        <AttachmentPicker onBusyChange={setUploading} />
+      </div>
       <fieldset className="field">
         <legend>Ne kadar acil?</legend>
         <div className="segmented">
@@ -42,15 +48,16 @@ export function NewTicketForm({ defaultCategory = "support" }: { defaultCategory
       <FormMessage state={state} />
       <div className="form-actions">
         <span className="muted">Ekibimize e-posta ile de haber veriyoruz.</span>
-        <button className="btn" type="submit" disabled={pending}><Icon name="send" size={18} />{pending ? "Gönderiliyor…" : "Talebi gönder"}</button>
+        <SubmitButton pending={pending} uploading={uploading} label="Talebi gönder" />
       </div>
     </form>
   );
 }
 
 /** Message box under the conversation. The team can switch between a reply to the customer and an internal note. */
-export function Composer({ action, allowInternal = false, closed = false }: { action: BoundAction; allowInternal?: boolean; closed?: boolean }) {
+export function Composer({ action, allowInternal = false, closed = false, uploadCompanyId }: { action: BoundAction; allowInternal?: boolean; closed?: boolean; uploadCompanyId?: string }) {
   const { state, pending, onSubmit, errorFor } = useFormAction(action);
+  const [uploading, setUploading] = useState(false);
   const error = errorFor("body");
   return (
     <form className="composer" onSubmit={onSubmit} noValidate key={state.submittedAt}>
@@ -72,12 +79,23 @@ export function Composer({ action, allowInternal = false, closed = false }: { ac
         aria-describedby={error ? "composer-error" : undefined}
       />
       {error && <p className="field-error" id="composer-error">{error}</p>}
+      <AttachmentPicker companyId={uploadCompanyId} onBusyChange={setUploading} />
       {state.status === "error" && <FormMessage state={state} />}
       <div className="composer-foot">
         <small>{allowInternal ? "Yanıt müşteriye e-posta ile de gider. İç not gitmez." : "Yanıtınız ekibimize bildirilir."}</small>
-        <button className="btn" type="submit" disabled={pending}><Icon name="send" size={18} />{pending ? "Gönderiliyor…" : "Gönder"}</button>
+        <SubmitButton pending={pending} uploading={uploading} label="Gönder" />
       </div>
     </form>
+  );
+}
+
+/** Send button that also waits for attachments still uploading. */
+function SubmitButton({ pending, uploading, label }: { pending: boolean; uploading: boolean; label: string }) {
+  return (
+    <button className="btn" type="submit" disabled={pending || uploading}>
+      <Icon name="send" size={18} />
+      {pending ? "Gönderiliyor…" : uploading ? "Dosyalar yükleniyor…" : label}
+    </button>
   );
 }
 
