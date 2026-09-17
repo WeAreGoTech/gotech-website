@@ -264,6 +264,21 @@ export const devices = pgTable(
   (t) => [index("devices_company_idx").on(t.companyId), index("devices_user_idx").on(t.userId)],
 );
 
+// Computers of the GoTech team. The desktop app puts these desk IDs into RustDesk's ID whitelist,
+// so once a customer computer locks itself to GoTech only our machines can connect to it.
+export const staffDevices = pgTable(
+  "staff_devices",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+    deskId: text("desk_id").notNull().unique(),
+    // what the team member calls this computer, e.g. "Ofis masaüstü"
+    label: text("label").notNull(),
+    createdAt: createdAt(),
+  },
+  (t) => [index("staff_devices_user_idx").on(t.userId)],
+);
+
 export const deviceConnections = pgTable(
   "device_connections",
   {

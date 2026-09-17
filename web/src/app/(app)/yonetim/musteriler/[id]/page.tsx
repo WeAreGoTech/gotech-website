@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { z } from "zod";
 import { BackButton } from "@/components/app/AppShell";
 import { Section, Stat } from "@/components/app/dashboard";
-import { DeviceList, StatusUnknownNotice } from "@/components/app/devices";
+import { DeviceList, InstallLinks, StatusUnknownNotice } from "@/components/app/devices";
 import { DocumentList } from "@/components/app/documents";
 import { Icon } from "@/components/app/Icon";
 import { PeopleList, PeopleNotice, RemovedPeopleList } from "@/components/app/people";
@@ -94,6 +94,7 @@ export default async function CompanyPage({ params, searchParams }: PageProps<"/
             <RemovedPeopleList people={removedPeople} restore={(personId) => restorePerson.bind(null, personId)} />
           </Section>
           <Section title="Cihazlar" href="/yonetim/cihazlar" linkLabel="Tüm cihazlar">
+            <InstallLinks customerCode={company.customerCode} />
             <StatusUnknownNotice show={!deviceList.statusKnown} />
             <DeviceList devices={deviceList.devices} audience="staff" removeAction={(deviceId) => removeDevice.bind(null, deviceId)} />
           </Section>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { DESK_PLATFORMS, DESK_PLATFORM_LABELS, installerLink, installerUrl } from "@/features/devices/downloads";
 import { CONNECTION_KIND_LABELS, connectHref, deviceHref, deviceTitle, formatDeskId, platformLabel } from "@/features/devices/labels";
 import type { ConnectionRow, DeviceRow } from "@/features/devices/queries";
 import { formatDateTime } from "@/lib/format";
@@ -129,6 +130,22 @@ export function ConnectionList({ connections, showDevice = true }: { connections
         </li>
       ))}
     </ul>
+  );
+}
+
+/** The link staff send a customer: the installer arrives with their company code in its file name. */
+export function InstallLinks({ customerCode }: { customerCode: string }) {
+  const platforms = DESK_PLATFORMS.filter((platform) => installerUrl(platform));
+  if (platforms.length === 0) return null;
+  return (
+    <div className="desk-install">
+      <strong>Kurulum linki</strong>
+      {platforms.map((platform) => (
+        <span key={platform}>
+          {DESK_PLATFORM_LABELS[platform]}: <code>{installerLink(platform, customerCode)}</code>
+        </span>
+      ))}
+    </div>
   );
 }
 

@@ -24,6 +24,9 @@
   .desk-row .row-actions{grid-column:2;margin-left:0}
 }
 
+.desk-install{display:grid;gap:4px;margin:0 0 12px;padding:12px 14px;border-radius:16px;background:var(--w-page);font-size:.9rem}
+.desk-install code{font-family:inherit;color:var(--w-ink-3);overflow-wrap:anywhere}
+
 /* person, labels and device pages */
 .desk-hint{margin:0;color:var(--w-ink-3);font-weight:400}
 .desk-row strong a,.desk-ticket-row strong a{color:inherit;text-decoration:underline;text-decoration-color:var(--w-line);text-underline-offset:3px}

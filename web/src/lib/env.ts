@@ -26,5 +26,7 @@ export const env = {
     natPort: Number(process.env.DESK_SERVER_NAT_PORT) || DEFAULT_DESK_NAT_PORT,
     downloadWindowsUrl: process.env.DESK_DOWNLOAD_WINDOWS_URL || "",
     downloadMacUrl: process.env.DESK_DOWNLOAD_MAC_URL || "",
+    // version the desktop app should update itself to; empty means "no update to offer"
+    latestVersion: process.env.DESK_LATEST_VERSION || "",
   },
 };

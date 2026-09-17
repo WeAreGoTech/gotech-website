@@ -50,6 +50,13 @@
       "when": 1789669849702,
       "tag": "0006_firma_yetkilisi",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1789675543112,
+      "tag": "0007_ekip_bilgisayarlari",
+      "breakpoints": true
     }
   ]
 }

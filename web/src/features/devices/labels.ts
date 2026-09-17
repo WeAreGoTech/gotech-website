@@ -9,6 +9,10 @@ export const CONNECTION_KIND_LABELS: Record<DeviceConnectionKind, string> = {
 export const CONTACT_NAME_MAX = 120;
 export const LABEL_MAX = 60;
 
+// GoTech Desk IDs of our own computers; RustDesk hands out 9 digits, with room for longer ones later
+export const STAFF_DESK_ID_PATTERN = /^\d{9,12}$/;
+export const STAFF_DESK_ID_HINT = "GoTech Desk ID'si 9-12 haneli bir sayıdır.";
+
 const PLATFORM_LABELS: Record<string, string> = { windows: "Windows", macos: "macOS", linux: "Linux" };
 export const platformLabel = (platform: string) => PLATFORM_LABELS[platform.toLowerCase()] ?? platform;
 

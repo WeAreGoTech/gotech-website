@@ -6,21 +6,25 @@ import { DeviceList, StatusUnknownNotice } from "@/components/app/devices";
 import { Icon } from "@/components/app/Icon";
 import { getCompany } from "@/features/customers/queries";
 import { claimDevice } from "@/features/devices/actions";
+import { installerHref, installerUrl, type DeskPlatform } from "@/features/devices/downloads";
 import { listDevices } from "@/features/devices/queries";
 import { requireCustomer } from "@/lib/auth/session";
-import { env } from "@/lib/env";
 
 export const metadata: Metadata = { title: "Uzak destek" };
 
-const DOWNLOADS = [
-  { url: env.desk.downloadWindowsUrl, label: "Windows için indir", className: "btn" },
-  { url: env.desk.downloadMacUrl, label: "macOS için indir", className: "btn btn-ghost" },
+const DOWNLOADS: { platform: DeskPlatform; label: string; className: string }[] = [
+  { platform: "windows", label: "Windows için indir", className: "btn" },
+  { platform: "mac", label: "macOS için indir", className: "btn btn-ghost" },
 ];
 
 export default async function RemoteSupportPage() {
   const user = await requireCustomer();
   const [company, { devices, statusKnown }] = await Promise.all([getCompany(user.companyId), listDevices(user.companyId)]);
-  const downloads = DOWNLOADS.filter((d) => d.url);
+  const customerCode = company?.customerCode;
+  // the file the customer gets is named after their company, so the app knows the code before it starts
+  const downloads = customerCode
+    ? DOWNLOADS.filter((d) => installerUrl(d.platform)).map((d) => ({ ...d, href: installerHref(d.platform, customerCode) }))
+    : [];
   const mine = devices.filter((d) => d.userId === user.id);
   const others = devices.filter((d) => d.userId !== user.id);
   const claim = (deviceId: string) => claimDevice.bind(null, deviceId);
@@ -32,7 +36,7 @@ export default async function RemoteSupportPage() {
         <section className="desk-code" aria-labelledby="desk-code-label">
           <div>
             <span className="desk-code-label" id="desk-code-label">Firma kodunuz</span>
-            <p className="desk-code-value">{company?.customerCode}</p>
+            <p className="desk-code-value">{customerCode}</p>
           </div>
           <ol className="desk-steps">
             <li>GoTech Desk&apos;i bilgisayarınıza indirip kurun.</li>
@@ -44,7 +48,7 @@ export default async function RemoteSupportPage() {
           {downloads.length > 0 && (
             <div className="desk-downloads">
               {downloads.map((d) => (
-                <a key={d.label} className={d.className} href={d.url}>
+                <a key={d.platform} className={d.className} href={d.href}>
                   <Icon name="download" size={18} />
                   {d.label}
                 </a>
