@@ -12,7 +12,10 @@ export function AppShell({ area, user, links, cta, children }: AppShellProps) {
     <div className="shell wise">
       <aside className="sidebar">
         <div className="sidebar-brand">
-          <span className="logo">GoTech</span>
+          <span className="logo">
+            {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG, nothing for next/image to optimize */}
+            <img src="/brand/gotech-logo.svg" alt="GoTech" width={200} height={160} />
+          </span>
           <small>{area}</small>
         </div>
         {cta && (

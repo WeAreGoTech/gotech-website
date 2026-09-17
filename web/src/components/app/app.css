@@ -1,16 +1,20 @@
-/* Panels and auth screens in a Wise-like language: pill buttons, bright green accent, heavy headings, soft surfaces */
+/* Panels and auth screens in a Wise-like language: pill buttons, GoTech logo red accent, heavy headings, soft surfaces */
 .wise{
-  --w-accent:#9FE870;
-  --w-accent-hover:#8EDB5E;
-  --w-forest:#163300;
+  --w-accent:#E2463B;
+  --w-accent-hover:#CC3A30;
+  /* text and icons placed on the accent */
+  --w-on-accent:#FFFFFF;
+  /* the accent where it sits on the dark brand surface (--w-forest) */
+  --w-accent-soft:#FF9D94;
+  --w-forest:#2A1614;
   --w-ink:#0E0F0C;
   --w-ink-2:#454745;
   --w-ink-3:#6A6C6A;
   --w-line:rgba(14,15,12,.1);
   --w-border:#C9CBC6;
-  --w-page:#F2F4EF;
-  --w-neutral:rgba(22,51,0,.08);
-  --w-neutral-hover:rgba(22,51,0,.14);
+  --w-page:#F6F2F1;
+  --w-neutral:rgba(226,70,59,.09);
+  --w-neutral-hover:rgba(226,70,59,.16);
   --w-positive-bg:#E2F6D5;
   --w-positive:#2F5711;
   --w-warning-bg:#FFF1C2;
@@ -23,7 +27,7 @@
 .wise .muted{color:var(--w-ink-3)}
 
 /* ---------- buttons ---------- */
-.wise .btn{min-height:48px;padding:.75rem 1.4rem;background:var(--w-accent);color:var(--w-forest);font-weight:600}
+.wise .btn{min-height:48px;padding:.75rem 1.4rem;background:var(--w-accent);color:var(--w-on-accent);font-weight:600}
 .wise .btn:hover{background:var(--w-accent-hover)}
 .wise .btn-ghost{background:var(--w-neutral);color:var(--w-forest);box-shadow:none}
 .wise .btn-ghost:hover{background:var(--w-neutral-hover)}
@@ -54,23 +58,24 @@
 .tile small{display:block;color:var(--w-ink-3);font-size:.84rem;line-height:1.35}
 .tile input:hover + span{border-color:var(--w-ink-3)}
 .tile input:checked + span{border-color:var(--w-forest);box-shadow:0 0 0 1px var(--w-forest)}
-.tile input:checked + span .w-icon{background:var(--w-accent)}
+.tile input:checked + span .w-icon{background:var(--w-accent);color:var(--w-on-accent)}
 .tile input:focus-visible + span{outline:2px solid var(--w-forest);outline-offset:2px}
 
 /* ---------- shell ---------- */
 .shell{display:grid;grid-template-columns:272px minmax(0,1fr);min-height:100vh;background:var(--w-page)}
 .sidebar{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:22px;padding:28px 14px 16px;background:#fff}
 .sidebar-brand{padding:0 12px}
-.sidebar-brand .logo{font-weight:800;font-size:1.55rem;letter-spacing:-.05em;color:var(--w-forest)}
+.sidebar-brand .logo{display:block;width:118px}
+.sidebar-brand .logo img{display:block;width:100%;height:auto}
 .sidebar-brand small{display:block;color:var(--w-ink-3);font-size:.85rem}
 .sidebar-cta{margin:0 4px}
 .side-nav{display:grid;gap:2px}
 .side-nav a{display:flex;align-items:center;gap:12px;padding:6px 14px 6px 6px;border-radius:999px;color:var(--w-ink-2);font-weight:500;transition:background .15s}
 .side-nav a:hover{background:var(--w-neutral)}
 .side-nav a[aria-current="page"]{background:var(--w-neutral);color:var(--w-ink);font-weight:600}
-.side-nav a[aria-current="page"] .w-icon{background:var(--w-accent)}
+.side-nav a[aria-current="page"] .w-icon{background:var(--w-accent);color:var(--w-on-accent)}
 .side-nav .w-icon{width:36px;height:36px}
-.side-nav .count{margin-left:auto;min-width:24px;padding:.05rem .5rem;border-radius:999px;background:var(--w-forest);color:var(--w-accent);font-size:.78rem;font-weight:600;text-align:center}
+.side-nav .count{margin-left:auto;min-width:24px;padding:.05rem .5rem;border-radius:999px;background:var(--w-forest);color:var(--w-accent-soft);font-size:.78rem;font-weight:600;text-align:center}
 .side-user{margin-top:auto;display:flex;align-items:center;gap:10px;padding:10px;border-radius:20px;background:var(--w-page)}
 .side-user-name{flex:1;min-width:0}
 .side-user-name strong{display:block;font-weight:600;font-size:.92rem}
@@ -81,7 +86,7 @@
 .w-icon{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:50%;background:var(--w-neutral);color:var(--w-forest)}
 .w-icon.is-large{width:56px;height:56px}
 .avatar{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:50%;font-weight:700;font-size:.85rem;color:var(--w-forest)}
-.avatar.is-team{background:var(--w-accent)}
+.avatar.is-team{background:var(--w-accent);color:var(--w-on-accent)}
 .avatar.is-customer{background:#E6E0D4}
 .avatar.is-small{width:32px;height:32px;font-size:.72rem}
 .page-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px 24px;margin-bottom:28px}
@@ -98,7 +103,7 @@
 .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
 .tabs a{padding:.5rem 1rem;border-radius:999px;background:#fff;color:var(--w-ink);font-size:.92rem;font-weight:500}
 .tabs a:hover{background:var(--w-neutral)}
-.tabs a[aria-current="page"]{background:var(--w-forest);color:var(--w-accent)}
+.tabs a[aria-current="page"]{background:var(--w-forest);color:var(--w-accent-soft)}
 .tabs b{margin-left:.4em;font-weight:600;opacity:.7}
 .empty{display:grid;justify-items:center;gap:12px;padding:56px 24px;text-align:center}
 .empty h2{margin:0;font-weight:800;font-size:1.6rem;letter-spacing:-.04em}
@@ -150,7 +155,8 @@ a.w-row:hover{background:var(--w-page)}
 .auth{min-height:100vh;display:grid;place-items:center;padding:32px 16px;background:var(--w-page)}
 .auth-card{width:min(440px,100%);display:grid;gap:22px;padding:clamp(24px,4vw,40px);border-radius:28px;background:#fff}
 .auth-top{display:flex;justify-content:space-between;align-items:center;gap:12px}
-.auth-top .logo{font-weight:800;font-size:1.4rem;letter-spacing:-.05em;color:var(--w-forest)}
+.auth-top .logo{display:block;width:96px}
+.auth-top .logo img{display:block;width:100%;height:auto}
 .auth-top a:last-child{font-size:.9rem;font-weight:600;color:var(--w-forest);text-decoration:underline;text-underline-offset:3px}
 .auth-card h1{margin:0;font-weight:800;font-size:clamp(2rem,4vw,2.6rem);line-height:1.02;letter-spacing:-.05em}
 .auth-card .lead{margin:-10px 0 0;color:var(--w-ink-2)}

@@ -4,7 +4,7 @@
 /* picker */
 .picker{display:grid;gap:10px;min-width:0}
 .picker-drop{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:12px 14px;border:1px dashed var(--w-border);border-radius:16px;background:#fff;transition:border-color .15s,background .15s}
-.picker-drop.is-dragging{border-color:var(--w-forest);background:var(--w-positive-bg)}
+.picker-drop.is-dragging{border-color:var(--w-accent);background:var(--w-neutral)}
 .picker-drop small{flex:1 1 220px;color:var(--w-ink-3);font-size:.84rem;line-height:1.4}
 .wise .picker-drop .btn{min-height:40px}
 .picker-list{display:grid;gap:6px;margin:0;padding:0;list-style:none}

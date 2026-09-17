@@ -12,9 +12,9 @@
 
 .desk-code{display:grid;gap:18px;padding:clamp(20px,3vw,32px);border-radius:24px;background:var(--w-forest);color:#fff}
 .desk-code-label{color:rgba(255,255,255,.78);font-weight:500}
-.desk-code-value{margin:0;font-weight:800;font-size:clamp(2.6rem,6vw,4rem);line-height:1;letter-spacing:.06em;color:var(--w-accent);font-variant-numeric:tabular-nums}
+.desk-code-value{margin:0;font-weight:800;font-size:clamp(2.6rem,6vw,4rem);line-height:1;letter-spacing:.06em;color:var(--w-accent-soft);font-variant-numeric:tabular-nums}
 .desk-steps{display:grid;gap:10px;margin:0;padding-left:1.3rem}
-.desk-steps a{color:var(--w-accent);font-weight:600;text-decoration:underline;text-underline-offset:3px}
+.desk-steps a{color:var(--w-accent-soft);font-weight:600;text-decoration:underline;text-underline-offset:3px}
 .desk-downloads{display:flex;flex-wrap:wrap;gap:10px}
 .desk-downloads .btn-ghost{background:rgba(255,255,255,.12);color:#fff}
 .desk-downloads .btn-ghost:hover{background:rgba(255,255,255,.2)}
