@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { FormMessage, SelectField, TextAreaField, TextField, toOptions } from "@/components/forms/fields";
+import { DateField, FormMessage, SelectField, TextAreaField, TextField, toOptions } from "@/components/forms/fields";
 import { Select } from "@/components/forms/Select";
 import { useFormAction } from "@/components/forms/use-form-action";
 import type { ProjectStage } from "@/db/schema";
@@ -38,7 +38,7 @@ export function CreateProjectForm({ companies }: { companies: Option[] }) {
       <TextField label="Proje adı" name="name" placeholder="Örneğin: Bayi portalı" error={errorFor("name")} />
       <div className="form-grid">
         <SelectField label="Hizmet" name="service" options={toOptions(SERVICE_LABELS)} error={errorFor("service")} />
-        <TextField label="Hedef tarih" name="dueOn" type="date" optional error={errorFor("dueOn")} />
+        <DateField label="Hedef tarih" name="dueOn" optional error={errorFor("dueOn")} />
       </div>
       <TextAreaField label="Kısa açıklama" name="summary" rows={3} optional error={errorFor("summary")} />
       <FormMessage state={state} />

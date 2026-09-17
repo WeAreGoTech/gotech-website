@@ -1,5 +1,6 @@
 import type { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 import type { ActionState } from "@/lib/forms";
+import { DatePicker } from "./DatePicker";
 import { Select, type SelectOption } from "./Select";
 
 type FieldShellProps = { id: string; label: ReactNode; error?: string; optional?: boolean; wide?: boolean; children: ReactNode };
@@ -51,6 +52,15 @@ export function SelectField({ label, name, error, optional, wide, options, ...se
   return (
     <FieldShell id={id} label={label} error={error} optional={optional} wide={wide}>
       <Select id={id} name={name} options={options} {...errorProps(id, error)} {...select} />
+    </FieldShell>
+  );
+}
+
+export function DateField({ label, name, error, optional, wide, defaultValue }: Common & { defaultValue?: string }) {
+  const id = `f-${name}`;
+  return (
+    <FieldShell id={id} label={label} error={error} optional={optional} wide={wide}>
+      <DatePicker id={id} name={name} defaultValue={defaultValue} {...errorProps(id, error)} />
     </FieldShell>
   );
 }
