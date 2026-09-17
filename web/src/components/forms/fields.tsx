@@ -1,5 +1,6 @@
-import type { InputHTMLAttributes, ReactNode, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
+import type { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 import type { ActionState } from "@/lib/forms";
+import { Select, type SelectOption } from "./Select";
 
 type FieldShellProps = { id: string; label: ReactNode; error?: string; optional?: boolean; wide?: boolean; children: ReactNode };
 
@@ -41,17 +42,15 @@ export function TextAreaField({ label, name, error, optional, wide, ...textarea 
   );
 }
 
-type Option = { value: string; label: string };
+type Option = SelectOption;
 
-export function SelectField({ label, name, error, optional, wide, options, ...select }: Common & { options: Option[] } & SelectHTMLAttributes<HTMLSelectElement>) {
+type SelectFieldProps = Common & { options: Option[]; value?: string; defaultValue?: string; onValueChange?: (value: string) => void; disabled?: boolean };
+
+export function SelectField({ label, name, error, optional, wide, options, ...select }: SelectFieldProps) {
   const id = `f-${name}`;
   return (
     <FieldShell id={id} label={label} error={error} optional={optional} wide={wide}>
-      <select className="input" id={id} name={name} {...errorProps(id, error)} {...select}>
-        {options.map((o) => (
-          <option key={o.value} value={o.value}>{o.label}</option>
-        ))}
-      </select>
+      <Select id={id} name={name} options={options} {...errorProps(id, error)} {...select} />
     </FieldShell>
   );
 }

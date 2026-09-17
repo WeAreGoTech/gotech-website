@@ -1,0 +1,25 @@
+/* Themed dropdown (components/forms/Select.tsx); uses panel tokens with site fallbacks */
+.select{position:relative;width:100%}
+.select-trigger{display:flex;align-items:center;gap:10px;width:100%;text-align:left;cursor:pointer}
+.select-trigger:disabled{cursor:not-allowed;opacity:.6}
+.select-value{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.select-chevron{flex:none;color:var(--w-ink-3,var(--ink-soft));transition:transform .2s var(--ease-out)}
+.select.is-open .select-chevron{transform:rotate(180deg)}
+.select.is-open .select-trigger{border-color:var(--w-accent,var(--cobalt));box-shadow:0 0 0 1px var(--w-accent,var(--cobalt))}
+
+.select-list{position:absolute;z-index:40;left:0;right:0;top:calc(100% + 6px);max-height:280px;overflow:auto;margin:0;padding:6px;list-style:none;border-radius:16px;background:#fff;border:1px solid var(--w-line,var(--line));box-shadow:0 12px 32px rgba(42,22,20,.16),0 2px 6px rgba(42,22,20,.08);animation:select-in .14s var(--ease-out)}
+.select.opens-up .select-list{top:auto;bottom:calc(100% + 6px);animation-name:select-in-up}
+.select-list li{display:flex;align-items:center;gap:10px;padding:.6rem .8rem;border-radius:10px;cursor:pointer;color:var(--w-ink,var(--ink));font-size:.95rem}
+.select-list li span{flex:1;min-width:0}
+.select-list li.is-active{background:var(--w-neutral,rgba(19,26,51,.06))}
+.select-list li[aria-selected="true"]{font-weight:600}
+.select-list li[aria-selected="true"] svg{color:var(--w-accent,var(--cobalt))}
+
+/* compact pill used by auto-saving inline forms */
+.inline-form .select{width:auto}
+.inline-form .select-trigger{padding:.45rem .9rem;border-radius:999px;font-size:.9rem}
+.inline-form .select-list{min-width:200px;right:auto}
+
+@keyframes select-in{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+@keyframes select-in-up{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.select-list{animation:none}.select-chevron{transition:none}}

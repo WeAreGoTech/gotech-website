@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { FormMessage, SelectField, TextField } from "@/components/forms/fields";
+import { FormMessage, SelectField, TextField, toOptions } from "@/components/forms/fields";
+import { Select } from "@/components/forms/Select";
 import { useFormAction } from "@/components/forms/use-form-action";
 import type { LeadStatus } from "@/db/schema";
 import { inviteCustomer } from "@/features/customers/actions";
@@ -20,7 +21,7 @@ export function InviteCustomerForm({ companies }: { companies: { id: string; nam
         label="Firma"
         name="companyId"
         value={companyId}
-        onChange={(e) => setCompanyId(e.target.value)}
+        onValueChange={setCompanyId}
         options={[...companies.map((c) => ({ value: c.id, label: c.name })), { value: NEW_COMPANY, label: "Yeni firma ekle" }]}
         error={errorFor("companyId")}
       />
@@ -39,9 +40,7 @@ export function LeadStatusForm({ action, status }: { action: (formData: FormData
   const formRef = useRef<HTMLFormElement>(null);
   return (
     <form ref={formRef} action={action} className="inline-form">
-      <select className="input" name="status" aria-label="Başvuru durumu" defaultValue={status} onChange={() => formRef.current?.requestSubmit()}>
-        {Object.entries(LEAD_STATUS_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-      </select>
+      <Select name="status" aria-label="Başvuru durumu" defaultValue={status} options={toOptions(LEAD_STATUS_LABELS)} onValueChange={() => formRef.current?.requestSubmit()} />
       <noscript><button className="btn btn-small" type="submit">Kaydet</button></noscript>
     </form>
   );

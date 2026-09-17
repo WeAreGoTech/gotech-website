@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ChangeEvent } from "react";
+import { useState } from "react";
 import { FormMessage, SelectField, TextAreaField, TextField, toOptions } from "@/components/forms/fields";
 import { useFormAction } from "@/components/forms/use-form-action";
 import type { TicketCategory, TicketPriority, TicketStatus } from "@/db/schema";
@@ -113,18 +113,18 @@ export function StaffTicketForm({ action, status, priority, assigneeId, staff }:
     setLastSaved(saved);
     setValues(saved);
   }
-  const change = (field: keyof TicketFields) => (e: ChangeEvent<HTMLSelectElement>) => setValues({ ...values, [field]: e.target.value });
+  const change = (field: keyof TicketFields) => (value: string) => setValues({ ...values, [field]: value });
 
   return (
     <form className="card form-stack compact" onSubmit={onSubmit} noValidate>
       <h2>Yönet</h2>
-      <SelectField label="Durum" name="status" value={values.status} onChange={change("status")} options={toOptions(STATUS_LABELS.staff)} error={errorFor("status")} />
-      <SelectField label="Öncelik" name="priority" value={values.priority} onChange={change("priority")} options={toOptions(PRIORITY_LABELS)} error={errorFor("priority")} />
+      <SelectField label="Durum" name="status" value={values.status} onValueChange={change("status")} options={toOptions(STATUS_LABELS.staff)} error={errorFor("status")} />
+      <SelectField label="Öncelik" name="priority" value={values.priority} onValueChange={change("priority")} options={toOptions(PRIORITY_LABELS)} error={errorFor("priority")} />
       <SelectField
         label="Üstlenen"
         name="assigneeId"
         value={values.assigneeId}
-        onChange={change("assigneeId")}
+        onValueChange={change("assigneeId")}
         options={[{ value: "", label: "Kimse üstlenmedi" }, ...staff.map((s) => ({ value: s.id, label: s.name }))]}
         error={errorFor("assigneeId")}
       />

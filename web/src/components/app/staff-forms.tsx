@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { FormMessage, SelectField, TextAreaField, TextField, toOptions } from "@/components/forms/fields";
+import { Select } from "@/components/forms/Select";
 import { useFormAction } from "@/components/forms/use-form-action";
 import type { ProjectStage } from "@/db/schema";
 import { DOCUMENT_KIND_LABELS } from "@/features/documents/labels";
@@ -69,9 +70,7 @@ export function StageForm({ action, stage }: { action: (formData: FormData) => P
   const formRef = useRef<HTMLFormElement>(null);
   return (
     <form ref={formRef} action={action} className="inline-form">
-      <select className="input" name="stage" aria-label="Proje aşaması" defaultValue={stage} onChange={() => formRef.current?.requestSubmit()}>
-        {Object.entries(STAGE_LABELS).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-      </select>
+      <Select name="stage" aria-label="Proje aşaması" defaultValue={stage} options={toOptions(STAGE_LABELS)} onValueChange={() => formRef.current?.requestSubmit()} />
     </form>
   );
 }
