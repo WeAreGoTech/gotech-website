@@ -16,8 +16,8 @@
 .desk-steps{display:grid;gap:10px;margin:0;padding-left:1.3rem}
 .desk-steps a{color:var(--w-accent-soft);font-weight:600;text-decoration:underline;text-underline-offset:3px}
 .desk-downloads{display:flex;flex-wrap:wrap;gap:10px}
-.desk-downloads .btn-ghost{background:rgba(255,255,255,.12);color:#fff}
-.desk-downloads .btn-ghost:hover{background:rgba(255,255,255,.2)}
+.wise .desk-downloads .btn-ghost{background:rgba(255,255,255,.12);color:#fff}
+.wise .desk-downloads .btn-ghost:hover{background:rgba(255,255,255,.2)}
 
 @media (max-width:600px){
   .desk-row .w-icon{grid-row:span 3}
