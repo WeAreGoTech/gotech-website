@@ -21,6 +21,18 @@ export const listMyStaffDevices = (userId: string) => queryStaffDevices(userId);
 /** Every GoTech computer with its owner, for the whole-team list. */
 export const listStaffDevices = () => queryStaffDevices();
 
+/** Tells the app whether the computer it runs on is one of GoTech's own, so it skips the customer registration. */
+export async function findStaffDevice(deskId: string): Promise<StaffDeviceRow | null> {
+  const db = await getDb();
+  const [row] = await db
+    .select({ id: staffDevices.id, deskId: staffDevices.deskId, label: staffDevices.label, ownerName: users.name })
+    .from(staffDevices)
+    .innerJoin(users, eq(users.id, staffDevices.userId))
+    .where(eq(staffDevices.deskId, deskId))
+    .limit(1);
+  return row ?? null;
+}
+
 /** What the desktop app puts into RustDesk's ID whitelist, plus the owner to show while connected. */
 export async function getSupportDirectory() {
   const rows = await queryStaffDevices();

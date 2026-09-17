@@ -29,6 +29,8 @@ export const registerSchema = z.object({
   label: z.string().trim().min(1).max(LABEL_MAX).nullish(),
 });
 
+export const teamSchema = z.object({ deskId, hostname, appVersion });
+
 export const heartbeatSchema = z.object({ deskId, deviceToken, hostname, appVersion });
 
 export const supportRequestSchema = z.object({
