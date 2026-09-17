@@ -174,7 +174,8 @@ a.w-row:hover{background:var(--w-page)}
   .main{padding:28px 28px 72px}
 }
 @media (max-width:900px){
-  .shell{grid-template-columns:minmax(0,1fr)}
+  /* the bar keeps its height; leftover height on short pages goes to the page, not the bar */
+  .shell{grid-template-columns:minmax(0,1fr);grid-template-rows:auto 1fr}
   .mobile-bar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:10px;min-height:60px;padding:8px 12px calc(8px) max(12px,env(safe-area-inset-left));background:rgba(255,255,255,.94);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--w-line)}
   .mobile-bar-brand{display:flex;align-items:center;gap:10px;min-width:0;margin-right:auto}
   .mobile-bar-brand img{display:block;width:64px;height:auto;flex:none}
