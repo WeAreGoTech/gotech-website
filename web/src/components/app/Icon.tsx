@@ -4,6 +4,7 @@ import type { ServiceKind, TicketCategory } from "@/db/schema";
 const PATHS = {
   arrowLeft: "M15 18l-6-6 6-6",
   plus: "M12 5v14M5 12h14",
+  menu: "M4 7h16M4 12h16M4 17h16",
   send: "M21 3L10.5 13.5M21 3l-6.5 18-4-7.5L3 10.5 21 3z",
   check: "M5 12.5l4.5 4.5L19 7.5",
   chat: "M21 11.5a8.5 8.5 0 0 1-12.3 7.6L3.5 20.5l1.4-5A8.5 8.5 0 1 1 21 11.5z",

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { logout } from "@/features/auth/actions";
 import type { SessionUser } from "@/lib/auth/session";
 import { Avatar, Icon } from "./Icon";
+import { ShellFrame } from "./ShellFrame";
 import { SideNavLinks, type SideNavLink } from "./SideNavLinks";
 
 type AppShellProps = { area: string; user: SessionUser; links: SideNavLink[]; cta?: { href: string; label: string }; children: ReactNode };
@@ -10,34 +11,52 @@ type AppShellProps = { area: string; user: SessionUser; links: SideNavLink[]; ct
 export function AppShell({ area, user, links, cta, children }: AppShellProps) {
   return (
     <div className="shell wise">
-      <aside className="sidebar">
-        <div className="sidebar-brand">
-          <span className="logo">
-            {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG, nothing for next/image to optimize */}
-            <img src="/brand/gotech-logo.svg" alt="GoTech" width={200} height={160} />
-          </span>
-          <small>{area}</small>
-        </div>
-        {cta && (
-          <Link className="btn sidebar-cta" href={cta.href}>
-            <Icon name="plus" size={18} />
-            {cta.label}
-          </Link>
-        )}
-        <SideNavLinks links={links} />
-        <div className="side-user">
-          <Avatar name={user.name} tone={user.role === "staff" ? "team" : "customer"} />
-          <div className="side-user-name">
-            <strong>{user.name}</strong>
-            <small>{user.email}</small>
+      <ShellFrame
+        bar={
+          <>
+            <Link className="mobile-bar-brand" href={links[0]?.href ?? "/"} aria-label="GoTech">
+              {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG, nothing for next/image to optimize */}
+              <img src="/brand/gotech-logo.svg" alt="" width={200} height={160} />
+              <small>{area}</small>
+            </Link>
+            {cta && (
+              <Link className="btn btn-small mobile-bar-cta" href={cta.href}>
+                <Icon name="plus" size={16} />
+                <span>{cta.label}</span>
+              </Link>
+            )}
+          </>
+        }
+      >
+        <aside className="sidebar">
+          <div className="sidebar-brand">
+            <span className="logo">
+              {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG, nothing for next/image to optimize */}
+              <img src="/brand/gotech-logo.svg" alt="GoTech" width={200} height={160} />
+            </span>
+            <small>{area}</small>
           </div>
-          <form action={logout}>
-            <button className="icon-btn" type="submit" aria-label="Çıkış yap" title="Çıkış yap">
-              <Icon name="logout" size={18} />
-            </button>
-          </form>
-        </div>
-      </aside>
+          {cta && (
+            <Link className="btn sidebar-cta" href={cta.href}>
+              <Icon name="plus" size={18} />
+              {cta.label}
+            </Link>
+          )}
+          <SideNavLinks links={links} />
+          <div className="side-user">
+            <Avatar name={user.name} tone={user.role === "staff" ? "team" : "customer"} />
+            <div className="side-user-name">
+              <strong>{user.name}</strong>
+              <small>{user.email}</small>
+            </div>
+            <form action={logout}>
+              <button className="icon-btn" type="submit" aria-label="Çıkış yap" title="Çıkış yap">
+                <Icon name="logout" size={18} />
+              </button>
+            </form>
+          </div>
+        </aside>
+      </ShellFrame>
       <main className="main">{children}</main>
     </div>
   );
