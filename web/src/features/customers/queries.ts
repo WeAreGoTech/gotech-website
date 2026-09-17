@@ -1,5 +1,5 @@
 import "server-only";
-import { and, asc, eq, isNull } from "drizzle-orm";
+import { and, asc, eq, isNotNull, isNull } from "drizzle-orm";
 import { getDb } from "@/db";
 import { companies, users } from "@/db/schema";
 
@@ -60,6 +60,16 @@ export async function listCompanyPeople(companyId: string) {
     .where(and(eq(users.companyId, companyId), eq(users.role, "customer"), stillHere))
     .orderBy(asc(users.name));
   return rows.map(({ passwordHash, ...person }) => ({ ...person, active: Boolean(passwordHash) }));
+}
+
+/** People this company removed; they can be brought back from the Kişiler section. */
+export async function listRemovedCompanyPeople(companyId: string) {
+  const db = await getDb();
+  return db
+    .select({ id: users.id, name: users.name, email: users.email, removedAt: users.removedAt })
+    .from(users)
+    .where(and(eq(users.companyId, companyId), eq(users.role, "customer"), isNotNull(users.removedAt)))
+    .orderBy(asc(users.name));
 }
 
 export async function listStaff() {

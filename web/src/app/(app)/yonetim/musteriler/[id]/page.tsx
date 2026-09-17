@@ -6,12 +6,12 @@ import { Section, Stat } from "@/components/app/dashboard";
 import { DeviceList, StatusUnknownNotice } from "@/components/app/devices";
 import { DocumentList } from "@/components/app/documents";
 import { Icon } from "@/components/app/Icon";
-import { PeopleList, PeopleNotice } from "@/components/app/people";
+import { PeopleList, PeopleNotice, RemovedPeopleList } from "@/components/app/people";
 import { ProjectCard } from "@/components/app/projects";
 import { AddDocumentForm } from "@/components/app/staff-forms";
 import { TicketList } from "@/components/app/TicketList";
-import { demotePerson, promotePerson, removePerson, resendInvite } from "@/features/customers/actions";
-import { getCompany, listCompanyPeople } from "@/features/customers/queries";
+import { demotePerson, promotePerson, removePerson, resendInvite, restorePerson } from "@/features/customers/actions";
+import { getCompany, listCompanyPeople, listRemovedCompanyPeople } from "@/features/customers/queries";
 import { removeDevice } from "@/features/devices/actions";
 import { countDevicesByUser, listDevices } from "@/features/devices/queries";
 import { addDocument } from "@/features/documents/actions";
@@ -36,8 +36,9 @@ export default async function CompanyPage({ params, searchParams }: PageProps<"/
   const company = z.uuid().safeParse(id).success ? await getCompany(id) : null;
   if (!company) notFound();
 
-  const [people, projects, documents, tickets, deviceList, deviceCounts] = await Promise.all([
+  const [people, removedPeople, projects, documents, tickets, deviceList, deviceCounts] = await Promise.all([
     listCompanyPeople(id),
+    listRemovedCompanyPeople(id),
     listProjects(id),
     listDocuments({ companyId: id }),
     listCompanyTickets(id),
@@ -90,6 +91,7 @@ export default async function CompanyPage({ params, searchParams }: PageProps<"/
               resendAction={(personId) => resendInvite.bind(null, personId)}
               controls={PEOPLE_CONTROLS}
             />
+            <RemovedPeopleList people={removedPeople} restore={(personId) => restorePerson.bind(null, personId)} />
           </Section>
           <Section title="Cihazlar" href="/yonetim/cihazlar" linkLabel="Tüm cihazlar">
             <StatusUnknownNotice show={!deviceList.statusKnown} />

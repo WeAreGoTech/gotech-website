@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/app/AppShell";
-import { PeopleList, PeopleNotice } from "@/components/app/people";
+import { PeopleList, PeopleNotice, RemovedPeopleList } from "@/components/app/people";
 import { InvitePersonForm } from "@/components/app/staff-forms";
-import { listCompanyPeople } from "@/features/customers/queries";
+import { listCompanyPeople, listRemovedCompanyPeople } from "@/features/customers/queries";
 import { countDevicesByUser } from "@/features/devices/queries";
-import { demoteColleague, inviteColleague, promoteColleague, removeColleague } from "@/features/team/actions";
+import { demoteColleague, inviteColleague, promoteColleague, removeColleague, restoreColleague } from "@/features/team/actions";
 import { readNotice } from "@/features/team/membership";
 import { requireCustomer } from "@/lib/auth/session";
 
@@ -12,7 +12,12 @@ export const metadata: Metadata = { title: "Ekibim" };
 
 export default async function CustomerTeamPage({ searchParams }: PageProps<"/panel/ekip">) {
   const user = await requireCustomer();
-  const [{ uyari }, people, deviceCounts] = await Promise.all([searchParams, listCompanyPeople(user.companyId), countDevicesByUser(user.companyId)]);
+  const [{ uyari }, people, removed, deviceCounts] = await Promise.all([
+    searchParams,
+    listCompanyPeople(user.companyId),
+    user.isCompanyAdmin ? listRemovedCompanyPeople(user.companyId) : Promise.resolve([]),
+    countDevicesByUser(user.companyId),
+  ]);
 
   return (
     <>
@@ -34,6 +39,7 @@ export default async function CustomerTeamPage({ searchParams }: PageProps<"/pan
               : undefined
           }
         />
+        {user.isCompanyAdmin && <RemovedPeopleList people={removed} restore={(personId) => restoreColleague.bind(null, personId)} />}
         {user.isCompanyAdmin ? (
           <InvitePersonForm
             action={inviteColleague}

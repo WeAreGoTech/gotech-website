@@ -20,19 +20,25 @@ const personSchema = z.object({
   title: z.string().trim().max(80),
 });
 
-async function createInvitedUser(input: z.infer<typeof personSchema>, role: UserRole, companyId: string | null) {
+type InviteResult = { ok: true; user: typeof users.$inferSelect; link: string } | { ok: false; reason: "taken" | "removed" };
+
+async function createInvitedUser(input: z.infer<typeof personSchema>, role: UserRole, companyId: string | null): Promise<InviteResult> {
   const db = await getDb();
-  const [existing] = await db.select({ id: users.id }).from(users).where(eq(users.email, input.email));
-  if (existing) return null;
+  const [existing] = await db.select({ id: users.id, removedAt: users.removedAt }).from(users).where(eq(users.email, input.email));
+  if (existing) return { ok: false, reason: existing.removedAt ? "removed" : "taken" };
   const isCompanyAdmin = role === "customer" && companyId !== null && (await isFirstMember(companyId));
   const [user] = await db
     .insert(users)
     .values({ name: input.name, email: input.email, title: input.title || null, role, companyId, isCompanyAdmin })
     .returning();
-  return { user, link: await createPasswordLink(user.id) };
+  return { ok: true, user, link: await createPasswordLink(user.id) };
 }
 
 const EMAIL_TAKEN: ActionState = { status: "error", fieldErrors: { email: "Bu e-posta ile kayıtlı bir kullanıcı zaten var." } };
+// a removed colleague is brought back from the "Çıkarılanlar" list instead of being invited again
+const EMAIL_REMOVED: ActionState = { status: "error", fieldErrors: { email: "Bu kişi firmadan çıkarılmış. Aşağıdaki \"Çıkarılanlar\" listesinden geri alabilirsiniz." } };
+
+const inviteProblem = (reason: "taken" | "removed") => (reason === "removed" ? EMAIL_REMOVED : EMAIL_TAKEN);
 
 /** A customer adds a colleague to their own company. Only the firma yetkilisi may. */
 export async function inviteColleague(_prev: ActionState, formData: FormData): Promise<ActionState> {
@@ -42,7 +48,7 @@ export async function inviteColleague(_prev: ActionState, formData: FormData): P
   if (!parsed.success) return fieldErrors(parsed.error);
 
   const created = await createInvitedUser(parsed.data, "customer", me.companyId);
-  if (!created) return EMAIL_TAKEN;
+  if (!created.ok) return inviteProblem(created.reason);
   const db = await getDb();
   const [company] = await db.select({ name: companies.name }).from(companies).where(eq(companies.id, me.companyId));
   await sendMail(inviteMail({ to: created.user.email, name: created.user.name, companyName: company.name, link: created.link, validHours: PASSWORD_LINK_HOURS }));
@@ -71,13 +77,17 @@ export async function removeColleague(personId: string) {
   await manageColleague(personId, "remove");
 }
 
+export async function restoreColleague(personId: string) {
+  await manageColleague(personId, "restore");
+}
+
 export async function inviteStaff(_prev: ActionState, formData: FormData): Promise<ActionState> {
   const me = await requireStaff();
   const parsed = personSchema.safeParse({ name: text(formData, "name"), email: text(formData, "email"), title: text(formData, "title") });
   if (!parsed.success) return fieldErrors(parsed.error);
 
   const created = await createInvitedUser(parsed.data, "staff", null);
-  if (!created) return EMAIL_TAKEN;
+  if (!created.ok) return inviteProblem(created.reason);
   await sendMail(staffInviteMail({ to: created.user.email, name: created.user.name, invitedBy: me.name, link: created.link, validHours: PASSWORD_LINK_HOURS }));
   revalidatePath("/yonetim/ekip");
   return success(`${created.user.name} ekibe davet edildi.`);
@@ -92,7 +102,7 @@ export async function convertLeadToCustomer(leadId: string) {
 
   const [company] = await db.insert(companies).values({ name: lead.company || lead.name, customerCode: await newCustomerCode(db) }).returning();
   const created = await createInvitedUser({ name: lead.name, email: lead.email, title: "" }, "customer", company.id);
-  if (created) {
+  if (created.ok) {
     await sendMail(inviteMail({ to: lead.email, name: lead.name, companyName: company.name, link: created.link, validHours: PASSWORD_LINK_HOURS }));
   }
   await db.update(leads).set({ status: "won" }).where(eq(leads.id, leadId));

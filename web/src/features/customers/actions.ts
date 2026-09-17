@@ -45,7 +45,10 @@ export async function inviteCustomer(_prev: ActionState, formData: FormData): Pr
   const input = parsed.data;
 
   const db = await getDb();
-  const [existing] = await db.select({ id: users.id }).from(users).where(eq(users.email, input.email));
+  const [existing] = await db.select({ id: users.id, removedAt: users.removedAt }).from(users).where(eq(users.email, input.email));
+  if (existing?.removedAt) {
+    return { status: "error", fieldErrors: { email: "Bu kişi firmadan çıkarılmış. Firma sayfasındaki \"Çıkarılanlar\" listesinden geri alabilirsiniz." } };
+  }
   if (existing) return { status: "error", fieldErrors: { email: "Bu e-posta ile kayıtlı bir kullanıcı zaten var." } };
 
   const company =
@@ -94,4 +97,8 @@ export async function demotePerson(personId: string) {
 
 export async function removePerson(personId: string) {
   await managePerson(personId, "remove");
+}
+
+export async function restorePerson(personId: string) {
+  await managePerson(personId, "restore");
 }

@@ -115,3 +115,9 @@ button.stagebar-step.is-current:hover{background:var(--w-forest);color:#fff}
   .people-row .row-actions{width:100%;margin-left:0}
   .wise .people-row .btn-small{min-height:44px}
 }
+
+/* people taken out of a company, listed under the active ones */
+.removed-people{margin-top:18px}
+.removed-people h3{margin:0 0 8px 6px;font-size:.95rem;font-weight:600;color:var(--w-ink-2)}
+.removed-people .desk-hint{margin:8px 0 0 6px;font-size:.85rem}
+.people-row.is-removed{opacity:.72}

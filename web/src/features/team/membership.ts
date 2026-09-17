@@ -1,5 +1,5 @@
 import "server-only";
-import { and, count, eq, isNull, ne, type SQL } from "drizzle-orm";
+import { and, count, eq, isNotNull, isNull, ne, type SQL } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { getDb } from "@/db";
@@ -38,14 +38,28 @@ export async function findMember(companyId: string, personId: string) {
   return member ?? null;
 }
 
-/** The company of an active customer, for staff controls that only know the person. */
+/** Someone this company removed earlier, or null. */
+export async function findRemovedMember(companyId: string, personId: string) {
+  if (!isUuid(personId)) return null;
+  const db = await getDb();
+  const [member] = await db
+    .select({ id: users.id, name: users.name })
+    .from(users)
+    .where(and(eq(users.id, personId), eq(users.companyId, companyId), eq(users.role, "customer"), isNotNull(users.removedAt)));
+  return member ?? null;
+}
+
+/**
+ * The company of a customer, for staff controls that only know the person. Removed people are
+ * included so staff can bring them back; changeMember decides what each change may do.
+ */
 export async function findMemberCompany(personId: string) {
   if (!isUuid(personId)) return null;
   const db = await getDb();
   const [row] = await db
     .select({ companyId: users.companyId })
     .from(users)
-    .where(and(eq(users.id, personId), eq(users.role, "customer"), isNull(users.removedAt)));
+    .where(and(eq(users.id, personId), eq(users.role, "customer")));
   return row?.companyId ?? null;
 }
 
@@ -65,7 +79,17 @@ function revalidateMembership(companyId: string) {
   revalidatePath("/yonetim/cihazlar");
 }
 
-export type MemberChange = "promote" | "demote" | "remove";
+/** Brings a removed person back as a normal member; they sign in again with their old password. */
+async function restoreMember(companyId: string, personId: string): Promise<string | null> {
+  const member = await findRemovedMember(companyId, personId);
+  if (!member) return MEMBER_ERRORS.notFound;
+  const db = await getDb();
+  await db.update(users).set({ removedAt: null }).where(eq(users.id, member.id));
+  revalidateMembership(companyId);
+  return null;
+}
+
+export type MemberChange = "promote" | "demote" | "remove" | "restore";
 
 /**
  * Applies a people change under the company's invariants: the target must be an active person of
@@ -73,6 +97,7 @@ export type MemberChange = "promote" | "demote" | "remove";
  * change is refused, null when it went through.
  */
 export async function changeMember(companyId: string, personId: string, change: MemberChange): Promise<string | null> {
+  if (change === "restore") return restoreMember(companyId, personId);
   const member = await findMember(companyId, personId);
   if (!member) return MEMBER_ERRORS.notFound;
 

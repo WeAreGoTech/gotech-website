@@ -72,6 +72,35 @@ export function PeopleList({ people, tone, youId, resendAction, deviceCounts, co
   );
 }
 
+type RemovedPerson = { id: string; name: string; email: string };
+
+/** People taken out of the company, with a way back in. */
+export function RemovedPeopleList({ people, restore }: { people: RemovedPerson[]; restore: PersonAction }) {
+  if (people.length === 0) return null;
+  return (
+    <div className="removed-people">
+      <h3>Çıkarılanlar</h3>
+      <ul className="w-list">
+        {people.map((person) => (
+          <li key={person.id} className="w-row people-row is-removed">
+            <Avatar name={person.name} tone="customer" />
+            <span className="w-row-main">
+              <strong>{person.name}</strong>
+              <small>{person.email}</small>
+            </span>
+            <span className="row-actions">
+              <form action={restore(person.id)}>
+                <button className="btn btn-ghost btn-small" type="submit">Geri al</button>
+              </form>
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p className="desk-hint">Geri alınan kişi eski şifresiyle girer ve firma yetkilisi olmaz.</p>
+    </div>
+  );
+}
+
 /** Warning a people action sent the page back with, e.g. when the last firma yetkilisi cannot be removed. */
 export function PeopleNotice({ message }: { message?: string }) {
   if (!message) return null;
