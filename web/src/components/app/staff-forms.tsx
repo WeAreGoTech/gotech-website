@@ -1,14 +1,12 @@
 "use client";
 
-import { useRef } from "react";
 import { DateField, FormMessage, SelectField, TextAreaField, TextField, toOptions } from "@/components/forms/fields";
-import { Select } from "@/components/forms/Select";
 import { useFormAction } from "@/components/forms/use-form-action";
-import type { ProjectStage } from "@/db/schema";
 import { DOCUMENT_KIND_LABELS } from "@/features/documents/labels";
 import { createProject } from "@/features/projects/actions";
 import { SERVICE_LABELS, STAGE_LABELS } from "@/features/projects/labels";
 import type { ActionState } from "@/lib/forms";
+import { assigneeOptions } from "./project-forms";
 
 type FormAction = (prev: ActionState, formData: FormData) => Promise<ActionState>;
 type Option = { id: string; name: string };
@@ -29,7 +27,7 @@ export function InvitePersonForm({ action, title, hint, submitLabel }: { action:
   );
 }
 
-export function CreateProjectForm({ companies }: { companies: Option[] }) {
+export function CreateProjectForm({ companies, staff, today }: { companies: Option[]; staff: Option[]; today: string }) {
   const { state, pending, onSubmit, errorFor } = useFormAction(createProject);
   return (
     <form className="card form-stack" onSubmit={onSubmit} noValidate>
@@ -38,12 +36,17 @@ export function CreateProjectForm({ companies }: { companies: Option[] }) {
       <TextField label="Proje adı" name="name" placeholder="Örneğin: Bayi portalı" error={errorFor("name")} />
       <div className="form-grid">
         <SelectField label="Hizmet" name="service" options={toOptions(SERVICE_LABELS)} error={errorFor("service")} />
+        <SelectField label="Aşama" name="stage" options={toOptions(STAGE_LABELS)} error={errorFor("stage")} />
+      </div>
+      <div className="form-grid">
+        <DateField label="Başlangıç" name="startsOn" defaultValue={today} error={errorFor("startsOn")} />
         <DateField label="Hedef tarih" name="dueOn" optional error={errorFor("dueOn")} />
       </div>
+      <SelectField label="Sorumlu" name="assigneeId" options={assigneeOptions(staff.map((s) => ({ id: s.id, name: s.name })))} optional error={errorFor("assigneeId")} />
       <TextAreaField label="Kısa açıklama" name="summary" rows={3} optional error={errorFor("summary")} />
       <FormMessage state={state} />
       <button className="btn" type="submit" disabled={pending}>{pending ? "Oluşturuluyor…" : "Projeyi oluştur"}</button>
-      <p className="muted" style={{ margin: 0, fontSize: ".88rem" }}>Hizmet türüne göre standart aşamalar eklenir, müşteri panelinde hemen görünür.</p>
+      <p className="muted" style={{ margin: 0, fontSize: ".88rem" }}>Hizmet türüne göre standart adımlar eklenir, müşteri panelinde hemen görünür.</p>
     </form>
   );
 }
@@ -61,16 +64,6 @@ export function AddDocumentForm({ action, projects }: { action: FormAction; proj
       <FormMessage state={state} />
       <button className="btn" type="submit" disabled={pending}>{pending ? "Ekleniyor…" : "Dokümanı ekle"}</button>
       <p className="muted" style={{ margin: 0, fontSize: ".88rem" }}>Taslakta dosya yüklenmez; indirildiğinde örnek bir PDF oluşturulur.</p>
-    </form>
-  );
-}
-
-/** Saves as soon as a new stage is picked. */
-export function StageForm({ action, stage }: { action: (formData: FormData) => Promise<void>; stage: ProjectStage }) {
-  const formRef = useRef<HTMLFormElement>(null);
-  return (
-    <form ref={formRef} action={action} className="inline-form">
-      <Select name="stage" aria-label="Proje aşaması" defaultValue={stage} options={toOptions(STAGE_LABELS)} onValueChange={() => formRef.current?.requestSubmit()} />
     </form>
   );
 }

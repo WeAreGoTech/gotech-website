@@ -12,11 +12,15 @@ const HTTP_RANGE_NOT_SATISFIABLE = 416;
 
 type Found = NonNullable<Awaited<ReturnType<typeof getAttachmentForDownload>>>;
 
-/** Pending uploads: only the uploader. Staff: everything linked. Customers: their company's files, never those of internal notes. */
-function canDownload(user: SessionUser, { attachment, isInternal }: Found) {
-  if (!attachment.ticketId) return attachment.uploadedById === user.id;
+/**
+ * Pending uploads: only the uploader. Staff: everything linked.
+ * Customers: their company's files, never those of an internal note or an internal project update.
+ */
+function canDownload(user: SessionUser, { attachment, messageIsInternal, updateIsInternal, updateCompanyId }: Found) {
+  if (!attachment.ticketId && !attachment.projectUpdateId) return attachment.uploadedById === user.id;
   if (user.role === "staff") return true;
-  return attachment.companyId === user.companyId && isInternal === false;
+  if (attachment.projectUpdateId) return updateCompanyId === user.companyId && updateIsInternal === false;
+  return attachment.companyId === user.companyId && messageIsInternal === false;
 }
 
 // RFC 6266 / 5987: a plain ASCII fallback plus the exact UTF-8 name

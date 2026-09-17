@@ -3,7 +3,7 @@ import { and, avg, count, desc, eq, isNotNull, ne } from "drizzle-orm";
 import { getDb } from "@/db";
 import { companies, documents, projectMilestones, projects, ticketMessages, tickets, users } from "@/db/schema";
 import { listDevices } from "@/features/devices/queries";
-import { listProjects, listUpcomingMilestones } from "@/features/projects/queries";
+import { listAssignedProjects, listProjects, listUpcomingMilestones } from "@/features/projects/queries";
 import { countNewLeads } from "@/features/leads/queries";
 
 const FEED_SIZE = 6;
@@ -59,7 +59,7 @@ export async function customerOverview(companyId: string) {
 
 export async function staffOverview(staffId: string) {
   const db = await getDb();
-  const [statusCounts, urgentOpen, mine, rating, newLeads, deviceList, upcoming, customerCount] = await Promise.all([
+  const [statusCounts, urgentOpen, mine, myProjects, rating, newLeads, deviceList, upcoming, customerCount] = await Promise.all([
     db.select({ status: tickets.status, value: count() }).from(tickets).groupBy(tickets.status),
     db.select({ value: count() }).from(tickets).where(and(eq(tickets.priority, "urgent"), ne(tickets.status, "closed"))),
     db
@@ -68,6 +68,7 @@ export async function staffOverview(staffId: string) {
       .innerJoin(companies, eq(companies.id, tickets.companyId))
       .where(and(eq(tickets.assigneeId, staffId), ne(tickets.status, "closed")))
       .orderBy(desc(tickets.updatedAt)),
+    listAssignedProjects(staffId),
     db.select({ value: avg(tickets.rating), rated: count(tickets.rating) }).from(tickets).where(isNotNull(tickets.rating)),
     countNewLeads(),
     listDevices(),
@@ -81,6 +82,7 @@ export async function staffOverview(staffId: string) {
     active: (byStatus.open ?? 0) + (byStatus.in_progress ?? 0) + (byStatus.waiting_customer ?? 0),
     urgentOpen: urgentOpen[0].value,
     mine,
+    myProjects: myProjects.filter((p) => p.stage !== "live"),
     rating: rating[0].value ? Number(rating[0].value) : null,
     ratedCount: rating[0].rated,
     newLeads,

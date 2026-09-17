@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Section, Stat } from "@/components/app/dashboard";
-import { Icon } from "@/components/app/Icon";
+import { Icon, SERVICE_ICONS } from "@/components/app/Icon";
+import { StagePill } from "@/components/app/projects";
 import { TicketList } from "@/components/app/TicketList";
 import { staffOverview } from "@/features/dashboard/queries";
 import { requireStaff } from "@/lib/auth/session";
@@ -53,6 +54,25 @@ export default async function TeamHomePage() {
           </ul>
         </Section>
       </div>
+
+      {o.myProjects.length > 0 && (
+        <Section title="Bana atanan projeler" href="/yonetim/projeler">
+          <ul className="w-list">
+            {o.myProjects.map((p) => (
+              <li key={p.id}>
+                <Link className="w-row" href={`/yonetim/projeler/${p.id}`}>
+                  <span className="w-icon"><Icon name={SERVICE_ICONS[p.service]} size={18} /></span>
+                  <span className="w-row-main">
+                    <strong>{p.name}</strong>
+                    <small>{p.companyName}, {p.next ? `sıradaki adım: ${p.next.title}` : "tüm adımlar tamamlandı"}</small>
+                  </span>
+                  <span className="w-row-side"><StagePill stage={p.stage} /></span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </Section>
+      )}
     </>
   );
 }

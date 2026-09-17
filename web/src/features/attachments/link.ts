@@ -11,6 +11,9 @@ export const ATTACHMENTS_UNAVAILABLE = "Eklediğiniz dosyalardan biri artık kul
 
 const attachmentIdsSchema = z.array(z.uuid({ error: ATTACHMENTS_UNAVAILABLE })).max(MAX_FILES_PER_MESSAGE, { error: UPLOAD_ERRORS.count });
 
+/** An upload nothing has claimed yet, so it can still be linked or cleaned up. */
+export const isPendingAttachment = () => and(isNull(ticketAttachments.ticketId), isNull(ticketAttachments.projectUpdateId));
+
 /** Thrown inside a transaction so the message is rolled back together with the failed link. */
 export class AttachmentLinkError extends Error {}
 
@@ -21,21 +24,23 @@ export function readAttachmentIds(formData: FormData): { ids: string[] } | { err
   return parsed.success ? { ids: parsed.data } : { error: parsed.error.issues[0].message };
 }
 
-type LinkTarget = { uploadedById: string; companyId: string; ticketId: string; messageId: string };
+type Uploader = { uploadedById: string; companyId: string };
+/** Where the files end up: a ticket message or a project update. */
+type LinkTarget = { ticketId: string; messageId: string } | { projectUpdateId: string };
 
 /**
- * Attaches pending uploads to a message. Every id must be pending, uploaded by the same user and belong to the ticket's company;
- * otherwise throws AttachmentLinkError and nothing is linked.
+ * Attaches pending uploads to a message or a project update. Every id must be pending, uploaded by the same user
+ * and belong to the same company; otherwise throws AttachmentLinkError and nothing is linked.
  */
-export async function linkAttachments(tx: Transaction, ids: string[], { uploadedById, companyId, ticketId, messageId }: LinkTarget) {
+export async function linkAttachments(tx: Transaction, ids: string[], { uploadedById, companyId }: Uploader, target: LinkTarget) {
   if (ids.length === 0) return;
   const linked = await tx
     .update(ticketAttachments)
-    .set({ ticketId, messageId })
+    .set(target)
     .where(
       and(
         inArray(ticketAttachments.id, ids),
-        isNull(ticketAttachments.ticketId),
+        isPendingAttachment(),
         eq(ticketAttachments.uploadedById, uploadedById),
         eq(ticketAttachments.companyId, companyId),
       ),

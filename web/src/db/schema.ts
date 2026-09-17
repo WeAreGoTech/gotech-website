@@ -102,8 +102,8 @@ export const ticketMessages = pgTable(
   (t) => [index("ticket_messages_ticket_idx").on(t.ticketId)],
 );
 
-// Files attached to ticket messages. Stored on disk under UPLOAD_DIR by storage_key; the original name is only shown.
-// ticket_id and message_id stay null ("pending") from upload until the message is sent.
+// Files attached to ticket messages and project updates. Stored on disk under UPLOAD_DIR by storage_key; the original name is only shown.
+// ticket_id, message_id and project_update_id all stay null ("pending") from upload until the message or update is sent.
 export const ticketAttachments = pgTable(
   "ticket_attachments",
   {
@@ -111,6 +111,7 @@ export const ticketAttachments = pgTable(
     companyId: uuid("company_id").notNull().references(() => companies.id, { onDelete: "restrict" }),
     ticketId: uuid("ticket_id").references(() => tickets.id, { onDelete: "cascade" }),
     messageId: uuid("message_id").references(() => ticketMessages.id, { onDelete: "cascade" }),
+    projectUpdateId: uuid("project_update_id").references(() => projectUpdates.id, { onDelete: "cascade" }),
     uploadedById: uuid("uploaded_by_id").notNull().references(() => users.id, { onDelete: "restrict" }),
     originalName: text("original_name").notNull(),
     mimeType: text("mime_type").notNull(),
@@ -118,7 +119,11 @@ export const ticketAttachments = pgTable(
     storageKey: text("storage_key").notNull().unique(),
     createdAt: createdAt(),
   },
-  (t) => [index("ticket_attachments_company_idx").on(t.companyId), index("ticket_attachments_message_idx").on(t.messageId)],
+  (t) => [
+    index("ticket_attachments_company_idx").on(t.companyId),
+    index("ticket_attachments_message_idx").on(t.messageId),
+    index("ticket_attachments_project_update_idx").on(t.projectUpdateId),
+  ],
 );
 
 export const leads = pgTable("leads", {
@@ -153,11 +158,13 @@ export const projects = pgTable(
     service: serviceKind("service").notNull(),
     stage: projectStage("stage").notNull().default("discovery"),
     summary: text("summary").notNull().default(""),
+    // the GoTech team member responsible for the project
+    assigneeId: uuid("assignee_id").references(() => users.id, { onDelete: "set null" }),
     startsOn: date("starts_on", { mode: "date" }).notNull(),
     dueOn: date("due_on", { mode: "date" }),
     createdAt: createdAt(),
   },
-  (t) => [index("projects_company_idx").on(t.companyId)],
+  (t) => [index("projects_company_idx").on(t.companyId), index("projects_assignee_idx").on(t.assigneeId)],
 );
 
 export const projectMilestones = pgTable("project_milestones", {
@@ -168,6 +175,20 @@ export const projectMilestones = pgTable("project_milestones", {
   completedAt: timestamp("completed_at", { withTimezone: true }),
   position: integer("position").notNull(),
 });
+
+// Progress notes the team writes on a project; internal ones are visible to staff only.
+export const projectUpdates = pgTable(
+  "project_updates",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    projectId: uuid("project_id").notNull().references(() => projects.id, { onDelete: "cascade" }),
+    authorId: uuid("author_id").notNull().references(() => users.id, { onDelete: "restrict" }),
+    body: text("body").notNull(),
+    isInternal: boolean("is_internal").notNull().default(false),
+    createdAt: createdAt(),
+  },
+  (t) => [index("project_updates_project_idx").on(t.projectId)],
+);
 
 export const invoices = pgTable(
   "invoices",

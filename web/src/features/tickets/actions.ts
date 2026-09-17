@@ -50,7 +50,7 @@ export async function createTicket(_prev: ActionState, formData: FormData): Prom
     db.transaction(async (tx) => {
       const [created] = await tx.insert(tickets).values({ ...fields, companyId: user.companyId, createdById: user.id }).returning();
       const [message] = await tx.insert(ticketMessages).values({ ticketId: created.id, authorId: user.id, body }).returning({ id: ticketMessages.id });
-      await linkAttachments(tx, attachments.ids, { uploadedById: user.id, companyId: user.companyId, ticketId: created.id, messageId: message.id });
+      await linkAttachments(tx, attachments.ids, { uploadedById: user.id, companyId: user.companyId }, { ticketId: created.id, messageId: message.id });
       return created;
     }),
   );
@@ -75,7 +75,7 @@ export async function replyAsCustomer(ticketNumber: number, _prev: ActionState, 
   const written = await writeWithAttachments(() =>
     db.transaction(async (tx) => {
       const [message] = await tx.insert(ticketMessages).values({ ticketId: ticket.id, authorId: user.id, body: parsed.data.body }).returning({ id: ticketMessages.id });
-      await linkAttachments(tx, attachments.ids, { uploadedById: user.id, companyId: ticket.companyId, ticketId: ticket.id, messageId: message.id });
+      await linkAttachments(tx, attachments.ids, { uploadedById: user.id, companyId: ticket.companyId }, { ticketId: ticket.id, messageId: message.id });
       // a customer reply always puts the ticket back in the team's queue, including closed ones
       await tx.update(tickets).set({ status: "open", updatedAt: new Date() }).where(eq(tickets.id, ticket.id));
     }),
@@ -122,7 +122,7 @@ export async function replyAsStaff(ticketNumber: number, _prev: ActionState, for
   const written = await writeWithAttachments(() =>
     db.transaction(async (tx) => {
       const [message] = await tx.insert(ticketMessages).values({ ticketId: ticket.id, authorId: staff.id, body, isInternal: internal }).returning({ id: ticketMessages.id });
-      await linkAttachments(tx, attachments.ids, { uploadedById: staff.id, companyId: ticket.companyId, ticketId: ticket.id, messageId: message.id });
+      await linkAttachments(tx, attachments.ids, { uploadedById: staff.id, companyId: ticket.companyId }, { ticketId: ticket.id, messageId: message.id });
       const publicReply = internal ? {} : { status: "waiting_customer" as const };
       // whoever answers an unassigned ticket takes it
       const claim = ticket.assigneeId ? {} : { assigneeId: staff.id };
