@@ -17,11 +17,8 @@ export async function POST(request: Request) {
   if (!user) return deskFail("Oturum sona erdi. Tekrar giriş yapın.", HTTP.unauthorized);
 
   if (user.role === "staff") {
-    const result = await claimTeamDevice(user, input.data);
-    if (result.status === "customer_device") {
-      return deskFail(`Bu bilgisayar ${result.companyName} firmasına kayıtlı. Ekip bilgisayarı yapmak için önce panelden kaldırın.`, HTTP.conflict);
-    }
-    return Response.json({ ok: true, kind: "team", ownerName: user.name, label: result.label, support: await getSupportDirectory(), update: latestDeskUpdate() });
+    const { label, convertedFrom } = await claimTeamDevice(user, input.data);
+    return Response.json({ ok: true, kind: "team", ownerName: user.name, label, convertedFrom, support: await getSupportDirectory(), update: latestDeskUpdate() });
   }
 
   const result = await claimCustomerDevice(user, input.data);

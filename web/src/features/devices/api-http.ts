@@ -11,7 +11,8 @@ export const DESK_ERRORS = {
   unknownCompany: "Firma kodu bulunamadı.",
   notRegistered: "Cihaz kaydı bulunamadı.",
   ownedByOtherCompany: "Bu bilgisayar başka bir firmaya kayıtlı. Taşımak için GoTech ile iletişime geçin.",
-  teamDevice: "Bu bilgisayar GoTech ekip bilgisayarı olarak kayıtlı. Müşteri bilgisayarı yapmak için önce panelden kaldırın.",
+  teamDevice:
+    "Bu bilgisayar GoTech ekip bilgisayarı olarak kayıtlı. Müşteri bilgisayarı yapmak için önce GoTech ekibinden biri onu ekip listesinden çıkarmalı.",
 } as const;
 
 const MINUTE_MS = 60_000;
