@@ -1,5 +1,6 @@
 import "server-only";
 import { listDevices } from "@/features/devices/queries";
+import { listStaffDevices } from "@/features/devices/staff-devices";
 import type { DeskAccountUser } from "./session";
 
 // The app's address book, filled from the panel: staff see every customer computer, a customer sees
@@ -12,6 +13,8 @@ type AbPeer = {
   username: string;
   tags: string[];
 };
+
+const TEAM_TAG = "GoTech ekibi";
 
 const personOf = (device: { personName: string | null; label: string | null }) =>
   device.personName ?? device.label ?? "";
@@ -31,6 +34,23 @@ export async function addressBookFor(user: DeskAccountUser) {
     tags: [device.companyName],
   }));
 
-  const tags = [...new Set(peers.flatMap((peer) => peer.tags))].sort((a, b) => a.localeCompare(b, "tr"));
+  // a technician also connects to the team's own computers, which live in their own table
+  if (user.role === "staff") {
+    const team = await listStaffDevices();
+    peers.push(
+      ...team.map((device) => ({
+        id: device.deskId,
+        hostname: device.label,
+        platform: "",
+        alias: device.ownerName,
+        username: device.ownerName,
+        tags: [TEAM_TAG],
+      })),
+    );
+  }
+
+  const tags = [...new Set(peers.flatMap((peer) => peer.tags))].sort((a, b) =>
+    a === TEAM_TAG ? -1 : b === TEAM_TAG ? 1 : a.localeCompare(b, "tr"),
+  );
   return { tags, peers, tag_colors: "{}" };
 }
