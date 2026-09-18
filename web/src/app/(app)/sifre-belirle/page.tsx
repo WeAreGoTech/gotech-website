@@ -17,8 +17,9 @@ export default async function SetPasswordPage({ searchParams }: PageProps<"/sifr
         <SetPasswordForm token={rawToken} />
       ) : (
         <>
-          <p className="notice">Bu bağlantının süresi dolmuş ya da daha önce kullanılmış. GoTech ekibinden yeni bir davet isteyin.</p>
-          <Link className="btn" href="/giris">Giriş sayfasına git</Link>
+          <p className="notice">Bu bağlantının süresi dolmuş ya da daha önce kullanılmış. Yeni bir bağlantı isteyebilirsiniz.</p>
+          <Link className="btn" href="/sifremi-unuttum">Yeni bağlantı iste</Link>
+          <Link className="muted" href="/giris" style={{ fontSize: ".9rem" }}>Giriş sayfasına git</Link>
         </>
       )}
     </AuthLayout>

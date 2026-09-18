@@ -2,7 +2,7 @@
 
 import { FormMessage, TextField } from "@/components/forms/fields";
 import { useFormAction } from "@/components/forms/use-form-action";
-import { login, setPassword } from "@/features/auth/actions";
+import { login, requestPasswordReset, setPassword } from "@/features/auth/actions";
 import { MIN_PASSWORD_LENGTH } from "@/lib/auth/password-rules";
 
 export function LoginForm() {
@@ -13,6 +13,17 @@ export function LoginForm() {
       <TextField label="Şifre" name="password" type="password" autoComplete="current-password" error={errorFor("password")} />
       <FormMessage state={state} />
       <button className="btn" type="submit" disabled={pending}>{pending ? "Giriş yapılıyor…" : "Giriş yap"}</button>
+    </form>
+  );
+}
+
+export function ForgotPasswordForm() {
+  const { state, pending, onSubmit, errorFor } = useFormAction(requestPasswordReset);
+  return (
+    <form className="form-stack" onSubmit={onSubmit} noValidate>
+      <TextField label="E-posta" name="email" type="email" autoComplete="email" error={errorFor("email")} />
+      <FormMessage state={state} />
+      <button className="btn" type="submit" disabled={pending}>{pending ? "Gönderiliyor…" : "Bağlantı gönder"}</button>
     </form>
   );
 }

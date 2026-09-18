@@ -84,11 +84,30 @@ export function inviteMail(i: { to: string; name: string; companyName: string; l
       `Merhaba ${i.name},`,
       "",
       `${i.companyName} için GoTech müşteri panelinde bir hesap oluşturduk. Panelden destek talebi açabilir ve yanıtları takip edebilirsiniz.`,
+      "Bilgisayarınıza kuracağınız GoTech Desk uygulamasına da aynı e-posta ve şifreyle giriş yaparsınız.",
       "",
       "Şifrenizi belirlemek için aşağıdaki bağlantıyı kullanın:",
       i.link,
       "",
       `Bağlantı ${i.validHours} saat geçerlidir.`,
+      "",
+      SIGNATURE,
+    ),
+  };
+}
+
+export function passwordResetMail(i: { to: string; name: string; link: string; validHours: number }): Mail {
+  return {
+    to: i.to,
+    subject: "GoTech şifrenizi yenileyin",
+    text: join(
+      `Merhaba ${i.name},`,
+      "",
+      "GoTech hesabınız için şifre yenileme istendi. Yeni şifrenizi belirlemek için aşağıdaki bağlantıyı kullanın:",
+      i.link,
+      "",
+      `Bağlantı ${i.validHours} saat geçerlidir. Yeni şifreyi kaydettiğinizde açık oturumlarınız (GoTech Desk dahil) kapanır.`,
+      "Bu isteği siz yapmadıysanız e-postayı yok sayabilirsiniz; şifreniz değişmez.",
       "",
       SIGNATURE,
     ),
@@ -103,6 +122,7 @@ export function staffInviteMail(i: { to: string; name: string; invitedBy: string
       `Merhaba ${i.name},`,
       "",
       `${i.invitedBy} sizi GoTech yönetim paneline ekip üyesi olarak ekledi.`,
+      "GoTech Desk'e bu hesapla giriş yaptığınız kendi bilgisayarınız ekip bilgisayarı olur ve müşterilere bağlanabilir.",
       "",
       "Şifrenizi belirlemek için aşağıdaki bağlantıyı kullanın:",
       i.link,
