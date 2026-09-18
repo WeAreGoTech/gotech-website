@@ -1,7 +1,7 @@
 import "server-only";
 import { eq } from "drizzle-orm";
 import { getDb } from "@/db";
-import { devices } from "@/db/schema";
+import { devices, staffDevices } from "@/db/schema";
 import { hashToken, newToken } from "@/lib/auth/tokens";
 import { encryptSecret } from "@/lib/desk/crypto";
 import type { RegisterInput } from "./api-schemas";
@@ -12,6 +12,7 @@ export type RegisterResult =
   | { status: "unknown_company" }
   | { status: "unknown_person" }
   | { status: "owned_by_other_company" }
+  | { status: "team_device" }
   | { status: "ok"; companyName: string; personName: string | null; label: string | null; deviceToken: string };
 
 /** Person and label fields to write. Missing input keeps the stored value, unless the computer moves to another company. */
@@ -44,6 +45,10 @@ export async function registerDevice(input: RegisterInput): Promise<RegisterResu
   // Anyone can see a desk ID, so a computer already registered by the app cannot be pulled into another company
   // with just some company code; staff removes it from the panel first.
   if (existing?.deviceTokenHash && existing.companyId !== company.id) return { status: "owned_by_other_company" };
+  // A GoTech computer is trusted by every locked customer; one registered to a customer as well would stay trusted.
+  // Refused rather than taken off the team list, since customers see the team's IDs and could knock one off.
+  const [teamDevice] = await db.select({ id: staffDevices.id }).from(staffDevices).where(eq(staffDevices.deskId, input.deskId));
+  if (teamDevice) return { status: "team_device" };
   const deviceToken = newToken();
   const now = new Date();
   const fields = {

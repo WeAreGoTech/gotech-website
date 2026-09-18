@@ -12,9 +12,8 @@ export async function POST(request: Request) {
   const result = await registerDevice(input.data);
   if (result.status === "unknown_company") return deskFail(DESK_ERRORS.unknownCompany, HTTP.notFound);
   if (result.status === "unknown_person") return deskFail("Seçilen kişi bu firmada bulunamadı.", HTTP.badRequest);
-  if (result.status === "owned_by_other_company") {
-    return deskFail("Bu bilgisayar başka bir firmaya kayıtlı. Taşımak için GoTech ile iletişime geçin.", HTTP.conflict);
-  }
+  if (result.status === "owned_by_other_company") return deskFail(DESK_ERRORS.ownedByOtherCompany, HTTP.conflict);
+  if (result.status === "team_device") return deskFail(DESK_ERRORS.teamDevice, HTTP.conflict);
   const { companyName, personName, label, deviceToken } = result;
   return Response.json({ ok: true, companyName, personName, label, deviceToken });
 }

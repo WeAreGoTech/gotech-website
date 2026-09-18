@@ -10,6 +10,8 @@ export const DESK_ERRORS = {
   invalid: "Geçersiz istek.",
   unknownCompany: "Firma kodu bulunamadı.",
   notRegistered: "Cihaz kaydı bulunamadı.",
+  ownedByOtherCompany: "Bu bilgisayar başka bir firmaya kayıtlı. Taşımak için GoTech ile iletişime geçin.",
+  teamDevice: "Bu bilgisayar GoTech ekip bilgisayarı olarak kayıtlı. Müşteri bilgisayarı yapmak için önce panelden kaldırın.",
 } as const;
 
 const MINUTE_MS = 60_000;

@@ -1,5 +1,5 @@
 import { deskAccountUser } from "@/features/desk-account/session";
-import { deskFail, HTTP, readDeskRequest } from "@/features/devices/api-http";
+import { deskFail, DESK_ERRORS, HTTP, readDeskRequest } from "@/features/devices/api-http";
 import { claimSchema } from "@/features/devices/api-schemas";
 import { claimCustomerDevice, claimTeamDevice } from "@/features/devices/claim";
 import { latestDeskUpdate } from "@/features/devices/downloads";
@@ -28,9 +28,8 @@ export async function POST(request: Request) {
   if (result.status === "unknown_company" || result.status === "unknown_person") {
     return deskFail("Hesabınız bir firmaya bağlı değil. GoTech ile iletişime geçin.", HTTP.forbidden);
   }
-  if (result.status === "owned_by_other_company") {
-    return deskFail("Bu bilgisayar başka bir firmaya kayıtlı. Taşımak için GoTech ile iletişime geçin.", HTTP.conflict);
-  }
+  if (result.status === "owned_by_other_company") return deskFail(DESK_ERRORS.ownedByOtherCompany, HTTP.conflict);
+  if (result.status === "team_device") return deskFail(DESK_ERRORS.teamDevice, HTTP.conflict);
   const { companyName, customerCode, personName, label, deviceToken } = result;
   return Response.json({
     ok: true,
