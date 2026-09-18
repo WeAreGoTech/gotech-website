@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { DateField, FormMessage, SelectField, TextAreaField, TextField, toOptions } from "@/components/forms/fields";
 import { useFormAction } from "@/components/forms/use-form-action";
 import { DOCUMENT_KIND_LABELS } from "@/features/documents/labels";
@@ -11,18 +13,61 @@ import { assigneeOptions } from "./project-forms";
 type FormAction = (prev: ActionState, formData: FormData) => Promise<ActionState>;
 type Option = { id: string; name: string };
 
-/** Name, e-mail and role; used for inviting a colleague (customer) and a team member (staff). */
-export function InvitePersonForm({ action, title, hint, submitLabel }: { action: FormAction; title: string; hint: string; submitLabel: string }) {
+/** Name, e-mail and role. Staff invite both their own colleagues and a customer company's people here. */
+export function InvitePersonForm({
+  action,
+  title,
+  hint,
+  submitLabel,
+  companies,
+}: {
+  action: FormAction;
+  title: string;
+  hint: string;
+  submitLabel: string;
+  /** Given on the team page, where a staff member may instead invite someone into a customer company. */
+  companies?: Option[];
+}) {
   const { state, pending, onSubmit, errorFor } = useFormAction(action);
+  const [role, setRole] = useState("staff");
+  const toCompany = companies !== undefined && role === "customer";
   return (
     <form className="card form-stack" onSubmit={onSubmit} noValidate key={state.submittedAt}>
       <h2>{title}</h2>
       <TextField label="Ad soyad" name="name" autoComplete="off" error={errorFor("name")} />
       <TextField label="E-posta" name="email" type="email" autoComplete="off" error={errorFor("email")} />
       <TextField label="Görev" name="title" optional placeholder="Örneğin: Satın alma" error={errorFor("title")} />
+      {companies && (
+        <SelectField
+          label="Hesap türü"
+          name="role"
+          value={role}
+          onValueChange={setRole}
+          options={[
+            { value: "staff", label: "GoTech ekibi — yönetim panelini kullanır" },
+            { value: "customer", label: "Müşteri — kendi firmasının panelini kullanır" },
+          ]}
+        />
+      )}
+      {toCompany && (
+        <>
+          <SelectField
+            label="Firma"
+            name="companyId"
+            options={[{ value: "", label: "Firma seçin" }, ...companies.map((c) => ({ value: c.id, label: c.name }))]}
+            error={errorFor("companyId")}
+          />
+          <label className="check-row">
+            <input type="checkbox" name="companyAdmin" />
+            Firma yetkilisi olsun (firmasının kişilerini yönetebilir)
+          </label>
+        </>
+      )}
       <FormMessage state={state} />
       <button className="btn" type="submit" disabled={pending}>{pending ? "Gönderiliyor…" : submitLabel}</button>
-      <p className="muted" style={{ margin: 0, fontSize: ".88rem" }}>{hint}</p>
+      <p className="muted" style={{ margin: 0, fontSize: ".88rem" }}>
+        {toCompany ? "Kişi şifresini belirleyince kendi firmasının paneline girebilir." : hint}
+      </p>
     </form>
   );
 }

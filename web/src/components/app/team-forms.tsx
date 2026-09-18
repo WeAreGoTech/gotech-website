@@ -28,6 +28,12 @@ export function InviteCustomerForm({ companies }: { companies: { id: string; nam
       {companyId === NEW_COMPANY && <TextField label="Yeni firmanın adı" name="companyName" error={errorFor("companyName")} />}
       <TextField label="Ad soyad" name="name" autoComplete="off" error={errorFor("name")} />
       <TextField label="E-posta" name="email" type="email" autoComplete="off" error={errorFor("email")} />
+      {companyId !== NEW_COMPANY && (
+        <label className="check-row">
+          <input type="checkbox" name="companyAdmin" />
+          Firma yetkilisi olsun (firmasının kişilerini yönetebilir)
+        </label>
+      )}
       <FormMessage state={state} />
       <button className="btn" type="submit" disabled={pending}>{pending ? "Gönderiliyor…" : "Davet e-postası gönder"}</button>
       <p className="muted" style={{ margin: 0, fontSize: ".88rem" }}>Kişi, e-postadaki bağlantıdan şifresini belirleyip panele girer.</p>

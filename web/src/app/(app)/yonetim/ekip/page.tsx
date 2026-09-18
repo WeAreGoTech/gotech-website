@@ -4,16 +4,16 @@ import { Section } from "@/components/app/dashboard";
 import { PeopleList } from "@/components/app/people";
 import { InvitePersonForm } from "@/components/app/staff-forms";
 import { StaffDeviceList } from "@/components/app/staff-devices";
-import { listStaff } from "@/features/customers/queries";
+import { listCompaniesWithCustomers, listStaff } from "@/features/customers/queries";
 import { listStaffDevices } from "@/features/devices/staff-devices";
-import { inviteStaff } from "@/features/team/actions";
+import { invitePerson } from "@/features/team/actions";
 import { requireStaff } from "@/lib/auth/session";
 
 export const metadata: Metadata = { title: "Ekip" };
 
 export default async function TeamMembersPage() {
   const user = await requireStaff();
-  const [staff, staffDevices] = await Promise.all([listStaff(), listStaffDevices()]);
+  const [staff, staffDevices, companies] = await Promise.all([listStaff(), listStaffDevices(), listCompaniesWithCustomers()]);
 
   return (
     <>
@@ -28,7 +28,13 @@ export default async function TeamMembersPage() {
             <StaffDeviceList devices={staffDevices} />
           </Section>
         </div>
-        <InvitePersonForm action={inviteStaff} title="Ekibe kişi ekle" submitLabel="Davet gönder" hint="Kişi şifresini belirleyince yönetim paneline girebilir." />
+        <InvitePersonForm
+          action={invitePerson}
+          title="Kişi ekle"
+          submitLabel="Davet gönder"
+          hint="Kişi şifresini belirleyince yönetim paneline girebilir."
+          companies={companies.map((c) => ({ id: c.id, name: c.name }))}
+        />
       </div>
     </>
   );

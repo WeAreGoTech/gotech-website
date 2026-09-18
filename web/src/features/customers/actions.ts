@@ -57,8 +57,8 @@ export async function inviteCustomer(_prev: ActionState, formData: FormData): Pr
       : (await db.select().from(companies).where(eq(companies.id, input.companyId)))[0];
   if (!company) return failure("Seçilen firma bulunamadı.");
 
-  // the company's first person is its firma yetkilisi
-  const isCompanyAdmin = await isFirstMember(company.id);
+  // asked for, or automatic for the company's first person
+  const isCompanyAdmin = formData.get("companyAdmin") !== null || (await isFirstMember(company.id));
   const [user] = await db.insert(users).values({ name: input.name, email: input.email, role: "customer", companyId: company.id, isCompanyAdmin }).returning();
   await sendInvite(user, company.name);
   revalidatePath("/yonetim/musteriler");

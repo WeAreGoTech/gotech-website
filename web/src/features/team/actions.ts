@@ -22,11 +22,17 @@ const personSchema = z.object({
 
 type InviteResult = { ok: true; user: typeof users.$inferSelect; link: string } | { ok: false; reason: "taken" | "removed" };
 
-async function createInvitedUser(input: z.infer<typeof personSchema>, role: UserRole, companyId: string | null): Promise<InviteResult> {
+async function createInvitedUser(
+  input: z.infer<typeof personSchema>,
+  role: UserRole,
+  companyId: string | null,
+  makeCompanyAdmin = false,
+): Promise<InviteResult> {
   const db = await getDb();
   const [existing] = await db.select({ id: users.id, removedAt: users.removedAt }).from(users).where(eq(users.email, input.email));
   if (existing) return { ok: false, reason: existing.removedAt ? "removed" : "taken" };
-  const isCompanyAdmin = role === "customer" && companyId !== null && (await isFirstMember(companyId));
+  // asked for, or automatic for the company's first person, who would otherwise have nobody to manage them
+  const isCompanyAdmin = role === "customer" && companyId !== null && (makeCompanyAdmin || (await isFirstMember(companyId)));
   const [user] = await db
     .insert(users)
     .values({ name: input.name, email: input.email, title: input.title || null, role, companyId, isCompanyAdmin })
@@ -81,16 +87,44 @@ export async function restoreColleague(personId: string) {
   await manageColleague(personId, "restore");
 }
 
-export async function inviteStaff(_prev: ActionState, formData: FormData): Promise<ActionState> {
-  const me = await requireStaff();
-  const parsed = personSchema.safeParse({ name: text(formData, "name"), email: text(formData, "email"), title: text(formData, "title") });
-  if (!parsed.success) return fieldErrors(parsed.error);
+// Staff invite people from one form, choosing whether the person joins GoTech or a customer company.
+const invitePersonSchema = personSchema.extend({
+  role: z.enum(["staff", "customer"]),
+  companyId: z.string().trim(),
+  companyAdmin: z.boolean(),
+});
 
-  const created = await createInvitedUser(parsed.data, "staff", null);
+export async function invitePerson(_prev: ActionState, formData: FormData): Promise<ActionState> {
+  const me = await requireStaff();
+  const parsed = invitePersonSchema.safeParse({
+    name: text(formData, "name"),
+    email: text(formData, "email"),
+    title: text(formData, "title"),
+    role: text(formData, "role") || "staff",
+    companyId: text(formData, "companyId"),
+    companyAdmin: formData.get("companyAdmin") !== null,
+  });
+  if (!parsed.success) return fieldErrors(parsed.error);
+  const { role, companyId, companyAdmin, ...person } = parsed.data;
+
+  if (role === "customer" && !companyId) {
+    return { status: "error", fieldErrors: { companyId: "Kişinin ekleneceği firmayı seçin." } };
+  }
+  const db = await getDb();
+  const [company] = companyId ? await db.select({ name: companies.name }).from(companies).where(eq(companies.id, companyId)).limit(1) : [];
+  if (role === "customer" && !company) return failure("Seçilen firma bulunamadı.");
+
+  const created = await createInvitedUser(person, role, role === "customer" ? companyId : null, companyAdmin);
   if (!created.ok) return inviteProblem(created.reason);
-  await sendMail(staffInviteMail({ to: created.user.email, name: created.user.name, invitedBy: me.name, link: created.link, validHours: PASSWORD_LINK_HOURS }));
-  revalidatePath("/yonetim/ekip");
-  return success(`${created.user.name} ekibe davet edildi.`);
+
+  const { email: to, name } = created.user;
+  await sendMail(
+    role === "staff"
+      ? staffInviteMail({ to, name, invitedBy: me.name, link: created.link, validHours: PASSWORD_LINK_HOURS })
+      : inviteMail({ to, name, companyName: company!.name, link: created.link, validHours: PASSWORD_LINK_HOURS }),
+  );
+  revalidatePath(role === "staff" ? "/yonetim/ekip" : "/yonetim/musteriler");
+  return success(role === "staff" ? `${name} ekibe davet edildi.` : `${name}, ${company!.name} firmasına davet edildi.`);
 }
 
 /** Turns a contact form submission into a customer company and invites the person who wrote. */
