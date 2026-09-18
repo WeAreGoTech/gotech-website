@@ -1,5 +1,5 @@
 import "server-only";
-import { and, eq, gt, isNull } from "drizzle-orm";
+import { and, eq, gt, isNull, ne } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
@@ -24,6 +24,13 @@ export async function startSession(userId: string) {
   await db.insert(sessions).values({ id: hashToken(token), userId, expiresAt });
   const store = await cookies();
   store.set(SESSION_COOKIE, token, { httpOnly: true, secure: env.isProduction, sameSite: "lax", path: "/", expires: expiresAt });
+}
+
+/** After a password change: every other session of the person ends, the desktop app's included; this one stays. */
+export async function endOtherSessions(userId: string) {
+  const token = (await cookies()).get(SESSION_COOKIE)?.value;
+  const db = await getDb();
+  await db.delete(sessions).where(and(eq(sessions.userId, userId), token ? ne(sessions.id, hashToken(token)) : undefined));
 }
 
 export async function endSession() {

@@ -6,7 +6,7 @@ import { z } from "zod";
 import { getDb } from "@/db";
 import { users } from "@/db/schema";
 import { hashPassword, MIN_PASSWORD_LENGTH, verifyPassword } from "@/lib/auth/password";
-import { getCurrentUser } from "@/lib/auth/session";
+import { endOtherSessions, getCurrentUser } from "@/lib/auth/session";
 import { fieldErrors, success, text, type ActionState } from "@/lib/forms";
 
 async function signedInUser() {
@@ -53,7 +53,8 @@ export async function changePassword(_prev: ActionState, formData: FormData): Pr
     return { status: "error", fieldErrors: { current: "Mevcut şifre hatalı." } };
   }
   await db.update(users).set({ passwordHash: await hashPassword(parsed.data.password) }).where(eq(users.id, user.id));
-  return success("Şifreniz değiştirildi.");
+  await endOtherSessions(user.id);
+  return success("Şifreniz değiştirildi. Diğer oturumlarınız (GoTech Desk dahil) kapatıldı.");
 }
 
 export async function updateNotifications(_prev: ActionState, formData: FormData): Promise<ActionState> {
