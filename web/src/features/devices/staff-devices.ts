@@ -1,9 +1,12 @@
 import "server-only";
-import { asc, eq } from "drizzle-orm";
+import { and, asc, eq, isNull } from "drizzle-orm";
 import { getDb } from "@/db";
 import { staffDevices, users } from "@/db/schema";
 
 export type StaffDeviceRow = { id: string; deskId: string; label: string; ownerName: string };
+
+// A team member who left takes their computers with them: out of every customer's whitelist and the team lists.
+const ownerActive = isNull(users.removedAt);
 
 async function queryStaffDevices(userId?: string): Promise<StaffDeviceRow[]> {
   const db = await getDb();
@@ -11,7 +14,7 @@ async function queryStaffDevices(userId?: string): Promise<StaffDeviceRow[]> {
     .select({ id: staffDevices.id, deskId: staffDevices.deskId, label: staffDevices.label, ownerName: users.name })
     .from(staffDevices)
     .innerJoin(users, eq(users.id, staffDevices.userId))
-    .where(userId ? eq(staffDevices.userId, userId) : undefined)
+    .where(and(ownerActive, userId ? eq(staffDevices.userId, userId) : undefined))
     .orderBy(asc(users.name), asc(staffDevices.label));
 }
 
@@ -28,7 +31,7 @@ export async function findStaffDevice(deskId: string): Promise<StaffDeviceRow | 
     .select({ id: staffDevices.id, deskId: staffDevices.deskId, label: staffDevices.label, ownerName: users.name })
     .from(staffDevices)
     .innerJoin(users, eq(users.id, staffDevices.userId))
-    .where(eq(staffDevices.deskId, deskId))
+    .where(and(ownerActive, eq(staffDevices.deskId, deskId)))
     .limit(1);
   return row ?? null;
 }
