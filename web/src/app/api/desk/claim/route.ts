@@ -1,8 +1,9 @@
 import { deskAccountUser } from "@/features/desk-account/session";
-import { deskFail, DESK_ERRORS, HTTP, readDeskRequest } from "@/features/devices/api-http";
+import { deskFail, HTTP, readDeskRequest } from "@/features/devices/api-http";
 import { claimSchema } from "@/features/devices/api-schemas";
 import { claimCustomerDevice, claimTeamDevice } from "@/features/devices/claim";
 import { latestDeskUpdate } from "@/features/devices/downloads";
+import { customerRegistered, registrationFailure } from "@/features/devices/registration-response";
 import { getSupportDirectory } from "@/features/devices/staff-devices";
 
 // The app's sign-in: right after /api/login it sends the session token here and the account decides what the
@@ -22,21 +23,5 @@ export async function POST(request: Request) {
   }
 
   const result = await claimCustomerDevice(user, input.data);
-  if (result.status === "unknown_company" || result.status === "unknown_person") {
-    return deskFail("Hesabınız bir firmaya bağlı değil. GoTech ile iletişime geçin.", HTTP.forbidden);
-  }
-  if (result.status === "owned_by_other_company") return deskFail(DESK_ERRORS.ownedByOtherCompany, HTTP.conflict);
-  if (result.status === "team_device") return deskFail(DESK_ERRORS.teamDevice, HTTP.conflict);
-  const { companyName, customerCode, personName, label, deviceToken } = result;
-  return Response.json({
-    ok: true,
-    kind: "customer",
-    companyName,
-    customerCode,
-    personName,
-    label,
-    deviceToken,
-    support: await getSupportDirectory(),
-    update: latestDeskUpdate(),
-  });
+  return result.status === "ok" ? customerRegistered(result) : registrationFailure(result);
 }

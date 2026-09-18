@@ -90,6 +90,7 @@ export default async function CompanyPage({ params, searchParams }: PageProps<"/
               deviceCounts={deviceCounts}
               resendAction={(personId) => resendInvite.bind(null, personId)}
               controls={PEOPLE_CONTROLS}
+              setupLinks
             />
             <RemovedPeopleList people={removedPeople} restore={(personId) => restorePerson.bind(null, personId)} />
           </Section>

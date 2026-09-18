@@ -28,7 +28,7 @@ export default async function TeamMembersPage({ searchParams }: PageProps<"/yone
       <div className="t-layout">
         <div className="stack">
           <PeopleNotice message={readNotice(uyari)} />
-          <PeopleList people={staff} tone="team" youId={user.id} removeAction={(personId) => removeStaffMember.bind(null, personId)} />
+          <PeopleList people={staff} tone="team" youId={user.id} removeAction={(personId) => removeStaffMember.bind(null, personId)} setupLinks />
           <RemovedPeopleList
             people={removedStaff}
             tone="team"

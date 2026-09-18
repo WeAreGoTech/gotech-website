@@ -43,3 +43,6 @@
 .desk-ticket-row.is-prominent{padding:12px;border-radius:16px;background:var(--w-page)}
 .desk-ticket-actions{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
 .t-device{display:inline-flex;align-items:center;gap:4px;margin-left:8px;color:var(--w-forest);font-weight:600;vertical-align:middle}
+/* one-click setup link on a person's row: the link to copy, then the button */
+.setup-link{display:inline-flex;align-items:center;gap:6px;max-width:100%}
+.setup-link-url{width:min(300px,100%);padding:.45rem .6rem;border:1px solid var(--w-border);border-radius:10px;font-size:.8rem;background:transparent;color:inherit}

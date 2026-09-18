@@ -69,6 +69,16 @@ export const passwordTokens = pgTable("password_tokens", {
   createdAt: createdAt(),
 });
 
+// One-click GoTech Desk setup: the link a person gets registers their computer to them without a password.
+// id is the SHA-256 of the token in the link and in the installer's file name; used once, then dead.
+export const deskSetupLinks = pgTable("desk_setup_links", {
+  id: text("id").primaryKey(),
+  userId: uuid("user_id").notNull().references(() => users.id, { onDelete: "cascade" }),
+  expiresAt: timestamp("expires_at", { withTimezone: true }).notNull(),
+  usedAt: timestamp("used_at", { withTimezone: true }),
+  createdAt: createdAt(),
+});
+
 export const tickets = pgTable(
   "tickets",
   {

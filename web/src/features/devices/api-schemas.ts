@@ -36,6 +36,11 @@ export const claimSchema = registerSchema.pick({ deskId: true, hostname: true, p
 
 export const releaseSchema = registerSchema.pick({ deskId: true });
 
+// the token of a person's setup link, read by the app from its installer's name or a gotechdesk://kur/<token> link
+export const setupSchema = registerSchema
+  .pick({ deskId: true, hostname: true, platform: true, appVersion: true })
+  .extend({ token: z.string().regex(/^[A-Za-z0-9_-]{20,100}$/) });
+
 export const heartbeatSchema = z.object({ deskId, deviceToken, hostname, appVersion });
 
 export const supportRequestSchema = z.object({

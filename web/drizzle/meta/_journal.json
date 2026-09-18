@@ -57,6 +57,13 @@
       "when": 1789675543112,
       "tag": "0007_ekip_bilgisayarlari",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1789734599448,
+      "tag": "0008_kurulum_baglantilari",
+      "breakpoints": true
     }
   ]
 }

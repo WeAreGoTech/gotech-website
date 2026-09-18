@@ -76,7 +76,9 @@ export function staffReplyMail(t: TicketRef & { to: string; recipientName: strin
   };
 }
 
-export function inviteMail(i: { to: string; name: string; companyName: string; link: string; validHours: number }): Mail {
+type SetupLinkLines = { setupLink: string; setupDays: number };
+
+export function inviteMail(i: { to: string; name: string; companyName: string; link: string; validHours: number } & SetupLinkLines): Mail {
   return {
     to: i.to,
     subject: "GoTech müşteri paneline davet edildiniz",
@@ -84,12 +86,14 @@ export function inviteMail(i: { to: string; name: string; companyName: string; l
       `Merhaba ${i.name},`,
       "",
       `${i.companyName} için GoTech müşteri panelinde bir hesap oluşturduk. Panelden destek talebi açabilir ve yanıtları takip edebilirsiniz.`,
-      "Bilgisayarınıza kuracağınız GoTech Desk uygulamasına da aynı e-posta ve şifreyle giriş yaparsınız.",
       "",
       "Şifrenizi belirlemek için aşağıdaki bağlantıyı kullanın:",
       i.link,
-      "",
       `Bağlantı ${i.validHours} saat geçerlidir.`,
+      "",
+      "GoTech Desk'i bilgisayarınıza kurmak için bu size özel bağlantıyı kullanın; bilgisayarınız şifre sormadan adınıza kaydolur:",
+      i.setupLink,
+      `Bağlantı ${i.setupDays} gün geçerlidir ve bir kez kullanılır.`,
       "",
       SIGNATURE,
     ),
@@ -114,7 +118,7 @@ export function passwordResetMail(i: { to: string; name: string; link: string; v
   };
 }
 
-export function staffInviteMail(i: { to: string; name: string; invitedBy: string; link: string; validHours: number }): Mail {
+export function staffInviteMail(i: { to: string; name: string; invitedBy: string; link: string; validHours: number } & SetupLinkLines): Mail {
   return {
     to: i.to,
     subject: "GoTech yönetim paneline davet edildiniz",
@@ -122,12 +126,15 @@ export function staffInviteMail(i: { to: string; name: string; invitedBy: string
       `Merhaba ${i.name},`,
       "",
       `${i.invitedBy} sizi GoTech yönetim paneline ekip üyesi olarak ekledi.`,
-      "GoTech Desk'e bu hesapla giriş yaptığınız kendi bilgisayarınız ekip bilgisayarı olur ve müşterilere bağlanabilir.",
       "",
       "Şifrenizi belirlemek için aşağıdaki bağlantıyı kullanın:",
       i.link,
-      "",
       `Bağlantı ${i.validHours} saat geçerlidir.`,
+      "",
+      "GoTech Desk'i kendi bilgisayarınıza kurmak için bu bağlantıyı kullanın; uygulama e-postanız dolu açılır, şifrenizle girip",
+      "\"Evet, ekip bilgisayarım\" dediğinizde bilgisayarınız ekip bilgisayarı olur ve müşterilere bağlanabilir:",
+      i.setupLink,
+      `Bağlantı ${i.setupDays} gün geçerlidir.`,
     ),
   };
 }

@@ -7,6 +7,7 @@ import { z } from "zod";
 import { getDb } from "@/db";
 import { companies, leads, users, type UserRole } from "@/db/schema";
 import { newCustomerCode } from "@/features/customers/customer-code";
+import { setupLinkForMail } from "@/features/devices/setup-links";
 import { createPasswordLink, PASSWORD_LINK_HOURS } from "@/lib/auth/password-tokens";
 import { requireCustomer, requireStaff } from "@/lib/auth/session";
 import { failure, fieldErrors, success, text, type ActionState } from "@/lib/forms";
@@ -21,7 +22,9 @@ const personSchema = z.object({
   title: z.string().trim().max(80),
 });
 
-type InviteResult = { ok: true; user: typeof users.$inferSelect; link: string } | { ok: false; reason: "taken" | "removed" };
+type InviteResult =
+  | { ok: true; user: typeof users.$inferSelect; link: string; setup: Awaited<ReturnType<typeof setupLinkForMail>> }
+  | { ok: false; reason: "taken" | "removed" };
 
 async function createInvitedUser(
   input: z.infer<typeof personSchema>,
@@ -38,7 +41,7 @@ async function createInvitedUser(
     .insert(users)
     .values({ name: input.name, email: input.email, title: input.title || null, role, companyId, isCompanyAdmin })
     .returning();
-  return { ok: true, user, link: await createPasswordLink(user.id) };
+  return { ok: true, user, link: await createPasswordLink(user.id), setup: await setupLinkForMail(user.id) };
 }
 
 const EMAIL_TAKEN: ActionState = { status: "error", fieldErrors: { email: "Bu e-posta ile kayıtlı bir kullanıcı zaten var." } };
@@ -58,7 +61,7 @@ export async function inviteColleague(_prev: ActionState, formData: FormData): P
   if (!created.ok) return inviteProblem(created.reason);
   const db = await getDb();
   const [company] = await db.select({ name: companies.name }).from(companies).where(eq(companies.id, me.companyId));
-  await sendMail(inviteMail({ to: created.user.email, name: created.user.name, companyName: company.name, link: created.link, validHours: PASSWORD_LINK_HOURS }));
+  await sendMail(inviteMail({ to: created.user.email, name: created.user.name, companyName: company.name, link: created.link, validHours: PASSWORD_LINK_HOURS, ...created.setup }));
   revalidatePath("/panel/ekip");
   return success(`${created.user.name} davet edildi. Şifresini belirleyince panele girebilecek.`);
 }
@@ -136,8 +139,8 @@ export async function invitePerson(_prev: ActionState, formData: FormData): Prom
   const { email: to, name } = created.user;
   await sendMail(
     role === "staff"
-      ? staffInviteMail({ to, name, invitedBy: me.name, link: created.link, validHours: PASSWORD_LINK_HOURS })
-      : inviteMail({ to, name, companyName: company!.name, link: created.link, validHours: PASSWORD_LINK_HOURS }),
+      ? staffInviteMail({ to, name, invitedBy: me.name, link: created.link, validHours: PASSWORD_LINK_HOURS, ...created.setup })
+      : inviteMail({ to, name, companyName: company!.name, link: created.link, validHours: PASSWORD_LINK_HOURS, ...created.setup }),
   );
   revalidatePath(role === "staff" ? "/yonetim/ekip" : "/yonetim/musteriler");
   return success(role === "staff" ? `${name} ekibe davet edildi.` : `${name}, ${company!.name} firmasına davet edildi.`);
@@ -153,7 +156,7 @@ export async function convertLeadToCustomer(leadId: string) {
   const [company] = await db.insert(companies).values({ name: lead.company || lead.name, customerCode: await newCustomerCode(db) }).returning();
   const created = await createInvitedUser({ name: lead.name, email: lead.email, title: "" }, "customer", company.id);
   if (created.ok) {
-    await sendMail(inviteMail({ to: lead.email, name: lead.name, companyName: company.name, link: created.link, validHours: PASSWORD_LINK_HOURS }));
+    await sendMail(inviteMail({ to: lead.email, name: lead.name, companyName: company.name, link: created.link, validHours: PASSWORD_LINK_HOURS, ...created.setup }));
   }
   await db.update(leads).set({ status: "won" }).where(eq(leads.id, leadId));
 

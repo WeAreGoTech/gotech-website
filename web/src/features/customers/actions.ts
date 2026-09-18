@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { getDb } from "@/db";
 import { companies, users } from "@/db/schema";
+import { setupLinkForMail } from "@/features/devices/setup-links";
 import { changeMember, companyPage, findMemberCompany, isFirstMember, MEMBER_ERRORS, noticeHref, type MemberChange } from "@/features/team/membership";
 import { createPasswordLink, PASSWORD_LINK_HOURS } from "@/lib/auth/password-tokens";
 import { requireStaff } from "@/lib/auth/session";
@@ -30,7 +31,7 @@ const inviteSchema = z
 
 async function sendInvite(user: { id: string; name: string; email: string }, companyName: string) {
   const link = await createPasswordLink(user.id);
-  await sendMail(inviteMail({ to: user.email, name: user.name, companyName, link, validHours: PASSWORD_LINK_HOURS }));
+  await sendMail(inviteMail({ to: user.email, name: user.name, companyName, link, validHours: PASSWORD_LINK_HOURS, ...(await setupLinkForMail(user.id)) }));
 }
 
 export async function inviteCustomer(_prev: ActionState, formData: FormData): Promise<ActionState> {

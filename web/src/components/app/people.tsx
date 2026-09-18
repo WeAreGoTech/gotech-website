@@ -1,5 +1,6 @@
 import type { Person } from "@/features/customers/queries";
 import { Avatar } from "./Icon";
+import { SetupLinkButton } from "./setup-link-button";
 
 type PersonAction = (personId: string) => () => Promise<void>;
 
@@ -17,9 +18,11 @@ type PeopleListProps = {
   controls?: PeopleControls;
   // GoTech's own people have no firma yetkilisi to manage, only a way out
   removeAction?: PersonAction;
+  // staff pages: each person's one-click GoTech Desk setup link
+  setupLinks?: boolean;
 };
 
-export function PeopleList({ people, tone, youId, resendAction, deviceCounts, controls, removeAction }: PeopleListProps) {
+export function PeopleList({ people, tone, youId, resendAction, deviceCounts, controls, removeAction, setupLinks = false }: PeopleListProps) {
   // a company always keeps one firma yetkilisi, so the last one can be neither demoted nor removed
   const adminCount = people.filter((p) => p.isCompanyAdmin).length;
   const isLastAdmin = (person: { isCompanyAdmin?: boolean }) => Boolean(person.isCompanyAdmin) && adminCount <= 1;
@@ -47,6 +50,7 @@ export function PeopleList({ people, tone, youId, resendAction, deviceCounts, co
                 )}
               </>
             )}
+            {setupLinks && <SetupLinkButton personId={person.id} />}
             {controls && (
               <>
                 {person.isCompanyAdmin ? (

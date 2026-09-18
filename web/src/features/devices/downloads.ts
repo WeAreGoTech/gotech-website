@@ -17,6 +17,13 @@ export const installerUrl = (platform: DeskPlatform) => (platform === "windows" 
 export const installerFileName = (platform: DeskPlatform, customerCode?: string) =>
   `${INSTALLER_NAME}${customerCode ? `-${customerCode}` : ""}.${INSTALLER_EXTENSIONS[platform]}`;
 
+/**
+ * A setup link's installer: on Windows the token rides in the file name ("GoTechDesk-kur-<token>.exe") and the app reads
+ * it at its first start. A Mac app cannot see its disk image's name, so it gets the token from a gotechdesk:// link.
+ */
+export const setupInstallerFileName = (platform: DeskPlatform, token: string) =>
+  platform === "windows" ? `${INSTALLER_NAME}-kur-${token}.${INSTALLER_EXTENSIONS.windows}` : installerFileName(platform);
+
 /** The download link a customer follows; staff can send it as is. */
 export const installerHref = (platform: DeskPlatform, customerCode: string) => `/indir/${platform}?firma=${customerCode}`;
 export const installerLink = (platform: DeskPlatform, customerCode: string) => `${env.siteUrl}${installerHref(platform, customerCode)}`;
