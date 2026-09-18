@@ -20,11 +20,13 @@ export async function addressBookFor(user: DeskAccountUser) {
   // a customer account only ever sees its own company; staff see everything
   const { devices } = await listDevices(user.role === "staff" ? undefined : (user.companyId ?? undefined));
 
+  // alias is the card's title, so it stays short: the person, or the computer when nobody is named.
+  // The company is the tag, which is both the card's second line and the filter on the left.
   const peers: AbPeer[] = devices.map((device) => ({
     id: device.deskId,
     hostname: device.hostname,
     platform: device.platform,
-    alias: [device.companyName, personOf(device)].filter(Boolean).join(" · "),
+    alias: personOf(device) || device.hostname,
     username: personOf(device),
     tags: [device.companyName],
   }));
