@@ -52,7 +52,7 @@ type DeviceListProps = {
 
 const DEFAULT_EMPTY: Record<Audience, string> = {
   staff: "Kayıtlı cihaz yok.",
-  customer: "Henüz kayıtlı bilgisayar yok. GoTech Desk'i kurup firma kodunu girdiğinizde burada görünür.",
+  customer: "Henüz kayıtlı bilgisayar yok. GoTech Desk'i kurup panel hesabınızla giriş yaptığınızda burada görünür.",
 };
 
 export function DeviceList({ devices, audience, emptyText, showCompany = false, removeAction, claimAction }: DeviceListProps) {

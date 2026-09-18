@@ -40,9 +40,13 @@ export default async function RemoteSupportPage() {
           </div>
           <ol className="desk-steps">
             <li>GoTech Desk&apos;i bilgisayarınıza indirip kurun.</li>
-            <li>Açılışta firma kodunu girin ve listeden adınızı seçin. Bilgisayarınız aşağıdaki listeye eklenir.</li>
             <li>
-              Destek gerektiğinde bizi arayın ya da <Link href="/panel/talep/yeni">destek talebi oluşturun</Link>.
+              Açılışta bu panelin e-posta ve şifresiyle giriş yapın; bilgisayarınız aşağıdaki listeye adınızla eklenir. Hesabı olmayan
+              çalışanlarınız ya da ortak bilgisayarlar için &quot;Firma koduyla kaydolun&quot; deyip yukarıdaki kodu girin.
+            </li>
+            <li>
+              Destek gerektiğinde uygulamadaki &quot;Destek iste&quot; düğmesine basın, bizi arayın ya da{" "}
+              <Link href="/panel/talep/yeni">destek talebi oluşturun</Link>.
             </li>
           </ol>
           {downloads.length > 0 && (
@@ -62,7 +66,7 @@ export default async function RemoteSupportPage() {
             <DeviceList
               devices={mine}
               audience="customer"
-              emptyText="Size bağlı bilgisayar yok. GoTech Desk'i kurup firma kodunu girin ve listeden adınızı seçin ya da aşağıdan bilgisayarınızı sahiplenin."
+              emptyText="Size bağlı bilgisayar yok. GoTech Desk'i kurup bu hesapla giriş yapın ya da aşağıdan bilgisayarınızı sahiplenin."
             />
           </Section>
           <Section title="Firmadaki diğer bilgisayarlar">
