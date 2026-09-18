@@ -3,7 +3,7 @@ import type { ZodType } from "zod";
 import { clientIp, isRateLimited } from "@/lib/rate-limit";
 
 // Shared plumbing of the GoTech Desk desktop app API: no session, JSON in and out, rate limited per IP.
-export const HTTP = { badRequest: 400, unauthorized: 401, notFound: 404, conflict: 409, tooMany: 429 } as const;
+export const HTTP = { badRequest: 400, unauthorized: 401, forbidden: 403, notFound: 404, conflict: 409, tooMany: 429 } as const;
 
 export const DESK_ERRORS = {
   tooMany: "Çok fazla deneme. Lütfen biraz sonra tekrar deneyin.",

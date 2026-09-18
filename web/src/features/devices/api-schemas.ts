@@ -31,6 +31,9 @@ export const registerSchema = z.object({
 
 export const teamSchema = z.object({ deskId, hostname, appVersion });
 
+// Sent with the session token of an app sign-in: the account, not a company code, says whose computer it is.
+export const claimSchema = registerSchema.pick({ deskId: true, hostname: true, platform: true, appVersion: true, unattendedPassword: true });
+
 export const heartbeatSchema = z.object({ deskId, deviceToken, hostname, appVersion });
 
 export const supportRequestSchema = z.object({
@@ -40,3 +43,4 @@ export const supportRequestSchema = z.object({
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
+export type ClaimInput = z.infer<typeof claimSchema>;

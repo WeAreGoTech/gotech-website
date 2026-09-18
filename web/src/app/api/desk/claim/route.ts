@@ -1,0 +1,46 @@
+import { deskAccountUser } from "@/features/desk-account/session";
+import { deskFail, HTTP, readDeskRequest } from "@/features/devices/api-http";
+import { claimSchema } from "@/features/devices/api-schemas";
+import { claimCustomerDevice, claimTeamDevice } from "@/features/devices/claim";
+import { latestDeskUpdate } from "@/features/devices/downloads";
+import { getSupportDirectory } from "@/features/devices/staff-devices";
+
+// The app's sign-in: right after /api/login it sends the session token here and the account decides what the
+// computer is. A customer's joins their company as theirs, with no company code or person picker; a team
+// member's becomes one of GoTech's own. The app ends a customer's session afterwards; the device token is enough.
+const CLAIMS_PER_MINUTE = 10;
+
+export async function POST(request: Request) {
+  const input = await readDeskRequest(request, { bucket: "claim", perMinute: CLAIMS_PER_MINUTE }, claimSchema);
+  if ("response" in input) return input.response;
+  const user = await deskAccountUser(request);
+  if (!user) return deskFail("Oturum sona erdi. Tekrar giriş yapın.", HTTP.unauthorized);
+
+  if (user.role === "staff") {
+    const result = await claimTeamDevice(user, input.data);
+    if (result.status === "customer_device") {
+      return deskFail(`Bu bilgisayar ${result.companyName} firmasına kayıtlı. Ekip bilgisayarı yapmak için önce panelden kaldırın.`, HTTP.conflict);
+    }
+    return Response.json({ ok: true, kind: "team", ownerName: user.name, label: result.label, support: await getSupportDirectory(), update: latestDeskUpdate() });
+  }
+
+  const result = await claimCustomerDevice(user, input.data);
+  if (result.status === "unknown_company" || result.status === "unknown_person") {
+    return deskFail("Hesabınız bir firmaya bağlı değil. GoTech ile iletişime geçin.", HTTP.forbidden);
+  }
+  if (result.status === "owned_by_other_company") {
+    return deskFail("Bu bilgisayar başka bir firmaya kayıtlı. Taşımak için GoTech ile iletişime geçin.", HTTP.conflict);
+  }
+  const { companyName, customerCode, personName, label, deviceToken } = result;
+  return Response.json({
+    ok: true,
+    kind: "customer",
+    companyName,
+    customerCode,
+    personName,
+    label,
+    deviceToken,
+    support: await getSupportDirectory(),
+    update: latestDeskUpdate(),
+  });
+}
