@@ -1,5 +1,6 @@
 // Installer links of the GoTech Desk desktop app; the company code travels in the file name.
 import { env } from "@/lib/env";
+import { latestInstallerUrl } from "./latest-release";
 
 export const DESK_PLATFORMS = ["windows", "mac"] as const;
 export type DeskPlatform = (typeof DESK_PLATFORMS)[number];
@@ -10,8 +11,8 @@ const INSTALLER_NAME = "GoTechDesk";
 
 export const isDeskPlatform = (value: string): value is DeskPlatform => (DESK_PLATFORMS as readonly string[]).includes(value);
 
-/** Where that platform's installer is hosted; empty when no link is configured. */
-export const installerUrl = (platform: DeskPlatform) => (platform === "windows" ? env.desk.downloadWindowsUrl : env.desk.downloadMacUrl);
+/** Where that platform's installer is hosted; empty when there is none. */
+export const installerUrl = (platform: DeskPlatform) => latestInstallerUrl(platform);
 
 /** "GoTechDesk-482913.exe" for a known company, "GoTechDesk.exe" without one. */
 export const installerFileName = (platform: DeskPlatform, customerCode?: string) =>
@@ -29,7 +30,8 @@ export const installerHref = (platform: DeskPlatform, customerCode: string) => `
 export const installerLink = (platform: DeskPlatform, customerCode: string) => `${env.siteUrl}${installerHref(platform, customerCode)}`;
 
 /** The version the app should update itself to, or null while none is published. */
-export function latestDeskUpdate() {
+export async function latestDeskUpdate() {
   if (!env.desk.latestVersion) return null;
-  return { version: env.desk.latestVersion, windowsUrl: installerUrl("windows"), macUrl: installerUrl("mac") };
+  const [windowsUrl, macUrl] = await Promise.all([installerUrl("windows"), installerUrl("mac")]);
+  return { version: env.desk.latestVersion, windowsUrl, macUrl };
 }

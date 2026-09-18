@@ -166,8 +166,9 @@ export function SessionList({ sessions, showDevice = true }: { sessions: Session
 }
 
 /** The link staff send a customer: the installer arrives with their company code in its file name. */
-export function InstallLinks({ customerCode }: { customerCode: string }) {
-  const platforms = DESK_PLATFORMS.filter((platform) => installerUrl(platform));
+export async function InstallLinks({ customerCode }: { customerCode: string }) {
+  const urls = await Promise.all(DESK_PLATFORMS.map((platform) => installerUrl(platform)));
+  const platforms = DESK_PLATFORMS.filter((_, i) => urls[i]);
   if (platforms.length === 0) return null;
   return (
     <div className="desk-install">

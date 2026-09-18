@@ -16,5 +16,5 @@ export async function POST(request: Request) {
   if (!device) return Response.json({ ok: false });
 
   const support = await getSupportDirectory();
-  return Response.json({ ok: true, ownerName: device.ownerName, label: device.label, support, update: latestDeskUpdate() });
+  return Response.json({ ok: true, ownerName: device.ownerName, label: device.label, support, update: await latestDeskUpdate() });
 }

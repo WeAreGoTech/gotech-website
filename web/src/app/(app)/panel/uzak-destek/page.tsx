@@ -27,8 +27,9 @@ export default async function RemoteSupportPage() {
   ]);
   const customerCode = company?.customerCode;
   // the file the customer gets is named after their company, so the app knows the code before it starts
+  const available = await Promise.all(DOWNLOADS.map((d) => installerUrl(d.platform)));
   const downloads = customerCode
-    ? DOWNLOADS.filter((d) => installerUrl(d.platform)).map((d) => ({ ...d, href: installerHref(d.platform, customerCode) }))
+    ? DOWNLOADS.filter((_, i) => available[i]).map((d) => ({ ...d, href: installerHref(d.platform, customerCode) }))
     : [];
   const mine = devices.filter((d) => d.userId === user.id);
   const others = devices.filter((d) => d.userId !== user.id);

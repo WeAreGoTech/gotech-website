@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
   if (user.role === "staff") {
     const { label, convertedFrom } = await claimTeamDevice(user, input.data);
-    return Response.json({ ok: true, kind: "team", ownerName: user.name, label, convertedFrom, support: await getSupportDirectory(), update: latestDeskUpdate() });
+    return Response.json({ ok: true, kind: "team", ownerName: user.name, label, convertedFrom, support: await getSupportDirectory(), update: await latestDeskUpdate() });
   }
 
   const result = await claimCustomerDevice(user, input.data);

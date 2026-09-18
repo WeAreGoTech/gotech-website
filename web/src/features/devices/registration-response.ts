@@ -24,6 +24,6 @@ export async function customerRegistered({ companyName, customerCode, personName
     label,
     deviceToken,
     support: await getSupportDirectory(),
-    update: latestDeskUpdate(),
+    update: await latestDeskUpdate(),
   });
 }

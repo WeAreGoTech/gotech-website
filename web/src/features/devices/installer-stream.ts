@@ -10,7 +10,7 @@ export const plainMessage = (body: string, status: number) =>
 
 /** Streams that platform's installer from where it is hosted, under the given file name, which is what the app reads. */
 export async function streamInstaller(platform: DeskPlatform, fileName: string): Promise<Response> {
-  const source = installerUrl(platform);
+  const source = await installerUrl(platform);
   if (!source) return plainMessage("Bu işletim sistemi için kurulum dosyası henüz yayınlanmadı.", HTTP.notFound);
 
   const upstream = await fetch(source, { cache: "no-store" }).catch(() => null);

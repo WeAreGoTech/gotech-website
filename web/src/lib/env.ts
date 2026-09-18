@@ -24,6 +24,8 @@ export const env = {
     secretKey: process.env.DESK_SECRET_KEY || "",
     serverHost: process.env.DESK_SERVER_HOST || DEFAULT_DESK_SERVER_HOST,
     natPort: Number(process.env.DESK_SERVER_NAT_PORT) || DEFAULT_DESK_NAT_PORT,
+    // installers come from the repo's latest GitHub release; these only apply while GitHub cannot be reached
+    releasesRepo: process.env.DESK_RELEASES_REPO || "WeAreGoTech/gotech-desk",
     downloadWindowsUrl: process.env.DESK_DOWNLOAD_WINDOWS_URL || "",
     downloadMacUrl: process.env.DESK_DOWNLOAD_MAC_URL || "",
     // version the desktop app should update itself to; empty means "no update to offer"

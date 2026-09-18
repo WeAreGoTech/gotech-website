@@ -22,5 +22,5 @@ export async function POST(request: Request) {
   const [summary, support] = await Promise.all([getDeviceSummary(device.id), getSupportDirectory()]);
   if (!summary) return notRegistered();
   const { companyName, customerCode, personName, label, unattended } = summary;
-  return Response.json({ ok: true, companyName, customerCode, personName, label, unattended, support, update: latestDeskUpdate() });
+  return Response.json({ ok: true, companyName, customerCode, personName, label, unattended, support, update: await latestDeskUpdate() });
 }
