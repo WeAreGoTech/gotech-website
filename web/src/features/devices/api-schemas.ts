@@ -12,6 +12,8 @@ const deskId = z.string().regex(/^\d{6,12}$/);
 const hostname = z.string().trim().min(1).max(100);
 const appVersion = z.string().trim().min(1).max(30);
 const deviceToken = z.string().min(1).max(DEVICE_TOKEN_MAX);
+// base64 of RustDesk's machine UUID; its connection audit identifies the computer by desk ID + this
+const deviceUuid = z.string().min(1).max(DEVICE_TOKEN_MAX);
 
 export const lookupSchema = z.object({ customerCode });
 
@@ -41,7 +43,23 @@ export const setupSchema = registerSchema
   .pick({ deskId: true, hostname: true, platform: true, appVersion: true })
   .extend({ token: z.string().regex(/^[A-Za-z0-9_-]{20,100}$/) });
 
-export const heartbeatSchema = z.object({ deskId, deviceToken, hostname, appVersion });
+// deviceUuid is optional: apps before 1.5.0-test9 do not send it
+export const heartbeatSchema = z.object({ deskId, deviceToken, hostname, appVersion, deviceUuid: deviceUuid.optional() });
+
+export const sessionsSchema = z.object({ deskId, deviceToken });
+
+// RustDesk's connection audit (src/server/connection.rs post_conn_audit): one record when a connection opens,
+// one with the peer when it is authorized, one on close. Other fields it sends are ignored.
+export const connAuditSchema = z.object({
+  id: deskId,
+  uuid: deviceUuid,
+  conn_id: z.number().int(),
+  nonce: z.string().min(1).max(100),
+  action: z.string().max(20).optional(),
+  ip: z.string().max(100).optional(),
+  peer: z.array(z.string().max(200)).max(2).optional(),
+  type: z.number().int().optional(),
+});
 
 export const supportRequestSchema = z.object({
   deskId,
@@ -50,4 +68,5 @@ export const supportRequestSchema = z.object({
 });
 
 export type RegisterInput = z.infer<typeof registerSchema>;
+export type ConnAuditInput = z.infer<typeof connAuditSchema>;
 export type ClaimInput = z.infer<typeof claimSchema>;

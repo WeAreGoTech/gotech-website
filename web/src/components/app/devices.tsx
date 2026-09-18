@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { DESK_PLATFORMS, DESK_PLATFORM_LABELS, installerLink, installerUrl } from "@/features/devices/downloads";
-import { CONNECTION_KIND_LABELS, connectHref, deviceHref, deviceTitle, formatDeskId, platformLabel } from "@/features/devices/labels";
+import { CONNECTION_KIND_LABELS, connectHref, deviceHref, deviceTitle, formatDeskId, platformLabel, sessionPeerName } from "@/features/devices/labels";
 import type { ConnectionRow, DeviceRow } from "@/features/devices/queries";
-import { formatDateTime } from "@/lib/format";
+import type { SessionRow } from "@/features/devices/sessions";
+import { formatDateTime, formatDuration } from "@/lib/format";
 import { Icon } from "./Icon";
 
 type Audience = "staff" | "customer";
@@ -127,6 +128,37 @@ export function ConnectionList({ connections, showDevice = true }: { connections
             )}
           </span>
           <span className="w-row-side"><small>{formatDateTime(c.createdAt)}</small></span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// RustDesk's audit connection types (see desk_sessions.conn_type)
+const SESSION_KIND_LABELS: Record<number, string> = { 0: "uzak masaüstü", 1: "dosya aktarımı", 2: "port yönlendirme", 3: "kamera", 4: "terminal" };
+
+function sessionLength(s: SessionRow) {
+  if (!s.startedAt) return "";
+  if (!s.endedAt) return "sürüyor ya da süresi bilinmiyor";
+  return formatDuration(s.endedAt.getTime() - s.startedAt.getTime());
+}
+
+/** Sessions the customer's app reported: who, on which computer, when and for how long. */
+export function SessionList({ sessions, showDevice = true }: { sessions: SessionRow[]; showDevice?: boolean }) {
+  return (
+    <ul className="w-list">
+      {sessions.length === 0 && <li className="empty-row">Henüz oturum kaydı yok.</li>}
+      {sessions.map((s) => (
+        <li key={s.id} className="w-row">
+          <span className="w-icon"><Icon name={s.connType === 1 ? "file" : "monitor"} size={18} /></span>
+          <span className="w-row-main">
+            <strong>{sessionPeerName(s)}{s.connType !== null && SESSION_KIND_LABELS[s.connType] ? `, ${SESSION_KIND_LABELS[s.connType]}` : ""}</strong>
+            <small>
+              {showDevice && <>{deviceTitle(s)}, </>}
+              {sessionLength(s)}
+            </small>
+          </span>
+          <span className="w-row-side"><small>{s.startedAt && formatDateTime(s.startedAt)}</small></span>
         </li>
       ))}
     </ul>

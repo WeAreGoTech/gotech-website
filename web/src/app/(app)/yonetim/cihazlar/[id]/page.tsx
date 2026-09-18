@@ -5,11 +5,12 @@ import { BackButton } from "@/components/app/AppShell";
 import { Section } from "@/components/app/dashboard";
 import { DeviceHeader } from "@/components/app/device-detail";
 import { DeviceAssignmentForm } from "@/components/app/device-forms";
-import { ConnectionList, DevicePerson, StatusUnknownNotice } from "@/components/app/devices";
+import { ConnectionList, DevicePerson, SessionList, StatusUnknownNotice } from "@/components/app/devices";
 import { DetailRows } from "@/components/app/ticket-detail";
 import { listCompanyPeople } from "@/features/customers/queries";
 import { removeDevice, updateDeviceAssignment } from "@/features/devices/actions";
 import { getDeviceView, listDeviceConnections } from "@/features/devices/queries";
+import { listDeviceSessions } from "@/features/devices/sessions";
 import { requireStaff } from "@/lib/auth/session";
 import { formatDateTime } from "@/lib/format";
 
@@ -22,7 +23,11 @@ export default async function DevicePage({ params }: PageProps<"/yonetim/cihazla
   if (!view) notFound();
 
   const { device, statusKnown } = view;
-  const [people, connections] = await Promise.all([listCompanyPeople(device.companyId), listDeviceConnections(device.id)]);
+  const [people, connections, sessions] = await Promise.all([
+    listCompanyPeople(device.companyId),
+    listDeviceConnections(device.id),
+    listDeviceSessions(device.id),
+  ]);
 
   return (
     <>
@@ -30,9 +35,14 @@ export default async function DevicePage({ params }: PageProps<"/yonetim/cihazla
       <DeviceHeader device={device} />
       <StatusUnknownNotice show={!statusKnown} />
       <div className="t-layout">
-        <Section title="Bağlantı geçmişi">
-          <ConnectionList connections={connections} showDevice={false} />
-        </Section>
+        <div>
+          <Section title="Oturumlar">
+            <SessionList sessions={sessions} showDevice={false} />
+          </Section>
+          <Section title="Panelden bağlanma geçmişi">
+            <ConnectionList connections={connections} showDevice={false} />
+          </Section>
+        </div>
         <aside className="t-side">
           <DeviceAssignmentForm
             action={updateDeviceAssignment.bind(null, device.id)}

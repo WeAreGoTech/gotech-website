@@ -27,6 +27,17 @@ export function relativeDue(date: Date) {
   return days > 0 ? `${days} gün kaldı` : `${-days} gün geçti`;
 }
 
+const MINUTE_MS = 60_000;
+const MINUTES_PER_HOUR = 60;
+/** "45 sn" under a minute, "12 dk", "1 sa 5 dk". */
+export function formatDuration(ms: number) {
+  const minutes = Math.floor(ms / MINUTE_MS);
+  if (minutes < 1) return `${Math.max(0, Math.round(ms / 1000))} sn`;
+  if (minutes < MINUTES_PER_HOUR) return `${minutes} dk`;
+  const rest = minutes % MINUTES_PER_HOUR;
+  return `${Math.floor(minutes / MINUTES_PER_HOUR)} sa${rest ? ` ${rest} dk` : ""}`;
+}
+
 const KB = 1024;
 export function formatBytes(bytes: number) {
   if (bytes < KB * KB) return `${Math.max(1, Math.round(bytes / KB))} KB`;

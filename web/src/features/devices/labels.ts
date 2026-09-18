@@ -27,6 +27,10 @@ export const deviceHref = (deviceId: string) => `/yonetim/cihazlar/${deviceId}`;
 /** Label of a shared computer, else its hostname. */
 export const deviceTitle = (device: { label: string | null; hostname: string }) => device.label ?? device.hostname;
 
+/** Who connected in a session, as the customer should see it: the team member's name, else what their app called itself. */
+export const sessionPeerName = (s: { staffName: string | null; peerName: string | null; peerDeskId: string | null }) =>
+  s.staffName ?? (s.peerName || s.peerDeskId || "Bilinmeyen");
+
 const DESK_ID_GROUP = 3;
 /** "201369773" → "201 369 773" */
 export const formatDeskId = (deskId: string) => deskId.match(new RegExp(`.{1,${DESK_ID_GROUP}}`, "g"))?.join(" ") ?? deskId;

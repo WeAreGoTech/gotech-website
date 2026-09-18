@@ -42,7 +42,7 @@ export async function getDeviceSummary(deviceId: string) {
   return { ...rest, personName: userName ?? contactName, unattended: unattendedPasswordEnc !== null };
 }
 
-export async function touchDevice(deviceId: string, fields: { hostname: string; appVersion: string }) {
+export async function touchDevice(deviceId: string, fields: { hostname: string; appVersion: string; deviceUuidHash?: string }) {
   const db = await getDb();
   await db.update(devices).set({ ...fields, lastRegisteredAt: new Date() }).where(eq(devices.id, deviceId));
 }

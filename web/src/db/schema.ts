@@ -267,6 +267,8 @@ export const devices = pgTable(
     appVersion: text("app_version").notNull(),
     // AES-256-GCM, see lib/desk/crypto; null when the customer has unattended access turned off
     unattendedPasswordEnc: text("unattended_password_enc"),
+    // SHA-256 of the app's machine UUID (sent with heartbeats); the RustDesk connection audit carries only desk ID + UUID
+    deviceUuidHash: text("device_uuid_hash"),
     registeredAt: timestamp("registered_at", { withTimezone: true }).notNull().defaultNow(),
     lastRegisteredAt: timestamp("last_registered_at", { withTimezone: true }).notNull().defaultNow(),
     createdAt: createdAt(),
@@ -301,6 +303,31 @@ export const deviceConnections = pgTable(
     createdAt: createdAt(),
   },
   (t) => [index("device_connections_device_idx").on(t.deviceId), index("device_connections_created_idx").on(t.createdAt)],
+);
+
+// Sessions on a customer computer, as its GoTech Desk app reports them (RustDesk connection audit, /api/audit/conn):
+// who connected from which computer, and from when to when.
+export const deskSessions = pgTable(
+  "desk_sessions",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    deviceId: uuid("device_id").notNull().references(() => devices.id, { onDelete: "cascade" }),
+    // the app's connection number; it starts over when the app restarts, so only the newest open row is matched
+    connId: integer("conn_id").notNull(),
+    // the audit record that opened the row: a retried post must not open a second one
+    nonce: text("nonce").notNull().unique(),
+    ip: text("ip"),
+    peerDeskId: text("peer_desk_id"),
+    peerName: text("peer_name"),
+    // set when the connecting computer is one of the GoTech team's
+    staffUserId: uuid("staff_user_id").references(() => users.id, { onDelete: "set null" }),
+    // RustDesk's audit type: 0 remote control, 1 file transfer, 2 port forward, 3 camera, 4 terminal
+    connType: integer("conn_type"),
+    startedAt: timestamp("started_at", { withTimezone: true }).notNull().defaultNow(),
+    authorizedAt: timestamp("authorized_at", { withTimezone: true }),
+    endedAt: timestamp("ended_at", { withTimezone: true }),
+  },
+  (t) => [index("desk_sessions_device_idx").on(t.deviceId, t.startedAt)],
 );
 
 export type User = typeof users.$inferSelect;

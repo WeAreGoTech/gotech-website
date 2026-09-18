@@ -64,6 +64,13 @@
       "when": 1789734599448,
       "tag": "0008_kurulum_baglantilari",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1789757593897,
+      "tag": "0009_baglanti_gecmisi",
+      "breakpoints": true
     }
   ]
 }

@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader } from "@/components/app/AppShell";
 import { Section } from "@/components/app/dashboard";
-import { DeviceList, StatusUnknownNotice } from "@/components/app/devices";
+import { DeviceList, SessionList, StatusUnknownNotice } from "@/components/app/devices";
 import { Icon } from "@/components/app/Icon";
 import { getCompany } from "@/features/customers/queries";
 import { claimDevice } from "@/features/devices/actions";
 import { installerHref, installerUrl, type DeskPlatform } from "@/features/devices/downloads";
 import { listDevices } from "@/features/devices/queries";
+import { listCompanySessions } from "@/features/devices/sessions";
 import { requireCustomer } from "@/lib/auth/session";
 
 export const metadata: Metadata = { title: "Uzak destek" };
@@ -19,7 +20,11 @@ const DOWNLOADS: { platform: DeskPlatform; label: string; className: string }[] 
 
 export default async function RemoteSupportPage() {
   const user = await requireCustomer();
-  const [company, { devices, statusKnown }] = await Promise.all([getCompany(user.companyId), listDevices(user.companyId)]);
+  const [company, { devices, statusKnown }, sessions] = await Promise.all([
+    getCompany(user.companyId),
+    listDevices(user.companyId),
+    listCompanySessions(user.companyId),
+  ]);
   const customerCode = company?.customerCode;
   // the file the customer gets is named after their company, so the app knows the code before it starts
   const downloads = customerCode
@@ -71,6 +76,9 @@ export default async function RemoteSupportPage() {
           </Section>
           <Section title="Firmadaki diğer bilgisayarlar">
             <DeviceList devices={others} audience="customer" emptyText="Firmada başka kayıtlı bilgisayar yok." claimAction={claim} />
+          </Section>
+          <Section title="Son destek oturumları">
+            <SessionList sessions={sessions} />
           </Section>
         </div>
       </div>
