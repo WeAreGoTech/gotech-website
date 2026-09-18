@@ -23,7 +23,7 @@ export default async function TeamMembersPage() {
           <PeopleList people={staff} tone="team" youId={user.id} />
           <Section title="GoTech Desk bilgisayarları" href="/yonetim/hesap" linkLabel="Kendi bilgisayarlarım">
             <p className="desk-notice notice">
-              Müşteri bilgisayarlarına yalnızca bu listedeki bilgisayarlar bağlanabilir. Herkes kendi bilgisayarlarını hesap sayfasından ekler.
+              Müşteri bilgisayarlarına yalnızca bu listedeki bilgisayarlar bağlanabilir. GoTech Desk&apos;e ekip hesabıyla giriş yapılan bilgisayar listeye kendiliğinden eklenir; diğerleri hesap sayfasından eklenir.
             </p>
             <StaffDeviceList devices={staffDevices} />
           </Section>
