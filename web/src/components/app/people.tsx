@@ -15,9 +15,11 @@ type PeopleListProps = {
   // GoTech Desk computers linked to each person, by user ID
   deviceCounts?: Record<string, number>;
   controls?: PeopleControls;
+  // GoTech's own people have no firma yetkilisi to manage, only a way out
+  removeAction?: PersonAction;
 };
 
-export function PeopleList({ people, tone, youId, resendAction, deviceCounts, controls }: PeopleListProps) {
+export function PeopleList({ people, tone, youId, resendAction, deviceCounts, controls, removeAction }: PeopleListProps) {
   // a company always keeps one firma yetkilisi, so the last one can be neither demoted nor removed
   const adminCount = people.filter((p) => p.isCompanyAdmin).length;
   const isLastAdmin = (person: { isCompanyAdmin?: boolean }) => Boolean(person.isCompanyAdmin) && adminCount <= 1;
@@ -65,6 +67,11 @@ export function PeopleList({ people, tone, youId, resendAction, deviceCounts, co
                 )}
               </>
             )}
+            {removeAction && person.id !== youId && (
+              <form action={removeAction(person.id)}>
+                <button className="btn btn-ghost btn-small" type="submit" title="Paneli, GoTech Desk oturumu ve ekip bilgisayarları kapanır">Çıkar</button>
+              </form>
+            )}
           </span>
         </li>
       ))}
@@ -74,8 +81,20 @@ export function PeopleList({ people, tone, youId, resendAction, deviceCounts, co
 
 type RemovedPerson = { id: string; name: string; email: string };
 
-/** People taken out of the company, with a way back in. */
-export function RemovedPeopleList({ people, restore }: { people: RemovedPerson[]; restore: PersonAction }) {
+const CUSTOMER_RESTORE_HINT = "Geri alınan kişi eski şifresiyle girer ve firma yetkilisi olmaz.";
+
+/** People taken out of the company (or of GoTech's team), with a way back in. */
+export function RemovedPeopleList({
+  people,
+  restore,
+  tone = "customer",
+  hint = CUSTOMER_RESTORE_HINT,
+}: {
+  people: RemovedPerson[];
+  restore: PersonAction;
+  tone?: "team" | "customer";
+  hint?: string;
+}) {
   if (people.length === 0) return null;
   return (
     <div className="removed-people">
@@ -83,7 +102,7 @@ export function RemovedPeopleList({ people, restore }: { people: RemovedPerson[]
       <ul className="w-list">
         {people.map((person) => (
           <li key={person.id} className="w-row people-row is-removed">
-            <Avatar name={person.name} tone="customer" />
+            <Avatar name={person.name} tone={tone} />
             <span className="w-row-main">
               <strong>{person.name}</strong>
               <small>{person.email}</small>
@@ -96,7 +115,7 @@ export function RemovedPeopleList({ people, restore }: { people: RemovedPerson[]
           </li>
         ))}
       </ul>
-      <p className="desk-hint">Geri alınan kişi eski şifresiyle girer ve firma yetkilisi olmaz.</p>
+      <p className="desk-hint">{hint}</p>
     </div>
   );
 }

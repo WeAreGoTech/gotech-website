@@ -82,5 +82,15 @@ export async function listStaff() {
   return rows.map(({ passwordHash, ...person }) => ({ ...person, active: Boolean(passwordHash) }));
 }
 
+/** Team members taken out of GoTech; they can be brought back from the Ekip page. */
+export async function listRemovedStaff() {
+  const db = await getDb();
+  return db
+    .select({ id: users.id, name: users.name, email: users.email })
+    .from(users)
+    .where(and(eq(users.role, "staff"), isNotNull(users.removedAt)))
+    .orderBy(asc(users.name));
+}
+
 export type Person = Awaited<ReturnType<typeof listCompanyPeople>>[number];
 export type CompanyWithCustomers = Awaited<ReturnType<typeof listCompaniesWithCustomers>>[number];

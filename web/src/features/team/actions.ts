@@ -13,6 +13,7 @@ import { failure, fieldErrors, success, text, type ActionState } from "@/lib/for
 import { sendMail } from "@/lib/mail/send";
 import { inviteMail, staffInviteMail } from "@/lib/mail/templates";
 import { changeMember, isFirstMember, MEMBER_ERRORS, noticeHref, TEAM_PAGE, type MemberChange } from "./membership";
+import { changeStaff, STAFF_PAGE, type StaffChange } from "./staff-membership";
 
 const personSchema = z.object({
   name: z.string().trim().min(2, { error: "Kişinin adını ve soyadını yazın." }).max(120),
@@ -85,6 +86,21 @@ export async function removeColleague(personId: string) {
 
 export async function restoreColleague(personId: string) {
   await manageColleague(personId, "restore");
+}
+
+/** The Ekip page's remove and restore buttons for GoTech's own people; a refusal comes back as a warning. */
+async function manageStaff(personId: string, change: StaffChange) {
+  const me = await requireStaff();
+  const error = await changeStaff(me.id, personId, change);
+  redirect(error ? noticeHref(STAFF_PAGE, error) : STAFF_PAGE);
+}
+
+export async function removeStaffMember(personId: string) {
+  await manageStaff(personId, "remove");
+}
+
+export async function restoreStaffMember(personId: string) {
+  await manageStaff(personId, "restore");
 }
 
 // Staff invite people from one form, choosing whether the person joins GoTech or a customer company.
