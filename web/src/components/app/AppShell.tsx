@@ -16,7 +16,7 @@ export function AppShell({ area, user, links, cta, children }: AppShellProps) {
           <>
             <Link className="mobile-bar-brand" href={links[0]?.href ?? "/"} aria-label="GoTech">
               {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG, nothing for next/image to optimize */}
-              <img src="/brand/gotech-logo.svg" alt="" width={200} height={160} />
+              <img src="/brand/gotech-logo.svg" alt="" width={180} height={58} />
               <small>{area}</small>
             </Link>
             {cta && (
@@ -32,7 +32,7 @@ export function AppShell({ area, user, links, cta, children }: AppShellProps) {
           <div className="sidebar-brand">
             <span className="logo">
               {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG, nothing for next/image to optimize */}
-              <img src="/brand/gotech-logo.svg" alt="GoTech" width={200} height={160} />
+              <img src="/brand/gotech-logo.svg" alt="GoTech" width={180} height={58} />
             </span>
             <small>{area}</small>
           </div>

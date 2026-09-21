@@ -8,7 +8,7 @@ export function AuthLayout({ heading, text, children }: { heading: ReactNode; te
         <div className="auth-top">
           <Link className="logo" href="/" aria-label="GoTech ana sayfa">
             {/* eslint-disable-next-line @next/next/no-img-element -- a static SVG, nothing for next/image to optimize */}
-            <img src="/brand/gotech-logo.svg" alt="GoTech" width={200} height={160} />
+            <img src="/brand/gotech-logo.svg" alt="GoTech" width={180} height={58} />
           </Link>
           <Link href="/">Ana sayfa</Link>
         </div>
