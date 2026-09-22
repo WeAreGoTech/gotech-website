@@ -9,6 +9,7 @@ import { Icon } from "@/components/app/Icon";
 import { PeopleList, PeopleNotice, RemovedPeopleList } from "@/components/app/people";
 import { ProjectCard } from "@/components/app/projects";
 import { AddDocumentForm } from "@/components/app/staff-forms";
+import { AddPersonForm } from "@/components/app/team-forms";
 import { TicketList } from "@/components/app/TicketList";
 import { demotePerson, promotePerson, removePerson, resendInvite, restorePerson } from "@/features/customers/actions";
 import { getCompany, listCompanyPeople, listRemovedCompanyPeople } from "@/features/customers/queries";
@@ -92,6 +93,7 @@ export default async function CompanyPage({ params, searchParams }: PageProps<"/
               controls={PEOPLE_CONTROLS}
               setupLinks
             />
+            <AddPersonForm companyId={id} />
             <RemovedPeopleList people={removedPeople} restore={(personId) => restorePerson.bind(null, personId)} />
           </Section>
           <Section title="Cihazlar" href="/yonetim/cihazlar" linkLabel="Tüm cihazlar">

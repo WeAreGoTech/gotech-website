@@ -1,0 +1,32 @@
+name: Panel dağıtımı (SN404)
+
+# main'e her push'ta panel yeniden derlenip yayına alınır.
+# SN404 sunucusundaki self-hosted runner üzerinde çalışır; sunucuya dışarıdan
+# bağlantı açılmaz, runner GitHub'a kendi bağlanır.
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**/*.md"
+      - "mockups/**"
+  # Kod değişmeden elle yeniden yayınlamak için
+  workflow_dispatch:
+
+# Aynı anda iki dağıtım çakışmasın; yenisi gelirse öncekinin bitmesi beklenir.
+concurrency:
+  group: panel-dagit-sn404
+  cancel-in-progress: false
+
+jobs:
+  dagit:
+    name: Derle ve yayına al
+    runs-on: [self-hosted, windows, sn404]
+    timeout-minutes: 30
+    steps:
+      # Checkout yapılmıyor: dağıtım script'i sunucudaki canlı çalışma kopyasını
+      # (C:\GoTechPanel\kaynak) günceller. Runner'ın _work klasörü kullanılmaz.
+      - name: Dağıt
+        shell: powershell
+        run: |
+          & C:\GoTechPanel\dagit.ps1 -Dal main
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

@@ -95,10 +95,28 @@ button.stagebar-step.is-current:hover{background:var(--w-forest);color:#fff}
 .rating-given .is-off{color:var(--w-border)}
 
 /* ---------- people ---------- */
-.people-row{flex-wrap:wrap}
+/* Satirda yalnizca kimlik ve durum durur; islemler kisiye tiklayinca acilir. */
+.people-row{display:block;padding:0}
 .people-row .w-row-main{min-width:180px}
 .people-row .row-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-left:auto}
 .badge.is-admin{background:var(--w-forest);color:var(--w-accent-soft)}
+
+.person-head{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;border-radius:12px;list-style:none}
+.person-head::-webkit-details-marker{display:none}
+.person-head:hover{background:var(--w-neutral)}
+.person-head:focus-visible{outline:2px solid var(--cobalt);outline-offset:-2px}
+.person-badges{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-left:auto}
+.person-caret{color:var(--w-muted);font-size:1.2rem;line-height:1;transition:transform .15s ease}
+.person[open] .person-caret{transform:rotate(90deg)}
+.person[open] .person-head{background:var(--w-neutral)}
+.person-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:0 14px 14px 58px}
+.person-hint{flex:1 1 100%;margin:0;color:var(--w-muted);font-size:.84rem}
+.btn-small.is-danger{color:var(--w-negative)}
+
+@media (max-width:600px){
+  .person-actions{padding-left:14px}
+  .person-actions .btn-small{flex:1 1 auto}
+}
 
 @media (max-width:1000px){
   .two-col{grid-template-columns:minmax(0,1fr)}
@@ -121,3 +139,11 @@ button.stagebar-step.is-current:hover{background:var(--w-forest);color:#fff}
 .removed-people h3{margin:0 0 8px 6px;font-size:.95rem;font-weight:600;color:var(--w-ink-2)}
 .removed-people .desk-hint{margin:8px 0 0 6px;font-size:.85rem}
 .people-row.is-removed{opacity:.72}
+
+/* firma sayfasindaki "kisi ekle": kapali baslar, sayfayi mesgul etmez */
+.add-person{margin-top:10px;border-top:1px solid var(--w-border);padding-top:10px}
+.add-person-head{display:inline-flex;align-items:center;gap:6px;cursor:pointer;color:var(--w-muted);font-size:.9rem;font-weight:600;list-style:none}
+.add-person-head::-webkit-details-marker{display:none}
+.add-person-head:hover{color:var(--w-ink)}
+.add-person[open] .add-person-head{margin-bottom:12px;color:var(--w-ink)}
+.add-person .form-stack{gap:12px}

@@ -13,6 +13,8 @@ const NEW_COMPANY = "new";
 export function InviteCustomerForm({ companies }: { companies: { id: string; name: string }[] }) {
   const { state, pending, onSubmit, errorFor } = useFormAction(inviteCustomer);
   const [companyId, setCompanyId] = useState(companies[0]?.id ?? NEW_COMPANY);
+  // E-posta gönderilemiyorsa (ya da müşteriye telefonda söylenecekse) şifreyi burada üret.
+  const [sifreUret, setSifreUret] = useState(false);
 
   return (
     <form className="card form-stack" onSubmit={onSubmit} noValidate key={state.submittedAt}>
@@ -34,10 +36,54 @@ export function InviteCustomerForm({ companies }: { companies: { id: string; nam
           Firma yetkilisi olsun (firmasının kişilerini yönetebilir)
         </label>
       )}
+      <label className="check-row">
+        <input type="checkbox" name="generatePassword" checked={sifreUret} onChange={(e) => setSifreUret(e.target.checked)} />
+        E-posta yerine geçici şifre üret (şifreyi ekranda gösterir)
+      </label>
       <FormMessage state={state} />
-      <button className="btn" type="submit" disabled={pending}>{pending ? "Gönderiliyor…" : "Davet e-postası gönder"}</button>
-      <p className="muted" style={{ margin: 0, fontSize: ".88rem" }}>Kişi, e-postadaki bağlantıdan şifresini belirleyip panele girer.</p>
+      <button className="btn" type="submit" disabled={pending}>
+        {pending ? "Kaydediliyor…" : sifreUret ? "Ekle ve şifre üret" : "Davet e-postası gönder"}
+      </button>
+      <p className="muted" style={{ margin: 0, fontSize: ".88rem" }}>
+        {sifreUret
+          ? "Şifre bir kez gösterilir; kişiye siz iletirsiniz. Kişi daha sonra hesabından değiştirebilir."
+          : "Kişi, e-postadaki bağlantıdan şifresini belirleyip panele girer."}
+      </p>
     </form>
+  );
+}
+
+/**
+ * Firma sayfasındaki "kişi ekle": firma zaten belli olduğu için firma seçimi yok.
+ * Kapalı başlar ki sayfa kalabalıklaşmasın.
+ */
+export function AddPersonForm({ companyId }: { companyId: string }) {
+  const { state, pending, onSubmit, errorFor } = useFormAction(inviteCustomer);
+  const [sifreUret, setSifreUret] = useState(false);
+
+  return (
+    <details className="add-person">
+      <summary className="add-person-head">
+        <span aria-hidden>+</span> Kişi ekle
+      </summary>
+      <form className="form-stack" onSubmit={onSubmit} noValidate key={state.submittedAt}>
+        <input type="hidden" name="companyId" value={companyId} />
+        <TextField label="Ad soyad" name="name" autoComplete="off" error={errorFor("name")} />
+        <TextField label="E-posta" name="email" type="email" autoComplete="off" error={errorFor("email")} />
+        <label className="check-row">
+          <input type="checkbox" name="companyAdmin" />
+          Firma yetkilisi olsun (firmasının kişilerini yönetebilir)
+        </label>
+        <label className="check-row">
+          <input type="checkbox" name="generatePassword" checked={sifreUret} onChange={(e) => setSifreUret(e.target.checked)} />
+          E-posta yerine geçici şifre üret
+        </label>
+        <FormMessage state={state} />
+        <button className="btn btn-small" type="submit" disabled={pending}>
+          {pending ? "Kaydediliyor…" : sifreUret ? "Ekle ve şifre üret" : "Ekle ve davet gönder"}
+        </button>
+      </form>
+    </details>
   );
 }
 

@@ -1,6 +1,7 @@
 import type { InputHTMLAttributes, ReactNode, TextareaHTMLAttributes } from "react";
 import type { ActionState } from "@/lib/forms";
 import { DatePicker } from "./DatePicker";
+import { SecretBox } from "./SecretBox";
 import { Select, type SelectOption } from "./Select";
 
 type FieldShellProps = { id: string; label: ReactNode; error?: string; optional?: boolean; wide?: boolean; children: ReactNode };
@@ -66,11 +67,16 @@ export function DateField({ label, name, error, optional, wide, defaultValue }: 
 }
 
 export function FormMessage({ state }: { state: ActionState }) {
-  if (!state.message) return null;
+  if (!state.message && !state.secret) return null;
   return (
-    <p className={`form-message ${state.status === "success" ? "is-success" : "is-error"}`} role={state.status === "error" ? "alert" : "status"}>
-      {state.message}
-    </p>
+    <>
+      {state.message && (
+        <p className={`form-message ${state.status === "success" ? "is-success" : "is-error"}`} role={state.status === "error" ? "alert" : "status"}>
+          {state.message}
+        </p>
+      )}
+      {state.secret && <SecretBox value={state.secret} />}
+    </>
   );
 }
 

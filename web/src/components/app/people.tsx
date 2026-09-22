@@ -29,56 +29,66 @@ export function PeopleList({ people, tone, youId, resendAction, deviceCounts, co
 
   return (
     <ul className="w-list">
-      {people.map((person) => (
-        <li key={person.id} className="w-row people-row">
-          <Avatar name={person.name} tone={tone} />
-          <span className="w-row-main">
-            <strong>{person.name}{person.id === youId ? " (siz)" : ""}</strong>
-            <small>{[person.title, person.email, person.phone, deviceCounts?.[person.id] && `${deviceCounts[person.id]} bilgisayar`].filter(Boolean).join(", ")}</small>
-          </span>
-          <span className="row-actions">
-            {person.isCompanyAdmin && <span className="badge is-admin">Firma yetkilisi</span>}
-            {person.active ? (
-              <span className="badge is-active">Aktif</span>
-            ) : (
-              <>
-                <span className="badge is-mock">Davet bekliyor</span>
-                {resendAction && (
-                  <form action={resendAction(person.id)}>
-                    <button className="btn btn-ghost btn-small" type="submit">Yeniden gönder</button>
-                  </form>
-                )}
-              </>
-            )}
-            {setupLinks && <SetupLinkButton personId={person.id} />}
-            {controls && (
-              <>
-                {person.isCompanyAdmin ? (
-                  !isLastAdmin(person) && (
-                    <form action={controls.demote(person.id)}>
-                      <button className="btn btn-ghost btn-small" type="submit">Yetkiyi al</button>
+      {people.map((person) => {
+        const hasActions = Boolean((!person.active && resendAction) || setupLinks || controls || (removeAction && person.id !== youId));
+        return (
+          <li key={person.id} className="people-row">
+            {/* Satır sade kalsın diye işlemler tıklanınca açılır. <details> kullanıldığı için
+                JavaScript gerekmez ve bileşen sunucu bileşeni olarak kalır. */}
+            <details className="person">
+              <summary className="person-head">
+                <Avatar name={person.name} tone={tone} />
+                <span className="w-row-main">
+                  <strong>{person.name}{person.id === youId ? " (siz)" : ""}</strong>
+                  <small>{[person.title, person.email, person.phone, deviceCounts?.[person.id] && `${deviceCounts[person.id]} bilgisayar`].filter(Boolean).join(", ")}</small>
+                </span>
+                <span className="person-badges">
+                  {person.isCompanyAdmin && <span className="badge is-admin">Firma yetkilisi</span>}
+                  {person.active ? <span className="badge is-active">Aktif</span> : <span className="badge is-mock">Davet bekliyor</span>}
+                  {hasActions && <span className="person-caret" aria-hidden>›</span>}
+                </span>
+              </summary>
+
+              {hasActions && (
+                <div className="person-actions">
+                  {!person.active && resendAction && (
+                    <form action={resendAction(person.id)}>
+                      <button className="btn btn-ghost btn-small" type="submit">Daveti yeniden gönder</button>
                     </form>
-                  )
-                ) : (
-                  <form action={controls.promote(person.id)}>
-                    <button className="btn btn-ghost btn-small" type="submit">Yetkili yap</button>
-                  </form>
-                )}
-                {person.id !== youId && !isLastAdmin(person) && (
-                  <form action={controls.remove(person.id)}>
-                    <button className="btn btn-ghost btn-small" type="submit" title="Kişiyi firmadan çıkar">Çıkar</button>
-                  </form>
-                )}
-              </>
-            )}
-            {removeAction && person.id !== youId && (
-              <form action={removeAction(person.id)}>
-                <button className="btn btn-ghost btn-small" type="submit" title="Paneli, GoTech Desk oturumu ve ekip bilgisayarları kapanır">Çıkar</button>
-              </form>
-            )}
-          </span>
-        </li>
-      ))}
+                  )}
+                  {setupLinks && <SetupLinkButton personId={person.id} />}
+                  {controls && (
+                    <>
+                      {person.isCompanyAdmin ? (
+                        !isLastAdmin(person) && (
+                          <form action={controls.demote(person.id)}>
+                            <button className="btn btn-ghost btn-small" type="submit">Yetkiyi al</button>
+                          </form>
+                        )
+                      ) : (
+                        <form action={controls.promote(person.id)}>
+                          <button className="btn btn-ghost btn-small" type="submit">Yetkili yap</button>
+                        </form>
+                      )}
+                      {person.id !== youId && !isLastAdmin(person) && (
+                        <form action={controls.remove(person.id)}>
+                          <button className="btn btn-ghost btn-small is-danger" type="submit" title="Kişiyi firmadan çıkar">Firmadan çıkar</button>
+                        </form>
+                      )}
+                    </>
+                  )}
+                  {removeAction && person.id !== youId && (
+                    <form action={removeAction(person.id)}>
+                      <button className="btn btn-ghost btn-small is-danger" type="submit" title="Paneli, GoTech Desk oturumu ve ekip bilgisayarları kapanır">Ekipten çıkar</button>
+                    </form>
+                  )}
+                  {isLastAdmin(person) && <p className="person-hint">Firmanın tek yetkilisi; yetkisi alınamaz ve çıkarılamaz.</p>}
+                </div>
+              )}
+            </details>
+          </li>
+        );
+      })}
     </ul>
   );
 }
