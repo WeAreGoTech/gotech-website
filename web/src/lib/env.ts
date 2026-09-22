@@ -2,7 +2,7 @@
 import path from "node:path";
 
 const DEFAULT_SMTP_PORT = 587;
-const DEFAULT_DESK_SERVER_HOST = "152.53.142.222";
+const DEFAULT_DESK_SERVER_HOST = "31.40.199.183";
 const DEFAULT_DESK_NAT_PORT = 21115;
 
 export const env = {
