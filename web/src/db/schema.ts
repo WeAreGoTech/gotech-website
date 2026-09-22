@@ -6,7 +6,7 @@ export const TICKET_STATUSES = ["open", "in_progress", "waiting_customer", "clos
 export const TICKET_PRIORITIES = ["normal", "high", "urgent"] as const;
 export const TICKET_CATEGORIES = ["support", "bug", "request", "billing"] as const;
 export const LEAD_STATUSES = ["new", "contacted", "quoted", "won", "lost"] as const;
-export const LEAD_TOPICS = ["erp", "web", "panel", "unsure"] as const;
+export const LEAD_TOPICS = ["bilgi", "demo", "teklif", "destek", "ortaklik", "diger"] as const;
 export const MAIL_TRANSPORTS = ["mock", "smtp"] as const;
 export const SERVICE_KINDS = ["erp", "web", "panel"] as const;
 export const PROJECT_STAGES = ["discovery", "design", "development", "testing", "live"] as const;
@@ -329,6 +329,15 @@ export const deskSessions = pgTable(
   },
   (t) => [index("desk_sessions_device_idx").on(t.deviceId, t.startedAt)],
 );
+
+// Kurumsal sitenin yönetim panelinden düzenlenen metinleri: anahtar, koddaki varsayılanın adı
+// (DEFAULT_SITE_SETTINGS / DEFAULT_SITE_CONTENT). Burada satırı olmayan alan varsayılanıyla görünür.
+export const siteTexts = pgTable("site_texts", {
+  key: text("key").primaryKey(),
+  value: text("value").notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 
 export type User = typeof users.$inferSelect;
 export type TicketAttachment = typeof ticketAttachments.$inferSelect;

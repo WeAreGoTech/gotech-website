@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 58" width="180" height="58" fill="none" role="img" aria-label="GoTech">
+  <text x="8" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="600" font-style="italic" fill="#FFFFFF">go</text>
+  <rect x="60" y="12" width="1.5" height="34" rx="0.75" fill="rgba(255,255,255,.45)"/>
+  <text x="72" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="300" fill="#FFFFFF" letter-spacing="-0.5">tech</text>
+  <g transform="translate(158 8)" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round">
+    <line x1="0" y1="5" x2="10" y2="5"/>
+    <line x1="5" y1="0" x2="5" y2="10"/>
+  </g>
+</svg>

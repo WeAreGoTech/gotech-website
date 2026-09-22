@@ -1,10 +1,12 @@
 import type { LeadStatus, LeadTopic } from "@/db/schema";
 
 export const TOPIC_LABELS: Record<LeadTopic, string> = {
-  erp: "Mikro ERP",
-  web: "Web sitesi",
-  panel: "Yönetim paneli",
-  unsure: "Henüz emin değilim",
+  bilgi: "Genel bilgi",
+  demo: "Demo talebi",
+  teklif: "Fiyat teklifi",
+  destek: "Teknik destek",
+  ortaklik: "İş ortaklığı",
+  diger: "Diğer",
 };
 
 export const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {

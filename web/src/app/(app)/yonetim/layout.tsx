@@ -21,6 +21,7 @@ export default async function TeamPanelLayout({ children }: { children: ReactNod
         { href: "/yonetim/projeler", label: "Projeler", icon: "folder" },
         { href: "/yonetim/ekip", label: "Ekip", icon: "users" },
         { href: "/yonetim/mailler", label: "Giden mailler", icon: "mail" },
+        { href: "/yonetim/site", label: "Site içeriği", icon: "globe" },
         { href: "/yonetim/hesap", label: "Hesabım", icon: "user" },
       ]}
     >

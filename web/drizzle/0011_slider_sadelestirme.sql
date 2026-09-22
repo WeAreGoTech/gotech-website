@@ -1,0 +1,1 @@
+ALTER TABLE "site_slides" DROP COLUMN "gradient";

@@ -71,6 +71,27 @@
       "when": 1789757593897,
       "tag": "0009_baglanti_gecmisi",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1790002593065,
+      "tag": "0010_site_icerigi",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1790003636637,
+      "tag": "0011_slider_sadelestirme",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1790004630457,
+      "tag": "0012_slider_kaldirildi",
+      "breakpoints": true
     }
   ]
 }

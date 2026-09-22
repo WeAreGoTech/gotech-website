@@ -33,8 +33,8 @@ export async function seedSupport(db: Database, { kavurma, nova }: SeedCompanies
   ]);
 
   await db.insert(leads).values([
-    { name: "Mehmet Öz", company: "Öz Yedek Parça", email: "mehmet@ozyedekparca.example", phone: "0532 000 00 00", topics: ["erp", "panel"], message: "Bayilerimizin stok ve fiyatları kendisinin görebileceği bir sistem arıyoruz. Şu an her şey Excel ve telefonla yürüyor.", consentAt: hoursAgo(6), createdAt: hoursAgo(6) },
-    { name: "Selim Ateş", company: "Ateş Mobilya", email: "selim@atesmobilya.example", topics: ["web"], message: "Kataloğumuzu gösterecek, bayilerden sipariş alabilecek bir site istiyoruz.", status: "contacted", consentAt: hoursAgo(3 * DAY_HOURS), createdAt: hoursAgo(3 * DAY_HOURS) },
-    { name: "Gizem Er", company: "Er Kozmetik", email: "gizem@erkozmetik.example", phone: "0555 000 00 00", topics: ["erp", "web"], message: "E-ticaret sitemizin stoklarıyla depo stoklarını eşitlemek istiyoruz.", status: "quoted", consentAt: hoursAgo(9 * DAY_HOURS), createdAt: hoursAgo(9 * DAY_HOURS) },
+    { name: "Mehmet Öz", company: "Öz Yedek Parça", email: "mehmet@ozyedekparca.example", phone: "0532 000 00 00", topics: ["teklif", "demo"], message: "Bayilerimizin stok ve fiyatları kendisinin görebileceği bir sistem arıyoruz. Şu an her şey Excel ve telefonla yürüyor.", consentAt: hoursAgo(6), createdAt: hoursAgo(6) },
+    { name: "Selim Ateş", company: "Ateş Mobilya", email: "selim@atesmobilya.example", topics: ["bilgi"], message: "Kataloğumuzu gösterecek, bayilerden sipariş alabilecek bir site istiyoruz.", status: "contacted", consentAt: hoursAgo(3 * DAY_HOURS), createdAt: hoursAgo(3 * DAY_HOURS) },
+    { name: "Gizem Er", company: "Er Kozmetik", email: "gizem@erkozmetik.example", phone: "0555 000 00 00", topics: ["demo", "teklif"], message: "E-ticaret sitemizin stoklarıyla depo stoklarını eşitlemek istiyoruz.", status: "quoted", consentAt: hoursAgo(9 * DAY_HOURS), createdAt: hoursAgo(9 * DAY_HOURS) },
   ]);
 }

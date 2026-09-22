@@ -1,13 +1,22 @@
 # GoTech web
 
-Landing page, customer panel (support tickets) and team panel in one Next.js app.
+Landing page, corporate site, customer panel (support tickets) and team panel in one Next.js app.
 
 | Address | Who | What |
 | --- | --- | --- |
 | `/` | Visitors | Landing page, contact form |
+| `/hakkimizda`, `/urunler`, `/hizmetlerimiz`, `/iletisim` | Visitors | Corporate site; the contact form writes a lead. The landing page does not link here yet. |
 | `/giris` | Customers and team | Login |
 | `/panel` | Customers | Overview, support tickets (with rating), projects, invoices (printable), documents, colleagues, account |
-| `/yonetim` | GoTech team | Overview, tickets, contact form submissions (convert to customer), customers, projects, invoices, team, sent mails, account |
+| `/yonetim` | GoTech team | Overview, tickets, contact form submissions (convert to customer), customers, projects, invoices, team, sent mails, site content, account |
+
+The corporate site's contact details, hero copy, figures and footer are edited at `/yonetim/site`.
+Values live in `site_texts`; anything not saved there falls back to the defaults in
+`src/components/kurumsal/content.ts`. Product, service and process copy is fixed content and lives in
+`src/components/kurumsal/urunler-data.ts`.
+
+The design comes from `mockups/pro/v1-kurumsal.html` ("V1 Kurumsal"); `kurumsal.css` is that mockup's
+`base.css` plus its page styles. The site uses no CSS framework.
 
 Everything a customer sees is scoped to their own company. Document downloads (`/dokuman/[id]`) generate a sample PDF: the mockup stores document records, not files.
 
@@ -34,7 +43,9 @@ Copy `.env.example` to `.env` and fill in what you need. On the server, set at l
 2. `pnpm db:generate` writes a new SQL migration into `drizzle/`
 3. Migrations run automatically when the app starts
 
-## Production (VPS)
+## Production
+
+For Windows Server + IIS (no Docker), follow `../YAYIN-WINDOWS.md`. On a Linux VPS:
 
 ```bash
 pnpm build
@@ -54,10 +65,12 @@ pnpm create-staff "Ad Soyad" ad@gotech.com.tr
 ## Layout
 
 ```
-src/app/(site)       landing page
-src/app/(app)        login, set password, /panel, /yonetim
-src/components/site  landing sections and scroll animation
-src/components/app   panel shell, ticket views, forms
+src/app/(site)          landing page
+src/app/(kurumsal)      corporate site (own stylesheet, does not load globals.css)
+src/app/(app)           login, set password, /panel, /yonetim
+src/components/kurumsal  corporate site: header, footer, page sections, ERP panel mock, defaults
+src/components/site     the earlier landing's sections and scroll animation
+src/components/app      panel shell, ticket views, forms
 src/features/*       server actions and queries per area (tickets, leads, customers, auth, mail log)
 src/lib              session auth, mail sending and templates, env, rate limiting
 src/db               schema, connection, demo seed
