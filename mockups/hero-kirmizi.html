@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GoTech Hero Alternatifleri — Kırmızı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFFFF;
+  --ground:#F4F4F6;
+  --ink:#1A1A1E;
+  --ink-soft:rgba(26,26,30,.62);
+  --line:rgba(26,26,30,.12);
+  --brand:#E53935;
+  --brand-deep:#A81B17;
+  --brand-tint:rgba(229,57,53,.1);
+  --font:"Geologica", system-ui, sans-serif;
+  --gutter:clamp(20px, 5vw, 76px);
+  --nav-h:76px;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--font);font-weight:350;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.logo{display:block;width:132px;flex:none}
+.logo svg{display:block;width:100%;height:auto}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;padding:.95rem 1.6rem;border:0;border-radius:999px;background:var(--brand);color:#fff;font-weight:500;font-size:1rem;letter-spacing:-.01em;white-space:nowrap;transition:transform .2s,background .3s}
+.btn:active{transform:scale(.97)}
+.btn-white{background:#fff;color:var(--brand-deep)}
+.btn-ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 1px currentColor}
+.cta-row{display:flex;flex-wrap:wrap;gap:12px}
+
+/* ---------- shared nav ---------- */
+.nav{position:absolute;inset:0 0 auto 0;z-index:10;display:flex;align-items:center;gap:36px;padding:18px var(--gutter);height:var(--nav-h)}
+.nav-links{display:flex;align-items:center;gap:28px;margin-left:auto;font-size:.95rem;opacity:.8}
+.nav.on-dark{color:#fff}
+
+/* ---------- concept shell ---------- */
+.concept{position:relative;min-height:100vh;display:flex;flex-direction:column;overflow:hidden}
+.concept[hidden]{display:none}
+
+/* ================= D — kırmızı blok ================= */
+.d{background:var(--brand-deep);color:#fff;justify-content:center;padding:calc(var(--nav-h) + 40px) var(--gutter) 0}
+.d::after{content:"";position:absolute;right:-12vw;top:-18vh;width:64vw;height:64vw;border-radius:50%;background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.13),transparent 62%);pointer-events:none}
+.d-in{position:relative;z-index:2;max-width:1180px;width:100%;margin:0 auto}
+.d-kicker{display:inline-flex;align-items:center;gap:.6em;padding:.4rem .9rem;border-radius:999px;background:rgba(255,255,255,.14);font-size:.86rem}
+.d-kicker i{width:7px;height:7px;border-radius:50%;background:#fff}
+.d h1{font-weight:300;font-size:clamp(2.8rem,7.4vw,7rem);line-height:.98;letter-spacing:-.045em;margin:26px 0 0;max-width:15em}
+.d h1 em{font-style:normal;font-weight:500}
+.d-lede{margin:26px 0 0;max-width:30em;font-size:clamp(1.05rem,1.5vw,1.3rem);color:rgba(255,255,255,.78)}
+.d .cta-row{margin-top:38px}
+.d-stats{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:20px 56px;margin:auto auto 0;padding:26px 0 96px;max-width:1180px;width:100%;border-top:1px solid rgba(255,255,255,.2)}
+.d-stats div{display:grid;gap:1px}
+.d-stats strong{font-weight:400;font-size:clamp(1.5rem,2.4vw,2.2rem);line-height:1;letter-spacing:-.04em}
+.d-stats span{font-size:.85rem;color:rgba(255,255,255,.66)}
+
+/* ================= E — beyaz kurumsal ================= */
+.e{background:var(--paper);padding:calc(var(--nav-h) + 40px) var(--gutter) 0;justify-content:center}
+.e-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.86fr);gap:clamp(36px,5vw,90px);align-items:center;max-width:1240px;width:100%;margin:0 auto}
+.e-rule{display:block;width:56px;height:4px;border-radius:2px;background:var(--brand)}
+.e h1{font-weight:300;font-size:clamp(2.5rem,5.2vw,4.9rem);line-height:1.02;letter-spacing:-.045em;margin:24px 0 0;max-width:13em}
+.e h1 em{font-style:normal;font-weight:500;color:var(--brand)}
+.e-lede{margin:24px 0 0;max-width:30em;font-size:1.16rem;color:var(--ink-soft)}
+.e .cta-row{margin-top:34px}
+.e-trust{display:flex;flex-wrap:wrap;align-items:center;gap:14px 30px;margin-top:44px;padding-top:24px;border-top:1px solid var(--line);font-size:.9rem;color:var(--ink-soft)}
+.e-trust b{font-weight:500;color:var(--ink)}
+.e-partner{display:inline-flex;align-items:center;gap:.5em;padding:.4rem .85rem;border-radius:999px;background:var(--brand-tint);color:var(--brand-deep);font-size:.85rem}
+
+/* ================= F — bölünmüş ================= */
+.f{flex-direction:row;background:var(--paper)}
+.f-left{flex:1 1 46%;background:var(--brand-deep);color:#fff;display:flex;flex-direction:column;justify-content:center;padding:calc(var(--nav-h) + 48px) clamp(28px,4vw,64px) 48px var(--gutter)}
+.f-left h1{font-weight:300;font-size:clamp(2.4rem,4.4vw,4.4rem);line-height:1;letter-spacing:-.045em;margin:20px 0 0}
+.f-left h1 em{font-style:normal;font-weight:500}
+.f-lede{margin:22px 0 0;max-width:26em;color:rgba(255,255,255,.78);font-size:1.08rem}
+.f-left .cta-row{margin-top:32px}
+.f-badge{display:inline-flex;align-items:center;gap:.55em;align-self:flex-start;padding:.4rem .9rem;border-radius:999px;background:rgba(255,255,255,.14);font-size:.85rem}
+.f-right{flex:1 1 54%;display:grid;place-items:center;padding:calc(var(--nav-h) + 40px) var(--gutter) 48px clamp(28px,4vw,64px);background:var(--ground)}
+.f-stack{display:grid;gap:16px;width:min(430px,100%)}
+
+/* product cards (E + F) */
+.card{background:var(--paper);border-radius:22px;padding:20px 22px;display:grid;gap:13px;font-size:.9rem;box-shadow:0 30px 70px -34px rgba(20,4,3,.42);border:1px solid var(--line)}
+.card-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.card-title{font-weight:500}
+.pill{padding:.25rem .7rem;border-radius:999px;background:var(--brand-tint);color:var(--brand-deep);font-size:.78rem;font-weight:500}
+.pill-ok{background:#E6F6EC;color:#16703C}
+.rows{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.rows li{display:flex;justify-content:space-between;gap:14px;color:var(--ink-soft)}
+.tot{display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;border-top:1px solid var(--line)}
+.tot strong{font-weight:500;font-size:1.15rem}
+.meter{height:7px;border-radius:8px;background:var(--ground);overflow:hidden}
+.meter i{display:block;height:100%;border-radius:8px;background:var(--brand)}
+.card-sub{color:var(--ink-soft);font-size:.82rem}
+.stock{display:grid;gap:8px}
+.stock-row{display:flex;justify-content:space-between;gap:14px;color:var(--ink-soft)}
+.bars{display:flex;align-items:flex-end;gap:7px;height:72px}
+.bars i{flex:1;border-radius:5px 5px 0 0;background:var(--brand-tint)}
+.bars i.on{background:var(--brand)}
+.card-float{transform:translateX(clamp(0px,2vw,26px))}
+
+/* ---------- switch ---------- */
+.switch{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:50;display:flex;gap:4px;padding:5px;background:var(--ink);border-radius:999px;box-shadow:0 14px 44px -14px rgba(0,0,0,.6)}
+.switch button{border:0;background:transparent;color:rgba(255,255,255,.72);padding:.55rem 1.05rem;border-radius:999px;font-size:.9rem;white-space:nowrap}
+.switch button b{font-weight:600;margin-right:.4em;color:#fff}
+.switch button[aria-pressed="true"]{background:#fff;color:var(--ink)}
+.switch button[aria-pressed="true"] b{color:var(--brand)}
+
+@media (max-width:980px){
+  .e-grid{grid-template-columns:1fr;gap:40px}
+  .f{flex-direction:column}
+  .f-left,.f-right{padding-left:var(--gutter);padding-right:var(--gutter)}
+  .f-right{padding-top:48px}
+  .card-float{transform:none}
+}
+@media (max-width:640px){
+  .nav-links{display:none}
+  .d-stats{gap:16px 32px}
+  .switch button{padding:.5rem .8rem;font-size:.82rem}
+}
+</style>
+</head>
+<body>
+
+<!-- logo symbols -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logo-light" viewBox="0 0 180 58">
+    <text x="8" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="600" font-style="italic" fill="#E53935">go</text>
+    <rect x="60" y="12" width="1.5" height="34" rx="0.75" fill="#B0B0B0"/>
+    <text x="72" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="300" fill="#5C5C5C" letter-spacing="-0.5">tech</text>
+    <g transform="translate(158 8)" stroke="#E53935" stroke-width="1.8" stroke-linecap="round"><line x1="0" y1="5" x2="10" y2="5"/><line x1="5" y1="0" x2="5" y2="10"/></g>
+  </symbol>
+  <symbol id="logo-white" viewBox="0 0 180 58">
+    <text x="8" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="600" font-style="italic" fill="#fff">go</text>
+    <rect x="60" y="12" width="1.5" height="34" rx="0.75" fill="rgba(255,255,255,.45)"/>
+    <text x="72" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="300" fill="#fff" letter-spacing="-0.5">tech</text>
+    <g transform="translate(158 8)" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><line x1="0" y1="5" x2="10" y2="5"/><line x1="5" y1="0" x2="5" y2="10"/></g>
+  </symbol>
+</svg>
+
+<!-- ============ D ============ -->
+<section class="concept d" data-key="d">
+  <header class="nav on-dark">
+    <span class="logo"><svg viewBox="0 0 180 58"><use href="#logo-white"/></svg></span>
+    <nav class="nav-links"><a href="#">Ürünler</a><a href="#">Hizmetler</a><a href="#">Süreç</a><a href="#">İletişim</a></nav>
+  </header>
+  <div class="d-in">
+    <span class="d-kicker"><i></i>Mikro Yazılım İş Ortağı · 2017&apos;den beri</span>
+    <h1>İşletmenizin <em>ERP&apos;si</em> bizim işimiz.</h1>
+    <p class="d-lede">Mikro Run, Jump ve Fly kurulumundan eğitime ve 7/24 desteğe kadar tek ekip. Hangisinin size uyduğunu ücretsiz danışmanlıkta birlikte belirliyoruz.</p>
+    <div class="cta-row">
+      <a class="btn btn-white" href="#">Ücretsiz demo isteyin</a>
+      <a class="btn btn-ghost" href="#">Ürünleri inceleyin</a>
+    </div>
+  </div>
+  <div class="d-stats">
+    <div><strong>15+</strong><span>Yıl deneyim</span></div>
+    <div><strong>500+</strong><span>Mutlu müşteri</span></div>
+    <div><strong>7/24</strong><span>Teknik destek</span></div>
+    <div><strong>%100</strong><span>Müşteri memnuniyeti</span></div>
+  </div>
+</section>
+
+<!-- ============ E ============ -->
+<section class="concept e" data-key="e" hidden>
+  <header class="nav">
+    <span class="logo"><svg viewBox="0 0 180 58"><use href="#logo-light"/></svg></span>
+    <nav class="nav-links"><a href="#">Ürünler</a><a href="#">Hizmetler</a><a href="#">Süreç</a><a href="#">İletişim</a></nav>
+  </header>
+  <div class="e-grid">
+    <div>
+      <span class="e-rule"></span>
+      <h1>Siparişten <em>e-faturaya</em>, tek sistemde.</h1>
+      <p class="e-lede">Stok, satış, muhasebe ve e-Dönüşüm aynı yerde. Mikro Yazılım İş Ortağı olarak işletmenize uygun kurulumu biz yapıyoruz.</p>
+      <div class="cta-row">
+        <a class="btn" href="#">Ücretsiz demo isteyin</a>
+        <a class="btn btn-ghost" href="#">Hangi ürün bana uygun?</a>
+      </div>
+      <div class="e-trust">
+        <span class="e-partner">Mikro Yazılım İş Ortağı</span>
+        <span><b>15+</b> yıl deneyim</span>
+        <span><b>500+</b> mutlu müşteri</span>
+        <span><b>7/24</b> teknik destek</span>
+      </div>
+    </div>
+    <div class="f-stack">
+      <div class="card">
+        <div class="card-head"><span class="card-title">Sipariş #1042</span><span class="pill">Web sitesinden</span></div>
+        <ul class="rows"><li><span>Kavrulmuş kahve, 1 kg</span><span>2 × ₺520</span></li><li><span>Filtre kağıdı</span><span>1 × ₺200</span></li></ul>
+        <div class="tot"><span>Toplam</span><strong>₺1.240</strong></div>
+      </div>
+      <div class="card card-float">
+        <div class="card-head"><span class="card-title">e-Fatura</span><span class="pill pill-ok">Gönderildi</span></div>
+        <ul class="rows"><li><span>Fatura no</span><span>GT2026000118</span></li><li><span>Alıcı</span><span>Ayşe Kaya</span></li></ul>
+        <div class="tot"><span>KDV dahil</span><strong>₺1.240,00</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ F ============ -->
+<section class="concept f" data-key="f" hidden>
+  <header class="nav on-dark">
+    <span class="logo"><svg viewBox="0 0 180 58"><use href="#logo-white"/></svg></span>
+  </header>
+  <div class="f-left">
+    <span class="f-badge">Mikro Yazılım İş Ortağı</span>
+    <h1>Yazılımı satıp <em>bırakmıyoruz.</em></h1>
+    <p class="f-lede">İş analizinden kuruluma, eğitimden 7/24 teknik desteğe kadar sürecin tamamında yanınızdayız. 2017&apos;den beri, 500+ işletmeyle.</p>
+    <div class="cta-row">
+      <a class="btn btn-white" href="#">Ücretsiz danışmanlık</a>
+      <a class="btn btn-ghost" href="#">Nasıl çalışıyoruz</a>
+    </div>
+  </div>
+  <div class="f-right">
+    <div class="f-stack">
+      <div class="card">
+        <div class="card-head"><span class="card-title">Stok</span><span class="card-sub">Ana depo</span></div>
+        <div class="stock"><div class="stock-row"><span>Kavrulmuş kahve, 1 kg</span><span>86 adet</span></div><div class="meter"><i style="width:72%"></i></div></div>
+        <div class="stock"><div class="stock-row"><span>Filtre kağıdı</span><span>9 adet</span></div><div class="meter"><i style="width:13%"></i></div></div>
+      </div>
+      <div class="card card-float">
+        <div class="card-head"><span class="card-title">Günün özeti</span><span class="pill">Bugün</span></div>
+        <div class="bars"><i style="height:42%"></i><i style="height:58%"></i><i style="height:36%"></i><i style="height:71%"></i><i style="height:63%"></i><i class="on" style="height:88%"></i></div>
+        <div class="tot"><span>Satış</span><strong>₺48.320</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="switch" role="group" aria-label="Hero alternatifleri">
+  <button type="button" data-key="d" aria-pressed="true"><b>D</b>Kırmızı blok</button>
+  <button type="button" data-key="e" aria-pressed="false"><b>E</b>Beyaz kurumsal</button>
+  <button type="button" data-key="f" aria-pressed="false"><b>F</b>Bölünmüş</button>
+</div>
+
+<script>
+const sections = document.querySelectorAll('.concept');
+const buttons = document.querySelectorAll('.switch button[data-key]');
+function show(key){
+  sections.forEach(s => s.hidden = s.dataset.key !== key);
+  buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.key === key)));
+  history.replaceState(null, '', '#' + key);
+}
+buttons.forEach(b => b.addEventListener('click', () => show(b.dataset.key)));
+const initial = location.hash.slice(1);
+if ([...buttons].some(b => b.dataset.key === initial)) show(initial);
+</script>
+</body>
+</html>

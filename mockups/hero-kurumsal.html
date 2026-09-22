@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GoTech Hero — Kurumsal Alternatifler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFFFF;
+  --ground:#F4F4F6;
+  --ink:#1A1A1E;
+  --ink-2:rgba(26,26,30,.74);
+  --ink-soft:rgba(26,26,30,.6);
+  --line:rgba(26,26,30,.13);
+  --line-soft:rgba(26,26,30,.07);
+  --brand:#E53935;
+  --brand-deep:#A81B17;
+  --brand-tint:rgba(229,57,53,.09);
+  --char:#17181C;
+  --font:"Geologica", system-ui, sans-serif;
+  --gutter:clamp(20px,4.5vw,72px);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--font);font-weight:350;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+img{max-width:100%;display:block}
+
+.logo{display:block;width:124px;flex:none}
+.logo svg{display:block;width:100%;height:auto}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;padding:.9rem 1.5rem;border:0;border-radius:8px;background:var(--brand);color:#fff;font-weight:500;font-size:.98rem;letter-spacing:-.01em;white-space:nowrap;transition:background .25s,transform .18s}
+.btn:hover{background:var(--brand-deep)}
+.btn:active{transform:translateY(1px)}
+.btn-line{background:transparent;color:inherit;box-shadow:inset 0 0 0 1px var(--line);font-weight:400}
+.btn-line:hover{background:var(--line-soft)}
+.on-dark .btn-line{box-shadow:inset 0 0 0 1px rgba(255,255,255,.34)}
+.on-dark .btn-line:hover{background:rgba(255,255,255,.1)}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px}
+
+/* ---------- utility bar + nav (paylasilan kurumsal ust yapi) ---------- */
+.util{display:flex;flex-wrap:wrap;align-items:center;gap:8px 26px;padding:9px var(--gutter);background:var(--char);color:rgba(255,255,255,.72);font-size:.82rem}
+.util b{font-weight:400;color:#fff}
+.util .sep{margin-left:auto}
+.util a.portal{display:inline-flex;align-items:center;gap:.45em;padding:.28rem .7rem;border-radius:6px;background:rgba(255,255,255,.12);color:#fff}
+.nav{display:flex;align-items:center;gap:32px;padding:16px var(--gutter);background:var(--paper);border-bottom:1px solid var(--line)}
+.nav-links{display:flex;align-items:center;gap:26px;margin-left:auto;font-size:.94rem;color:var(--ink-2)}
+.nav-links a:hover{color:var(--brand)}
+.nav.on-dark{background:transparent;border-bottom-color:rgba(255,255,255,.14);color:#fff}
+.nav.on-dark .nav-links{color:rgba(255,255,255,.76)}
+.nav.on-dark .nav-links a:hover{color:#fff}
+
+.concept{min-height:100vh;display:flex;flex-direction:column}
+.concept[hidden]{display:none}
+
+.kicker{display:inline-flex;align-items:center;gap:.55em;padding:.34rem .8rem;border-radius:6px;background:var(--brand-tint);color:var(--brand-deep);font-size:.84rem;font-weight:500}
+.on-dark .kicker{background:rgba(255,255,255,.13);color:#fff}
+
+/* ================= G — kurumsal klasik ================= */
+.g-body{flex:1;display:flex;flex-direction:column;background:var(--paper)}
+.g-grid{flex:1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.04fr);gap:clamp(32px,4.5vw,76px);align-items:center;max-width:1320px;width:100%;margin:0 auto;padding:clamp(40px,6vh,76px) var(--gutter)}
+.g h1{font-weight:400;font-size:clamp(2.2rem,4vw,3.7rem);line-height:1.08;letter-spacing:-.035em;margin:20px 0 0;max-width:14em}
+.g h1 em{font-style:normal;color:var(--brand)}
+.g-lede{margin:18px 0 0;max-width:33em;font-size:1.1rem;color:var(--ink-2)}
+.g .cta-row{margin-top:28px}
+.g-partner{display:flex;align-items:center;gap:16px;margin-top:34px;padding-top:24px;border-top:1px solid var(--line)}
+.g-partner img{width:84px;height:auto}
+.g-partner p{margin:0;font-size:.88rem;color:var(--ink-soft);max-width:22em}
+.g-shot{border:1px solid var(--line);border-radius:12px;background:var(--ground);overflow:hidden;box-shadow:0 30px 70px -40px rgba(20,4,3,.4)}
+.g-shot-bar{display:flex;align-items:center;gap:7px;padding:11px 14px;background:var(--paper);border-bottom:1px solid var(--line)}
+.g-shot-bar i{width:9px;height:9px;border-radius:50%;background:var(--line)}
+.g-shot-bar span{margin-left:8px;font-size:.78rem;color:var(--ink-soft)}
+.g-shot-body{display:grid;grid-template-columns:104px minmax(0,1fr);min-height:330px}
+.g-side{background:var(--paper);border-right:1px solid var(--line);padding:14px 12px;display:grid;gap:6px;align-content:start}
+.g-side b{font-size:.72rem;color:var(--ink-soft);font-weight:400;padding:4px 8px}
+.g-side u{text-decoration:none;font-size:.78rem;padding:6px 8px;border-radius:6px;color:var(--ink-2)}
+.g-side u.on{background:var(--brand-tint);color:var(--brand-deep);font-weight:500}
+.g-main{padding:16px;display:grid;gap:12px;align-content:start}
+.g-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.g-kpi{background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:11px 12px;display:grid;gap:2px}
+.g-kpi span{font-size:.7rem;color:var(--ink-soft)}
+.g-kpi strong{font-weight:500;font-size:1.05rem;letter-spacing:-.02em}
+.g-table{background:var(--paper);border:1px solid var(--line);border-radius:9px;overflow:hidden;font-size:.76rem}
+.g-table div{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr) 74px;gap:10px;padding:9px 12px;border-bottom:1px solid var(--line-soft);color:var(--ink-2)}
+.g-table div:last-child{border-bottom:0}
+.g-table div.hd{background:var(--ground);color:var(--ink-soft);font-size:.7rem}
+.g-table em{font-style:normal;color:var(--brand-deep);background:var(--brand-tint);border-radius:4px;padding:1px 7px;justify-self:start;font-size:.7rem}
+.g-stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);background:var(--paper)}
+.g-stats div{padding:22px var(--gutter) 80px;border-right:1px solid var(--line)}
+.g-stats div:last-child{border-right:0}
+.g-stats strong{display:block;font-weight:400;font-size:clamp(1.4rem,2.1vw,1.95rem);letter-spacing:-.035em;line-height:1.1}
+.g-stats span{font-size:.84rem;color:var(--ink-soft)}
+
+/* ================= H — ürün seçici ================= */
+.h-body{flex:1;display:flex;flex-direction:column;justify-content:center;background:var(--paper);padding:clamp(36px,5vh,64px) var(--gutter) 96px}
+.h-in{max-width:1320px;width:100%;margin:0 auto}
+.h-head{max-width:46em}
+.h h1{font-weight:400;font-size:clamp(2.1rem,3.7vw,3.4rem);line-height:1.08;letter-spacing:-.035em;margin:18px 0 0}
+.h h1 em{font-style:normal;color:var(--brand)}
+.h-lede{margin:16px 0 0;max-width:38em;font-size:1.08rem;color:var(--ink-2)}
+.h-tiers{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:38px}
+.tier{position:relative;display:grid;gap:9px;align-content:start;padding:22px 20px;border:1px solid var(--line);border-radius:12px;background:var(--paper);transition:border-color .22s,box-shadow .22s,transform .22s}
+.tier:hover{border-color:var(--brand);box-shadow:0 18px 44px -26px rgba(20,4,3,.5);transform:translateY(-2px)}
+.tier.pop{border-color:var(--brand)}
+.tier-tag{position:absolute;top:-9px;left:20px;padding:.15rem .55rem;border-radius:5px;background:var(--brand);color:#fff;font-size:.68rem;font-weight:500}
+.tier h3{margin:0;font-weight:500;font-size:1.22rem;letter-spacing:-.02em}
+.tier-who{font-size:.8rem;color:var(--brand-deep);background:var(--brand-tint);border-radius:5px;padding:.2rem .5rem;justify-self:start}
+.tier p{margin:0;font-size:.9rem;color:var(--ink-soft)}
+.tier ul{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:6px;font-size:.84rem;color:var(--ink-2)}
+.tier ul li{display:flex;gap:8px;align-items:baseline}
+.tier ul li::before{content:"";flex:none;width:4px;height:4px;border-radius:50%;background:var(--brand)}
+.h-foot{display:flex;flex-wrap:wrap;align-items:center;gap:16px 26px;margin-top:34px;padding-top:24px;border-top:1px solid var(--line)}
+.h-foot img{width:78px}
+.h-foot p{margin:0;font-size:.88rem;color:var(--ink-soft)}
+.h-foot .cta-row{margin-left:auto}
+
+/* ================= I — koyu kurumsal ================= */
+.i{background:var(--char);color:#fff}
+.i-body{flex:1;display:flex;flex-direction:column;justify-content:center;padding:clamp(40px,6vh,80px) var(--gutter) 0}
+.i-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:clamp(32px,4.5vw,80px);align-items:center;max-width:1320px;width:100%;margin:0 auto}
+.i h1{font-weight:400;font-size:clamp(2.2rem,4vw,3.7rem);line-height:1.08;letter-spacing:-.035em;margin:20px 0 0;max-width:13em}
+.i h1 em{font-style:normal;color:#FF6B66}
+.i-lede{margin:18px 0 0;max-width:32em;font-size:1.1rem;color:rgba(255,255,255,.72)}
+.i .cta-row{margin-top:28px}
+.i-partner{display:flex;align-items:center;gap:16px;margin-top:34px;padding-top:24px;border-top:1px solid rgba(255,255,255,.16)}
+.i-partner img{width:84px;background:#fff;border-radius:7px;padding:7px}
+.i-partner p{margin:0;font-size:.88rem;color:rgba(255,255,255,.6);max-width:22em}
+.i-panel{display:grid;gap:12px}
+.i-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:18px 20px;display:grid;gap:11px}
+.i-card-head{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.92rem}
+.i-card-head b{font-weight:500}
+.i-chip{padding:.2rem .6rem;border-radius:5px;background:rgba(255,255,255,.14);font-size:.74rem}
+.i-chip.red{background:var(--brand);color:#fff}
+.i-rows{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:.86rem;color:rgba(255,255,255,.68)}
+.i-rows li{display:flex;justify-content:space-between;gap:14px}
+.i-tot{display:flex;justify-content:space-between;align-items:baseline;padding-top:11px;border-top:1px solid rgba(255,255,255,.14);font-size:.9rem}
+.i-tot strong{font-weight:500;font-size:1.2rem}
+.i-stats{display:grid;grid-template-columns:repeat(4,1fr);max-width:1320px;width:100%;margin:clamp(40px,6vh,72px) auto 0;border-top:1px solid rgba(255,255,255,.16)}
+.i-stats div{padding:22px 0 80px}
+.i-stats strong{display:block;font-weight:400;font-size:clamp(1.4rem,2.1vw,1.95rem);letter-spacing:-.035em;line-height:1.1}
+.i-stats span{font-size:.84rem;color:rgba(255,255,255,.6)}
+
+/* ---------- switch ---------- */
+.switch{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:50;display:flex;gap:4px;padding:5px;background:var(--char);border-radius:10px;box-shadow:0 14px 44px -14px rgba(0,0,0,.65)}
+.switch button{border:0;background:transparent;color:rgba(255,255,255,.72);padding:.5rem 1rem;border-radius:7px;font-size:.88rem;white-space:nowrap}
+.switch button b{font-weight:600;margin-right:.4em;color:#fff}
+.switch button[aria-pressed="true"]{background:#fff;color:var(--ink)}
+.switch button[aria-pressed="true"] b{color:var(--brand)}
+
+@media (max-width:1100px){
+  .h-tiers{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px}
+}
+@media (max-width:920px){
+  .g-grid,.i-grid{grid-template-columns:1fr}
+  .g-stats,.i-stats{grid-template-columns:repeat(2,1fr)}
+  .g-stats div:nth-child(2){border-right:0}
+  .nav-links{display:none}
+  .util{font-size:.78rem;gap:6px 16px}
+}
+@media (max-width:620px){
+  .h-tiers{grid-template-columns:1fr}
+  .g-shot-body{grid-template-columns:1fr}
+  .g-side{display:none}
+  .h-foot .cta-row{margin-left:0;width:100%}
+  .switch button{padding:.45rem .7rem;font-size:.8rem}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="lg" viewBox="0 0 180 58">
+    <text x="8" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="600" font-style="italic" fill="#E53935">go</text>
+    <rect x="60" y="12" width="1.5" height="34" rx="0.75" fill="#B0B0B0"/>
+    <text x="72" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="300" fill="#5C5C5C" letter-spacing="-0.5">tech</text>
+    <g transform="translate(158 8)" stroke="#E53935" stroke-width="1.8" stroke-linecap="round"><line x1="0" y1="5" x2="10" y2="5"/><line x1="5" y1="0" x2="5" y2="10"/></g>
+  </symbol>
+  <symbol id="lgw" viewBox="0 0 180 58">
+    <text x="8" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="600" font-style="italic" fill="#fff">go</text>
+    <rect x="60" y="12" width="1.5" height="34" rx="0.75" fill="rgba(255,255,255,.45)"/>
+    <text x="72" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="300" fill="#fff" letter-spacing="-0.5">tech</text>
+    <g transform="translate(158 8)" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><line x1="0" y1="5" x2="10" y2="5"/><line x1="5" y1="0" x2="5" y2="10"/></g>
+  </symbol>
+</svg>
+
+<!-- ============ G ============ -->
+<section class="concept g" data-key="g">
+  <div class="util">
+    <span>info@gotech.com.tr</span>
+    <span>Satış <b>0 532 468 12 47</b></span>
+    <span>Destek <b>0 507 679 19 25</b></span>
+    <span class="sep"></span>
+    <a class="portal" href="#">Destek Portalı</a>
+  </div>
+  <header class="nav">
+    <span class="logo"><svg viewBox="0 0 180 58"><use href="#lg"/></svg></span>
+    <nav class="nav-links"><a href="#">Ürünler</a><a href="#">Hizmetler</a><a href="#">Süreç</a><a href="#">Hakkımızda</a><a href="#">İletişim</a></nav>
+  </header>
+  <div class="g-body">
+    <div class="g-grid">
+      <div>
+        <span class="kicker">Mikro Yazılım İş Ortağı · 2017&apos;den beri</span>
+        <h1>İşletmenizin <em>ERP kurulumu</em> ve sonrası, tek ekipten.</h1>
+        <p class="g-lede">Mikro Run, Jump ve Fly için iş analizi, kurulum, veri aktarımı, eğitim ve 7/24 teknik destek. 500&apos;den fazla işletme bu süreci bizimle yürüttü.</p>
+        <div class="cta-row">
+          <a class="btn" href="#">Ücretsiz demo talep edin</a>
+          <a class="btn btn-line" href="#">Hangi ürün bize uygun?</a>
+        </div>
+        <div class="g-partner">
+          <img src="img/mikro-logo.png" alt="Mikro Yazılım">
+          <p>Mikro Yazılım yetkili çözüm ortağı. Lisans, kurulum ve destek tek elden.</p>
+        </div>
+      </div>
+      <div class="g-shot">
+        <div class="g-shot-bar"><i></i><i></i><i></i><span>Mikro Jump — Genel bakış</span></div>
+        <div class="g-shot-body">
+          <div class="g-side">
+            <b>MODÜLLER</b>
+            <u class="on">Genel bakış</u><u>Satış</u><u>Stok</u><u>Cari</u><u>Muhasebe</u><u>e-Fatura</u><u>Raporlar</u>
+          </div>
+          <div class="g-main">
+            <div class="g-kpis">
+              <div class="g-kpi"><span>Günlük satış</span><strong>₺48.320</strong></div>
+              <div class="g-kpi"><span>Açık sipariş</span><strong>37</strong></div>
+              <div class="g-kpi"><span>Kritik stok</span><strong>4</strong></div>
+            </div>
+            <div class="g-table">
+              <div class="hd"><span>Belge</span><span>Cari</span><span>Durum</span></div>
+              <div><span>GT2026000118</span><span>Ayşe Kaya</span><em>Gönderildi</em></div>
+              <div><span>GT2026000117</span><span>Er Kozmetik</span><em>Gönderildi</em></div>
+              <div><span>GT2026000116</span><span>Öz Yedek Parça</span><em>Gönderildi</em></div>
+              <div><span>GT2026000115</span><span>Ateş Mobilya</span><em>Gönderildi</em></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="g-stats">
+      <div><strong>15+</strong><span>Yıl deneyim</span></div>
+      <div><strong>500+</strong><span>Mutlu müşteri</span></div>
+      <div><strong>7/24</strong><span>Teknik destek</span></div>
+      <div><strong>%100</strong><span>Müşteri memnuniyeti</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ H ============ -->
+<section class="concept h" data-key="h" hidden>
+  <div class="util">
+    <span>info@gotech.com.tr</span>
+    <span>Satış <b>0 532 468 12 47</b></span>
+    <span>Destek <b>0 507 679 19 25</b></span>
+    <span class="sep"></span>
+    <a class="portal" href="#">Destek Portalı</a>
+  </div>
+  <header class="nav">
+    <span class="logo"><svg viewBox="0 0 180 58"><use href="#lg"/></svg></span>
+    <nav class="nav-links"><a href="#">Ürünler</a><a href="#">Hizmetler</a><a href="#">Süreç</a><a href="#">Hakkımızda</a><a href="#">İletişim</a></nav>
+  </header>
+  <div class="h-body">
+    <div class="h-in">
+      <div class="h-head">
+        <span class="kicker">Mikro Yazılım İş Ortağı · 2017&apos;den beri</span>
+        <h1>İşletmenizin ölçeğine uygun <em>Mikro ERP</em> çözümü.</h1>
+        <p class="h-lede">Dört üründen hangisinin size uyduğunu ücretsiz danışmanlıkta birlikte belirliyoruz. Kurulum, veri aktarımı, eğitim ve 7/24 destek bizden.</p>
+      </div>
+      <div class="h-tiers">
+        <article class="tier">
+          <h3>Mikro Run</h3>
+          <span class="tier-who">1-5 çalışan</span>
+          <p>Esnaf ve mikro işletmeler için ekonomik ERP. e-Dönüşüm dahil.</p>
+          <ul><li>Faturalama</li><li>Stok takibi</li><li>e-Dönüşüm</li></ul>
+        </article>
+        <article class="tier pop">
+          <span class="tier-tag">EN ÇOK TERCİH EDİLEN</span>
+          <h3>Mikro Jump</h3>
+          <span class="tier-who">5-50 çalışan</span>
+          <p>KOBİ&apos;ler için kapsamlı ERP. İşiniz büyüdükçe sizinle büyür.</p>
+          <ul><li>Satış ve depo</li><li>Muhasebe</li><li>Üretim</li></ul>
+        </article>
+        <article class="tier">
+          <h3>Mikro Fly</h3>
+          <span class="tier-who">50+ çalışan</span>
+          <p>Grup şirketleri ve holdingler için tam entegre kurumsal platform.</p>
+          <ul><li>Holding yönetimi</li><li>İş zekası</li><li>Üretim planlama</li></ul>
+        </article>
+        <article class="tier">
+          <h3>Mikro Müşavir</h3>
+          <span class="tier-who">Mali müşavirler</span>
+          <p>Mükellef yönetimini kolaylaştıran profesyonel çözüm.</p>
+          <ul><li>Defter beyan</li><li>e-SMM</li><li>Beyannameler</li></ul>
+        </article>
+      </div>
+      <div class="h-foot">
+        <img src="img/mikro-logo.png" alt="Mikro Yazılım">
+        <p>Mikro Yazılım yetkili çözüm ortağı<br>15+ yıl deneyim · 500+ mutlu müşteri · 7/24 teknik destek</p>
+        <div class="cta-row">
+          <a class="btn" href="#">Ücretsiz demo talep edin</a>
+          <a class="btn btn-line" href="#">Fiyat teklifi alın</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ I ============ -->
+<section class="concept i on-dark" data-key="i" hidden>
+  <div class="util">
+    <span>info@gotech.com.tr</span>
+    <span>Satış <b>0 532 468 12 47</b></span>
+    <span>Destek <b>0 507 679 19 25</b></span>
+    <span class="sep"></span>
+    <a class="portal" href="#">Destek Portalı</a>
+  </div>
+  <header class="nav on-dark">
+    <span class="logo"><svg viewBox="0 0 180 58"><use href="#lgw"/></svg></span>
+    <nav class="nav-links"><a href="#">Ürünler</a><a href="#">Hizmetler</a><a href="#">Süreç</a><a href="#">Hakkımızda</a><a href="#">İletişim</a></nav>
+  </header>
+  <div class="i-body">
+    <div class="i-grid">
+      <div>
+        <span class="kicker">Mikro Yazılım İş Ortağı · 2017&apos;den beri</span>
+        <h1>Kurumsal ERP, <em>kurumsal destek</em> ile gelir.</h1>
+        <p class="i-lede">İş analizinden kuruluma, eğitimden 7/24 teknik desteğe kadar sürecin tamamı tek ekipten. Yazılımı satıp bırakmıyoruz.</p>
+        <div class="cta-row">
+          <a class="btn" href="#">Ücretsiz demo talep edin</a>
+          <a class="btn btn-line" href="#">Hizmetlerimiz</a>
+        </div>
+        <div class="i-partner">
+          <img src="img/mikro-logo.png" alt="Mikro Yazılım">
+          <p>Mikro Yazılım yetkili çözüm ortağı. Lisans, kurulum ve destek tek elden.</p>
+        </div>
+      </div>
+      <div class="i-panel">
+        <div class="i-card">
+          <div class="i-card-head"><b>Sipariş #1042</b><span class="i-chip">Web sitesinden</span></div>
+          <ul class="i-rows"><li><span>Kavrulmuş kahve, 1 kg</span><span>2 × ₺520</span></li><li><span>Filtre kağıdı</span><span>1 × ₺200</span></li></ul>
+          <div class="i-tot"><span>Toplam</span><strong>₺1.240</strong></div>
+        </div>
+        <div class="i-card">
+          <div class="i-card-head"><b>e-Fatura</b><span class="i-chip red">Gönderildi</span></div>
+          <ul class="i-rows"><li><span>Fatura no</span><span>GT2026000118</span></li><li><span>Alıcı</span><span>Ayşe Kaya</span></li></ul>
+          <div class="i-tot"><span>KDV dahil</span><strong>₺1.240,00</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="i-stats">
+      <div><strong>15+</strong><span>Yıl deneyim</span></div>
+      <div><strong>500+</strong><span>Mutlu müşteri</span></div>
+      <div><strong>7/24</strong><span>Teknik destek</span></div>
+      <div><strong>%100</strong><span>Müşteri memnuniyeti</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="switch" role="group" aria-label="Kurumsal hero alternatifleri">
+  <button type="button" data-key="g" aria-pressed="true"><b>G</b>Klasik kurumsal</button>
+  <button type="button" data-key="h" aria-pressed="false"><b>H</b>Ürün seçici</button>
+  <button type="button" data-key="i" aria-pressed="false"><b>I</b>Koyu kurumsal</button>
+</div>
+
+<script>
+const sections = document.querySelectorAll('.concept');
+const buttons = document.querySelectorAll('.switch button[data-key]');
+function show(key){
+  sections.forEach(s => s.hidden = s.dataset.key !== key);
+  buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.key === key)));
+}
+buttons.forEach(b => b.addEventListener('click', () => show(b.dataset.key)));
+</script>
+</body>
+</html>

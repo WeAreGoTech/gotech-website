@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GoTech — Mevcut yapı, modern kurgu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FFFFFF;
+  --ground:#F5F5F7;
+  --ink:#1A1A1E;
+  --ink-2:rgba(26,26,30,.72);
+  --ink-soft:rgba(26,26,30,.56);
+  --line:rgba(26,26,30,.12);
+  --line-soft:rgba(26,26,30,.06);
+  --brand:#E53935;
+  --brand-deep:#A81B17;
+  --brand-tint:rgba(229,57,53,.08);
+  --char:#17181C;
+  --char-2:#22242A;
+  --font:"Geologica",system-ui,sans-serif;
+  --gutter:clamp(20px,4.5vw,72px);
+  --maxw:1280px;
+  --sec-y:clamp(56px,8vh,104px);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font);font-weight:350;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+img{display:block;max-width:100%}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gutter)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5em;padding:.88rem 1.5rem;border:0;border-radius:8px;background:var(--brand);color:#fff;font-weight:500;font-size:.98rem;letter-spacing:-.01em;white-space:nowrap;transition:background .22s,transform .16s}
+.btn:hover{background:var(--brand-deep)}
+.btn:active{transform:translateY(1px)}
+.btn-line{background:transparent;color:inherit;box-shadow:inset 0 0 0 1px var(--line);font-weight:400}
+.btn-line:hover{background:var(--line-soft)}
+.on-dark .btn-line{box-shadow:inset 0 0 0 1px rgba(255,255,255,.32)}
+.on-dark .btn-line:hover{background:rgba(255,255,255,.09)}
+.btn-white{background:#fff;color:var(--brand-deep)}
+.btn-white:hover{background:#F3F3F3}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px}
+
+.kicker{display:inline-flex;align-items:center;gap:.55em;padding:.32rem .78rem;border-radius:6px;background:var(--brand-tint);color:var(--brand-deep);font-size:.83rem;font-weight:500}
+.on-dark .kicker{background:rgba(255,255,255,.12);color:#fff}
+.sec-head{max-width:40em}
+.sec-head h2{font-weight:400;font-size:clamp(1.8rem,3.1vw,2.8rem);line-height:1.12;letter-spacing:-.035em;margin:14px 0 0}
+.sec-head h2 em{font-style:normal;color:var(--brand)}
+.sec-head p{margin:12px 0 0;color:var(--ink-2);font-size:1.06rem}
+.on-dark .sec-head p{color:rgba(255,255,255,.66)}
+
+/* ---------- 1. duyuru + utility + nav ---------- */
+.announce{background:var(--brand);color:#fff;font-size:.88rem}
+.announce .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding-top:9px;padding-bottom:9px}
+.announce b{font-weight:500}
+.announce a{margin-left:auto;display:inline-flex;align-items:center;gap:.4em;padding:.26rem .72rem;border-radius:6px;background:rgba(255,255,255,.18)}
+.announce a:hover{background:rgba(255,255,255,.28)}
+.util{background:var(--char);color:rgba(255,255,255,.7);font-size:.83rem}
+.util .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 26px;padding-top:9px;padding-bottom:9px}
+.util b{font-weight:400;color:#fff}
+.util .end{margin-left:auto}
+.nav{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:30px;padding-top:14px;padding-bottom:14px}
+.logo{display:block;width:120px;flex:none}
+.logo svg{width:100%;height:auto;display:block}
+.nav-links{display:flex;align-items:center;gap:26px;margin-left:auto;font-size:.94rem;color:var(--ink-2)}
+.nav-links a{padding:4px 0;border-bottom:2px solid transparent}
+.nav-links a:hover,.nav-links a.on{color:var(--ink);border-bottom-color:var(--brand)}
+
+/* ---------- 2. hero (carousel) ---------- */
+.hero{background:var(--char);color:#fff;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(70% 90% at 78% 12%,rgba(229,57,53,.26),transparent 62%);pointer-events:none}
+.hero .wrap{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.88fr);gap:clamp(30px,4.5vw,72px);align-items:center;padding-top:clamp(48px,7vh,86px);padding-bottom:clamp(48px,7vh,86px)}
+.slide{display:none}
+.slide.on{display:block;animation:fade .5s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.hero h1{font-weight:400;font-size:clamp(2.1rem,3.9vw,3.5rem);line-height:1.08;letter-spacing:-.038em;margin:18px 0 0;max-width:13em}
+.hero h1 em{font-style:normal;color:#FF6B66}
+.hero-lede{margin:16px 0 0;max-width:31em;color:rgba(255,255,255,.72);font-size:1.08rem}
+.hero .cta-row{margin-top:26px}
+.hero-dots{display:flex;gap:8px;margin-top:34px}
+.hero-dots button{width:30px;height:4px;border:0;border-radius:3px;background:rgba(255,255,255,.28);padding:0}
+.hero-dots button[aria-current="true"]{background:var(--brand);width:46px}
+/* ürün paneli */
+.panel{border:1px solid rgba(255,255,255,.14);border-radius:13px;background:rgba(255,255,255,.05);overflow:hidden}
+.panel-bar{display:flex;align-items:center;gap:7px;padding:11px 14px;border-bottom:1px solid rgba(255,255,255,.12)}
+.panel-bar i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.22)}
+.panel-bar span{margin-left:8px;font-size:.78rem;color:rgba(255,255,255,.55)}
+.panel-body{display:grid;grid-template-columns:96px minmax(0,1fr)}
+.panel-side{border-right:1px solid rgba(255,255,255,.12);padding:13px 10px;display:grid;gap:4px;align-content:start}
+.panel-side b{font-size:.68rem;color:rgba(255,255,255,.4);font-weight:400;padding:3px 7px;letter-spacing:.04em}
+.panel-side u{text-decoration:none;font-size:.77rem;padding:5px 7px;border-radius:5px;color:rgba(255,255,255,.62)}
+.panel-side u.on{background:var(--brand);color:#fff}
+.panel-main{padding:14px;display:grid;gap:11px;align-content:start}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}
+.kpi{border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 11px;display:grid;gap:1px}
+.kpi span{font-size:.68rem;color:rgba(255,255,255,.5)}
+.kpi strong{font-weight:500;font-size:1rem;letter-spacing:-.02em}
+.tbl{border:1px solid rgba(255,255,255,.12);border-radius:8px;overflow:hidden;font-size:.75rem}
+.tbl div{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) 72px;gap:9px;padding:8px 11px;border-bottom:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.66)}
+.tbl div:last-child{border-bottom:0}
+.tbl div.hd{background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);font-size:.68rem}
+.tbl em{font-style:normal;background:rgba(229,57,53,.24);color:#FF9D99;border-radius:4px;padding:1px 6px;justify-self:start;font-size:.68rem}
+
+/* ---------- 3. iş ortağı bandı ---------- */
+.partner{border-bottom:1px solid var(--line);background:var(--paper)}
+.partner .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:18px 34px;padding-top:26px;padding-bottom:26px}
+.partner img{width:92px;height:auto}
+.partner .div{width:1px;height:38px;background:var(--line)}
+.partner p{margin:0;font-size:.92rem;color:var(--ink-soft);max-width:26em}
+.partner .phones{margin-left:auto;display:flex;flex-wrap:wrap;gap:10px}
+.phone{display:inline-flex;align-items:center;gap:.6em;padding:.6rem 1rem;border:1px solid var(--line);border-radius:8px;font-size:.93rem}
+.phone:hover{border-color:var(--brand);color:var(--brand-deep)}
+.phone span{color:var(--ink-soft);font-size:.83rem}
+.phone b{font-weight:500}
+
+/* ---------- 4. başarıya giden yol (piramit → süreç) ---------- */
+.yol{background:var(--ground);padding:var(--sec-y) 0;border-bottom:1px solid var(--line)}
+.yol-grid{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:clamp(30px,4.5vw,76px);align-items:start;margin-top:clamp(30px,4vh,52px)}
+.steps{display:grid;gap:10px;counter-reset:s}
+.step{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;align-items:center;padding:17px 20px;background:var(--paper);border:1px solid var(--line);border-radius:10px;transition:border-color .2s,transform .2s}
+.step:hover{border-color:var(--brand);transform:translateX(3px)}
+.step-n{display:grid;place-items:center;width:34px;height:34px;border-radius:8px;background:var(--brand-tint);color:var(--brand-deep);font-size:.92rem;font-weight:500}
+.step:last-child .step-n{background:var(--brand);color:#fff}
+.step h3{margin:0;font-weight:500;font-size:1.05rem;letter-spacing:-.02em}
+.step p{margin:2px 0 0;font-size:.9rem;color:var(--ink-soft)}
+
+/* ---------- 5. neden gotech (rakamlar) ---------- */
+.neden{padding:var(--sec-y) 0;border-bottom:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;margin-top:clamp(28px,4vh,48px);background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.stats div{background:var(--paper);padding:clamp(22px,3vw,34px)}
+.stats strong{display:block;font-weight:400;font-size:clamp(1.9rem,3.2vw,2.9rem);line-height:1;letter-spacing:-.04em;color:var(--brand)}
+.stats span{display:block;margin-top:7px;font-size:.92rem;color:var(--ink-soft)}
+
+/* ---------- 6. çözümler (koyu) ---------- */
+.coz{background:var(--char);color:#fff;padding:var(--sec-y) 0}
+.coz h2{color:#fff}
+.coz-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,2vw,24px);margin-top:clamp(30px,4vh,52px)}
+.coz-card{display:grid;gap:10px;align-content:start;padding:clamp(24px,2.6vw,34px);border:1px solid rgba(255,255,255,.14);border-radius:12px;background:rgba(255,255,255,.04);transition:border-color .22s,background .22s,transform .22s}
+.coz-card:hover{border-color:var(--brand);background:rgba(255,255,255,.07);transform:translateY(-3px)}
+.coz-ico{display:grid;place-items:center;width:42px;height:42px;border-radius:9px;background:var(--brand);margin-bottom:4px}
+.coz-card h3{margin:0;font-weight:500;font-size:1.22rem;letter-spacing:-.02em}
+.coz-card p{margin:0;color:rgba(255,255,255,.64);font-size:.96rem}
+.coz-card ul{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:6px;font-size:.87rem;color:rgba(255,255,255,.72)}
+.coz-card li{display:flex;gap:9px;align-items:baseline}
+.coz-card li::before{content:"";flex:none;width:4px;height:4px;border-radius:50%;background:var(--brand)}
+.coz-more{margin-top:8px;font-size:.9rem;color:#FF8480;display:inline-flex;align-items:center;gap:.4em}
+
+/* ---------- 7. cta ---------- */
+.cta{background:var(--brand-deep);color:#fff;padding:var(--sec-y) 0;text-align:center}
+.cta h2{font-weight:400;font-size:clamp(1.9rem,3.2vw,2.9rem);line-height:1.12;letter-spacing:-.035em;margin:16px 0 0}
+.cta p{margin:14px auto 0;max-width:34em;color:rgba(255,255,255,.76);font-size:1.08rem}
+.cta .cta-row{margin-top:28px;justify-content:center}
+
+/* ---------- 8. footer ---------- */
+.foot{background:var(--char);color:rgba(255,255,255,.62);font-size:.94rem;padding:clamp(48px,6vh,72px) 0 28px}
+.foot-top{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:36px;padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,.12)}
+.foot .logo{width:132px}
+.foot-brand p{margin:14px 0 0;max-width:24em}
+.foot h3{margin:0 0 13px;font-size:.94rem;font-weight:500;color:#fff}
+.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:9px}
+.foot a:hover{color:#fff}
+.foot-bot{display:flex;flex-wrap:wrap;gap:10px 22px;padding-top:22px;font-size:.87rem;color:rgba(255,255,255,.45)}
+.foot-bot nav{margin-left:auto;display:flex;gap:20px}
+
+@media (max-width:1000px){
+  .hero .wrap,.yol-grid{grid-template-columns:1fr}
+  .coz-grid{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nav-links{display:none}
+  .foot-top{grid-template-columns:1fr 1fr}
+}
+@media (max-width:620px){
+  .stats{grid-template-columns:1fr}
+  .panel-side{display:none}
+  .panel-body{grid-template-columns:1fr}
+  .partner .phones{margin-left:0;width:100%}
+  .foot-top{grid-template-columns:1fr}
+  .foot-bot nav{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="lg" viewBox="0 0 180 58">
+    <text x="8" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="600" font-style="italic" fill="#E53935">go</text>
+    <rect x="60" y="12" width="1.5" height="34" rx=".75" fill="#B0B0B0"/>
+    <text x="72" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="300" fill="#5C5C5C" letter-spacing="-.5">tech</text>
+    <g transform="translate(158 8)" stroke="#E53935" stroke-width="1.8" stroke-linecap="round"><line x1="0" y1="5" x2="10" y2="5"/><line x1="5" y1="0" x2="5" y2="10"/></g>
+  </symbol>
+  <symbol id="lgw" viewBox="0 0 180 58">
+    <text x="8" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="600" font-style="italic" fill="#fff">go</text>
+    <rect x="60" y="12" width="1.5" height="34" rx=".75" fill="rgba(255,255,255,.45)"/>
+    <text x="72" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="300" fill="#fff" letter-spacing="-.5">tech</text>
+    <g transform="translate(158 8)" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><line x1="0" y1="5" x2="10" y2="5"/><line x1="5" y1="0" x2="5" y2="10"/></g>
+  </symbol>
+</svg>
+
+<!-- 1. duyuru -->
+<div class="announce"><div class="wrap">
+  <span><b>Müşterimiz misiniz?</b> Destek Portalı&apos;na giriş yapın.</span>
+  <a href="#">Giriş yap</a>
+</div></div>
+
+<!-- utility -->
+<div class="util"><div class="wrap">
+  <span>info@gotech.com.tr</span>
+  <span>Satış <b>0 532 468 12 47</b></span>
+  <span>Destek <b>0 507 679 19 25</b></span>
+  <span class="end"></span>
+  <a href="#">LinkedIn</a>
+</div></div>
+
+<!-- nav -->
+<header class="nav"><div class="wrap">
+  <a class="logo" href="#" aria-label="GoTech"><svg viewBox="0 0 180 58"><use href="#lg"/></svg></a>
+  <nav class="nav-links">
+    <a class="on" href="#">Ana sayfa</a><a href="#">Hakkımızda</a><a href="#">Ürünler</a><a href="#">Hizmetlerimiz</a><a href="#">İletişim</a>
+  </nav>
+  <a class="btn" href="#">Destek portalı</a>
+</div></header>
+
+<!-- 2. hero -->
+<section class="hero on-dark">
+  <div class="wrap">
+    <div>
+      <div class="slide on" data-slide="0">
+        <span class="kicker">Mikro Yazılım İş Ortağı · 2017&apos;den beri</span>
+        <h1>İşletmenizi <em>geleceğe</em> taşıyoruz.</h1>
+        <p class="hero-lede">Kurumsal danışmanlık, ERP kurulumu ve sonrasındaki her şey. İş analizinden eğitime ve 7/24 teknik desteğe kadar tek ekipten.</p>
+        <div class="cta-row"><a class="btn" href="#">Ücretsiz demo talep edin</a><a class="btn btn-line" href="#">Detaylı bilgi</a></div>
+      </div>
+      <div class="slide" data-slide="1">
+        <span class="kicker">Ürünler</span>
+        <h1>Ölçeğinize uygun <em>Mikro ERP</em> çözümü.</h1>
+        <p class="hero-lede">Mikro Run, Jump, Fly ve Müşavir. 1 kişilik esnaftan 50+ çalışanlı holdinge kadar, hangisinin size uyduğunu birlikte belirliyoruz.</p>
+        <div class="cta-row"><a class="btn" href="#">Ürünleri inceleyin</a><a class="btn btn-line" href="#">Hangi ürün bize uygun?</a></div>
+      </div>
+      <div class="slide" data-slide="2">
+        <span class="kicker">e-Dönüşüm</span>
+        <h1>e-Fatura ve e-Defter <em>sorunsuz</em> çalışsın.</h1>
+        <p class="hero-lede">GİB başvurusundan entegratör bağlantısına ve yasal uyumluluğa kadar tüm e-belge süreçlerinizde uzman danışmanlık.</p>
+        <div class="cta-row"><a class="btn" href="#">e-Dönüşüm danışmanlığı</a><a class="btn btn-line" href="#">Çözümleri görün</a></div>
+      </div>
+      <div class="hero-dots" role="tablist" aria-label="Slaytlar">
+        <button type="button" data-go="0" aria-current="true"><span class="sr">1. slayt</span></button>
+        <button type="button" data-go="1" aria-current="false"><span class="sr">2. slayt</span></button>
+        <button type="button" data-go="2" aria-current="false"><span class="sr">3. slayt</span></button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-bar"><i></i><i></i><i></i><span>Mikro Jump — Genel bakış</span></div>
+      <div class="panel-body">
+        <div class="panel-side">
+          <b>MODÜLLER</b>
+          <u class="on">Genel bakış</u><u>Satış</u><u>Stok</u><u>Cari</u><u>Muhasebe</u><u>e-Fatura</u><u>Raporlar</u>
+        </div>
+        <div class="panel-main">
+          <div class="kpis">
+            <div class="kpi"><span>Günlük satış</span><strong>₺48.320</strong></div>
+            <div class="kpi"><span>Açık sipariş</span><strong>37</strong></div>
+            <div class="kpi"><span>Kritik stok</span><strong>4</strong></div>
+          </div>
+          <div class="tbl">
+            <div class="hd"><span>Belge</span><span>Cari</span><span>Durum</span></div>
+            <div><span>GT2026000118</span><span>Ayşe Kaya</span><em>Gönderildi</em></div>
+            <div><span>GT2026000117</span><span>Er Kozmetik</span><em>Gönderildi</em></div>
+            <div><span>GT2026000116</span><span>Öz Yedek Parça</span><em>Gönderildi</em></div>
+            <div><span>GT2026000115</span><span>Ateş Mobilya</span><em>Gönderildi</em></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 3. iş ortağı bandı -->
+<section class="partner"><div class="wrap">
+  <img src="img/mikro-logo.png" alt="Mikro Yazılım">
+  <span class="div"></span>
+  <p>Mikro Yazılım yetkili çözüm ortağı. Lisans, kurulum, eğitim ve destek tek elden.</p>
+  <div class="phones">
+    <a class="phone" href="tel:+905324681247"><span>Satış</span><b>0 532 468 12 47</b></a>
+    <a class="phone" href="tel:+905076791925"><span>Destek</span><b>0 507 679 19 25</b></a>
+  </div>
+</div></section>
+
+<!-- 4. başarıya giden yol -->
+<section class="yol"><div class="wrap">
+  <div class="sec-head">
+    <span class="kicker">Süreç</span>
+    <h2>go|tech⁺ ile <em>başarıya giden yol</em></h2>
+    <p>Müşteri memnuniyetine ulaşan süreçlerimiz. Her adımda ne yapıldığını baştan bilirsiniz.</p>
+  </div>
+  <div class="yol-grid">
+    <div>
+      <p style="margin:0;color:var(--ink-2)">Beş aşamanın tamamı aynı ekipten yürür. İş analiziyle başlar, müşteri memnuniyetiyle sonuçlanır — ve orada bitmez, 7/24 destek devreye girer.</p>
+      <div class="cta-row" style="margin-top:22px"><a class="btn" href="#">Hizmetlerimizi görün</a></div>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="step-n">1</span><div><h3>İş analizi</h3><p>Mevcut süreç analizi, ihtiyaç tespiti, çözüm önerisi ve maliyet analizi.</p></div></div>
+      <div class="step"><span class="step-n">2</span><div><h3>Kurulum &amp; entegrasyon</h3><p>Yazılım kurulumu, veri aktarımı, sistem entegrasyonu ve özelleştirme.</p></div></div>
+      <div class="step"><span class="step-n">3</span><div><h3>Eğitim &amp; danışmanlık</h3><p>Kullanıcı ve yönetici eğitimi, online eğitim, eğitim dokümanları.</p></div></div>
+      <div class="step"><span class="step-n">4</span><div><h3>Teknik destek</h3><p>Telefon desteği, uzaktan erişim, yerinde destek, öncelikli müdahale.</p></div></div>
+      <div class="step"><span class="step-n">5</span><div><h3>Müşteri memnuniyeti</h3><p>Güncelleme, bakım ve sürekli izleme. Süreç canlıya alınınca bitmiyor.</p></div></div>
+    </div>
+  </div>
+</div></section>
+
+<!-- 5. neden gotech -->
+<section class="neden"><div class="wrap">
+  <div class="sec-head">
+    <span class="kicker">Neden GoTech?</span>
+    <h2>Sizi başarıya taşıyacak <em>avantajlarımız</em></h2>
+  </div>
+  <div class="stats">
+    <div><strong>15+</strong><span>Yıl deneyim</span></div>
+    <div><strong>500+</strong><span>Mutlu müşteri</span></div>
+    <div><strong>7/24</strong><span>Teknik destek</span></div>
+    <div><strong>%100</strong><span>Müşteri memnuniyeti</span></div>
+  </div>
+</div></section>
+
+<!-- 6. çözümler -->
+<section class="coz on-dark"><div class="wrap">
+  <div class="sec-head">
+    <span class="kicker">Öne çıkan çözümler</span>
+    <h2>İşletmeniz için <em>en iyi çözümler</em></h2>
+    <p>Mikro Yazılım&apos;ın güçlü altyapısı ile GoTech&apos;in uzmanlığını birleştiriyoruz.</p>
+  </div>
+  <div class="coz-grid">
+    <article class="coz-card">
+      <span class="coz-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg></span>
+      <h3>ERP çözümleri</h3>
+      <p>İş süreçlerinizi tek platformda yönetin.</p>
+      <ul><li>Mikro Run, Jump, Fly</li><li>Mikro Müşavir</li><li>Satış, stok, muhasebe, üretim</li></ul>
+      <span class="coz-more">Detaylı bilgi →</span>
+    </article>
+    <article class="coz-card">
+      <span class="coz-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></span>
+      <h3>e-Dönüşüm</h3>
+      <p>e-Fatura, e-Defter, e-İrsaliye entegrasyonu.</p>
+      <ul><li>e-Fatura, e-Arşiv, e-İrsaliye</li><li>e-Defter, e-Mutabakat, e-SMM</li><li>GİB başvuru ve uyumluluk</li></ul>
+      <span class="coz-more">Detaylı bilgi →</span>
+    </article>
+    <article class="coz-card">
+      <span class="coz-ico" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg></span>
+      <h3>Raporlama</h3>
+      <p>Anlık verilerle doğru kararlar alın.</p>
+      <ul><li>İş zekası ve analitik</li><li>Mikro Şirketim mobil takip</li><li>Özelleştirilebilir raporlar</li></ul>
+      <span class="coz-more">Detaylı bilgi →</span>
+    </article>
+  </div>
+</div></section>
+
+<!-- 7. cta -->
+<section class="cta on-dark"><div class="wrap">
+  <span class="kicker">Ücretsiz danışmanlık</span>
+  <h2>İşletmenizi büyütmeye hazır mısınız?</h2>
+  <p>Ücretsiz demo ve danışmanlık için hemen iletişime geçin. Size uygun çözümü birlikte belirleyelim.</p>
+  <div class="cta-row">
+    <a class="btn btn-white" href="#">Ücretsiz demo isteyin</a>
+    <a class="btn btn-line" href="tel:+905324681247">Hemen ara: 0 532 468 12 47</a>
+  </div>
+</div></section>
+
+<!-- 8. footer -->
+<footer class="foot"><div class="wrap">
+  <div class="foot-top">
+    <div class="foot-brand">
+      <span class="logo"><svg viewBox="0 0 180 58"><use href="#lgw"/></svg></span>
+      <p>Mikro Yazılım İş Ortağı olarak 2017&apos;den beri işletmelere ERP çözümleri sunuyoruz.</p>
+    </div>
+    <div><h3>Hızlı linkler</h3><ul><li><a href="#">Ana sayfa</a></li><li><a href="#">Ürünler</a></li><li><a href="#">Hizmetlerimiz</a></li><li><a href="#">Hakkımızda</a></li><li><a href="#">İletişim</a></li></ul></div>
+    <div><h3>Ürünlerimiz</h3><ul><li><a href="#">Mikro Run</a></li><li><a href="#">Mikro Jump</a></li><li><a href="#">Mikro Fly</a></li><li><a href="#">Mikro Müşavir</a></li><li><a href="#">e-Dönüşüm</a></li></ul></div>
+    <div><h3>İletişim</h3><ul>
+      <li>Şehit Nevres Bulvarı<br>Deren Plaza No:10 K:1<br>Alsancak — İzmir</li>
+      <li><a href="tel:+905324681247">0 532 468 12 47</a></li>
+      <li><a href="mailto:info@gotech.com.tr">info@gotech.com.tr</a></li>
+    </ul></div>
+  </div>
+  <div class="foot-bot">
+    <span>© 2026 GoTech ERP Solutions · Mikro Yazılım İş Ortağı</span>
+    <nav><a href="#">KVKK</a><a href="#">Çerez politikası</a></nav>
+  </div>
+</div></footer>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.hero-dots button');
+let at = 0, timer;
+function go(i){
+  at = i;
+  slides.forEach((s, n) => s.classList.toggle('on', n === i));
+  dots.forEach((d, n) => d.setAttribute('aria-current', String(n === i)));
+}
+function play(){ timer = setInterval(() => go((at + 1) % slides.length), 6000); }
+dots.forEach(d => d.addEventListener('click', () => { clearInterval(timer); go(+d.dataset.go); play(); }));
+play();
+</script>
+</body>
+</html>
