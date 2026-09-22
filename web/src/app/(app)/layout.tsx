@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import "@/app/globals.css";
 import "@/components/app/app.css";
 import "@/components/app/ticket.css";
 import "@/components/app/modules.css";

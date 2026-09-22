@@ -7,8 +7,8 @@ export function Contact() {
     <section className="section contact" id="iletisim" data-nav-tone="dark">
       <div className="contact-grid">
         <div className="contact-intro">
-          <h2 className="contact-title">Projenizi anlatın.</h2>
-          <p className="lede">Formu doldurun, işinizi konuşmak için size dönelim. Aceleniz varsa doğrudan arayabilirsiniz.</p>
+          <h2 className="contact-title">İşletmenizi büyütmeye hazır mısınız?</h2>
+          <p className="lede">Ücretsiz demo ve danışmanlık için formu doldurun, en kısa sürede size dönelim. Aceleniz varsa doğrudan arayabilirsiniz.</p>
           <dl className="contact-info">
             {CONTACT_INFO.map((item) => (
               <div key={item.label}>

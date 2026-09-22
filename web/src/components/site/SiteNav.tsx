@@ -42,7 +42,12 @@ export function SiteNav() {
   return (
     <>
       <header ref={navRef} className={`nav${menuOpen ? " is-menu-open" : ""}`} data-tone="dark">
-        <a className="logo" href="#top" aria-label="GoTech ana sayfa">GoTech</a>
+        <a className="logo" href="#top" aria-label="GoTech ana sayfa">
+          {/* eslint-disable-next-line @next/next/no-img-element -- static SVG */}
+          <img className="logo-light" src="/brand/gotech-logo.svg" alt="" width={180} height={58} />
+          {/* eslint-disable-next-line @next/next/no-img-element -- static SVG */}
+          <img className="logo-dark" src="/brand/gotech-logo-dark.svg" alt="" width={180} height={58} />
+        </a>
         <nav className="nav-links" aria-label="Ana menü">
           {NAV_LINKS.map((l) => <a key={l.href} href={l.href}>{l.label}</a>)}
           <Link className="nav-login" href="/giris">Müşteri girişi</Link>

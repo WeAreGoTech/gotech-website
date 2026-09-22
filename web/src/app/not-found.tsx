@@ -1,4 +1,5 @@
 import Link from "next/link";
+import "@/app/globals.css";
 import "@/components/app/app.css";
 
 export default function NotFound() {

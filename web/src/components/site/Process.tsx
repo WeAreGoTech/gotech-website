@@ -49,8 +49,8 @@ export function Process() {
   return (
     <section className="section process" id="surec" data-nav-tone="light">
       <div className="section-head">
-        <h2 className="h2">İlk görüşmeden canlıya, beş adımda.</h2>
-        <p className="lede">Her adımın sonunda elinizde somut bir çıktı olur. Neyin ne zaman yapılacağını baştan bilirsiniz.</p>
+        <h2 className="h2">İlk görüşmeden canlıya, altı adımda.</h2>
+        <p className="lede">Baştan sona profesyonel ERP danışmanlığı. Neyin ne zaman yapılacağını baştan bilirsiniz.</p>
       </div>
       <div className="steps-wrap" ref={wrapRef}>
         <div className="steps-rail" ref={railRef} aria-hidden="true"><i ref={fillRef} /></div>
@@ -60,12 +60,11 @@ export function Process() {
               <span className="step-num">{i + 1}</span>
               <h3>{step.title}</h3>
               <p className="step-desc">{step.text}</p>
-              <p className="step-out"><span>Çıktı</span>{step.output}</p>
             </li>
           ))}
         </ol>
       </div>
-      <p className="steps-after">Canlıya aldıktan sonra da buradayız. Bakım, destek ve yeni modüller için aynı ekiple çalışırsınız.</p>
+      <p className="steps-after">Canlıya aldıktan sonra da buradayız. 7/24 teknik destek, güncelleme ve bakım için aynı ekiple çalışırsınız.</p>
     </section>
   );
 }

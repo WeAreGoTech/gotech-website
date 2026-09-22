@@ -58,8 +58,8 @@ export function HeroFlow() {
                 <span className="ln"><span>kendiliğinden akar.</span></span>
               </h1>
               <div className="b-intro-foot">
-                <p className="lede">Web sitenizden gelen sipariş stoğa, stoktan faturaya, faturadan rapora kendiliğinden geçer. Bu akışı işletmenize göre kuruyoruz.</p>
-                <div className="cta-row"><a className="btn btn-signal" href="#iletisim">Projenizi anlatın</a><a className="btn btn-ghost" href="#surec">Nasıl çalışır</a></div>
+                <p className="lede">Siparişten stoğa, stoktan e-faturaya, faturadan rapora. Mikro Yazılım İş Ortağı olarak bu akışı işletmenize göre kuruyoruz.</p>
+                <div className="cta-row"><a className="btn btn-signal" href="#iletisim">Ücretsiz demo isteyin</a><a className="btn btn-ghost" href="#surec">Nasıl çalışır</a></div>
               </div>
             </div>
 
@@ -73,8 +73,8 @@ export function HeroFlow() {
             <div className="b-panel b-end">
               <div className="b-end-inner">
                 <h2>Bu akışı sizin işinize göre kuralım.</h2>
-                <p className="lede">İşletmenizi dinliyor, gereken modülleri seçiyor, web siteniz ve panelinizle birlikte kuruyoruz.</p>
-                <div className="cta-row"><a className="btn btn-signal" href="#iletisim">Görüşme planlayın</a><a className="btn btn-ghost" href="#isler">Yaptığımız işler</a></div>
+                <p className="lede">İşletmenizi analiz ediyor, size uygun Mikro ürününü seçiyor, kurulumdan eğitime ve 7/24 desteğe kadar yanınızda oluyoruz.</p>
+                <div className="cta-row"><a className="btn btn-signal" href="#iletisim">Ücretsiz danışmanlık</a><a className="btn btn-ghost" href="#hizmetler">Ürünleri inceleyin</a></div>
               </div>
             </div>
 

@@ -1,74 +1,133 @@
-// Landing page copy. Sample projects, contact details and logos are placeholders until real content arrives.
+// Landing page copy. Kaynak: gotech.com.tr (ana sayfa, hakkımızda, ürünler, hizmetler, iletişim).
 
 export const NAV_LINKS = [
-  { href: "#hizmetler", label: "Çözümler" },
+  { href: "#hizmetler", label: "Ürünler" },
+  { href: "#isler", label: "Hizmetler" },
   { href: "#surec", label: "Süreç" },
-  { href: "#isler", label: "İşler" },
   { href: "#sss", label: "SSS" },
   { href: "#iletisim", label: "İletişim" },
 ];
 
+export const STATS = [
+  { value: "15+", label: "Yıl deneyim" },
+  { value: "500+", label: "Mutlu müşteri" },
+  { value: "7/24", label: "Teknik destek" },
+  { value: "%100", label: "Müşteri memnuniyeti" },
+];
+
+export const PRODUCTS = [
+  {
+    id: "urun-run",
+    title: "Mikro Run",
+    image: "Görsel alanı: Mikro Run ekranı",
+    text: "Esnaf, serbest meslek sahibi ve mikro işletmeler için kolay kullanımlı, ekonomik ERP çözümü. e-Dönüşüm paketi dahil.",
+    includes: ["Faturalama", "Stok takibi", "e-Dönüşüm", "Raporlar"],
+    audience: "1-5 çalışan",
+  },
+  {
+    id: "urun-jump",
+    title: "Mikro Jump",
+    image: "Görsel alanı: Mikro Jump ekranı",
+    text: "Küçük ve orta ölçekli işletmeler için kapsamlı ERP çözümü. İşiniz büyüdükçe yazılımınız da sizinle birlikte büyür.",
+    includes: ["Satış yönetimi", "Depo yönetimi", "Muhasebe", "Üretim"],
+    audience: "5-50 çalışan",
+    badge: "Popüler",
+  },
+  {
+    id: "urun-fly",
+    title: "Mikro Fly",
+    image: "Görsel alanı: Mikro Fly ekranı",
+    text: "Büyük ölçekli işletmeler, grup şirketleri ve holdingler için tam entegre kurumsal ERP platformu.",
+    includes: ["Holding yönetimi", "İş zekası", "İnsan kaynakları", "Üretim planlama"],
+    audience: "50+ çalışan",
+    badge: "Kurumsal",
+  },
+  {
+    id: "urun-musavir",
+    title: "Mikro Müşavir",
+    image: "Görsel alanı: Mikro Müşavir ekranı",
+    text: "Serbest muhasebeciler ve mali müşavirler için özel tasarlanmış, mükellef yönetimini kolaylaştıran profesyonel çözüm.",
+    includes: ["Defter beyan", "Mükellef yönetimi", "e-SMM", "Beyannameler"],
+    audience: "Mali müşavirler",
+  },
+];
+
+export const EDONUSUM = [
+  "e-Fatura",
+  "e-Arşiv Fatura",
+  "e-İrsaliye",
+  "e-Defter",
+  "e-Mutabakat",
+  "e-SMM",
+  "e-Müstahsil",
+  "e-Bordro",
+];
+
+export const ADDONS = [
+  { title: "Zeus WMS", text: "Yapay zeka destekli depo yönetim sistemi.", tags: ["Stok takibi", "Raf yönetimi", "Barkod", "SKT takibi"] },
+  { title: "B2B / B4B", text: "Bayi ve saha satış yönetim sistemi.", tags: ["Online sipariş", "Bayi portalı", "Saha satış", "Mobil uygulama"] },
+  { title: "Mikro Hızlı Satış", text: "Perakende satış noktası (POS) çözümü.", tags: ["Hızlı satış", "Barkod okuma", "Kasa yönetimi", "Z raporu"] },
+  { title: "E-Ticaret entegrasyonu", text: "Pazaryeri ve web mağaza entegrasyonu.", tags: ["Trendyol", "Hepsiburada", "N11", "Amazon"] },
+  { title: "Mikro Drive", text: "Bulut yedekleme ve dosya paylaşımı.", tags: ["Otomatik yedekleme", "Dosya paylaşımı", "Güvenli depolama"] },
+  { title: "Mikro Şirketim", text: "Mobil işletme yönetimi uygulaması.", tags: ["Satış raporları", "Tahsilat takibi", "Cari bakiye", "Bildirimler"] },
+];
+
 export const SERVICES = [
-  {
-    id: "hizmet-erp",
-    title: "Mikro ERP",
-    image: "Görsel alanı: ERP panel ekranı",
-    text: "Stok, cari hesap, fatura, sipariş ve personel takibi tek yerde. İhtiyacınız olan modüllerle başlar, işiniz büyüdükçe genişler.",
-    includes: ["Stok ve depo", "Cari hesap", "e-Fatura ve e-Arşiv", "Sipariş", "Personel", "Raporlar"],
-    audience: "Üretim atölyeleri, toptancılar, çok şubeli mağazalar",
-  },
-  {
-    id: "hizmet-web",
-    title: "Web siteleri",
-    image: "Görsel alanı: web sitesi örnekleri",
-    text: "Kurumsal site, e-ticaret ya da kampanya sayfası. Hızlı açılan, kolay yönetilen ve aramalarda bulunan siteler kuruyoruz. Gelen siparişler doğrudan ERP'nize düşer.",
-    includes: ["Kurumsal site", "E-ticaret", "Çok dilli yapı", "Arama motoru uyumu", "İçerik yönetimi"],
-    audience: "Yeni kurulan markalar, sitesini yenilemek isteyen firmalar",
-  },
-  {
-    id: "hizmet-panel",
-    title: "Yönetim panelleri",
-    image: "Görsel alanı: yönetim paneli arayüzü",
-    text: "Bayi portalı, randevu sistemi, saha ekibi takibi. Ekibinizin her gün kullandığı iç araçları iş akışınıza göre sıfırdan tasarlıyoruz.",
-    includes: ["Rol ve yetki yönetimi", "Bayi ve müşteri portalı", "Mobil uyum", "Bildirimler", "Diğer sistemlerle entegrasyon"],
-    audience: "Hazır yazılımın yetmediği, kendine özgü süreci olan ekipler",
-  },
+  { title: "İş analizi", text: "İşletmenizin ihtiyaçlarını detaylı analiz ederek en uygun çözümü belirliyoruz.", items: ["Mevcut süreç analizi", "İhtiyaç tespiti", "Çözüm önerisi", "Maliyet analizi"] },
+  { title: "Kurulum & entegrasyon", text: "Yazılımınızı profesyonelce kuruyor, mevcut sistemlerinizle entegre ediyoruz.", items: ["Yazılım kurulumu", "Veri aktarımı", "Sistem entegrasyonu", "Özelleştirme"] },
+  { title: "Eğitim", text: "Ekibinizi yazılımı etkin kullanabilmeleri için kapsamlı eğitimlerle donatıyoruz.", items: ["Kullanıcı eğitimi", "Yönetici eğitimi", "Online eğitim", "Eğitim dokümanları"] },
+  { title: "Teknik destek", text: "7/24 teknik destek hizmetimizle her an yanınızdayız.", items: ["Telefon desteği", "Uzaktan erişim", "Yerinde destek", "Öncelikli müdahale"] },
+  { title: "Güncelleme & bakım", text: "Yazılımınızı güncel tutuyor, performansını sürekli izliyoruz.", items: ["Versiyon güncellemesi", "Güvenlik yamaları", "Performans optimizasyonu", "Yedekleme"] },
+  { title: "e-Dönüşüm danışmanlığı", text: "e-Fatura, e-Defter ve tüm e-belge süreçlerinizde uzman danışmanlık.", items: ["GİB başvuruları", "Sistem kurulumu", "Entegratör bağlantısı", "Yasal uyumluluk"] },
 ];
 
 export const PROCESS_STEPS = [
-  { title: "Tanışma", text: "İşinizi, bugün nasıl yürüdüğünü ve nerede zorlandığınızı dinliyoruz.", output: "İhtiyaç notları" },
-  { title: "Keşif ve teklif", text: "Hangi modüllerin gerektiğini birlikte netleştiriyor, kapsamı ve takvimi yazılı olarak sunuyoruz.", output: "Kapsam dokümanı ve teklif" },
-  { title: "Tasarım", text: "Ekranları gerçek verilerinizle tasarlıyoruz. Siz onaylamadan koda geçmiyoruz.", output: "Tıklanabilir prototip" },
-  { title: "Geliştirme", text: "Düzenli aralıklarla çalışan sürümü size gösteriyoruz. Süreci baştan sona görürsünüz.", output: "Test ortamı" },
-  { title: "Kurulum ve eğitim", text: "Mevcut verilerinizi aktarıyor, ekibinize kullanımı öğretiyor ve sistemi canlıya alıyoruz.", output: "Canlı sistem ve eğitimli ekip" },
-];
-
-export const PROJECTS = [
-  { image: "Görsel alanı: proje ekran görüntüleri", sector: "Gıda üretimi", scope: "Mikro ERP ve e-ticaret sitesi", title: "Kahve kavurma atölyesi için sipariş, stok ve fatura sistemi", text: "Web sitesinden gelen siparişler, depo ve muhasebe artık aynı panelde." },
-  { image: "Görsel alanı: bayi portalı", sector: "Otomotiv yedek parça", scope: "Yönetim paneli", title: "Toptancı için bayi portalı", text: "Bayiler stok ve fiyatı kendileri görüyor, siparişi panelden veriyor." },
-  { image: "Görsel alanı: randevu ekranı", sector: "Sağlık", scope: "Web sitesi ve randevu paneli", title: "Diş kliniği için online randevu sistemi", text: "Siteden alınan randevu doğrudan klinik takvimine düşüyor." },
+  { title: "İletişim", text: "Bize ulaşın, ihtiyaçlarınızı dinleyelim." },
+  { title: "Analiz", text: "İşletmenizi ve mevcut süreçlerinizi analiz edelim." },
+  { title: "Teklif", text: "İhtiyacınıza göre size özel çözüm ve fiyat sunalım." },
+  { title: "Kurulum", text: "Yazılımı kuralım, verilerinizi aktaralım, sistemlerinizle entegre edelim." },
+  { title: "Eğitim", text: "Ekibinizi kullanıcı ve yönetici eğitimleriyle hazırlayalım." },
+  { title: "Destek", text: "7/24 teknik destek, güncelleme ve bakımla yanınızda olalım." },
 ];
 
 export const COMPARE_ROWS = [
-  { topic: "Modüller", packaged: "Herkese aynı menü, kullanmadığınız özelliklerle birlikte gelir.", gotech: "Yalnızca ihtiyacınız olanlar kurulur, gerektikçe eklenir." },
-  { topic: "Ekranlar", packaged: "İş akışınızı programa uydurursunuz.", gotech: "Program iş akışınıza göre tasarlanır." },
-  { topic: "Web sitesi", packaged: "Ayrı firma, ayrı sistem. Siparişler elle aktarılır.", gotech: "Aynı ekip kurar. Siparişler panele kendiliğinden düşer." },
-  { topic: "Verileriniz", packaged: "Başka bir sisteme taşımak zor olabilir.", gotech: "Verileriniz sizindir, istediğiniz zaman dışa aktarılır." },
-  { topic: "Destek", packaged: "Genel destek hattı.", gotech: "Sistemi kuran ekiple, müşteri panelinizden destek talebi açarak konuşursunuz." },
+  { topic: "Çalışan sayısı", run: "1-5", jump: "5-50", fly: "50+" },
+  { topic: "Stok yönetimi", run: "Var", jump: "Var", fly: "Var" },
+  { topic: "e-Dönüşüm", run: "Temel", jump: "Tam", fly: "Tam" },
+  { topic: "Üretim modülü", run: "—", jump: "Var", fly: "Var" },
+  { topic: "Çoklu şirket", run: "—", jump: "—", fly: "Var" },
+  { topic: "İnsan kaynakları", run: "—", jump: "Temel", fly: "Gelişmiş" },
+];
+
+export const VALUES = [
+  { title: "Müşteri odaklılık", text: "Her projede müşteri memnuniyetini ön planda tutuyoruz." },
+  { title: "Sürekli gelişim", text: "Teknolojik gelişmeleri takip ederek en güncel çözümleri sunuyoruz." },
+  { title: "Güven & şeffaflık", text: "İş ortaklarımızla güvene dayalı ilişkiler kuruyoruz." },
+  { title: "Kalite standartları", text: "En yüksek kalite standartlarında hizmet veriyoruz." },
 ];
 
 export const FAQ_ITEMS = [
-  { q: "Mikro ERP bizim ölçeğimize uygun mu?", a: "Mikro ERP, büyük kurumsal sistemlerin karmaşıklığı olmadan küçük ve orta ölçekli işletmeler için kurulur. İhtiyacınız olan modülle başlar, büyüdükçe genişletirsiniz." },
-  { q: "Excel'deki verilerimizi aktarabilir miyiz?", a: "Evet. Ürün, cari hesap ve stok listelerinizi kurulum sırasında sisteme aktarıyoruz. Kullandığınız eski programdan da veri alabiliyoruz." },
-  { q: "e-Fatura ve e-Arşiv ile çalışıyor mu?", a: "Kullandığınız entegratörle bağlantı kuruyoruz. Faturalar sistemin içinden kesilir ve müşterinize gönderilir." },
-  { q: "Ne kadar sürer, fiyat nasıl belirlenir?", a: "Süre ve fiyat seçilen modüllere ve entegrasyonlara göre değişir. Keşif görüşmesinden sonra yazılı teklif ve takvim veriyoruz." },
-  { q: "Kurulumdan sonra destek veriyor musunuz?", a: "Evet. Müşteri panelinizden destek talebi açarsınız; talebinizi kimin üstlendiğini ve hangi aşamada olduğunu oradan takip edersiniz." },
-  { q: "Verilerimiz nerede saklanıyor?", a: "Tercihinize göre bulut sunucuda ya da kendi sunucunuzda. Düzenli yedekleme kurulumun bir parçasıdır." },
+  { q: "GoTech tam olarak ne yapıyor?", a: "Mikro Yazılım İş Ortağı'yız. 2017'den beri Mikro Yazılım'ın ERP ürünlerini işletmelere kuruyor, iş analizinden eğitime ve 7/24 teknik desteğe kadar sürecin tamamında yanınızda oluyoruz." },
+  { q: "Hangi ürün bize uygun?", a: "İşletmenizin büyüklüğüne göre değişir: 1-5 çalışan için Mikro Run, 5-50 çalışan için Mikro Jump, 50+ çalışan ve grup şirketleri için Mikro Fly. Mali müşavirler için ayrıca Mikro Müşavir var. Ücretsiz danışmanlıkta birlikte netleştiriyoruz." },
+  { q: "e-Fatura ve e-Defter dahil mi?", a: "Mikro Jump ve Mikro Fly ürünlerinde tüm e-Dönüşüm çözümleri dahildir. Mikro Run'da e-Dönüşüm paketi ürünün içinde gelir. GİB başvurusu, entegratör bağlantısı ve yasal uyumluluk sürecinde de danışmanlık veriyoruz." },
+  { q: "Mevcut verilerimizi aktarabilir miyiz?", a: "Evet. Veri aktarımı kurulum hizmetimizin bir parçası. Kurulum sırasında mevcut sistemlerinizle entegrasyonu da biz yapıyoruz." },
+  { q: "Ekibimiz yazılımı kullanmayı nasıl öğrenecek?", a: "Kurulumdan sonra kullanıcı ve yönetici eğitimleri veriyoruz. Online eğitim ve eğitim dokümanları da sağlıyoruz." },
+  { q: "Kurulumdan sonra destek veriyor musunuz?", a: "7/24 teknik destek veriyoruz: telefon desteği, uzaktan erişim, yerinde destek ve öncelikli müdahale. Ayrıca versiyon güncellemesi, güvenlik yamaları ve yedekleme bakım hizmetimize dahil." },
+  { q: "E-ticaret sitemizle veya depomuzla entegre olur mu?", a: "Olur. Trendyol, Hepsiburada, N11 ve Amazon için pazaryeri entegrasyonu, depo için Zeus WMS, bayi ve saha satış için B2B/B4B çözümümüz var." },
 ];
 
 export const CONTACT_INFO = [
-  { label: "E-posta", value: "iletisim@ornek.com", href: "mailto:iletisim@ornek.com" },
-  { label: "Telefon", value: "+90 (000) 000 00 00", href: "tel:+900000000000" },
-  { label: "Adres", value: "Şehir, ilçe (adres bilgisi)" },
-  { label: "Çalışma saatleri", value: "Hafta içi 09.00–18.00" },
+  { label: "Satış", value: "0 532 468 12 47", href: "tel:+905324681247" },
+  { label: "Destek", value: "0 507 679 19 25", href: "tel:+905076791925" },
+  { label: "E-posta", value: "info@gotech.com.tr", href: "mailto:info@gotech.com.tr" },
+  { label: "Adres", value: "Şehit Nevres Bulvarı, Deren Plaza No:10 K:1, Alsancak – İzmir" },
+];
+
+export const CONTACT_SUBJECTS = [
+  "Genel bilgi",
+  "Demo talebi",
+  "Fiyat teklifi",
+  "Teknik destek",
+  "İş ortaklığı",
+  "Diğer",
 ];

@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { Geologica } from "next/font/google";
-import "./globals.css";
 
 const geologica = Geologica({ subsets: ["latin", "latin-ext"], variable: "--font-geologica", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || "http://localhost:3000"),
-  title: { default: "GoTech | Mikro ERP, web sitesi ve yönetim paneli", template: "%s | GoTech" },
-  description: "Mikro ERP, web sitesi ve yönetim paneli. Tasarımından kurulumuna tek ekip.",
+  title: { default: "GoTech ERP Solutions | Mikro Yazılım İş Ortağı", template: "%s | GoTech" },
+  description: "Mikro Yazılım İş Ortağı olarak 2017'den beri işletmelere ERP çözümleri sunuyoruz. Mikro Run, Jump, Fly ve Müşavir; e-Dönüşüm, kurulum, eğitim ve 7/24 teknik destek.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

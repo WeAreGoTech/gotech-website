@@ -1,47 +1,44 @@
 import Link from "next/link";
 import "./closing.css";
 import "./showcase.css";
-import { COMPARE_ROWS, FAQ_ITEMS, PROJECTS, SERVICES } from "./content";
+import { COMPARE_ROWS, FAQ_ITEMS, PRODUCTS, SERVICES, STATS, VALUES } from "./content";
 
-const LOGO_SLOTS = 6;
-
-export function Logos() {
+export function Stats() {
   return (
-    <section className="logos" data-nav-tone="light" aria-label="Çalıştığımız işletmeler">
-      <p>Stoklarını, siparişlerini ve sitelerini bize emanet eden işletmeler</p>
-      <ul>{Array.from({ length: LOGO_SLOTS }, (_, i) => <li key={i}>Logo</li>)}</ul>
+    <section className="stats" data-nav-tone="light" aria-label="GoTech rakamlarla">
+      <p>Mikro Yazılım İş Ortağı olarak 2017&apos;den beri işletmelere ERP çözümleri sunuyoruz.</p>
+      <ul>
+        {STATS.map((s) => (
+          <li key={s.label}><strong>{s.value}</strong><span>{s.label}</span></li>
+        ))}
+      </ul>
     </section>
   );
 }
 
-function Project({ project, feature = false }: { project: (typeof PROJECTS)[number]; feature?: boolean }) {
-  return (
-    <article className={`project${feature ? " is-feature" : ""}`}>
-      <div className="ph">{project.image}</div>
-      <dl className="project-meta">
-        <div><dt>Sektör</dt><dd>{project.sector}</dd></div>
-        <div><dt>Kapsam</dt><dd>{project.scope}</dd></div>
-      </dl>
-      <h3>{project.title}</h3>
-      <p>{project.text}</p>
-    </article>
-  );
-}
-
 export function Work() {
-  const [feature, ...rest] = PROJECTS;
   return (
     <section className="section work" id="isler" data-nav-tone="light">
       <div className="work-head">
         <div className="section-head">
-          <span className="tag">Örnek içerik</span>
-          <h2 className="h2">Son işlerimizden birkaçı.</h2>
+          <h2 className="h2">Yazılımı satmakla bitmiyor.</h2>
+          <p className="lede">İş analizinden eğitime, kurulumdan 7/24 desteğe kadar sürecin tamamında yanınızdayız.</p>
         </div>
       </div>
-      <div className="work-grid">
-        <Project project={feature} feature />
-        <div className="work-side">{rest.map((p) => <Project key={p.title} project={p} />)}</div>
-      </div>
+      <ul className="service-cards">
+        {SERVICES.map((s) => (
+          <li key={s.title} className="service-card">
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+            <ul>{s.items.map((i) => <li key={i}>{i}</li>)}</ul>
+          </li>
+        ))}
+      </ul>
+      <ul className="values">
+        {VALUES.map((v) => (
+          <li key={v.title}><h3>{v.title}</h3><p>{v.text}</p></li>
+        ))}
+      </ul>
     </section>
   );
 }
@@ -50,19 +47,25 @@ export function Compare() {
   return (
     <section className="section compare" data-nav-tone="dark" aria-labelledby="compare-title">
       <div className="section-head">
-        <h2 className="h2" id="compare-title">Hazır paket program mı, işinize göre kurulan sistem mi?</h2>
-        <p className="lede">Paket programlar çoğu işletme için iyi bir başlangıçtır. İşiniz programa sığmamaya başladığında fark burada ortaya çıkar.</p>
+        <h2 className="h2" id="compare-title">Hangi ürün size uygun?</h2>
+        <p className="lede">İşletme profilinize göre önerimiz. Emin değilseniz ücretsiz danışmanlıkta birlikte netleştiriyoruz.</p>
       </div>
       <table className="compare-table">
         <thead>
-          <tr><th scope="col"><span className="sr-only">Konu</span></th><th scope="col">Hazır paket program</th><th scope="col" className="is-us">GoTech ile</th></tr>
+          <tr>
+            <th scope="col"><span className="sr-only">Özellik</span></th>
+            <th scope="col">Mikro Run</th>
+            <th scope="col" className="is-us">Mikro Jump</th>
+            <th scope="col">Mikro Fly</th>
+          </tr>
         </thead>
         <tbody>
           {COMPARE_ROWS.map((row) => (
             <tr key={row.topic}>
               <th scope="row">{row.topic}</th>
-              <td data-label="Hazır paket program">{row.packaged}</td>
-              <td className="is-us" data-label="GoTech ile">{row.gotech}</td>
+              <td data-label="Mikro Run">{row.run}</td>
+              <td className={`is-us${row.jump === "—" ? " is-none" : ""}`} data-label="Mikro Jump">{row.jump}</td>
+              <td data-label="Mikro Fly">{row.fly}</td>
             </tr>
           ))}
         </tbody>
@@ -98,24 +101,27 @@ export function SiteFooter() {
     <footer className="footer" data-nav-tone="dark">
       <div className="footer-top">
         <div className="footer-brand">
-          <a className="logo" href="#top">GoTech</a>
-          <p>Mikro ERP, web sitesi ve yönetim paneli. Tasarımından kurulumuna tek ekip.</p>
+          <a className="logo" href="#top" aria-label="GoTech ana sayfa">
+            {/* eslint-disable-next-line @next/next/no-img-element -- static SVG */}
+            <img src="/brand/gotech-logo-dark.svg" alt="" width={180} height={58} />
+          </a>
+          <p>Mikro Yazılım İş Ortağı olarak 2017&apos;den beri işletmelere ERP çözümleri sunuyoruz.</p>
         </div>
         <div>
-          <h2 className="footer-h">Çözümler</h2>
-          <ul>{SERVICES.map((s) => <li key={s.id}><a href={`#${s.id}`}>{s.title}</a></li>)}</ul>
+          <h2 className="footer-h">Ürünler</h2>
+          <ul>{PRODUCTS.map((p) => <li key={p.id}><a href={`#${p.id}`}>{p.title}</a></li>)}</ul>
         </div>
         <div>
           <h2 className="footer-h">Şirket</h2>
-          <ul><li><a href="#isler">İşler</a></li><li><a href="#surec">Süreç</a></li><li><a href="#sss">SSS</a></li><li><a href="#iletisim">İletişim</a></li></ul>
+          <ul><li><a href="#isler">Hizmetler</a></li><li><a href="#surec">Süreç</a></li><li><a href="#sss">SSS</a></li><li><a href="#iletisim">İletişim</a></li></ul>
         </div>
         <div>
           <h2 className="footer-h">Müşteriler</h2>
-          <ul><li><Link href="/giris">Müşteri girişi</Link></li><li><Link href="/panel/talep/yeni">Destek talebi aç</Link></li></ul>
+          <ul><li><Link href="/giris">Destek portalı</Link></li><li><Link href="/panel/talep/yeni">Destek talebi aç</Link></li></ul>
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© 2026 GoTech</span>
+        <span>© 2026 GoTech ERP Solutions</span>
         <nav aria-label="Yasal bağlantılar"><a href="#">KVKK aydınlatma metni</a><a href="#">Çerez politikası</a></nav>
       </div>
     </footer>
