@@ -1,0 +1,387 @@
+/* GoTech ana sayfa ("Rehber" yönü, 23.09.2026'da seçildi; diğer dört varyant silindi). Bağımsız stil sistemi.
+   Yurtdışı ERP iş ortağı sitelerinden çıkan kalıplar: ürün bulucu (Eureka "60 saniyede"),
+   destek bir ürün gibi anlatılır (Eureka, Utilize), adım adım yol haritası (Captivea),
+   "size nasıl yardımcı olabiliriz" hizmet ızgarası (Rand Group), üstte yasal takvim bandı.
+   Kurallar: uydurma Mikro ekranı yok, uydurma müşteri/referans yok, Mikro logosu yalnız
+   tam beyaz zeminde 156px, koyu tam ekran sahne yok, gradient/blob/glass yok, snap yok.
+   "Yapay zekâ işi gibi" görünmesin (patron, 23.09): krem zemin, bulanık geniş gölge, noktalı hap
+   etiket, elle çizilmiş vurgu, üst üste binen kolaj ve ince dev rakam yok. Ürün adları Mikro'nun
+   resmi logolarıyla. Font Figtree: Mikro'nun sitesindeki Gilroy'a en yakın ücretsiz yazı. */
+
+:root{
+  --paper:#FFFFFF;
+  --ground:#F4F5F7;                /* nötr açık gri bant */
+  --ground-2:#E6E8EC;
+  --ink:#16181D;
+  --ink-2:rgba(22,24,29,.68);
+  --ink-3:rgba(22,24,29,.48);
+  --line:rgba(22,24,29,.12);
+  --brand:#E53935;
+  --brand-deep:#C0261F;
+  --brand-soft:rgba(229,57,53,.08);
+  --font:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --gx:clamp(20px,5vw,72px);
+  --maxw:1240px;
+  --sec:clamp(80px,11vh,136px);
+  --r:10px;
+  --r-lg:14px;
+  --ease:cubic-bezier(.22,.61,.36,1);
+  --soft:cubic-bezier(.22,1,.36,1);
+  --shadow:0 1px 2px rgba(22,24,29,.06);
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.04rem/1.6 var(--font);-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+ul,ol{list-style:none;margin:0;padding:0}
+h1,h2,h3,h4,p,figure,fieldset,dl,dd{margin:0}
+fieldset{border:0;padding:0;min-width:0}
+svg{display:block}
+button,input,select,textarea{font:inherit;color:inherit}
+
+.wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gx)}
+.sec{padding-block:var(--sec)}
+.ground{background:var(--ground)}
+
+/* ---------- tipografi: kurumsal ağırlık (Mikro'nun sitesi gibi kalın başlık, normal harf aralığı) ---------- */
+h1,.h1{font-weight:700;font-size:clamp(2.4rem,4.2vw,3.7rem);line-height:1.1;letter-spacing:-.02em}
+h2,.h2{font-weight:700;font-size:clamp(1.85rem,3vw,2.6rem);line-height:1.15;letter-spacing:-.015em;text-wrap:balance}
+h3{font-weight:600;font-size:1.14rem;line-height:1.3}
+.lede{font-size:clamp(1.05rem,1.2vw,1.16rem);line-height:1.6;color:var(--ink-2);max-width:48ch}
+/* bölüm etiketi: düz metin, hap/nokta yok */
+.eyebrow{font-size:.9rem;font-weight:600;color:var(--brand-deep)}
+.head{display:grid;gap:14px;justify-items:start;max-width:720px}
+.head.center{justify-items:center;text-align:center;margin-inline:auto}
+
+/* hero başlığı: satırlar elle ayrılmış maskeler */
+.l{display:block;overflow:hidden;padding-bottom:.18em;margin-bottom:-.18em}
+.l>span{display:block}
+/* JS gelmezse başlık satırları 2.6sn'de kendiliğinden yerine oturur */
+html.motion .h-lines .l>span{transform:translateY(110%);animation:fsl 0s linear 2.6s forwards}
+@keyframes fsl{to{transform:none}}
+
+/* failsafe: JS gelmezse içerik 2.6sn'de görünür */
+html.motion [data-in]{opacity:0;animation:fs 0s linear 2.6s forwards}
+@keyframes fs{to{opacity:1;transform:none}}
+html.no-motion *{transition:none!important;animation:none!important}
+
+/* ---------- butonlar ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.65em;padding:.9rem 1.4rem;border:0;border-radius:8px;cursor:pointer;
+  background:var(--brand);color:#fff;font-weight:600;font-size:.96rem;transition:background .25s var(--ease)}
+.btn:hover{background:var(--brand-deep)}
+.btn svg{width:15px;height:15px;transition:transform .35s var(--soft)}
+.btn:hover svg{transform:translateX(3px)}
+.btn-ghost{background:var(--paper);color:var(--ink);box-shadow:inset 0 0 0 1px rgba(22,24,29,.2)}
+.btn-ghost:hover{background:var(--ground)}
+.btn-sm{padding:.62rem 1.05rem;font-size:.9rem}
+.link{display:inline-flex;align-items:center;gap:.5em;font-weight:600;font-size:.96rem;color:var(--ink)}
+.link svg{width:15px;height:15px;transition:transform .35s var(--soft)}
+.link:hover{color:var(--brand-deep)}
+.link:hover svg{transform:translateX(3px)}
+
+/* ---------- duyuru bandı ---------- */
+.notice{background:var(--ink);color:#fff;font-size:.86rem}
+.notice[hidden]{display:none}
+.notice .wrap{display:flex;align-items:center;justify-content:center;gap:14px;min-height:44px;position:relative}
+.notice b{font-weight:500}
+.notice a{display:inline-flex;align-items:center;gap:.4em;white-space:nowrap;color:#fff;font-weight:500;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.4)}
+.notice a:hover{text-decoration-color:#fff}
+.notice-x{position:absolute;right:var(--gx);top:50%;transform:translateY(-50%);width:30px;height:30px;border:0;border-radius:50%;
+  background:transparent;color:rgba(255,255,255,.7);cursor:pointer;display:grid;place-items:center}
+.notice-x:hover{background:rgba(255,255,255,.1);color:#fff}
+.notice-x svg{width:14px;height:14px}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:50;background:#fff;transition:box-shadow .35s var(--ease)}
+.nav.stuck{box-shadow:0 1px 0 var(--line)}
+.nav .wrap{display:flex;align-items:center;gap:28px;height:72px}
+.nav .logo{width:118px}
+.nav .logo svg{width:100%;height:auto}
+.nav-links{display:flex;gap:26px;margin-left:auto;font-size:.95rem;font-weight:500;color:var(--ink-2)}
+.nav-links a:hover{color:var(--ink)}
+.nav-sup{font-size:.95rem;font-weight:600;color:var(--brand-deep)}
+.nav-sup:hover{color:var(--brand)}
+
+/* ======================================================================
+   HERO — beyaz, solda metin, sağda tek gerçek fotoğraf
+   ====================================================================== */
+.hero{padding-top:clamp(30px,5vh,64px);padding-bottom:clamp(56px,8vh,96px)}
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(36px,5vw,80px);align-items:center}
+.hero-copy{display:grid;gap:22px;justify-items:start}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px}
+.hero-trust{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:.93rem;color:var(--ink-2)}
+/* satır içi: "2017'den beri" kesme işaretinden bölünmesin (flex boşluk koyuyordu) */
+.hero-trust li::before{content:"";display:inline-block;vertical-align:-1px;margin-right:7px;width:12px;height:12px;
+  background:no-repeat center/12px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23E53935' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.hero-trust b{font-weight:700;color:var(--ink)}
+
+.hero-ph{aspect-ratio:5/4;max-height:540px;border-radius:var(--r-lg);overflow:hidden}
+.hero-ph img{width:100%;height:100%;object-fit:cover}
+
+/* ---------- iş ortaklığı + rakamlar ---------- */
+.band{padding-block:clamp(30px,4.5vh,48px);border-block:1px solid var(--line)}
+.band .wrap{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,48px);align-items:center}
+/* PNG tuvali 268x170, mürekkep 211x111 -> kılavuzun 120px alt sınırı 152px CSS'te tutuyor; 156 güvenli.
+   PNG opak beyaz zeminli: bandın zemini TAM BEYAZ. Yanında Mikro'nun verdiği Silver Partner rozetleri. */
+.partner{display:flex;align-items:center;gap:22px;padding-right:clamp(20px,3vw,48px);border-right:1px solid var(--line)}
+.partner>img{width:156px;height:auto;flex:none}
+.badges{display:flex;align-items:center;gap:10px}
+.badges img{height:62px;width:auto}
+.stat b{display:block;font-weight:700;font-size:clamp(1.8rem,2.5vw,2.3rem);letter-spacing:-.02em;line-height:1}
+.stat span{display:block;margin-top:6px;font-size:.9rem;color:var(--ink-2);line-height:1.4}
+
+/* ======================================================================
+   ÜRÜN BULUCU — tek cümle; uygun ürün raf üzerinde genişler
+   ====================================================================== */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.say{margin-top:clamp(36px,5.5vh,60px);text-align:center}
+.say-line{max-width:1020px;margin-inline:auto;font-size:clamp(1.4rem,2.4vw,2.15rem);font-weight:500;line-height:1.8;letter-spacing:-.01em;text-wrap:balance}
+/* hap + noktalama birlikte kalır: virgül/nokta yeni satırın başına düşmez */
+.nw{white-space:nowrap}
+.biz{transition:opacity .4s var(--soft)}
+.say.is-musavir .biz{display:none}
+/* müşavir cümlesi ilk hapla biter: "Biz mali müşavirlik bürosuyuz." */
+.mus{display:none}
+.say.is-musavir .mus{display:inline}
+/* cümle içi seçim: hap, genişliği seçili seçeneğe göre JS ile ayarlanır */
+.pick{display:inline-block;vertical-align:baseline}
+.pick select{appearance:none;-webkit-appearance:none;margin:0 .06em;padding:.02em 1.35em .08em .5em;border:0;border-radius:8px;cursor:pointer;
+  background:#fff no-repeat right .5em center/.5em
+  url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23C0261F' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  box-shadow:inset 0 0 0 1.5px rgba(229,57,53,.35);
+  font:inherit;font-weight:600;color:var(--brand-deep);letter-spacing:inherit;
+  transition:width .55s var(--soft),box-shadow .3s var(--ease)}
+.pick select:hover{box-shadow:inset 0 0 0 1.5px var(--brand)}
+.pick select:focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+
+/* raf: dört ürün yan yana; açık olan akarak genişler, içerik yeniden akmaz (sabit genişlikte açığa çıkar) */
+/* container: açık kartın içerik genişliği raf genişliğinden hesaplanır (cqw) */
+.shelf{container-type:inline-size;display:flex;gap:12px;height:clamp(430px,54vh,500px);margin-top:clamp(40px,6vh,64px)}
+.prod{position:relative;flex:1 1 0;min-width:0;display:flex;flex-direction:column;overflow:hidden;border-radius:var(--r-lg);
+  background:#fff;box-shadow:inset 0 0 0 1px var(--line);
+  transition:flex-grow .8s var(--soft),box-shadow .4s var(--ease)}
+.prod:hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.28)}
+.prod.is-open{flex-grow:2.6;box-shadow:inset 0 0 0 1.5px rgba(22,24,29,.22),var(--shadow)}
+/* position yok: .p-for ve .p-plus kartın (.prod) dibine göre konumlanır */
+.prod-head{display:grid;gap:10px;justify-items:start;align-content:start;padding:26px 24px 0;border:0;background:none;
+  text-align:left;cursor:pointer;flex:none}
+.prod.is-open .prod-head{cursor:default}
+.prod-head:focus-visible{outline:2px solid var(--brand);outline-offset:-4px;border-radius:var(--r-lg)}
+.p-rec{height:0;overflow:hidden;opacity:0;margin-bottom:-10px;font-size:.84rem;font-weight:600;color:var(--brand-deep);
+  transition:opacity .4s var(--soft),height .4s var(--soft),margin .4s var(--soft)}
+.prod.is-rec .p-rec{height:1.4em;opacity:1;margin-bottom:0}
+/* Mikro'nun resmi ürün logoları (uploads.mikro.com.tr). PNG'lerin içinde "mikro" kelimesi farklı genişlikte;
+   --k = 254 / kelime genişliği. Genişlik --m x --k: dört kartta "mikro" aynı boyda görünür. */
+.p-logo{--m:74px;width:calc(var(--m) * var(--k));max-width:100%;height:auto;transition:width .6s var(--soft)}
+.prod.is-open .p-logo{--m:104px}
+.p-scale{font-size:.9rem;font-weight:500;color:var(--ink-2);white-space:nowrap}
+/* kapalı kartın dibinde kime uygun olduğu + artı; açılınca kaybolur */
+.p-for{position:absolute;left:24px;right:68px;bottom:24px;font-size:.93rem;line-height:1.4;color:var(--ink-2);
+  transition:opacity .35s var(--soft),transform .6s var(--soft)}
+.p-plus{position:absolute;right:20px;bottom:22px;width:34px;height:34px;border-radius:8px;background:var(--ground);transition:opacity .4s var(--soft),transform .5s var(--soft)}
+.prod:hover .p-plus{background:var(--ground-2)}
+.p-plus::before,.p-plus::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.6px;margin:-.8px 0 0 -6px;background:var(--ink)}
+.p-plus::after{transform:rotate(90deg)}
+.prod.is-open .p-for,.prod.is-open .p-plus{opacity:0;transform:translateY(10px)}
+
+.prod-body{flex:1;min-height:0;opacity:0;transition:opacity .25s var(--ease)}
+.prod.is-open .prod-body{opacity:1;transition:opacity .5s var(--soft) .28s}
+/* açık kartın son genişliği = (raf - 3 boşluk) * 2.6 / 5.6; içerik bu genişlikte sabit, açılırken yeniden akmaz */
+.prod-in{width:calc((100cqw - 36px) * 2.6 / 5.6);display:grid;gap:16px;justify-items:start;padding:18px 26px 26px}
+.p-flag{padding:.28rem .6rem;border-radius:6px;background:var(--brand-soft);color:var(--brand-deep);font-size:.8rem;font-weight:600}
+.p-p{color:var(--ink-2);font-size:1rem;max-width:46ch}
+.p-f{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;width:100%;padding-top:16px;border-top:1px solid var(--line);font-size:.94rem}
+.p-f li{display:flex;align-items:center;gap:9px}
+.p-f li::before{content:"";flex:none;width:14px;height:14px}
+.p-f .y::before{background:no-repeat center/14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23E53935' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.p-f .n{color:var(--ink-3)}
+.p-f .n::before{background:no-repeat center/9px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6h6' stroke='%2316181D' stroke-opacity='.35' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")}
+.prod-in .btn{margin-top:6px}
+
+.why{margin-top:22px;text-align:center;font-size:.96rem;color:var(--ink-2)}
+.why b{font-weight:600;color:var(--ink)}
+
+/* ======================================================================
+   HİZMETLER — "size nasıl yardımcı olabiliriz"
+   ====================================================================== */
+.svc-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:clamp(40px,6vh,64px)}
+.svc{display:grid;align-content:start;gap:12px;padding:clamp(24px,2.3vw,32px);border-radius:var(--r-lg);background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.ico{display:grid;place-items:center;width:44px;height:44px;border-radius:10px;background:var(--brand-soft);color:var(--brand)}
+.ico svg{width:22px;height:22px}
+.svc h3{margin-top:6px}
+.svc p{color:var(--ink-2);font-size:.97rem;line-height:1.55}
+.svc ul{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.svc li{padding:.28rem .6rem;border-radius:6px;background:var(--ground);font-size:.82rem;color:var(--ink-2)}
+
+/* ======================================================================
+   YOL HARİTASI — 6 adım; çizgi scroll ile dolar, adımlar sırayla yanar
+   ====================================================================== */
+.road{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px;margin-top:clamp(48px,7vh,80px)}
+.road-line{position:absolute;left:calc(100%/12);right:calc(100%/12);top:21px;height:2px;background:var(--ground-2);border-radius:2px}
+.road-fill{position:absolute;inset:0;background:var(--brand);border-radius:2px;transform:scaleX(0);transform-origin:left}
+/* align-content:start: kısa açıklamalı adımda grid boşluğu satırlara dağıtıp başlığı aşağı itmesin */
+.step{position:relative;display:grid;gap:10px;justify-items:center;align-content:start;text-align:center}
+.dot{position:relative;z-index:1;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#fff;
+  box-shadow:inset 0 0 0 2px var(--ground-2);font-size:.92rem;font-weight:600;color:var(--ink-3);
+  transition:background .5s var(--soft),color .5s var(--soft),box-shadow .5s var(--soft),transform .5s var(--soft)}
+.step.on .dot{background:var(--brand);color:#fff;box-shadow:none;transform:scale(1.06)}
+.step h3{margin-top:8px;font-size:1.06rem}
+.step p{font-size:.92rem;color:var(--ink-2);line-height:1.5;max-width:20ch}
+
+/* ======================================================================
+   DESTEK — dört eşit kart (Hizmetler/Yazılım kartlarıyla aynı dil)
+   ====================================================================== */
+.sup-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:clamp(40px,6vh,64px)}
+.sup{display:flex;flex-direction:column;gap:12px;padding:clamp(24px,2.2vw,30px);border-radius:var(--r-lg);background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.sup h3{margin-top:6px}
+.sup p{color:var(--ink-2);font-size:.97rem;line-height:1.55}
+.sup-act{margin-top:auto;padding-top:8px;display:inline-flex;align-items:center;gap:.45em;font-weight:600;font-size:.97rem;color:var(--brand-deep)}
+.sup-act svg{width:15px;height:15px;transition:transform .35s var(--soft)}
+.sup-act:hover svg{transform:translateX(3px)}
+
+/* ======================================================================
+   e-DÖNÜŞÜM — solda ne yaptığımız, sağda sekiz e-belge
+   ====================================================================== */
+.edo{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(36px,5vw,80px);align-items:start}
+.edo-copy{display:grid;gap:28px}
+.ticks{display:grid;gap:10px;font-size:1rem;font-weight:500}
+.ticks li{display:flex;align-items:center;gap:10px}
+.ticks li::before{content:"";flex:none;width:14px;height:14px;
+  background:no-repeat center/14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23E53935' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.edo-docs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.edo-docs li{display:grid;gap:3px;align-content:start;padding:18px 20px;border-radius:var(--r);background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.edo-docs b{font-weight:700;font-size:1.05rem}
+.edo-docs span{font-size:.92rem;line-height:1.45;color:var(--ink-2)}
+
+/* ======================================================================
+   MEVCUT MİKRO KULLANICILARI — destek kartlarıyla aynı kart, üç sütun
+   ====================================================================== */
+.sup-grid.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.gecis-cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:28px}
+.gecis-cta span{font-size:.94rem;color:var(--ink-2)}
+
+
+/* ======================================================================
+   MİKRO'NUN ÖTESİNDE — iki geniş kart
+   ====================================================================== */
+.beyond{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:clamp(40px,6vh,64px)}
+.bcard{display:grid;align-content:start;gap:14px;padding:clamp(28px,3vw,44px);border-radius:var(--r-lg);background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.bcard h3{font-size:clamp(1.3rem,2vw,1.55rem);font-weight:700;letter-spacing:-.01em}
+.bcard p{color:var(--ink-2);font-size:.97rem}
+.bcard ul{display:grid;gap:10px;margin-top:4px;padding-top:18px;border-top:1px solid var(--line)}
+.bcard li{display:flex;gap:12px;align-items:baseline;font-size:.95rem}
+.bcard li b{font-weight:600;min-width:0}
+.bcard li span{color:var(--ink-3)}
+.bcard li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--brand);transform:translateY(-2px)}
+
+/* ======================================================================
+   HAKKIMIZDA
+   ====================================================================== */
+.about{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(36px,5vw,80px);align-items:center}
+.about-ph{position:relative;aspect-ratio:4/5;max-height:620px;border-radius:var(--r-lg);overflow:hidden}
+.about-ph img{width:100%;height:100%;object-fit:cover}
+.about-ph figcaption{position:absolute;left:16px;bottom:16px;padding:.45rem .8rem;border-radius:6px;background:#fff;font-size:.85rem;font-weight:600}
+.about-copy{display:grid;gap:22px;justify-items:start}
+.about-copy .lede{max-width:52ch}
+
+/* ---------- SSS ---------- */
+.faq{max-width:860px;margin:clamp(36px,5vh,56px) auto 0;display:grid;gap:10px}
+.faq details{border-radius:var(--r);background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.faq summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 26px;cursor:pointer;list-style:none;
+  font-weight:600;font-size:1.05rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{position:relative;flex:none;width:30px;height:30px;border-radius:8px;background:var(--ground);transition:background .3s var(--ease)}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.6px;margin:-.8px 0 0 -6px;
+  background:currentColor;transition:transform .4s var(--soft),opacity .4s var(--soft)}
+.faq summary i::after{transform:rotate(90deg)}
+.faq details[open]:not(.is-closing) summary i::after{transform:rotate(0);opacity:0}
+.faq summary:hover i{background:var(--ground-2)}
+.faq-a{overflow:hidden}
+.faq-a p{padding:0 26px 24px;color:var(--ink-2);max-width:66ch}
+
+/* ======================================================================
+   İLETİŞİM — kırmızı yuvarlak kart içinde geri arama formu
+   ====================================================================== */
+.contact{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,4vw,64px);align-items:center;
+  padding:clamp(30px,4.4vw,72px);border-radius:16px;background:var(--brand);color:#fff}
+.contact h2{color:#fff}
+.contact .lede{color:rgba(255,255,255,.86)}
+.c-info{display:grid;gap:16px;margin-top:10px}
+.c-info dt{font-size:.78rem;color:rgba(255,255,255,.7)}
+.c-info dd{font-weight:600}
+.c-info a:hover{text-decoration:underline;text-underline-offset:3px}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:clamp(22px,2.4vw,34px);border-radius:var(--r-lg);background:#fff;color:var(--ink)}
+.form label{display:grid;gap:6px;font-size:.86rem;font-weight:600;color:var(--ink-2)}
+.form .full{grid-column:1/-1}
+.form input,.form select,.form textarea{width:100%;padding:.85rem 1rem;border:0;border-radius:8px;background:#fff;font-size:.96rem;font-weight:400;color:var(--ink);
+  box-shadow:inset 0 0 0 1px rgba(22,24,29,.2);transition:box-shadow .25s var(--ease),background .25s var(--ease)}
+.form textarea{resize:vertical;min-height:96px}
+.form input:focus,.form select:focus,.form textarea:focus{outline:none;background:#fff;box-shadow:inset 0 0 0 1.5px var(--brand)}
+.form .btn{grid-column:1/-1;justify-self:start}
+.form-ok{grid-column:1/-1;padding:14px 16px;border-radius:8px;background:var(--ground);font-size:.94rem}
+.form-ok[hidden]{display:none}
+
+/* ---------- footer ---------- */
+.foot{padding-block:clamp(56px,8vh,90px) 28px}
+.foot-top{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(4,minmax(0,1fr));gap:clamp(20px,3vw,48px)}
+.foot .logo{width:122px}
+.foot .logo svg{width:100%;height:auto}
+.foot-brand{display:grid;gap:16px;justify-items:start}
+.foot-brand p{font-size:.9rem;color:var(--ink-2);max-width:34ch}
+.foot h4{margin:0 0 14px;font-size:.9rem;font-weight:700}
+.foot ul{display:grid;gap:9px;font-size:.93rem;color:var(--ink-2)}
+.foot a:hover{color:var(--brand-deep)}
+.foot-bot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;margin-top:clamp(40px,6vh,70px);padding-top:22px;border-top:1px solid var(--line);font-size:.82rem;color:var(--ink-3)}
+.foot-bot nav{display:flex;gap:20px}
+
+/* ======================================================================
+   DAR EKRAN
+   ====================================================================== */
+@media (max-width:1100px){
+  .sup-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nav-links{display:none}
+  .band .wrap{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .partner{grid-column:1/-1;border-right:0;padding-right:0}
+  .road{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:40px}
+  .road-line{display:none}
+  .foot-top{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .foot-brand{grid-column:1/-1}
+}
+@media (max-width:900px){
+  .hero .wrap,.about,.contact,.edo{grid-template-columns:1fr}
+  .sup-grid{grid-template-columns:1fr 1fr}
+  .sup-grid.g3{grid-template-columns:1fr}
+  .hero-ph{aspect-ratio:4/3}
+  .svc-grid,.beyond{grid-template-columns:1fr}
+  /* raf dikey akordeon: açılan kartın gövdesi 0fr -> 1fr akarak açılır */
+  .shelf{flex-direction:column;height:auto;gap:10px}
+  .prod{display:grid;grid-template-rows:auto 0fr;flex:none;transition:grid-template-rows .7s var(--soft),background .5s var(--soft),box-shadow .5s var(--soft)}
+  .prod.is-open{grid-template-rows:auto 1fr}
+  .prod-head{padding:20px 22px;grid-template-columns:1fr auto;align-items:center}
+  .p-rec,.p-logo,.p-scale{grid-column:1}
+  .p-for{display:none}
+  /* relative: artının çizgileri (::before/::after) kutunun içinde kalsın */
+  .p-plus{position:relative;bottom:auto;right:auto;grid-column:2;grid-row:1/span 3;align-self:center}
+  .prod.is-open .p-plus{opacity:0}
+  .prod.is-open .p-logo{--m:92px}
+  .prod-body{overflow:hidden}
+  .prod-in{width:auto;padding:0 22px 24px}
+  .p-f{grid-template-columns:1fr}
+  .about-ph{aspect-ratio:4/3}
+  .form{grid-template-columns:1fr}
+  .notice .wrap{justify-content:flex-start;padding-right:calc(var(--gx) + 36px)}
+}
+@media (max-width:560px){
+  .notice .n-more{display:none}
+  .notice .wrap{flex-wrap:wrap;gap:2px 12px;padding-block:9px;min-height:0}
+  .nav-sup{display:none}
+  .band .wrap{grid-template-columns:1fr 1fr}
+  .road{grid-template-columns:1fr 1fr}
+  .sup-grid{grid-template-columns:1fr}
+  .edo-docs li{padding:14px 15px}
+}

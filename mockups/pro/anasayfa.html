@@ -3,234 +3,425 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GoTech — Mikro Yazılım Yetkili İş Ortağı</title>
+<title>GoTech — Ana sayfa</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geologica:wght@300..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="soft.css?v=2">
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="rehber.css?v=3">
 <script>try{if(!matchMedia('(prefers-reduced-motion:reduce)').matches)document.documentElement.classList.add('motion')}catch(e){}</script>
 </head>
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="lg" viewBox="0 0 180 58"><text x="8" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="600" font-style="italic" fill="#E53935">go</text><rect x="60" y="12" width="1.5" height="34" rx=".75" fill="#B0B0B0"/><text x="72" y="40" font-family="'Segoe UI','Helvetica Neue',Arial,sans-serif" font-size="38" font-weight="300" fill="#5C5C5C" letter-spacing="-.5">tech</text><g transform="translate(158 8)" stroke="#E53935" stroke-width="1.8" stroke-linecap="round"><line x1="0" y1="5" x2="10" y2="5"/><line x1="5" y1="0" x2="5" y2="10"/></g></symbol>
-  <symbol id="ar" viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
-  <symbol id="tick" viewBox="0 0 12 12"><path d="M2 6.4 4.6 9 10 3.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="ar" viewBox="0 0 16 16"><path d="M2 8h11M9 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="x" viewBox="0 0 16 16"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+  <!-- ikonlar: lucide çizgileri (ISC) -->
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="i-plug" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M9 8V2"/><path d="M15 8V2"/><path d="M18 8v5a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V8Z"/></symbol>
+  <symbol id="i-grad" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></symbol>
+  <symbol id="i-head" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+  <symbol id="i-swap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3 4 7l4 4"/><path d="M4 7h16"/><path d="m16 21 4-4-4-4"/><path d="M20 17H4"/></symbol>
+  <symbol id="i-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></symbol>
+  <symbol id="i-layout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
+  <symbol id="i-msg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></symbol>
 </svg>
 
-<div class="util"><div class="wrap">
-  <span>Satış <b>0 532 468 12 47</b></span>
-  <span>Destek <b>0 507 679 19 25</b></span>
-  <span>info@gotech.com.tr</span>
-  <span class="end"></span>
-  <a href="#">Destek portalına giriş</a>
-</div></div>
+<!-- duyuru bandı: yasal takvim (yurtdışı partnerlerin üst bant kalıbı). Tarihe bağlı: JS kalan günü yazar,
+     son gün geçince metni "sona erdi"ye çevirir (bayat kampanya bandı gibi kalmasın) -->
+<div class="notice" role="region" aria-label="Duyuru" data-end="2026-10-15">
+  <div class="wrap">
+    <span><b class="n-main">V16 desteği 15 Ekim 2026'da bitiyor.</b><span class="n-more"> Geçişi yoğun döneme bırakmayın.</span></span>
+    <a href="#gecis">Geçiş planı isteyin <svg width="14" height="14"><use href="#ar"/></svg></a>
+    <button class="notice-x" type="button" aria-label="Duyuruyu kapat"><svg><use href="#x"/></svg></button>
+  </div>
+</div>
 
 <header class="nav"><div class="wrap">
   <a class="logo" href="#" aria-label="GoTech"><svg viewBox="0 0 180 58"><use href="#lg"/></svg></a>
   <nav class="nav-links">
-    <a class="on" href="#">Ana sayfa</a>
-    <a href="#mikro">Mikro Yazılım</a>
-    <a href="#ozel-gelistirme">Özel geliştirme</a>
-    <a href="#yazilim">Yazılım</a>
-    <a href="#iletisim">İletişim</a>
+    <a href="#urunler">Ürünler</a>
+    <a href="#hizmetler">Hizmetler</a>
+    <a href="#destek">Destek</a>
+    <a href="#hakkimizda">Hakkımızda</a>
+    <a href="#sss">SSS</a>
   </nav>
-  <a class="nav-phone" href="tel:+905324681247">0 532 468 12 47</a>
+  <a class="nav-sup" href="#destek">Destek portalı</a>
   <a class="btn btn-sm" href="#iletisim">Ücretsiz demo</a>
 </div></header>
 
 <!-- ============ HERO ============ -->
 <section class="hero"><div class="wrap">
   <div class="hero-copy">
-    <span class="eyebrow" data-in><i></i>Mikro Yazılım Yetkili İş Ortağı · İzmir</span>
-    <h1 class="d1" data-in>Mikro Yazılım kurulumu, eğitimi ve 7/24 desteği.</h1>
+    <span class="eyebrow" data-in>Mikro Yazılım Yetkili İş Ortağı · İzmir</span>
+    <h1 class="h-lines">
+      <span class="l"><span>Mikro Yazılım</span></span>
+      <span class="l"><span>kurulumu, eğitimi</span></span>
+      <span class="l"><span>ve 7/24 desteği.</span></span>
+    </h1>
     <p class="lede" data-in>2017'den beri Mikro Yazılım yetkili iş ortağıyız. İzmir ve çevresinde 500'den fazla işletmenin kurulumunu, e-Dönüşümünü ve günlük desteğini biz yürütüyoruz.</p>
-    <div class="cta-row" data-in>
-      <a class="btn" href="#iletisim">Ücretsiz demo isteyin</a>
-      <a class="btn btn-soft" href="#mikro">Hangi ürün bize uygun?</a>
+    <div class="hero-cta" data-in>
+      <a class="btn" href="#iletisim">Ücretsiz demo isteyin <svg><use href="#ar"/></svg></a>
+      <a class="btn btn-ghost" href="#urunler">Size uygun ürünü bulun</a>
     </div>
-    <ul class="trust" data-in>
+    <ul class="hero-trust" data-in>
       <li><b>2017</b>'den beri</li>
       <li><b>500+</b> işletme</li>
-      <li><b>7/24</b> destek</li>
       <li><b>Silver</b> Partner</li>
     </ul>
   </div>
 
-  <div data-in>
-    <figure class="hero-figure" style="margin:0">
-      <img src="../img/ofis.jpg" alt="GoTech ofisi" width="1200" height="930">
-    </figure>
-    <div class="partner">
-      <img src="../img/mikro-logo.png" alt="Mikro Yazılım" width="156" height="99">
-      <div>
-        <b>Yetkili iş ortağı</b>
-        <span>Jumper ve Flyer ürün ailelerinde Silver Partner</span>
-      </div>
+  <figure class="hero-ph" data-in><img src="../img/analiz.jpg" alt="İş analizi toplantısı" width="1200" height="800"></figure>
+</div></section>
+
+<!-- ============ İŞ ORTAKLIĞI + RAKAMLAR (tam beyaz zemin: Mikro logosu kuralı) ============ -->
+<section class="band"><div class="wrap">
+  <div class="partner" data-in>
+    <img src="../img/mikro-logo.png" alt="Mikro Yazılım" width="156" height="99">
+    <div class="badges">
+      <img src="../img/jumper-silver.png" alt="Jumper Silver Partner" width="297" height="233">
+      <img src="../img/flyer-silver.png" alt="Flyer Silver Partner" width="324" height="247">
     </div>
+  </div>
+  <div class="stat" data-in><b>15+</b><span>yıl Mikro Yazılım deneyimi</span></div>
+  <div class="stat" data-in><b>500+</b><span>işletmenin kurulumu ve desteği</span></div>
+  <div class="stat" data-in><b>7/24</b><span>teknik destek hattı</span></div>
+</div></section>
+
+<!-- ============ ÜRÜN BULUCU: tek cümle + genişleyen ürün rafı ============ -->
+<section class="sec ground" id="urunler"><div class="wrap">
+  <div class="head center">
+    <span class="eyebrow" data-in>Ürün bulucu</span>
+    <h2 data-in>Size uygun Mikro'yu birlikte bulalım</h2>
+    <p class="lede" data-in>İşletmenizi tek cümleyle anlatın, uygun Mikro ürünü hemen öne çıksın. Kesin seçimi ücretsiz keşif görüşmesinde birlikte yapıyoruz.</p>
+  </div>
+
+  <!-- cümlenin içindeki seçimler yerel <select>: telefonda sistemin kendi seçicisi açılır -->
+  <form class="say" aria-label="İşletmenizi anlatın" data-in>
+    <p class="say-line">
+      Biz
+      <span class="nw"><label class="pick"><span class="sr">İşletme türü ve büyüklüğü</span><select name="kim">
+        <option value="1-5">1–5 kişilik bir işletmeyiz</option>
+        <option value="5-50" selected>5–50 kişilik bir işletmeyiz</option>
+        <option value="50+">50'den fazla kişilik bir işletmeyiz</option>
+        <option value="musavir">mali müşavirlik bürosuyuz</option>
+      </select></label><span class="biz">,</span><span class="mus">.</span></span>
+      <label class="pick biz"><span class="sr">Üretim</span><select name="uretim">
+        <option value="0">üretim yapmıyoruz</option>
+        <option value="1">üretim de yapıyoruz</option>
+      </select></label>
+      <span class="biz">ve</span>
+      <span class="nw biz"><label class="pick"><span class="sr">Şirket sayısı</span><select name="sirket">
+        <option value="1">tek şirketiz</option>
+        <option value="n">birden fazla şirketimiz var</option>
+      </select></label>.</span>
+    </p>
+  </form>
+
+  <div class="shelf" data-in>
+    <article class="prod" data-p="run">
+      <button class="prod-head" type="button" aria-expanded="false" aria-controls="pb-run">
+        <span class="p-rec">Size önerimiz</span>
+        <img class="p-logo" src="../img/mikro/run.png" alt="Mikro Run" width="254" height="44" style="--k:1.693">
+        <span class="p-scale">1–5 çalışan</span>
+        <span class="p-for">Esnaf ve küçük işletmeler</span>
+        <span class="p-plus" aria-hidden="true"></span>
+      </button>
+      <div class="prod-body" id="pb-run"><div class="prod-in">
+        
+        <p class="p-p">Esnaf ve mikro işletmeler için ekonomik ERP. e-Dönüşüm paketi ürünün içinde geliyor.</p>
+        <ul class="p-f"><li class="y">Stok yönetimi</li><li class="y">e-Dönüşüm (temel)</li><li class="n">Üretim modülü</li><li class="n">Çoklu şirket</li><li class="n">İnsan kaynakları</li></ul>
+        <a class="btn" href="#iletisim">Mikro Run için demo isteyin <svg><use href="#ar"/></svg></a>
+      </div></div>
+    </article>
+    <article class="prod is-open is-rec" data-p="jump">
+      <button class="prod-head" type="button" aria-expanded="true" aria-controls="pb-jump">
+        <span class="p-rec">Size önerimiz</span>
+        <img class="p-logo" src="../img/mikro/jump.png" alt="Mikro Jump" width="254" height="40" style="--k:1.752">
+        <span class="p-scale">5–50 çalışan</span>
+        <span class="p-for">Büyüyen KOBİ'ler</span>
+        <span class="p-plus" aria-hidden="true"></span>
+      </button>
+      <div class="prod-body" id="pb-jump"><div class="prod-in">
+        <span class="p-flag">En çok tercih edilen</span>
+        <p class="p-p">KOBİ'ler için kapsamlı ERP. Satış, stok, muhasebe ve üretim aynı yerde. Basic ve bulut sürümleri de var.</p>
+        <ul class="p-f"><li class="y">Stok yönetimi</li><li class="y">e-Dönüşüm (tam)</li><li class="y">Üretim modülü</li><li class="n">Çoklu şirket</li><li class="y">İnsan kaynakları (temel)</li></ul>
+        <a class="btn" href="#iletisim">Mikro Jump için demo isteyin <svg><use href="#ar"/></svg></a>
+      </div></div>
+    </article>
+    <article class="prod" data-p="fly">
+      <button class="prod-head" type="button" aria-expanded="false" aria-controls="pb-fly">
+        <span class="p-rec">Size önerimiz</span>
+        <img class="p-logo" src="../img/mikro/fly.png" alt="Mikro Fly" width="254" height="56" style="--k:1.539">
+        <span class="p-scale">50+ çalışan</span>
+        <span class="p-for">Grup şirketleri ve holdingler</span>
+        <span class="p-plus" aria-hidden="true"></span>
+      </button>
+      <div class="prod-body" id="pb-fly"><div class="prod-in">
+        
+        <p class="p-p">Grup şirketleri ve holdingler için tam entegre kurumsal ERP platformu.</p>
+        <ul class="p-f"><li class="y">Stok yönetimi</li><li class="y">e-Dönüşüm (tam)</li><li class="y">Üretim modülü</li><li class="y">Çoklu şirket</li><li class="y">İnsan kaynakları (gelişmiş)</li></ul>
+        <a class="btn" href="#iletisim">Mikro Fly için demo isteyin <svg><use href="#ar"/></svg></a>
+      </div></div>
+    </article>
+    <article class="prod" data-p="musavir">
+      <button class="prod-head" type="button" aria-expanded="false" aria-controls="pb-musavir">
+        <span class="p-rec">Size önerimiz</span>
+        <img class="p-logo" src="../img/mikro/musavir.png" alt="Mikro Müşavir" width="254" height="36" style="--k:2.134">
+        <span class="p-scale">Mali müşavirler</span>
+        <span class="p-for">Defter beyan ve mükellef yönetimi</span>
+        <span class="p-plus" aria-hidden="true"></span>
+      </button>
+      <div class="prod-body" id="pb-musavir"><div class="prod-in">
+        
+        <p class="p-p">Defter beyan, mükellef yönetimi ve e-SMM ile müşavirlere özel çözüm.</p>
+        <ul class="p-f"><li class="y">Defter beyan</li><li class="y">Mükellef yönetimi</li><li class="y">e-SMM</li></ul>
+        <a class="btn" href="#iletisim">Mikro Müşavir için demo isteyin <svg><use href="#ar"/></svg></a>
+      </div></div>
+    </article>
+  </div>
+  <p class="why" aria-live="polite"><b>Neden Mikro Jump?</b> <span>5–50 çalışanlı işletmeler için tasarlandı · Basic ve bulut sürümleri de var</span></p>
+</div></section>
+
+<!-- ============ HİZMETLER ============ -->
+<section class="sec" id="hizmetler"><div class="wrap">
+  <div class="head">
+    <span class="eyebrow" data-in>Hizmetler</span>
+    <h2 data-in>Size nasıl yardımcı olabiliriz?</h2>
+    <p class="lede" data-in>Lisans, kurulum, eğitim ve destek tek elden. Arada üçüncü bir firma yok.</p>
+  </div>
+  <div class="svc-grid">
+    <article class="svc" data-in><span class="ico"><svg><use href="#i-search"/></svg></span><h3>İş analizi</h3><p>İhtiyaçlarınızı detaylı analiz ederek en uygun çözümü belirliyoruz.</p><ul><li>Mevcut süreç analizi</li><li>İhtiyaç tespiti</li><li>Çözüm önerisi</li><li>Maliyet analizi</li></ul></article>
+    <article class="svc" data-in><span class="ico"><svg><use href="#i-plug"/></svg></span><h3>Kurulum ve entegrasyon</h3><p>Yazılımınızı kuruyor, mevcut sistemlerinizle entegre ediyoruz.</p><ul><li>Yazılım kurulumu</li><li>Veri aktarımı</li><li>Sistem entegrasyonu</li><li>Özelleştirme</li></ul></article>
+    <article class="svc" data-in><span class="ico"><svg><use href="#i-grad"/></svg></span><h3>Eğitim</h3><p>Ekibinizi yazılımı etkin kullanabilmeleri için kapsamlı eğitimlerle hazırlıyoruz.</p><ul><li>Kullanıcı eğitimi</li><li>Yönetici eğitimi</li><li>Online eğitim</li><li>Eğitim dokümanları</li></ul></article>
+    <article class="svc" data-in><span class="ico"><svg><use href="#i-head"/></svg></span><h3>Teknik destek</h3><p>7/24 teknik destek hizmetimizle her an yanınızdayız.</p><ul><li>Telefon desteği</li><li>Uzaktan erişim</li><li>Yerinde destek</li><li>Öncelikli müdahale</li></ul></article>
+    <article class="svc" data-in><span class="ico"><svg><use href="#i-refresh"/></svg></span><h3>Güncelleme ve bakım</h3><p>Yazılımınızı güncel tutuyor, performansını sürekli izliyoruz.</p><ul><li>Versiyon güncellemesi</li><li>Güvenlik yamaları</li><li>Performans optimizasyonu</li><li>Yedekleme</li></ul></article>
+    <article class="svc" data-in><span class="ico"><svg><use href="#i-file"/></svg></span><h3>e-Dönüşüm danışmanlığı</h3><p>e-Fatura, e-Defter ve tüm e-belge süreçlerinizde uzman danışmanlık.</p><ul><li>GİB başvuruları</li><li>Sistem kurulumu</li><li>Entegratör bağlantısı</li><li>Yasal uyumluluk</li></ul></article>
   </div>
 </div></section>
 
-<!-- ============ 01 · MİKRO YAZILIM (sayfanın en büyük bölümü) ============ -->
-<section class="sec" id="mikro"><div class="wrap">
-  <div class="sec-head" data-in>
-    <span class="eyebrow"><i></i>01 · Mikro Yazılım</span>
-    <h2 class="d2">Mikro kurulumu ve sonrası</h2>
-    <p class="lede">Ağırlıklı işimiz bu. Keşif görüşmesinde işinizi dinliyor, dört Mikro ürününden hangisinin size uyduğunu belirliyoruz. Sonrasında kurulum, eski programınızdan veri aktarımı, ekip eğitimi ve destek bizde.</p>
+<!-- ============ e-DÖNÜŞÜM: sekiz e-belge (urunler-data.ts EDONUSUM_DOCS) ============ -->
+<section class="sec ground" id="edonusum"><div class="wrap edo">
+  <div class="edo-copy">
+    <div class="head">
+      <span class="eyebrow" data-in>e-Dönüşüm</span>
+      <h2 data-in>e-Belgelerinizi de biz kuruyoruz</h2>
+      <p class="lede" data-in>GİB başvurusu, entegratör bağlantısı ve Mikro'daki ayarlar tek elden. Hangi belgelerin sizin için zorunlu olduğunu da birlikte netleştiriyoruz.</p>
+    </div>
+    <ul class="ticks" data-in>
+      <li>GİB başvuruları</li>
+      <li>Entegratör bağlantısı</li>
+      <li>Mikro'da kurulum ve ayar</li>
+      <li>Yasal uyumluluk</li>
+    </ul>
+  </div>
+  <ul class="edo-docs">
+    <li data-in><b>e-Fatura</b><span>Kayıtlı kullanıcılara kesilen fatura</span></li>
+    <li data-in><b>e-Arşiv</b><span>e-Fatura kullanmayan alıcılara fatura</span></li>
+    <li data-in><b>e-İrsaliye</b><span>Sevk irsaliyesinin elektronik hâli</span></li>
+    <li data-in><b>e-Defter</b><span>Yevmiye, büyük defter ve berat</span></li>
+    <li data-in><b>e-Mutabakat</b><span>Cari ve Ba/Bs mutabakatı</span></li>
+    <li data-in><b>e-SMM</b><span>Serbest meslek makbuzu</span></li>
+    <li data-in><b>e-Müstahsil</b><span>Çiftçiden alımlarda makbuz</span></li>
+    <li data-in><b>e-Bordro</b><span>Bordroların elektronik gönderimi</span></li>
+  </ul>
+</div></section>
+
+<!-- ============ YOL HARİTASI ============ -->
+<section class="sec" id="surec"><div class="wrap">
+  <div class="head center">
+    <span class="eyebrow" data-in>Yol haritası</span>
+    <h2 data-in>İlk görüşmeden canlı kullanıma altı adım</h2>
+    <p class="lede" data-in>Keşif görüşmesinden sonra 24 saat içinde yazılı teklif ve takvim veriyoruz.</p>
+  </div>
+  <ol class="road">
+    <li class="road-line" aria-hidden="true"><i class="road-fill"></i></li>
+    <li class="step"><span class="dot">1</span><h3>İletişim</h3><p>Bize ulaşın, ihtiyaçlarınızı dinleyelim.</p></li>
+    <li class="step"><span class="dot">2</span><h3>Analiz</h3><p>İşletmenizi ve süreçlerinizi analiz edelim.</p></li>
+    <li class="step"><span class="dot">3</span><h3>Teklif</h3><p>Size özel çözüm ve fiyat sunalım.</p></li>
+    <li class="step"><span class="dot">4</span><h3>Kurulum</h3><p>Kuralım, verilerinizi aktaralım, entegre edelim.</p></li>
+    <li class="step"><span class="dot">5</span><h3>Eğitim</h3><p>Ekibinizi kullanıcı ve yönetici eğitimleriyle hazırlayalım.</p></li>
+    <li class="step"><span class="dot">6</span><h3>Destek</h3><p>7/24 destek, güncelleme ve bakımla yanınızda olalım.</p></li>
+  </ol>
+</div></section>
+
+<!-- ============ MEVCUT MİKRO KULLANICILARI: iş ortağı değişikliği, V16 geçişi, özel rapor/ekranlar
+     (Türkiye'deki rakiplerde "bayi değişimi" sayfası var; bizde ana sayfada) ============ -->
+<section class="sec ground" id="gecis"><div class="wrap">
+  <div class="head">
+    <span class="eyebrow" data-in>Mevcut Mikro kullanıcıları</span>
+    <h2 data-in>Mikro'yu zaten kullanıyor musunuz?</h2>
+    <p class="lede" data-in>Baştan başlamanız gerekmiyor. Mevcut kurulumunuzu inceleyip oradan devam ediyoruz.</p>
+  </div>
+  <div class="sup-grid g3">
+    <article class="sup" data-in>
+      <span class="ico"><svg><use href="#i-swap"/></svg></span>
+      <h3>İş ortağınızı değiştirmek</h3>
+      <p>Mikro'yu başka bir iş ortağından aldıysanız desteği bize taşıyabilirsiniz. Lisansınız ve verileriniz sizde kalır; kurulumunuzun bakımını devralıyoruz.</p>
+    </article>
+    <article class="sup" data-in>
+      <span class="ico"><svg><use href="#i-up"/></svg></span>
+      <h3>V16'dan geçiş</h3>
+      <p>V16 desteği 15 Ekim 2026'da bitiyor. Mevcut kurulumunuzu inceleyip geçişi yoğun döneme denk gelmeyecek şekilde takvime bağlıyoruz.</p>
+    </article>
+    <article class="sup" data-in>
+      <span class="ico"><svg><use href="#i-layout"/></svg></span>
+      <h3>Özel rapor ve ekranlarınız</h3>
+      <p>Size özel yazılmış rapor ve ekranları geçişte kaybetmeyin. Yeni sürümde çalışıp çalışmadığını kontrol ediyor, gerekeni kendi yazılım ekibimizle uyarlıyoruz.</p>
+    </article>
+  </div>
+  <div class="gecis-cta" data-in>
+    <a class="btn" href="#iletisim" data-konu="gecis">Kurulumunuzu inceleyelim <svg><use href="#ar"/></svg></a>
+    <span>Görüşme için ücret almıyoruz.</span>
+  </div>
+</div></section>
+
+<!-- ============ DESTEK: dört eşit kart ============ -->
+<section class="sec" id="destek"><div class="wrap">
+  <div class="head center">
+    <span class="eyebrow" data-in>Destek</span>
+    <h2 data-in>Kurulumdan sonra da yanınızdayız</h2>
+    <p class="lede" data-in>Desteği sistemi kuran ekip veriyor. Nasıl ulaşırsanız ulaşın, talebiniz aynı ekibe gider.</p>
   </div>
 
-  <div class="line-lead" data-in style="margin-top:clamp(28px,4vh,46px)">
-    <div style="display:grid;gap:14px;align-content:start">
-      <h3 class="d3">Kurulumdan canlı kullanıma</h3>
-      <ul class="ticks">
-        <li><svg width="12" height="12"><use href="#tick"/></svg>İş analizi ve ürün seçimi</li>
-        <li><svg width="12" height="12"><use href="#tick"/></svg>Kurulum ve eski verilerinizin aktarımı</li>
-        <li><svg width="12" height="12"><use href="#tick"/></svg>e-Fatura, e-Arşiv, e-İrsaliye, e-Defter</li>
-        <li><svg width="12" height="12"><use href="#tick"/></svg>Kullanıcı ve yönetici eğitimi</li>
-        <li><svg width="12" height="12"><use href="#tick"/></svg>Güncelleme, yedekleme, 7/24 destek</li>
+  <div class="sup-grid">
+    <article class="sup" data-in>
+      <span class="ico"><svg><use href="#i-phone"/></svg></span>
+      <h3>Destek hattı</h3>
+      <p>Günün her saati ulaşabileceğiniz destek hattı.</p>
+      <a class="sup-act" href="tel:+905076791925">0 507 679 19 25</a>
+    </article>
+    <article class="sup" data-in>
+      <span class="ico"><svg><use href="#i-monitor"/></svg></span>
+      <h3>Uzak bağlantı</h3>
+      <p>Bilgisayarınıza tek tıkla bağlanıp sorunu ekranınızda çözüyoruz.</p>
+    </article>
+    <article class="sup" data-in>
+      <span class="ico"><svg><use href="#i-pin"/></svg></span>
+      <h3>Yerinde destek</h3>
+      <p>Gerektiğinde İzmir ve çevresinde işletmenize geliyoruz.</p>
+    </article>
+    <article class="sup" data-in>
+      <span class="ico"><svg><use href="#i-msg"/></svg></span>
+      <h3>Destek portalı</h3>
+      <p>Talebinizi açın; kimin üstlendiğini ve hangi aşamada olduğunu görün.</p>
+      <a class="sup-act" href="#">Portala giriş <svg><use href="#ar"/></svg></a>
+    </article>
+  </div>
+</div></section>
+
+<!-- ============ MİKRO'NUN ÖTESİNDE ============ -->
+<section class="sec ground" id="yazilim"><div class="wrap">
+  <div class="head">
+    <span class="eyebrow" data-in>Yazılım</span>
+    <h2 data-in>Mikro'nun yetmediği yerde de kendi yazılım ekibimiz var</h2>
+  </div>
+  <div class="beyond">
+    <article class="bcard" id="ozel-gelistirme" data-in>
+      <span class="ico"><svg><use href="#i-plug"/></svg></span>
+      <h3>Mikro'ya özel geliştirme</h3>
+      <p>Mikro'ya entegre çalışan ek ekranlar, özel raporlar ve bağlantılar yazıyoruz. Verileriniz yine Mikro'da kalır.</p>
+      <ul>
+        <li><b>İşletmenize özel ekran ve rapor</b></li>
+        <li><b>Bayi sipariş portalı ve saha satış</b></li>
+        <li><b>Pazaryeri bağlantısı</b><span>Trendyol, Hepsiburada, N11</span></li>
+        <li><b>Ek çözümler</b><span>Zeus WMS, Mikro Hızlı Satış, Mikro Drive</span></li>
       </ul>
-    </div>
-    <div class="shot"><img src="../img/analiz.jpg" alt="İş analizi toplantısı" width="1200" height="900" loading="lazy"></div>
-  </div>
-
-  <h3 class="d3" data-in style="margin-top:clamp(40px,6vh,72px)">Hangi Mikro ürünü size uygun?</h3>
-  <p class="lede" data-in style="margin-top:10px">Dördünü de kuruyoruz. Seçim çalışan sayınıza, sektörünüze ve hangi modüllere ihtiyacınız olduğuna göre değişiyor.</p>
-  <div class="tiers" style="margin-top:clamp(24px,3.5vh,40px)">
-    <article class="tier" data-in>
-      <span class="tier-scale">1–5 çalışan</span>
-      <h3>Mikro Run</h3>
-      <p>Esnaf ve mikro işletmeler için ekonomik ERP. e-Dönüşüm paketi ürünün içinde geliyor.</p>
-      <a class="arrow" href="#iletisim">Bilgi alın <svg width="15" height="15"><use href="#ar"/></svg></a>
     </article>
-    <article class="tier pop" data-in>
-      <span class="tier-flag">En çok tercih edilen</span>
-      <span class="tier-scale">5–50 çalışan</span>
-      <h3>Mikro Jump</h3>
-      <p>KOBİ'ler için kapsamlı ERP. Satış, stok, muhasebe ve üretim aynı yerde. Basic ve bulut sürümleri de var.</p>
-      <a class="arrow" href="#iletisim">Bilgi alın <svg width="15" height="15"><use href="#ar"/></svg></a>
+    <article class="bcard" id="bagimsiz" data-in>
+      <span class="ico"><svg><use href="#i-monitor"/></svg></span>
+      <h3>Mikro'dan bağımsız yazılım</h3>
+      <p>Web sitesi, e-ticaret, müşteri veya bayi portalı gibi ERP dışı işleri de biz yapıyoruz. Ayrı bir firmayla uğraşmanız gerekmiyor.</p>
+      <ul>
+        <li><b>Kurumsal web sitesi</b></li>
+        <li><b>E-ticaret</b><span>Mikro'ya bağlı ya da bağımsız</span></li>
+        <li><b>Müşteri ve bayi portalları</b></li>
+        <li><b>Ekip ve saha panelleri</b></li>
+      </ul>
     </article>
-    <article class="tier" data-in>
-      <span class="tier-scale">50+ çalışan</span>
-      <h3>Mikro Fly</h3>
-      <p>Grup şirketleri ve holdingler için tam entegre kurumsal ERP platformu.</p>
-      <a class="arrow" href="#iletisim">Bilgi alın <svg width="15" height="15"><use href="#ar"/></svg></a>
-    </article>
-    <article class="tier" data-in>
-      <span class="tier-scale">Mali müşavirler</span>
-      <h3>Mikro Müşavir</h3>
-      <p>Defter beyan, mükellef yönetimi ve e-SMM ile müşavirlere özel çözüm.</p>
-      <a class="arrow" href="#iletisim">Bilgi alın <svg width="15" height="15"><use href="#ar"/></svg></a>
-    </article>
-  </div>
-
-  <h3 class="d3" data-in style="margin-top:clamp(40px,6vh,72px)">Verdiğimiz hizmetler</h3>
-  <div class="svcs" style="margin-top:clamp(20px,3vh,32px)">
-    <article class="card" data-in><h3 class="d3">İş analizi</h3><p>Süreçlerinizi yerinde inceliyor, hangi modüllere gerçekten ihtiyacınız olduğunu birlikte netleştiriyoruz.</p></article>
-    <article class="card" data-in><h3 class="d3">Kurulum ve veri aktarımı</h3><p>Eski programınızdaki cari, stok ve ürün bilgilerini taşıyoruz. Hiçbir şeyi sıfırdan girmiyorsunuz.</p></article>
-    <article class="card" data-in><h3 class="d3">Eğitim</h3><p>Kullanıcı ve yönetici eğitimleriyle ekibinizi sistemi gerçekten kullanır hâle getiriyoruz.</p></article>
-    <article class="card" data-in><h3 class="d3">7/24 teknik destek</h3><p>Telefon, uzak bağlantı ve yerinde destek. Talebinizi portalden açıyor, hangi aşamada olduğunu oradan görüyorsunuz.</p></article>
-    <article class="card" data-in><h3 class="d3">Güncelleme ve bakım</h3><p>Versiyon geçişleri, yedekleme ve performans takibi bizde.</p></article>
-    <article class="card" data-in><h3 class="d3">e-Dönüşüm danışmanlığı</h3><p>GİB başvurusundan entegratör bağlantısına kadar e-belge sürecinin tamamını yürütüyoruz.</p></article>
   </div>
 </div></section>
 
-<!-- ============ 02 · MİKRO'YA ÖZEL GELİŞTİRME ============ -->
-<section class="sec" id="ozel-gelistirme" style="background:var(--ground-2)"><div class="wrap">
-  <div class="sec-head" data-in>
-    <span class="eyebrow"><i></i>02 · Mikro'ya özel geliştirme</span>
-    <h2 class="d2">Standart modüller yetmediğinde</h2>
-    <p class="lede">Mikro çok şeyi karşılıyor ama her işletmenin kendine has bir tarafı oluyor. O noktada Mikro'ya entegre çalışan ek ekranlar, özel raporlar ve bağlantılar yazıyoruz. Verileriniz yine Mikro'da kalır.</p>
-  </div>
-  <div class="svcs" style="margin-top:clamp(28px,4vh,46px)">
-    <article class="card" data-in><h3 class="d3">İşletmenize özel ekran ve rapor</h3><p>Standartta olmayan bir takip ya da rapor gerekiyorsa Mikro'nun içine ekliyoruz.</p></article>
-    <article class="card" data-in><h3 class="d3">Bayi sipariş portalı ve saha satış</h3><p>Bayileriniz stok ve fiyatı kendisi görür, siparişi kendisi girer; sipariş Mikro'ya düşer.</p></article>
-    <article class="card" data-in><h3 class="d3">Pazaryeri ve e-ticaret bağlantısı</h3><p>Trendyol, Hepsiburada, N11 ve kendi e-ticaret siteniz Mikro'yla konuşur.</p></article>
-    <article class="card" data-in><h3 class="d3">Diğer programlarla entegrasyon</h3><p>Kullandığınız başka bir programla veri alışverişi gerekiyorsa bağlantısını kuruyoruz.</p></article>
-    <article class="card" data-in><h3 class="d3">Ek çözümler</h3><p>Zeus WMS depo yönetimi, Mikro Hızlı Satış, Mikro Drive ve Mikro Şirketim kurulumları.</p></article>
-    <article class="card" data-in><h3 class="d3">Veri düzeltme ve toplu işlem</h3><p>Yanlış girilmiş kayıtların toplu düzeltilmesi, dışarıdan veri aktarımı.</p></article>
-  </div>
-</div></section>
-
-<!-- ============ 03 · MİKRO'DAN BAĞIMSIZ YAZILIM ============ -->
-<section class="sec" id="yazilim"><div class="wrap">
-  <div class="sec-head" data-in>
-    <span class="eyebrow"><i></i>03 · Mikro'dan bağımsız yazılım</span>
-    <h2 class="d2">ERP dışı yazılım işleriniz</h2>
-    <p class="lede">Kendi yazılım ekibimiz var. Web sitesi, e-ticaret, müşteri veya bayi portalı gibi ERP'yle ilgisi olmayan işleri de biz yapıyoruz. Ayrı bir firmayla uğraşmanız gerekmiyor.</p>
-  </div>
-  <div class="svcs" style="margin-top:clamp(28px,4vh,46px)">
-    <article class="card" data-in><h3 class="d3">Kurumsal web sitesi</h3><p>Hızlı açılan, aramalarda çıkan, içeriğini kendinizin yönettiği site.</p></article>
-    <article class="card" data-in><h3 class="d3">E-ticaret</h3><p>Kendi satış kanalınız. İsterseniz Mikro'ya bağlı, isterseniz bağımsız çalışır.</p></article>
-    <article class="card" data-in><h3 class="d3">Müşteri ve bayi portalları</h3><p>Müşterileriniz ya da bayileriniz için giriş yapıp işlem yaptıkları paneller.</p></article>
-    <article class="card" data-in><h3 class="d3">Ekip ve saha panelleri</h3><p>Ekibinizin her gün kullandığı iç araçlar: iş takibi, randevu, saha raporlama.</p></article>
-    <article class="card" data-in><h3 class="d3">Uzak destek ve cihaz yönetimi</h3><p>Müşteri bilgisayarlarına tek tıkla bağlanma, kurulum ve takip altyapısı.</p></article>
-    <article class="card" data-in><h3 class="d3">Destek portalı</h3><p>Müşterilerimizin talep açtığı, kimin üstlendiğini ve hangi aşamada olduğunu gördüğü portal.</p></article>
-  </div>
-</div></section>
-
-<!-- ============ SAHADA ============ -->
-<section class="sec" id="sahada" style="background:var(--ground-2)"><div class="wrap">
-  <div class="sec-head" data-in>
-    <span class="eyebrow"><i></i>Nasıl çalışıyoruz</span>
-    <h2 class="d2">Sahadan</h2>
-  </div>
-  <div class="shots" style="margin-top:clamp(34px,5vh,58px)">
-    <figure data-in><div class="ph"><img src="../img/depo.jpg" alt="Depo ve stok yönetimi" loading="lazy"></div>
-      <figcaption><b>Depo ve stok</b><span>Raf düzeninden barkoda, depoyu ERP'ye bağlıyoruz.</span></figcaption></figure>
-    <figure data-in><div class="ph"><img src="../img/egitim.jpg" alt="Kullanıcı eğitimi" loading="lazy"></div>
-      <figcaption><b>Eğitim</b><span>Ekibiniz sistemi öğrenene kadar yanınızdayız.</span></figcaption></figure>
-    <figure data-in><div class="ph"><img src="../img/rapor.jpg" alt="Raporlama" loading="lazy"></div>
-      <figcaption><b>Raporlama</b><span>Ay sonunu beklemeden işin nasıl gittiğini görüyorsunuz.</span></figcaption></figure>
+<!-- ============ HAKKIMIZDA ============ -->
+<section class="sec" id="hakkimizda"><div class="wrap about">
+  <figure class="about-ph" data-in>
+    <img src="../img/ofis.jpg" alt="GoTech ofisi" loading="lazy" width="1200" height="800">
+    <figcaption>Alsancak, İzmir — Deren Plaza</figcaption>
+  </figure>
+  <div class="about-copy">
+    <span class="eyebrow" data-in>Hakkımızda</span>
+    <h2 data-in>Mikro Yazılım'ı üreticinin içinde öğrendik, 2017'de kendi yolumuza çıktık.</h2>
+    <p class="lede" data-in>KOBİ ve kurumlar için Mikro çözümlerine entegre iş analizi, 3. parti yazılımlar, kurulum, eğitim ve destek süreçlerinin tamamında yanınızdayız.</p>
+    <a class="link" href="#iletisim" data-in>Bizimle tanışın <svg><use href="#ar"/></svg></a>
   </div>
 </div></section>
 
 <!-- ============ SSS ============ -->
-<section class="sec" id="sss"><div class="wrap">
-  <div class="sec-head" data-in>
-    <span class="eyebrow"><i></i>SSS</span>
-    <h2 class="d2">Sık sorulan sorular</h2>
+<section class="sec ground" id="sss"><div class="wrap">
+  <div class="head center">
+    <span class="eyebrow" data-in>SSS</span>
+    <h2 data-in>Sık sorulan sorular</h2>
   </div>
-  <div class="faq" style="margin-top:clamp(28px,4vh,44px)">
-    <details data-in><summary>Excel'deki verilerimizi aktarabilir miyiz?</summary><p>Evet. Cari, stok ve ürün listelerinizi kurulum sırasında sisteme aktarıyoruz. Kullandığınız eski programdan da veri alabiliyoruz.</p></details>
-    <details data-in><summary>Kurulum ne kadar sürer?</summary><p>Ürüne, modül sayısına ve veri miktarına göre değişiyor. Keşif görüşmesinden sonra 24 saat içinde yazılı teklif ve takvim veriyoruz.</p></details>
-    <details data-in><summary>Fiyat neye göre belirleniyor?</summary><p>Kullanıcı lisansı, kurulum ve veri aktarımı, yıllık bakım ve e-dönüşüm kontörü. Dördünü de teklifte ayrı ayrı görüyorsunuz, sürpriz kalem çıkmıyor.</p></details>
-    <details data-in><summary>V16 kullanıyoruz, ne yapmalıyız?</summary><p>V16 için geliştirme ve destek 15 Ekim 2026'da sona eriyor. Geçişi erkenden planlamak, yoğun döneme denk gelmemek açısından önemli. Mevcut kurulumunuzu inceleyip takvim çıkarıyoruz.</p></details>
-    <details data-in><summary>Kurulumdan sonra desteği kim veriyor?</summary><p>Sistemi kuran ekip. Destek portalinden talep açıyorsunuz; talebinizi kimin üstlendiğini ve hangi aşamada olduğunu oradan takip ediyorsunuz.</p></details>
+  <div class="faq">
+    <details data-in><summary>Excel'deki verilerimizi aktarabilir miyiz?<i aria-hidden="true"></i></summary><div class="faq-a"><p>Evet. Cari, stok ve ürün listelerinizi kurulum sırasında sisteme aktarıyoruz. Kullandığınız eski programdan da veri alabiliyoruz.</p></div></details>
+    <details data-in><summary>Kurulum ne kadar sürer?<i aria-hidden="true"></i></summary><div class="faq-a"><p>Ürüne, modül sayısına ve veri miktarına göre değişiyor. Keşif görüşmesinden sonra 24 saat içinde yazılı teklif ve takvim veriyoruz.</p></div></details>
+    <details data-in><summary>Fiyat neye göre belirleniyor?<i aria-hidden="true"></i></summary><div class="faq-a"><p>Kullanıcı lisansı, kurulum ve veri aktarımı, yıllık bakım ve e-dönüşüm kontörü. Dördünü de teklifte ayrı ayrı görüyorsunuz, sürpriz kalem çıkmıyor.</p></div></details>
+    <details data-in><summary>V16 kullanıyoruz, ne yapmalıyız?<i aria-hidden="true"></i></summary><div class="faq-a"><p>V16 için geliştirme ve destek 15 Ekim 2026'da sona eriyor. Geçişi erkenden planlamak, yoğun döneme denk gelmemek açısından önemli. Mevcut kurulumunuzu inceleyip takvim çıkarıyoruz.</p></div></details>
+    <details data-in><summary>Kurulumdan sonra desteği kim veriyor?<i aria-hidden="true"></i></summary><div class="faq-a"><p>Sistemi kuran ekip. Destek portalinden talep açıyorsunuz; talebinizi kimin üstlendiğini ve hangi aşamada olduğunu oradan takip ediyorsunuz.</p></div></details>
   </div>
 </div></section>
 
-<!-- ============ KAPANIŞ ============ -->
-<section class="close" id="iletisim"><div class="wrap">
-  <div class="inner" data-in>
-    <h2 class="d2">Ücretsiz keşif görüşmesi</h2>
-    <p>İşinizi dinleyip hangi ürünün uygun olduğunu söyleyelim. Görüşme ve demo için ücret almıyoruz.</p>
-    <div class="cta-row" style="justify-content:center;margin-top:8px">
-      <a class="btn btn-white" href="#">Geri arama isteyin</a>
-      <a class="btn btn-white" href="tel:+905324681247" style="background:transparent;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.4)">0 532 468 12 47</a>
+<!-- ============ İLETİŞİM: geri arama formu ============ -->
+<section class="sec" id="iletisim"><div class="wrap">
+  <div class="contact" data-in>
+    <div class="head">
+      <h2>Ücretsiz keşif görüşmesi</h2>
+      <p class="lede">İşinizi dinleyip hangi ürünün uygun olduğunu söyleyelim. Görüşme ve demo için ücret almıyoruz.</p>
+      <dl class="c-info">
+        <div><dt>Satış</dt><dd><a href="tel:+905324681247">0 532 468 12 47</a></dd></div>
+        <div><dt>E-posta</dt><dd><a href="mailto:info@gotech.com.tr">info@gotech.com.tr</a></dd></div>
+        <div><dt>Adres</dt><dd>Şehit Nevres Bulvarı, Deren Plaza No:10 K:1 — Alsancak, İzmir</dd></div>
+      </dl>
     </div>
-    <dl class="lines-3">
-      <div><dt>Adres</dt><dd>Şehit Nevres Bulvarı, Deren Plaza No:10 K:1 — Alsancak, İzmir</dd></div>
-      <div><dt>E-posta</dt><dd>info@gotech.com.tr</dd></div>
-      <div><dt>Çalışma saatleri</dt><dd>Hafta içi 09.00–18.00</dd></div>
-    </dl>
+    <form class="form" id="cform">
+      <label>Ad soyad<input name="ad" autocomplete="name" required></label>
+      <label>Telefon<input name="tel" type="tel" autocomplete="tel" required></label>
+      <label class="full">E-posta<input name="eposta" type="email" autocomplete="email"></label>
+      <label class="full">Konu
+        <select name="konu">
+          <option>Demo talebi</option><option value="gecis">Mevcut Mikro kurulumu / geçiş</option><option>Fiyat teklifi</option><option>Genel bilgi</option>
+          <option>Teknik destek</option><option>İş ortaklığı</option><option>Diğer</option>
+        </select>
+      </label>
+      <label class="full">Mesajınız <textarea name="mesaj" rows="3" placeholder="Kısaca işinizden bahsedin (isteğe bağlı)"></textarea></label>
+      <button class="btn" type="submit">Beni arayın <svg><use href="#ar"/></svg></button>
+      <p class="form-ok" hidden role="status">Teşekkürler, talebinizi aldık. Ekibimiz sizinle iletişime geçecek.</p>
+    </form>
   </div>
 </div></section>
 
 <footer class="foot"><div class="wrap">
   <div class="foot-top">
     <div class="foot-brand">
-      <a class="logo" href="#"><svg viewBox="0 0 180 58"><use href="#lg"/></svg></a>
+      <a class="logo" href="#" aria-label="GoTech"><svg viewBox="0 0 180 58"><use href="#lg"/></svg></a>
       <p>Mikro Yazılım yetkili iş ortağı olarak 2017'den beri İzmir ve çevresindeki işletmelere ERP kurulumu, eğitim ve destek veriyoruz.</p>
     </div>
-    <div><h3>Mikro ürünleri</h3><ul><li><a href="#mikro">Mikro Run</a></li><li><a href="#mikro">Mikro Jump</a></li><li><a href="#mikro">Mikro Fly</a></li><li><a href="#mikro">Mikro Müşavir</a></li></ul></div>
-    <div><h3>Yazılım</h3><ul><li><a href="#ozel-gelistirme">Mikro'ya özel geliştirme</a></li><li><a href="#yazilim">Web sitesi ve e-ticaret</a></li><li><a href="#yazilim">Portal ve panel</a></li></ul></div>
-    <div><h3>İletişim</h3><ul><li>Alsancak — İzmir</li><li><a href="tel:+905324681247">0 532 468 12 47</a></li><li><a href="mailto:info@gotech.com.tr">info@gotech.com.tr</a></li></ul></div>
+    <div><h4>Mikro ürünleri</h4><ul><li><a href="#urunler">Mikro Run</a></li><li><a href="#urunler">Mikro Jump</a></li><li><a href="#urunler">Mikro Fly</a></li><li><a href="#urunler">Mikro Müşavir</a></li></ul></div>
+    <div><h4>Hizmetler</h4><ul><li><a href="#hizmetler">İş analizi</a></li><li><a href="#hizmetler">Kurulum ve entegrasyon</a></li><li><a href="#hizmetler">Eğitim</a></li><li><a href="#hizmetler">e-Dönüşüm</a></li></ul></div>
+    <div><h4>Yazılım</h4><ul><li><a href="#ozel-gelistirme">Mikro'ya özel geliştirme</a></li><li><a href="#bagimsiz">Web sitesi ve e-ticaret</a></li><li><a href="#bagimsiz">Portal ve panel</a></li></ul></div>
+    <div><h4>İletişim</h4><ul><li>Alsancak — İzmir</li><li><a href="tel:+905324681247">0 532 468 12 47</a></li><li><a href="tel:+905076791925">0 507 679 19 25</a></li><li><a href="mailto:info@gotech.com.tr">info@gotech.com.tr</a></li></ul></div>
   </div>
-  <div class="foot-bot"><span>© 2026 GoTech ERP Solutions · Mikro Yazılım Yetkili İş Ortağı</span><nav><a href="#">KVKK</a><a href="#">Gizlilik</a></nav></div>
+  <div class="foot-bot"><span>© 2026 GoTech ERP Solutions · Mikro Yazılım Yetkili İş Ortağı</span><nav><a href="#">KVKK</a><a href="#">Gizlilik</a><a href="#destek">Destek portalı</a></nav></div>
 </div></footer>
 
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="soft.js?v=2"></script>
+<script src="rehber.js?v=3"></script>
 </body>
 </html>
