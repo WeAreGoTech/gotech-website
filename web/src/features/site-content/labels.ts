@@ -19,15 +19,15 @@ export const SITE_SETTINGS_FIELDS: SiteField<keyof SiteSettings>[] = [
 export const SITE_CONTENT_GROUPS: { title: string; description: string; fields: SiteField<keyof SiteContent>[] }[] = [
   {
     title: "Ana sayfa girişi",
-    description: "Sayfanın en üstündeki tam ekran fotoğraflı bölüm.",
+    description: "Ana sayfanın en üstündeki bölüm: solda başlık ve tanıtım cümlesi, sağda fotoğraf.",
     fields: [
-      { key: "heroTitle", label: "Başlık", hint: "Fotoğrafın üzerindeki büyük cümle." },
+      { key: "heroTitle", label: "Başlık", hint: "Sayfanın en büyük cümlesi." },
       { key: "heroLead", label: "Tanıtım cümlesi", kind: "textarea" },
     ],
   },
   {
     title: "Rakamlar",
-    description: "Ana sayfanın kapanış bölümündeki dört rakam.",
+    description: "İlk üçü ana sayfada Mikro logosunun yanında; dördü de iç sayfaların kapanış bölümünde görünür.",
     fields: [
       { key: "stat1Value", label: "1. rakam" },
       { key: "stat1Label", label: "1. rakamın açıklaması" },
@@ -41,7 +41,7 @@ export const SITE_CONTENT_GROUPS: { title: string; description: string; fields: 
   },
   {
     title: "Kapanış bölümü",
-    description: "Ana sayfanın en altındaki koyu kırmızı alan. Buton yazısı girişte de kullanılır.",
+    description: "İç sayfaların en altındaki kırmızı alan. Buton yazısı ana sayfanın girişindeki demo butonunda da kullanılır.",
     fields: [
       { key: "ctaTitle", label: "Başlık" },
       { key: "ctaLead", label: "Alt başlık", kind: "textarea" },

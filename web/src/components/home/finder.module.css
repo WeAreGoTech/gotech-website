@@ -1,0 +1,87 @@
+/* Ürün bulucu: tek cümle + dört ürünlük raf. Uygun ürün rafta akarak genişler. */
+
+.say{margin-top:clamp(36px,5.5vh,60px);text-align:center}
+.sayLine{max-width:1020px;margin-inline:auto;font-size:clamp(1.4rem,2.4vw,2.15rem);font-weight:500;line-height:1.8;letter-spacing:-.01em;text-wrap:balance}
+/* hap + noktalama birlikte kalır: virgül/nokta yeni satırın başına düşmez */
+.nowrap{white-space:nowrap}
+
+/* cümle içi seçim: panelin tema Select'i (components/forms/Select.tsx) burada hap görünümünde.
+   Select'in sınıfları global (.select-trigger, .select-list; tetikte globals.css .input da var):
+   her kural .pick altında ve onlardan özgül, yüklenme sırasına bağlı değil. */
+.pick{display:inline-block;width:auto;margin:0 .06em;vertical-align:baseline;text-align:left}
+.pick :global(.select-trigger){display:inline-flex;align-items:center;gap:.28em;width:auto;padding:.02em .42em .08em .5em;border:0;border-radius:8px;
+  background:#fff;box-shadow:inset 0 0 0 1.5px rgba(229,57,53,.35);font-weight:600;color:var(--brand-deep);line-height:inherit;transition:box-shadow .3s var(--ease)}
+.pick :global(.select-trigger):hover,.pick:global(.select.is-open) :global(.select-trigger){border-color:transparent;box-shadow:inset 0 0 0 1.5px var(--brand)}
+.pick :global(.select-trigger):focus{background:#fff;border-color:transparent;box-shadow:inset 0 0 0 1.5px var(--brand)}
+.pick :global(.select-trigger):focus-visible{outline:2px solid var(--brand);outline-offset:3px}
+.pick :global(.select-value){overflow:visible}
+.pick :global(.select-chevron){width:.55em;height:.55em;color:var(--brand-deep)}
+/* liste: seçeneklerin boyunda (hap daha kısaysa taşar), sağ yarıdaki hapta sağa yaslanır, ekrandan taşmaz */
+.pick :global(.select-list){right:auto;width:max-content;min-width:100%;max-width:calc(100vw - 2 * var(--gx));padding:6px;
+  border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 32px -14px rgba(22,24,29,.3);font-weight:500;line-height:1.4;letter-spacing:0}
+.pick:global(.opens-left) :global(.select-list){left:auto;right:0}
+.pick :global(.select-list li){padding:.62rem .8rem;border-radius:8px;font-size:1rem;color:var(--ink)}
+.pick :global(.select-list li.is-active){background:var(--ground)}
+.pick :global(.select-list li[aria-selected="true"]){font-weight:600;color:var(--brand-deep)}
+.pick :global(.select-list li[aria-selected="true"] svg){color:var(--brand)}
+
+/* raf: dört ürün yan yana; açık olan akarak genişler, içerik yeniden akmaz (sabit genişlikte açığa çıkar) */
+.shelf{container-type:inline-size;display:flex;gap:12px;height:clamp(430px,54vh,500px);margin-top:clamp(40px,6vh,64px)}
+.prod{position:relative;flex:1 1 0;min-width:0;display:flex;flex-direction:column;overflow:hidden;border-radius:var(--r-lg);
+  background:#fff;box-shadow:inset 0 0 0 1px var(--line);transition:flex-grow .8s var(--soft),box-shadow .4s var(--ease)}
+.prod:hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.28)}
+.open{flex-grow:2.6;box-shadow:inset 0 0 0 1.5px rgba(22,24,29,.22),var(--shadow)}
+.open:hover{box-shadow:inset 0 0 0 1.5px rgba(22,24,29,.22),var(--shadow)}
+/* position yok: .forWho ve .plus kartın (.prod) dibine göre konumlanır */
+.head{display:grid;gap:10px;justify-items:start;align-content:start;padding:26px 24px 0;border:0;background:none;text-align:left;cursor:pointer;flex:none}
+.open .head{cursor:default}
+.head:focus-visible{outline:2px solid var(--brand);outline-offset:-4px;border-radius:var(--r-lg)}
+.rec{height:0;overflow:hidden;opacity:0;margin-bottom:-10px;font-size:.84rem;font-weight:600;color:var(--brand-deep);
+  transition:opacity .4s var(--soft),height .4s var(--soft),margin .4s var(--soft)}
+.isRec .rec{height:1.4em;opacity:1;margin-bottom:0}
+/* Mikro'nun resmi ürün logoları. Genişlik = --m x --k (k: finder.ts SHELF wordmarkRatio) */
+.logo{--m:74px;width:calc(var(--m) * var(--k));max-width:100%;height:auto;transition:width .6s var(--soft)}
+.open .logo{--m:104px}
+.scale{font-size:.9rem;font-weight:500;color:var(--ink-2);white-space:nowrap}
+/* kapalı kartın dibinde kime uygun olduğu + artı; açılınca kaybolur */
+.forWho{position:absolute;left:24px;right:68px;bottom:24px;font-size:.93rem;line-height:1.4;color:var(--ink-2);transition:opacity .35s var(--soft),transform .6s var(--soft)}
+.plus{position:absolute;right:20px;bottom:22px;width:34px;height:34px;border-radius:8px;background:var(--ground);transition:opacity .4s var(--soft),transform .5s var(--soft),background .3s var(--ease)}
+.plus::before,.plus::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.6px;margin:-.8px 0 0 -6px;background:var(--ink)}
+.plus::after{transform:rotate(90deg)}
+.prod:hover .plus{background:var(--ground-2)}
+.open .forWho,.open .plus{opacity:0;transform:translateY(10px)}
+
+.body{flex:1;min-height:0;opacity:0;transition:opacity .25s var(--ease)}
+.open .body{opacity:1;transition:opacity .5s var(--soft) .28s}
+/* açık kartın son genişliği = (raf - 3 boşluk) * 2.6 / 5.6; içerik bu genişlikte sabit, açılırken yeniden akmaz */
+.inner{width:calc((100cqw - 36px) * 2.6 / 5.6);display:grid;gap:16px;justify-items:start;padding:18px 24px 26px}
+.flag{padding:.28rem .6rem;border-radius:6px;background:var(--brand-soft);color:var(--brand-deep);font-size:.8rem;font-weight:600}
+.blurb{color:var(--ink-2);font-size:1rem;max-width:46ch}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;width:100%;padding-top:16px;border-top:1px solid var(--line);font-size:.94rem}
+.features li{display:flex;align-items:center;gap:9px}
+.features li::before{content:"";flex:none;width:14px;height:14px}
+.yes::before{background:no-repeat center/14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23E53935' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.no{color:var(--ink-3)}
+.no::before{background:no-repeat center/9px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6h6' stroke='%2316181D' stroke-opacity='.35' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")}
+.demo{margin-top:6px}
+
+.why{margin-top:22px;text-align:center;font-size:.96rem;color:var(--ink-2);animation:whyIn .45s var(--soft)}
+.why b{font-weight:600;color:var(--ink)}
+@keyframes whyIn{from{opacity:0}}
+
+/* dar ekran: raf dikey akordeon, açılan kartın gövdesi 0fr -> 1fr akarak açılır */
+@media (max-width:900px){
+  .shelf{flex-direction:column;height:auto;gap:10px}
+  .prod{display:grid;grid-template-rows:auto 0fr;flex:none;transition:grid-template-rows .7s var(--soft),box-shadow .4s var(--ease)}
+  .open{grid-template-rows:auto 1fr}
+  .head{padding:20px 22px;grid-template-columns:1fr auto;align-items:center}
+  .rec,.logo,.scale{grid-column:1}
+  .forWho{display:none}
+  /* relative: artının çizgileri (::before/::after) kutunun içinde kalsın */
+  .plus{position:relative;bottom:auto;right:auto;grid-column:2;grid-row:1/span 3;align-self:center}
+  .open .plus{opacity:0}
+  .open .logo{--m:92px}
+  .body{overflow:hidden}
+  .inner{width:auto;padding:0 22px 24px}
+  .features{grid-template-columns:1fr}
+}

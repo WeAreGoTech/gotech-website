@@ -50,9 +50,9 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
 };
 
 export const DEFAULT_SITE_CONTENT: SiteContent = {
-  heroTitle: "İşin durmasın.",
+  heroTitle: "Mikro Yazılım kurulumu, eğitimi ve 7/24 desteği.",
   heroLead:
-    "Mikro Yazılım ERP kurulumu, e-Dönüşüm, eğitim ve 7/24 teknik destek. 2017'den beri İzmir'de yetkili iş ortağı; 500'den fazla işletme bu süreci bizimle yürüttü.",
+    "2017'den beri Mikro Yazılım yetkili iş ortağıyız. İzmir ve çevresinde 500'den fazla işletmenin kurulumunu, e-Dönüşümünü ve günlük desteğini biz yürütüyoruz.",
   stat1Value: "15+",
   stat1Label: "Yıl deneyim",
   stat2Value: "500+",

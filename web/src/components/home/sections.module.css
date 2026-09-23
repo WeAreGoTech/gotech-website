@@ -1,0 +1,98 @@
+/* Ana sayfa bölümleri: hizmetler, e-Dönüşüm, yol haritası, mevcut kullanıcılar, destek,
+   Mikro'nun ötesinde, hakkımızda, SSS. Hepsi aynı dil: beyaz kart, ince çerçeve, gölge yok. */
+
+.grid{display:grid;gap:14px;margin-top:clamp(40px,6vh,64px)}
+.cols3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cols4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+.ico{display:grid;place-items:center;width:44px;height:44px;border-radius:10px;background:var(--brand-soft);color:var(--brand)}
+.card{display:flex;flex-direction:column;gap:12px;padding:clamp(24px,2.2vw,30px);border-radius:var(--r-lg);background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.card h3{margin-top:6px}
+.card p{color:var(--ink-2);font-size:.97rem;line-height:1.55}
+.cardAct{margin-top:auto;padding-top:8px;display:inline-flex;align-items:center;gap:.45em;font-weight:600;font-size:.97rem;color:var(--brand-deep)}
+.cardAct svg{transition:transform .35s var(--soft)}
+.cardAct:hover svg{transform:translateX(3px)}
+
+/* ---------- hizmetler: kartın altında gerçek kapsam etiketleri ---------- */
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tags li{padding:.28rem .6rem;border-radius:6px;background:var(--ground);font-size:.82rem;color:var(--ink-2)}
+
+/* ---------- e-Dönüşüm: solda ne yaptığımız, sağda sekiz e-belge ---------- */
+.edo{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(36px,5vw,80px);align-items:start}
+.edoCopy{display:grid;gap:28px}
+.ticks{display:grid;gap:10px;font-size:1rem;font-weight:500}
+.ticks li{display:flex;align-items:center;gap:10px}
+.ticks li::before{content:"";flex:none;width:14px;height:14px;
+  background:no-repeat center/14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23E53935' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.docs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.docs li{display:grid;gap:3px;align-content:start;padding:18px 20px;border-radius:var(--r);background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.docs b{font-weight:700;font-size:1.05rem}
+.docs span{font-size:.92rem;line-height:1.45;color:var(--ink-2)}
+
+/* ---------- yol haritası: görününce çizgi dolar, adımlar sırayla yanar ---------- */
+.road{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:18px;margin-top:clamp(48px,7vh,80px)}
+.roadLine{position:absolute;left:calc(100% / 12);right:calc(100% / 12);top:21px;height:2px;border-radius:2px;background:var(--ground-2)}
+.roadFill{position:absolute;inset:0;border-radius:2px;background:var(--brand);transform:scaleX(0);transform-origin:left;transition:transform 1.6s var(--ease) .2s}
+.step{display:grid;gap:10px;justify-items:center;align-content:start;text-align:center}
+.dot{position:relative;z-index:1;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:#fff;
+  box-shadow:inset 0 0 0 2px var(--ground-2);font-size:.92rem;font-weight:600;color:var(--ink-3);
+  transition:background .5s var(--soft),color .5s var(--soft),box-shadow .5s var(--soft);transition-delay:calc(var(--i) * 260ms + 200ms)}
+.road[data-in="on"] .roadFill{transform:scaleX(1)}
+.road[data-in="on"] .dot{background:var(--brand);color:#fff;box-shadow:none}
+.step h3{margin-top:8px;font-size:1.06rem}
+.step p{max-width:20ch;font-size:.92rem;line-height:1.5;color:var(--ink-2)}
+
+/* ---------- mevcut Mikro kullanıcıları ---------- */
+.cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:28px}
+.cta span{font-size:.94rem;color:var(--ink-2)}
+
+/* ---------- Mikro'nun ötesinde: iki geniş kart ---------- */
+.bcard{display:grid;align-content:start;gap:14px;padding:clamp(28px,3vw,44px);border-radius:var(--r-lg);background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.bcard h3{font-size:clamp(1.3rem,2vw,1.55rem);font-weight:700;letter-spacing:-.01em}
+.bcard p{color:var(--ink-2);font-size:.97rem}
+.bcard ul{display:grid;gap:10px;margin-top:4px;padding-top:18px;border-top:1px solid var(--line)}
+.bcard li{display:flex;gap:12px;align-items:baseline;font-size:.95rem}
+.bcard li b{font-weight:600}
+.bcard li span{color:var(--ink-3)}
+.bcard li::before{content:"";flex:none;width:6px;height:6px;border-radius:50%;background:var(--brand);transform:translateY(-2px)}
+
+/* ---------- hakkımızda ---------- */
+.about{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(36px,5vw,80px);align-items:center}
+.aboutPhoto{position:relative;aspect-ratio:4/5;max-height:620px;border-radius:var(--r-lg);overflow:hidden}
+.aboutPhoto img{width:100%;height:100%;object-fit:cover}
+.aboutPhoto figcaption{position:absolute;left:16px;bottom:16px;padding:.45rem .8rem;border-radius:6px;background:#fff;font-size:.85rem;font-weight:600}
+.aboutCopy{display:grid;gap:22px;justify-items:start}
+
+/* ---------- SSS: yerel <details>; yükseklik akışı destekleyen tarayıcılarda ---------- */
+.faq{display:grid;gap:10px;max-width:860px;margin:clamp(36px,5vh,56px) auto 0}
+.faq details{border-radius:var(--r);background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
+.faq details::details-content{block-size:0;overflow:clip;transition:block-size .45s var(--soft),content-visibility .45s allow-discrete}
+.faq details[open]::details-content{block-size:auto}
+.faq summary{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 26px;cursor:pointer;list-style:none;font-weight:600;font-size:1.05rem}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{position:relative;flex:none;width:30px;height:30px;border-radius:8px;background:var(--ground);transition:background .3s var(--ease)}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.6px;margin:-.8px 0 0 -6px;background:currentColor;transition:transform .4s var(--soft),opacity .4s var(--soft)}
+.faq summary i::after{transform:rotate(90deg)}
+.faq details[open] summary i::after{transform:rotate(0);opacity:0}
+.faq summary:hover i{background:var(--ground-2)}
+.faq details p{max-width:66ch;padding:0 26px 24px;color:var(--ink-2)}
+
+@media (prefers-reduced-motion:reduce){
+  .roadFill{transform:none}
+  .dot{background:var(--brand);color:#fff;box-shadow:none}
+}
+@media (max-width:1100px){
+  .cols4{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .road{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:40px}
+  .roadLine{display:none}
+}
+@media (max-width:900px){
+  .cols3,.cols2,.edo,.about{grid-template-columns:1fr}
+  .aboutPhoto{aspect-ratio:4/3}
+}
+@media (max-width:560px){
+  .cols4{grid-template-columns:1fr}
+  .road{grid-template-columns:1fr 1fr}
+  .docs li{padding:14px 15px}
+}

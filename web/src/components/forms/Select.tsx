@@ -33,6 +33,8 @@ export function Select({ name, options, id, value, defaultValue, onValueChange, 
   const current = value ?? inner;
   const [open, setOpen] = useState(false);
   const [upwards, setUpwards] = useState(false);
+  // trigger sits in the right half: lists wider than their trigger can align to its right edge (.opens-left)
+  const [leftwards, setLeftwards] = useState(false);
   const [active, setActive] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -58,6 +60,7 @@ export function Select({ name, options, id, value, defaultValue, onValueChange, 
     if (disabled) return;
     const rect = buttonRef.current?.getBoundingClientRect();
     setUpwards(rect ? window.innerHeight - rect.bottom < MIN_SPACE_BELOW_PX && rect.top > window.innerHeight - rect.bottom : false);
+    setLeftwards(rect ? rect.left + rect.width / 2 > window.innerWidth / 2 : false);
     setActive(selectedIndex);
     setOpen(true);
   }
@@ -106,7 +109,7 @@ export function Select({ name, options, id, value, defaultValue, onValueChange, 
   }
 
   return (
-    <div ref={rootRef} className={`select${open ? " is-open" : ""}${upwards ? " opens-up" : ""}${className ? ` ${className}` : ""}`}>
+    <div ref={rootRef} className={`select${open ? " is-open" : ""}${upwards ? " opens-up" : ""}${leftwards ? " opens-left" : ""}${className ? ` ${className}` : ""}`}>
       <input type="hidden" name={name} value={current} />
       <button
         ref={buttonRef}
