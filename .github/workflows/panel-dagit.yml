@@ -12,6 +12,11 @@ on:
   # Kod değişmeden elle yeniden yayınlamak için
   workflow_dispatch:
 
+# Dağıtım script'i depoyu çekerken bu işin token'ını kullanır (depo private ve
+# runner SYSTEM olarak çalıştığı için makinede kayıtlı bir GitHub kimliği yok).
+permissions:
+  contents: read
+
 # Aynı anda iki dağıtım çakışmasın; yenisi gelirse öncekinin bitmesi beklenir.
 concurrency:
   group: panel-dagit-sn404
@@ -27,6 +32,8 @@ jobs:
       # (C:\GoTechPanel\kaynak) günceller. Runner'ın _work klasörü kullanılmaz.
       - name: Dağıt
         shell: powershell
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           & C:\GoTechPanel\dagit.ps1 -Dal main
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
