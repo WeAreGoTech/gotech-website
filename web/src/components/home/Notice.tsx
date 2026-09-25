@@ -37,7 +37,7 @@ export function Notice() {
     <div className={h.notice} role="region" aria-label="Duyuru">
       <div className={h.wrap}>
         <span><b>{text.main}</b><span className={h.noticeMore}>{text.more}</span></span>
-        <a href="#gecis">Geçiş planı isteyin <ArrowIcon size={14} /></a>
+        <a href="#iletisim" data-konu="gecis" data-mesaj="V16'dan geçiş planı istiyoruz.">Geçiş planı isteyin <ArrowIcon size={14} /></a>
         <button className={h.noticeX} type="button" aria-label="Duyuruyu kapat" onClick={() => setClosed(true)}>
           <Icon name="close" size={14} />
         </button>

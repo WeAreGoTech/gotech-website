@@ -6,11 +6,19 @@ const SITE_LINKS = [
   { href: "/", label: "Ana sayfa" },
   { href: "/urunler", label: "Ürünler" },
   { href: "/hizmetlerimiz", label: "Hizmetler" },
+  { href: "/referanslar", label: "Referanslar" },
   { href: "/hakkimizda", label: "Hakkımızda" },
   { href: "/iletisim", label: "İletişim" },
 ];
 
-const PRODUCT_LINKS = ["Mikro Run", "Mikro Jump", "Mikro Fly", "Mikro Müşavir", "e-Dönüşüm"];
+// Jump'ın Basic ve Bulut sürümleri Jump sayfasındaki sürüm kartlarına iner
+const PRODUCT_LINKS = [
+  { label: "Mikro Jump Basic", href: "/urunler/mikro-jump#basic" },
+  { label: "Mikro Jump", href: "/urunler/mikro-jump" },
+  { label: "Mikro Jump Bulut", href: "/urunler/mikro-jump#bulut" },
+  { label: "Mikro Fly", href: "/urunler/mikro-fly" },
+  { label: "e-Dönüşüm", href: "/hizmetlerimiz" },
+];
 
 export function Footer({ settings, content }: { settings: SiteSettings; content: SiteContent }) {
   return (
@@ -41,9 +49,9 @@ export function Footer({ settings, content }: { settings: SiteSettings; content:
           <div>
             <h3>Ürünlerimiz</h3>
             <ul>
-              {PRODUCT_LINKS.map((label) => (
-                <li key={label}>
-                  <Link href="/urunler">{label}</Link>
+              {PRODUCT_LINKS.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href}>{link.label}</Link>
                 </li>
               ))}
             </ul>
@@ -53,9 +61,11 @@ export function Footer({ settings, content }: { settings: SiteSettings; content:
             <h3>İletişim</h3>
             <ul>
               <li style={{ whiteSpace: "pre-line" }}>{settings.address}</li>
-              <li>
-                <a href={`tel:${settings.salesPhone.replace(/\s/g, "")}`}>{settings.salesPhone}</a>
-              </li>
+              {settings.salesPhone && (
+                <li>
+                  <a href={`tel:${settings.salesPhone.replace(/\s/g, "")}`}>{settings.salesPhone}</a>
+                </li>
+              )}
               <li>
                 <a href={`mailto:${settings.email}`}>{settings.email}</a>
               </li>

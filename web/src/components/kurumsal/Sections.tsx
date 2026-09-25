@@ -22,11 +22,10 @@ export function ProductRows() {
 
         <div className="tiers">
           {PRODUCTS.map((product) => (
-            <Link className="tier" key={product.id} href="/urunler">
+            <Link className="tier" key={product.id} href={product.page}>
               <span className="tier-scale">{product.scale}</span>
               <span className="tier-name">
                 {product.name}
-                {product.popular && <em className="tier-flag">en çok tercih edilen</em>}
               </span>
               <span className="tier-note">{product.blurb}</span>
               <span className="tier-go" aria-hidden="true">
@@ -83,18 +82,22 @@ export function Closing({ settings, content }: { settings: SiteSettings; content
         </p>
 
         <dl className="close-lines">
-          <div>
-            <dt>Satış</dt>
-            <dd>
-              <a href={telHref(settings.salesPhone)}>{settings.salesPhone}</a>
-            </dd>
-          </div>
-          <div>
-            <dt>Destek</dt>
-            <dd>
-              <a href={telHref(settings.supportPhone)}>{settings.supportPhone}</a>
-            </dd>
-          </div>
+          {settings.salesPhone && (
+            <div>
+              <dt>Satış</dt>
+              <dd>
+                <a href={telHref(settings.salesPhone)}>{settings.salesPhone}</a>
+              </dd>
+            </div>
+          )}
+          {settings.supportPhone && (
+            <div>
+              <dt>Destek</dt>
+              <dd>
+                <a href={telHref(settings.supportPhone)}>{settings.supportPhone}</a>
+              </dd>
+            </div>
+          )}
           <div>
             <dt>Çalışma saatleri</dt>
             <dd>{settings.workingHours}</dd>

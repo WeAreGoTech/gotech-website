@@ -10,6 +10,7 @@ import { GoTechLogoHeader } from "./Logo";
 const LINKS = [
   { href: "/urunler", label: "Ürünler" },
   { href: "/hizmetlerimiz", label: "Hizmetler" },
+  { href: "/referanslar", label: "Referanslar" },
   { href: "/hakkimizda", label: "Hakkımızda" },
   { href: "/iletisim", label: "İletişim" },
 ];
@@ -43,7 +44,7 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
           ))}
         </nav>
 
-        <a className="nav-phone" href={telHref(settings.salesPhone)}>{settings.salesPhone}</a>
+        {settings.salesPhone && <a className="nav-phone" href={telHref(settings.salesPhone)}>{settings.salesPhone}</a>}
         <Link className="btn btn-sm" href="/giris">Destek portalı</Link>
 
         <button type="button" className="nav-toggle" aria-label="Menü" aria-expanded={open} onClick={() => setOpen(!open)}>
@@ -57,7 +58,7 @@ export function SiteHeader({ settings }: { settings: SiteSettings }) {
             {LINKS.map((link) => (
               <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>{link.label}</Link>
             ))}
-            <a href={telHref(settings.salesPhone)}>Satış {settings.salesPhone}</a>
+            {settings.salesPhone && <a href={telHref(settings.salesPhone)}>Satış {settings.salesPhone}</a>}
             <Link className="btn" href="/giris" onClick={() => setOpen(false)}>Destek portalı</Link>
           </div>
         </nav>

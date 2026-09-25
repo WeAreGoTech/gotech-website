@@ -37,9 +37,10 @@ export type SiteContent = {
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   slogan: "Mikro Yazılım İş Ortağı",
-  salesPhone: "0 532 468 12 47",
-  supportPhone: "0 507 679 19 25",
-  workingHours: "hafta içi 09.00–18.00 açık",
+  // şirket numarası panelden (Site içeriği > İletişim bilgileri) girilir; boşken telefon satırları hiç görünmez
+  salesPhone: "",
+  supportPhone: "",
+  workingHours: "Hafta içi 09.00–18.00",
   email: "info@gotech.com.tr",
   address: "Şehit Nevres Bulvarı\nDeren Plaza No:10 K:1\nAlsancak — İzmir",
   facebook: "",
@@ -50,19 +51,20 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
 };
 
 export const DEFAULT_SITE_CONTENT: SiteContent = {
-  heroTitle: "Mikro Yazılım kurulumu, eğitimi ve 7/24 desteği.",
+  heroTitle: "Mikro Yazılım kurulumu, eğitimi ve desteği.",
   heroLead:
-    "2017'den beri Mikro Yazılım yetkili iş ortağıyız. İzmir ve çevresinde 500'den fazla işletmenin kurulumunu, e-Dönüşümünü ve günlük desteğini biz yürütüyoruz.",
-  stat1Value: "15+",
-  stat1Label: "Yıl deneyim",
-  stat2Value: "500+",
-  stat2Label: "Mutlu müşteri",
-  stat3Value: "7/24",
-  stat3Label: "Teknik destek",
-  stat4Value: "%100",
-  stat4Label: "Müşteri memnuniyeti",
-  ctaTitle: "İşletmenizi büyütmeye hazır mısınız?",
-  ctaLead: "Ücretsiz demo ve danışmanlık için hemen iletişime geçin. Size uygun çözümü birlikte belirleyelim.",
+    "2017'den beri Mikro Yazılım yetkili iş ortağıyız. İzmir ve çevresindeki işletmelerin kurulumunu, e-Dönüşümünü ve günlük desteğini biz yürütüyoruz.",
+  // yalnız doğrulanmış bilgi; boş bırakılan rakam sitede hiç görünmez
+  stat1Value: "2017",
+  stat1Label: "yılından beri Mikro Yazılım yetkili iş ortağı",
+  stat2Value: "",
+  stat2Label: "",
+  stat3Value: "",
+  stat3Label: "",
+  stat4Value: "",
+  stat4Label: "",
+  ctaTitle: "Ücretsiz keşif görüşmesi",
+  ctaLead: "İşinizi dinleyip hangi ürünün uygun olduğunu söyleyelim. Görüşme ve demo için ücret almıyoruz.",
   ctaButtonText: "Ücretsiz demo talep edin",
   ctaButtonLink: "/iletisim",
   footerAbout: "Mikro Yazılım İş Ortağı olarak 2017'den beri işletmelere ERP çözümleri sunuyoruz.",

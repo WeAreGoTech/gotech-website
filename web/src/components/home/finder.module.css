@@ -1,4 +1,4 @@
-/* Ürün bulucu: tek cümle + dört ürünlük raf. Uygun ürün rafta akarak genişler. */
+/* Ürün bulucu: tek cümle + dört ürünlük raf (Jump Basic, Jump, Jump Bulut, Fly). Uygun ürün rafta akarak genişler. */
 
 .say{margin-top:clamp(36px,5.5vh,60px);text-align:center}
 .sayLine{max-width:1020px;margin-inline:auto;font-size:clamp(1.4rem,2.4vw,2.15rem);font-weight:500;line-height:1.8;letter-spacing:-.01em;text-wrap:balance}
@@ -42,6 +42,11 @@
 /* Mikro'nun resmi ürün logoları. Genişlik = --m x --k (k: finder.ts SHELF wordmarkRatio) */
 .logo{--m:74px;width:calc(var(--m) * var(--k));max-width:100%;height:auto;transition:width .6s var(--soft)}
 .open .logo{--m:104px}
+/* Basic / Bulut: Jump logosunun yanında sürüm adı (Mikro'nun bu sürümler için ayrı logosu yok) */
+/* dar (kapalı) kartta sürüm adı logonun altına iner */
+.brand{display:flex;flex-wrap:wrap;align-items:flex-end;gap:2px 8px;max-width:100%}
+.edition{flex:none;padding-bottom:.1em;font-size:1.02rem;font-weight:600;letter-spacing:-.02em;color:var(--ink);transition:font-size .6s var(--soft)}
+.open .edition{font-size:1.3rem}
 .scale{font-size:.9rem;font-weight:500;color:var(--ink-2);white-space:nowrap}
 /* kapalı kartın dibinde kime uygun olduğu + artı; açılınca kaybolur */
 .forWho{position:absolute;left:24px;right:68px;bottom:24px;font-size:.93rem;line-height:1.4;color:var(--ink-2);transition:opacity .35s var(--soft),transform .6s var(--soft)}
@@ -55,7 +60,6 @@
 .open .body{opacity:1;transition:opacity .5s var(--soft) .28s}
 /* açık kartın son genişliği = (raf - 3 boşluk) * 2.6 / 5.6; içerik bu genişlikte sabit, açılırken yeniden akmaz */
 .inner{width:calc((100cqw - 36px) * 2.6 / 5.6);display:grid;gap:16px;justify-items:start;padding:18px 24px 26px}
-.flag{padding:.28rem .6rem;border-radius:6px;background:var(--brand-soft);color:var(--brand-deep);font-size:.8rem;font-weight:600}
 .blurb{color:var(--ink-2);font-size:1rem;max-width:46ch}
 .features{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;width:100%;padding-top:16px;border-top:1px solid var(--line);font-size:.94rem}
 .features li{display:flex;align-items:center;gap:9px}
@@ -64,6 +68,8 @@
 .no{color:var(--ink-3)}
 .no::before{background:no-repeat center/9px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6h6' stroke='%2316181D' stroke-opacity='.35' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")}
 .demo{margin-top:6px}
+/* demo butonunun altında ürün sayfasına bağlantı */
+.more{justify-self:start;margin-top:4px}
 
 .why{margin-top:22px;text-align:center;font-size:.96rem;color:var(--ink-2);animation:whyIn .45s var(--soft)}
 .why b{font-weight:600;color:var(--ink)}
@@ -72,10 +78,11 @@
 /* dar ekran: raf dikey akordeon, açılan kartın gövdesi 0fr -> 1fr akarak açılır */
 @media (max-width:900px){
   .shelf{flex-direction:column;height:auto;gap:10px}
-  .prod{display:grid;grid-template-rows:auto 0fr;flex:none;transition:grid-template-rows .7s var(--soft),box-shadow .4s var(--ease)}
+  /* flex:none değil: eşik geçişinde flex-grow değişip raf bir an ezik açılmasın (sütun yönünde grow etkisiz) */
+  .prod{display:grid;grid-template-rows:auto 0fr;flex-basis:auto;transition:grid-template-rows .7s var(--soft),box-shadow .4s var(--ease)}
   .open{grid-template-rows:auto 1fr}
   .head{padding:20px 22px;grid-template-columns:1fr auto;align-items:center}
-  .rec,.logo,.scale{grid-column:1}
+  .rec,.brand,.scale{grid-column:1}
   .forWho{display:none}
   /* relative: artının çizgileri (::before/::after) kutunun içinde kalsın */
   .plus{position:relative;bottom:auto;right:auto;grid-column:2;grid-row:1/span 3;align-self:center}
@@ -84,4 +91,11 @@
   .body{overflow:hidden}
   .inner{width:auto;padding:0 22px 24px}
   .features{grid-template-columns:1fr}
+}
+/* telefonda uzun seçenek (ör. "programa her yerden erişmek istiyoruz") ekrandan taşmasın: hap kırılabilir */
+@media (max-width:560px){
+  .sayLine{font-size:1.2rem}
+  .nowrap{white-space:normal}
+  .pick,.pick :global(.select-trigger){max-width:100%}
+  .pick :global(.select-value){white-space:normal;text-align:left}
 }
