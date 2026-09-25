@@ -49,6 +49,7 @@ type DeviceListProps = {
   showCompany?: boolean;
   removeAction?: RowAction;
   claimAction?: RowAction;
+  signOutAction?: RowAction;
 };
 
 const DEFAULT_EMPTY: Record<Audience, string> = {
@@ -56,7 +57,7 @@ const DEFAULT_EMPTY: Record<Audience, string> = {
   customer: "Henüz kayıtlı bilgisayar yok. GoTech Desk'i kurup panel hesabınızla giriş yaptığınızda burada görünür.",
 };
 
-export function DeviceList({ devices, audience, emptyText, showCompany = false, removeAction, claimAction }: DeviceListProps) {
+export function DeviceList({ devices, audience, emptyText, showCompany = false, removeAction, claimAction, signOutAction }: DeviceListProps) {
   return (
     <ul className="w-list">
       {devices.length === 0 && <li className="empty-row">{emptyText ?? DEFAULT_EMPTY[audience]}</li>}
@@ -95,6 +96,13 @@ export function DeviceList({ devices, audience, emptyText, showCompany = false, 
                   </form>
                 )}
                 <span className={`badge${device.unattended ? " is-active" : ""}`}>Gözetimsiz erişim {device.unattended ? "açık" : "kapalı"}</span>
+                {signOutAction && (
+                  <form action={signOutAction(device.id)}>
+                    <button className="btn btn-ghost btn-small" type="submit" title="Bu bilgisayar hesabınızdan ve firmanızdan çıkar">
+                      Çıkış yaptır
+                    </button>
+                  </form>
+                )}
               </>
             )}
           </span>

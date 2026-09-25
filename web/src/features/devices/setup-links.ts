@@ -79,7 +79,7 @@ export async function setUpFromLink(token: string, device: Omit<ClaimInput, "una
     .where(eq(users.id, person.userId));
   if (!company) return { status: "unknown_company" };
 
-  const result = await registerDevice({ ...device, unattendedPassword: null, customerCode: company.customerCode, personId: person.userId });
+  const result = await registerDevice({ ...device, unattendedPassword: null, customerCode: company.customerCode, personId: person.userId }, true);
   if (result.status !== "ok") return result;
   // spent only once the computer is in: a refusal (another company's, a team computer) leaves the link usable
   await db.update(deskSetupLinks).set({ usedAt: new Date() }).where(and(eq(deskSetupLinks.id, person.linkId), isNull(deskSetupLinks.usedAt)));

@@ -31,8 +31,12 @@ function assignmentFields(input: RegisterInput, movedCompany: boolean) {
   return fields;
 }
 
-/** Creates or updates the device by desk ID and hands out a fresh device token (only its hash is stored). */
-export async function registerDevice(input: RegisterInput): Promise<RegisterResult> {
+/**
+ * Creates or updates the device by desk ID and hands out a fresh device token (only its hash is stored).
+ * [signedIn]: the person proved who they are (account password or their own setup link), so the computer follows
+ * them even when another company had it; a bare company code still cannot pull it away.
+ */
+export async function registerDevice(input: RegisterInput, signedIn = false): Promise<RegisterResult> {
   const company = await findCompanyByCode(input.customerCode);
   if (!company) return { status: "unknown_company" };
   if (input.personId && !(await findCompanyCustomer(company.id, input.personId))) return { status: "unknown_person" };
@@ -44,7 +48,7 @@ export async function registerDevice(input: RegisterInput): Promise<RegisterResu
     .where(eq(devices.deskId, input.deskId));
   // Anyone can see a desk ID, so a computer already registered by the app cannot be pulled into another company
   // with just some company code; staff removes it from the panel first.
-  if (existing?.deviceTokenHash && existing.companyId !== company.id) return { status: "owned_by_other_company" };
+  if (!signedIn && existing?.deviceTokenHash && existing.companyId !== company.id) return { status: "owned_by_other_company" };
   // A GoTech computer is trusted by every locked customer; one registered to a customer as well would stay trusted.
   // Refused rather than taken off the team list, since customers see the team's IDs and could knock one off.
   const [teamDevice] = await db.select({ id: staffDevices.id }).from(staffDevices).where(eq(staffDevices.deskId, input.deskId));

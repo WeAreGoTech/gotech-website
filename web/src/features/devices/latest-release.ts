@@ -9,7 +9,10 @@ const REQUEST_TIMEOUT_MS = 5_000;
 // the Windows 10/11 installer and the Apple Silicon disk image; the "-win7" archive build never is the default
 const ASSET_PATTERNS: Record<DeskPlatform, RegExp> = { windows: /-x86_64\.exe$/, mac: /-aarch64\.dmg$/ };
 
-type Release = Record<DeskPlatform, string>;
+// release tags are "gotech-1.5.1", or "gotech-1.5.1-<note>" for a special build
+const TAG_VERSION = /^gotech-(\d+\.\d+\.\d+)/;
+
+type Release = Record<DeskPlatform, string> & { version: string };
 
 let cached: { release: Release; at: number } | null = null;
 
@@ -29,16 +32,27 @@ async function fetchLatestRelease(): Promise<Release | null> {
     );
     return asset?.browser_download_url ?? "";
   };
-  return { windows: urlOf("windows"), mac: urlOf("mac") };
+  const tag = body && typeof body === "object" && "tag_name" in body && typeof body.tag_name === "string" ? body.tag_name : "";
+  return { windows: urlOf("windows"), mac: urlOf("mac"), version: TAG_VERSION.exec(tag)?.[1] ?? "" };
 }
 
-/** Where that platform's installer is: the latest GitHub release, else the DESK_DOWNLOAD_* fallback. */
-export async function latestInstallerUrl(platform: DeskPlatform) {
+async function latestRelease() {
   if (!cached || Date.now() - cached.at > CACHE_MS) {
     const release = await fetchLatestRelease();
     // on a failed check keep serving the last good answer rather than falling back mid-day
     if (release) cached = { release, at: Date.now() };
   }
+  return cached?.release ?? null;
+}
+
+/** The version of the latest GitHub release, from its tag; empty when unknown. */
+export async function latestReleaseVersion() {
+  return (await latestRelease())?.version ?? "";
+}
+
+/** Where that platform's installer is: the latest GitHub release, else the DESK_DOWNLOAD_* fallback. */
+export async function latestInstallerUrl(platform: DeskPlatform) {
+  const release = await latestRelease();
   const fallback = platform === "windows" ? env.desk.downloadWindowsUrl : env.desk.downloadMacUrl;
-  return cached?.release[platform] || fallback;
+  return release?.[platform] || fallback;
 }

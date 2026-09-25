@@ -24,7 +24,7 @@ export async function claimCustomerDevice(user: DeskAccountUser, input: ClaimInp
   const db = await getDb();
   const [company] = await db.select({ customerCode: companies.customerCode }).from(companies).where(eq(companies.id, user.companyId));
   if (!company) return { status: "unknown_company" };
-  const result = await registerDevice({ ...input, customerCode: company.customerCode, personId: user.id });
+  const result = await registerDevice({ ...input, customerCode: company.customerCode, personId: user.id }, true);
   return result.status === "ok" ? { ...result, customerCode: company.customerCode } : result;
 }
 

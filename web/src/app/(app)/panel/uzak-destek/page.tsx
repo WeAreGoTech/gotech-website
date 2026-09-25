@@ -5,7 +5,7 @@ import { Section } from "@/components/app/dashboard";
 import { DeviceList, SessionList, StatusUnknownNotice } from "@/components/app/devices";
 import { Icon } from "@/components/app/Icon";
 import { getCompany } from "@/features/customers/queries";
-import { claimDevice } from "@/features/devices/actions";
+import { claimDevice, signOutMyDevice } from "@/features/devices/actions";
 import { installerHref, installerUrl, type DeskPlatform } from "@/features/devices/downloads";
 import { listDevices } from "@/features/devices/queries";
 import { listCompanySessions } from "@/features/devices/sessions";
@@ -30,6 +30,7 @@ export default async function RemoteSupportPage() {
   const mine = devices.filter((d) => d.userId === user.id);
   const others = devices.filter((d) => d.userId !== user.id);
   const claim = (deviceId: string) => claimDevice.bind(null, deviceId);
+  const signOut = (deviceId: string) => signOutMyDevice.bind(null, deviceId);
 
   return (
     <>
@@ -59,6 +60,11 @@ export default async function RemoteSupportPage() {
                   {d.label}
                 </a>
               ))}
+              {downloads.some((d) => d.platform === "windows") && (
+                <a className="desk-hint" href={installerHref("windows", true)}>
+                  Kurmadan çalıştırmak için: Windows portable sürüm
+                </a>
+              )}
             </div>
           )}
         </section>
@@ -68,6 +74,7 @@ export default async function RemoteSupportPage() {
             <DeviceList
               devices={mine}
               audience="customer"
+              signOutAction={signOut}
               emptyText="Size bağlı bilgisayar yok. GoTech Desk'i kurup bu hesapla giriş yapın ya da aşağıdan bilgisayarınızı sahiplenin."
             />
           </Section>
