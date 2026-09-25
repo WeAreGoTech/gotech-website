@@ -8,10 +8,10 @@ import { getDb } from "@/db";
 import { companies, passwordTokens, sessions, users } from "@/db/schema";
 import { setupLinkForMail } from "@/features/devices/setup-links";
 import { changeMember, companyPage, findMemberCompany, isFirstMember, MEMBER_ERRORS, noticeHref, type MemberChange } from "@/features/team/membership";
-import { hashPassword } from "@/lib/auth/password";
+import { hashPassword, MIN_PASSWORD_LENGTH } from "@/lib/auth/password";
 import { createPasswordLink, PASSWORD_LINK_HOURS } from "@/lib/auth/password-tokens";
-import { randomPassword } from "@/lib/auth/random-password";
 import { requireStaff } from "@/lib/auth/session";
+import { env } from "@/lib/env";
 import { failure, fieldErrors, success, text, type ActionState } from "@/lib/forms";
 import { sendMail } from "@/lib/mail/send";
 import { inviteMail } from "@/lib/mail/templates";
@@ -19,12 +19,17 @@ import { newCustomerCode } from "./customer-code";
 
 const NEW_COMPANY = "new";
 
-const inviteSchema = z
+const passwordField = z.string().min(MIN_PASSWORD_LENGTH, { error: `Şifre en az ${MIN_PASSWORD_LENGTH} karakter olmalı.` }).max(200);
+
+const addSchema = z
   .object({
     companyId: z.union([z.uuid(), z.literal(NEW_COMPANY)], { error: "Firmayı seçin." }),
     companyName: z.string().trim().max(160),
     name: z.string().trim().min(2, { error: "Kişinin adını ve soyadını yazın." }).max(120),
     email: z.string().trim().toLowerCase().pipe(z.email({ error: "Geçerli bir e-posta adresi yazın." })),
+    password: passwordField,
+    title: z.string().trim().max(80),
+    phone: z.string().trim().max(40),
   })
   .refine((v) => v.companyId !== NEW_COMPANY || v.companyName.length >= 2, {
     path: ["companyName"],
@@ -36,29 +41,28 @@ async function sendInvite(user: { id: string; name: string; email: string }, com
   await sendMail(inviteMail({ to: user.email, name: user.name, companyName, link, validHours: PASSWORD_LINK_HOURS, ...(await setupLinkForMail(user.id)) }));
 }
 
-/**
- * E-posta yerine gecici sifre: SMTP kapaliyken ya da musteriye telefonda
- * soylemek istendiginde kullanilir. Uretilen sifre CAGIRANA dondurulur,
- * hicbir yere kaydedilmez; kullanici hesabindan degistirebilir.
- */
-async function assignTemporaryPassword(userId: string): Promise<string> {
-  const sifre = randomPassword();
+/** Personelin yazdığı şifreyi kaydeder; eski şifre, açık oturumlar ve bekleyen şifre bağlantıları geçersiz olur. */
+async function setPassword(userId: string, password: string) {
   const db = await getDb();
-  await db.update(users).set({ passwordHash: await hashPassword(sifre) }).where(eq(users.id, userId));
-  // Sifre degisince acik oturumlar kapanir (panelin her yerinde ayni kural).
+  await db.update(users).set({ passwordHash: await hashPassword(password) }).where(eq(users.id, userId));
   await db.delete(sessions).where(eq(sessions.userId, userId));
-  // Bekleyen sifre belirleme baglantilari artik gecersiz olmali.
   await db.delete(passwordTokens).where(eq(passwordTokens.userId, userId));
-  return sifre;
 }
 
-export async function inviteCustomer(_prev: ActionState, formData: FormData): Promise<ActionState> {
+/**
+ * Personel müşteriyi doğrudan ekler: hesap yazdığı şifreyle hazır oluşur, e-posta ya da bağlantı
+ * gönderilmez. Giriş bilgilerini müşteriye personel kendisi iletir.
+ */
+export async function addCustomer(_prev: ActionState, formData: FormData): Promise<ActionState> {
   await requireStaff();
-  const parsed = inviteSchema.safeParse({
+  const parsed = addSchema.safeParse({
     companyId: text(formData, "companyId"),
     companyName: text(formData, "companyName"),
     name: text(formData, "name"),
     email: text(formData, "email"),
+    password: text(formData, "password"),
+    title: text(formData, "title"),
+    phone: text(formData, "phone"),
   });
   if (!parsed.success) return fieldErrors(parsed.error);
   const input = parsed.data;
@@ -78,24 +82,36 @@ export async function inviteCustomer(_prev: ActionState, formData: FormData): Pr
 
   // asked for, or automatic for the company's first person
   const isCompanyAdmin = formData.get("companyAdmin") !== null || (await isFirstMember(company.id));
-  const [user] = await db.insert(users).values({ name: input.name, email: input.email, role: "customer", companyId: company.id, isCompanyAdmin }).returning();
+  const { password } = input;
+  const [user] = await db
+    .insert(users)
+    .values({
+      name: input.name,
+      email: input.email,
+      role: "customer",
+      companyId: company.id,
+      isCompanyAdmin,
+      title: input.title || null,
+      phone: input.phone || null,
+      passwordHash: await hashPassword(password),
+    })
+    .returning();
 
-  // "Şifre üret" seçiliyse mail beklemeden hesabı kullanılabilir hale getirir.
-  if (formData.get("generatePassword") !== null) {
-    const sifre = await assignTemporaryPassword(user.id);
-    revalidatePath("/yonetim/musteriler");
-    return success(`${user.name} eklendi. Geçici şifreyi kendisine iletin — bu şifre bir daha gösterilmeyecek.`, sifre);
-  }
-
-  await sendInvite(user, company.name);
   revalidatePath("/yonetim/musteriler");
-  return success(`${user.name} için davet e-postası gönderildi.`);
+  revalidatePath(companyPage(company.id));
+  return {
+    ...success(`${user.name} ${company.name} firmasına eklendi.`),
+    account: { name: user.name, email: user.email, password, companyName: company.name, loginUrl: `${env.siteUrl}/giris` },
+  };
 }
 
-/** Mevcut bir müşteriye yeni geçici şifre üretir; personel müşteriye kendisi iletir. */
-export async function regeneratePassword(_prev: ActionState, formData: FormData): Promise<ActionState> {
+/** Şifresini unutan müşteriye personelin yazdığı yeni şifreyi verir. */
+export async function setCustomerPassword(_prev: ActionState, formData: FormData): Promise<ActionState> {
   await requireStaff();
-  const userId = text(formData, "userId");
+  const parsed = z.object({ userId: z.uuid(), password: passwordField }).safeParse({ userId: text(formData, "userId"), password: text(formData, "password") });
+  if (!parsed.success) return fieldErrors(parsed.error);
+  const { userId, password } = parsed.data;
+
   const db = await getDb();
   const [row] = await db
     .select({ id: users.id, name: users.name })
@@ -103,9 +119,9 @@ export async function regeneratePassword(_prev: ActionState, formData: FormData)
     .where(and(eq(users.id, userId), eq(users.role, "customer")));
   if (!row) return failure("Müşteri bulunamadı.");
 
-  const sifre = await assignTemporaryPassword(row.id);
+  await setPassword(row.id, password);
   revalidatePath("/yonetim/musteriler");
-  return success(`${row.name} için yeni geçici şifre üretildi. Bu şifre bir daha gösterilmeyecek.`, sifre);
+  return success(`${row.name} için şifre değiştirildi.`);
 }
 
 export async function resendInvite(userId: string) {

@@ -1,4 +1,4 @@
-// Installer links of the GoTech Desk desktop app; the company code travels in the file name.
+// Installer links of the GoTech Desk desktop app.
 import { env } from "@/lib/env";
 import { latestInstallerUrl } from "./latest-release";
 
@@ -14,9 +14,8 @@ export const isDeskPlatform = (value: string): value is DeskPlatform => (DESK_PL
 /** Where that platform's installer is hosted; empty when there is none. */
 export const installerUrl = (platform: DeskPlatform) => latestInstallerUrl(platform);
 
-/** "GoTechDesk-482913.exe" for a known company, "GoTechDesk.exe" without one. */
-export const installerFileName = (platform: DeskPlatform, customerCode?: string) =>
-  `${INSTALLER_NAME}${customerCode ? `-${customerCode}` : ""}.${INSTALLER_EXTENSIONS[platform]}`;
+/** "GoTechDesk.exe"; customers sign in with their panel account after installing, so nothing rides in the name. */
+export const installerFileName = (platform: DeskPlatform) => `${INSTALLER_NAME}.${INSTALLER_EXTENSIONS[platform]}`;
 
 /**
  * A setup link's installer: on Windows the token rides in the file name ("GoTechDesk-kur-<token>.exe") and the app reads
@@ -26,8 +25,8 @@ export const setupInstallerFileName = (platform: DeskPlatform, token: string) =>
   platform === "windows" ? `${INSTALLER_NAME}-kur-${token}.${INSTALLER_EXTENSIONS.windows}` : installerFileName(platform);
 
 /** The download link a customer follows; staff can send it as is. */
-export const installerHref = (platform: DeskPlatform, customerCode: string) => `/indir/${platform}?firma=${customerCode}`;
-export const installerLink = (platform: DeskPlatform, customerCode: string) => `${env.siteUrl}${installerHref(platform, customerCode)}`;
+export const installerHref = (platform: DeskPlatform) => `/indir/${platform}`;
+export const installerLink = (platform: DeskPlatform) => `${env.siteUrl}${installerHref(platform)}`;
 
 /** The version the app should update itself to, or null while none is published. */
 export async function latestDeskUpdate() {

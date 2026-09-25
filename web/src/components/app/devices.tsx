@@ -165,8 +165,8 @@ export function SessionList({ sessions, showDevice = true }: { sessions: Session
   );
 }
 
-/** The link staff send a customer: the installer arrives with their company code in its file name. */
-export async function InstallLinks({ customerCode }: { customerCode: string }) {
+/** The link staff send a customer to download GoTech Desk. */
+export async function InstallLinks() {
   const urls = await Promise.all(DESK_PLATFORMS.map((platform) => installerUrl(platform)));
   const platforms = DESK_PLATFORMS.filter((_, i) => urls[i]);
   if (platforms.length === 0) return null;
@@ -175,7 +175,7 @@ export async function InstallLinks({ customerCode }: { customerCode: string }) {
       <strong>Kurulum linki</strong>
       {platforms.map((platform) => (
         <span key={platform}>
-          {DESK_PLATFORM_LABELS[platform]}: <code>{installerLink(platform, customerCode)}</code>
+          {DESK_PLATFORM_LABELS[platform]}: <code>{installerLink(platform)}</code>
         </span>
       ))}
     </div>

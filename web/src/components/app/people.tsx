@@ -1,4 +1,5 @@
 import type { Person } from "@/features/customers/queries";
+import { SetPasswordButton } from "./customer-forms";
 import { Avatar } from "./Icon";
 import { SetupLinkButton } from "./setup-link-button";
 
@@ -20,9 +21,11 @@ type PeopleListProps = {
   removeAction?: PersonAction;
   // staff pages: each person's one-click GoTech Desk setup link
   setupLinks?: boolean;
+  // staff pages of customer companies: a way to set a new password for people who lost theirs
+  passwordReset?: boolean;
 };
 
-export function PeopleList({ people, tone, youId, resendAction, deviceCounts, controls, removeAction, setupLinks = false }: PeopleListProps) {
+export function PeopleList({ people, tone, youId, resendAction, deviceCounts, controls, removeAction, setupLinks = false, passwordReset = false }: PeopleListProps) {
   // a company always keeps one firma yetkilisi, so the last one can be neither demoted nor removed
   const adminCount = people.filter((p) => p.isCompanyAdmin).length;
   const isLastAdmin = (person: { isCompanyAdmin?: boolean }) => Boolean(person.isCompanyAdmin) && adminCount <= 1;
@@ -30,7 +33,7 @@ export function PeopleList({ people, tone, youId, resendAction, deviceCounts, co
   return (
     <ul className="w-list">
       {people.map((person) => {
-        const hasActions = Boolean((!person.active && resendAction) || setupLinks || controls || (removeAction && person.id !== youId));
+        const hasActions = Boolean((!person.active && resendAction) || setupLinks || passwordReset || controls || (removeAction && person.id !== youId));
         return (
           <li key={person.id} className="people-row">
             {/* Satır sade kalsın diye işlemler tıklanınca açılır. <details> kullanıldığı için
@@ -57,6 +60,7 @@ export function PeopleList({ people, tone, youId, resendAction, deviceCounts, co
                     </form>
                   )}
                   {setupLinks && <SetupLinkButton personId={person.id} />}
+                  {passwordReset && <SetPasswordButton personId={person.id} name={person.name} />}
                   {controls && (
                     <>
                       {person.isCompanyAdmin ? (
