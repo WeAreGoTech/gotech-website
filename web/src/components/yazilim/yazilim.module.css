@@ -1,0 +1,30 @@
+/* /yazilim-cozumleri: girişte geliştirdiğimiz yazılım türleri (süzülebilir liste), sonra referans.
+   Değişkenler ana sayfanın .home kökünden; stok "kod" fotoğrafı, kart ızgarası, çizgili bilgi şeridi yok. */
+
+.hero{padding-block:clamp(32px,6vh,64px) clamp(64px,10vh,112px)}
+.heroIn{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(36px,6vw,104px);align-items:start}
+.heroCopy{position:sticky;top:112px;display:grid;gap:22px;justify-items:start}
+.heroCopy h1{font-size:clamp(2rem,3.2vw,2.8rem);line-height:1.1;letter-spacing:-.025em;max-width:15ch}
+.crumb{display:flex;flex-wrap:wrap;align-items:center;gap:9px;font-size:.88rem;color:var(--ink-3)}
+.crumb a:hover{color:var(--ink)}
+
+/* yazılım türleri: iki grup, her grupta numaralı liste */
+.works{display:grid;gap:clamp(32px,5vh,48px)}
+.groupHead{padding-bottom:12px;font-size:.9rem;font-weight:600;color:var(--brand-deep)}
+.workList li:last-child{border-bottom:1px solid rgba(22,24,29,.16)}
+.workList li{display:grid;grid-template-columns:40px minmax(0,1fr);gap:6px 14px;padding:24px 0;border-top:1px solid rgba(22,24,29,.16)}
+.workNum{font-size:.9rem;font-weight:600;color:var(--ink-3);font-variant-numeric:tabular-nums;padding-top:.3em}
+.workList h3{font-size:clamp(1.2rem,1.6vw,1.4rem);font-weight:700;letter-spacing:-.01em}
+.workList p{margin-top:6px;color:var(--ink-2)}
+
+/* referans: logo büyük (beyaz zemin), yanında sektör ve iş */
+.refs{margin-top:22px;border-top:1px solid var(--line)}
+.refs li{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,80px);align-items:center;padding:clamp(28px,5vh,48px) 0;border-bottom:1px solid var(--line)}
+.refs img{width:min(100%,320px);height:auto}
+.refs b{font-size:clamp(1.3rem,2vw,1.7rem);font-weight:700;letter-spacing:-.015em}
+.refs p{margin-top:8px;color:var(--ink-2);max-width:44ch}
+
+@media (max-width:1000px){
+  .heroIn,.refs li{grid-template-columns:1fr}
+  .heroCopy{position:static}
+}

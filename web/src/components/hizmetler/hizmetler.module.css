@@ -1,0 +1,104 @@
+/* /hizmetlerimiz: sayfa müşterinin sorularıyla kurulu (girişte beş soru, her soru bir bölüm).
+   Değişkenler ana sayfanın .home kökünden; gradient, bulanık gölge, hap etiket, çizgili bilgi şeridi yok. */
+
+/* ---------- giriş: solda ne olduğu, sağda sorular ---------- */
+.hero{padding-block:clamp(32px,6vh,64px) clamp(56px,9vh,104px)}
+.heroIn{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(36px,6vw,104px);align-items:start}
+.heroCopy{position:sticky;top:112px;display:grid;gap:22px;justify-items:start}
+.heroCopy h1{font-size:clamp(2rem,3.2vw,2.8rem);line-height:1.1;letter-spacing:-.025em;max-width:14ch}
+.crumb{display:flex;flex-wrap:wrap;align-items:center;gap:9px;font-size:.88rem;color:var(--ink-3)}
+.crumb a:hover{color:var(--ink)}
+
+.qlist a{display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;gap:18px;padding:clamp(20px,3vh,30px) 16px clamp(20px,3vh,30px) 0;
+  border-top:1px solid var(--line);transition:padding .45s var(--soft)}
+.qlist li:last-child a{border-bottom:1px solid var(--line)}
+.qNum{font-size:.9rem;font-weight:600;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.qText{display:grid;gap:6px}
+.qText b{font-weight:600;font-size:clamp(1.3rem,2.1vw,1.85rem);line-height:1.2;letter-spacing:-.015em;transition:color .3s var(--ease)}
+.qText small{font-size:.9rem;font-weight:600;color:var(--brand-deep)}
+.qlist svg{color:var(--ink-3);transition:transform .45s var(--soft),color .3s var(--ease)}
+.qlist a:hover,.qlist a:focus-visible{padding-left:16px}
+.qlist a:hover b,.qlist a:focus-visible b{color:var(--brand-deep)}
+.qlist a:hover svg,.qlist a:focus-visible svg{color:var(--brand-deep);transform:rotate(90deg)}
+
+/* ---------- bölüm başı: numara · hizmet, soru, cevap ---------- */
+.chapter{scroll-margin-top:72px}
+.chHead{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:clamp(32px,5vw,80px);row-gap:14px;align-items:end;margin-bottom:clamp(36px,5vh,60px)}
+.chHead>:first-child{grid-column:1/-1}
+.chHead h2{max-width:18ch}
+.chTag{font-size:.9rem;font-weight:600;color:var(--brand-deep);font-variant-numeric:tabular-nums}
+
+.ticks{display:flex;flex-wrap:wrap;gap:12px 28px;font-weight:500}
+.ticks li{display:flex;align-items:center;gap:10px}
+.ticks li::before{content:"";flex:none;width:14px;height:14px;
+  background:no-repeat center/14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23C0261F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+
+/* analiz: geniş fotoğraf, altında yapılanlar */
+.wide{border-radius:var(--r-lg);overflow:hidden;aspect-ratio:21/8;background:var(--ground)}
+.wide img{width:100%;height:100%;object-fit:cover;object-position:50% 35%}
+.under{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:18px 32px;margin-top:26px}
+
+/* ---------- kurulum: yan yana açılan paneller ---------- */
+.panels{display:flex;gap:10px;height:clamp(420px,58vh,520px)}
+.panel{position:relative;flex:1 1 0;min-width:0;border-radius:var(--r-lg);background:#fff;box-shadow:inset 0 0 0 1px var(--line);overflow:hidden;
+  transition:flex-grow .7s var(--soft),box-shadow .3s var(--ease)}
+.panelOn{flex-grow:4.2;box-shadow:inset 0 0 0 1px var(--line),inset 0 3px 0 var(--brand-deep)}
+.panelHit{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;padding:22px 20px;
+  border:0;background:transparent;text-align:left;font:inherit;color:inherit;cursor:pointer}
+.panelOn .panelHit{bottom:auto;flex-direction:row;justify-content:flex-start;align-items:baseline;gap:14px;cursor:default}
+.panelNum{font-weight:700;font-size:.95rem;color:var(--brand-deep);font-variant-numeric:tabular-nums}
+.panelTitle{font-weight:700;font-size:1.05rem;letter-spacing:-.01em;white-space:nowrap}
+.panelOn .panelTitle{font-size:clamp(1.5rem,2.2vw,2rem)}
+.panelBody{position:absolute;inset:68px 0 0 0;display:grid;grid-template-rows:minmax(0,1fr) auto auto;gap:14px;padding:0 24px 24px;opacity:0;visibility:hidden;transform:translateY(12px);
+  transition:opacity .3s var(--ease),transform .5s var(--soft),visibility 0s .3s}
+.panelOn .panelBody{opacity:1;visibility:visible;transform:none;transition:opacity .5s var(--ease) .25s,transform .7s var(--soft) .25s,visibility 0s}
+.panelBody img{width:100%;height:100%;min-height:0;object-fit:cover;border-radius:var(--r)}
+.panelBody p{font-size:1.05rem;color:var(--ink-2);max-width:42ch}
+.panelBody ul{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:.92rem;font-weight:500}
+.panelBody ul li{display:flex;align-items:center;gap:8px}
+.panelBody ul li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--brand-deep)}
+
+/* ---------- e-Dönüşüm: büyük punto belge dizini ---------- */
+.docs{margin-top:clamp(28px,4vh,44px);border-top:1px solid var(--line)}
+.docs a{display:grid;grid-template-columns:56px minmax(0,1fr) minmax(0,1fr) auto;align-items:center;gap:20px;padding:clamp(14px,2.2vh,22px) 0;
+  border-bottom:1px solid var(--line);transition:padding .45s var(--soft)}
+.docNum{font-size:.9rem;font-weight:600;color:var(--ink-3);font-variant-numeric:tabular-nums}
+.docs b{font-weight:700;font-size:clamp(1.7rem,3.6vw,3rem);letter-spacing:-.03em;line-height:1.05;transition:color .3s var(--ease)}
+.docNote{color:var(--ink-2)}
+.docGo{display:inline-flex;align-items:center;gap:.5em;font-size:.93rem;font-weight:600;color:var(--brand-deep);opacity:0;transform:translateX(-8px);transition:opacity .3s var(--ease),transform .45s var(--soft)}
+.docs a:hover,.docs a:focus-visible{padding-left:14px}
+.docs a:hover b,.docs a:focus-visible b{color:var(--brand-deep)}
+.docs a:hover .docGo,.docs a:focus-visible .docGo{opacity:1;transform:none}
+
+/* ---------- eğitim: fotoğraf ve iki eğitim türü ---------- */
+.training{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:clamp(28px,5vw,72px);align-items:center}
+.training img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:var(--r-lg)}
+.training li{padding:22px 0;border-bottom:1px solid rgba(22,24,29,.16);font-weight:700;font-size:clamp(1.4rem,2.2vw,1.9rem);letter-spacing:-.02em}
+.training li:first-child{border-top:1px solid rgba(22,24,29,.16)}
+
+/* ---------- destek: kanallar yan yana ---------- */
+.channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(24px,3vw,48px)}
+.channels li{display:grid;gap:6px;align-content:start;padding-top:20px;border-top:2px solid var(--ink)}
+.channels h3{font-size:1.3rem;font-weight:700}
+.when{font-size:.9rem;font-weight:600;color:var(--brand-deep)}
+.channels p{margin-top:4px;color:var(--ink-2)}
+.channels p a{font-weight:600;color:var(--ink)}
+.portal{margin-top:clamp(28px,4vh,44px)}
+
+@media (max-width:1000px){
+  .heroIn,.chHead,.training{grid-template-columns:1fr}
+  .heroCopy{position:static}
+  .wide{aspect-ratio:16/9}
+  .panels{flex-direction:column;height:auto}
+  .panel,.panelOn{flex:none;box-shadow:inset 0 0 0 1px var(--line)}
+  .panelHit,.panelOn .panelHit{position:static;flex-direction:row;align-items:baseline;gap:14px;padding:22px 20px 12px;cursor:default}
+  .panelTitle,.panelOn .panelTitle{font-size:1.4rem}
+  .panelBody,.panelOn .panelBody{position:static;grid-template-rows:none;opacity:1;visibility:visible;transform:none;padding:0 20px 22px}
+  .panelBody img{height:auto;aspect-ratio:3/2}
+  .docs a{grid-template-columns:40px minmax(0,1fr);gap:4px 14px}
+  .docNote{grid-column:2}
+  .docGo{display:none}
+}
+@media (max-width:560px){
+  .qlist a{grid-template-columns:32px minmax(0,1fr) auto;gap:12px}
+}

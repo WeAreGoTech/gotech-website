@@ -44,7 +44,8 @@
 
 .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gx)}
 .sec{padding-block:var(--sec)}
-.ground{background:var(--ground)}
+/* gri zemin yok: "ground" bölümleri beyaz, üstlerinde ince çizgiyle ayrılır */
+.ground{border-top:1px solid var(--line)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 /* ---------- tipografi: kalın başlık, normal harf aralığı ---------- */

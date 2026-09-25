@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Contact } from "@/components/home/ContactSection";
-import { ProductFinder } from "@/components/home/ProductFinder";
 import { PageHeader } from "@/components/kurumsal/PageHeader";
 import { CompareTable, ProsCons } from "@/components/kurumsal/ProductCompare";
 import { PRODUCTS } from "@/components/kurumsal/urunler-data";
@@ -20,18 +19,10 @@ export default async function UrunlerPage() {
       <PageHeader
         eyebrow="Ürünler"
         title="Dört Mikro ürünü, dört ölçek."
-        lead="Hangisinin size uyduğunu aşağıdaki bulucuyla görün; kesin seçimi ücretsiz keşif görüşmesinde birlikte yapıyoruz."
+        lead="Hangisinde ne olduğunu aşağıda karşılaştırın; size uyanı ücretsiz keşif görüşmesinde birlikte seçiyoruz."
       />
 
-      <section className="sec" id="bulucu">
-        <div className="wrap">
-          <span className="tag">Ürün bulucu</span>
-          <h2 className="pd-h2">İşletmenizi tek cümleyle anlatın</h2>
-          <ProductFinder />
-        </div>
-      </section>
-
-      <section className="sec pd-ground" id="karsilastirma">
+      <section className="sec" id="karsilastirma">
         <div className="wrap">
           <span className="tag">Karşılaştırma</span>
           <h2 className="pd-h2">Hangi üründe ne var, ne yok?</h2>
@@ -40,7 +31,7 @@ export default async function UrunlerPage() {
         </div>
       </section>
 
-      <section className="sec">
+      <section className="sec pd-ground">
         <div className="wrap">
           <span className="tag">Artıları ve eksikleri</span>
           <h2 className="pd-h2">Her ürünün güçlü ve zayıf yanı</h2>

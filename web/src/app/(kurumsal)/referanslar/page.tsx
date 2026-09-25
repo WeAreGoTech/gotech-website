@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element -- site IIS arkasında next start ile çalışıyor; görseller public/'ten olduğu gibi */
 import type { Metadata } from "next";
 import Link from "next/link";
+import { notFound } from "next/navigation";
 import { Contact } from "@/components/home/ContactSection";
 import { PageHeader } from "@/components/kurumsal/PageHeader";
 import { REFERENCES } from "@/components/kurumsal/referanslar";
@@ -11,7 +12,11 @@ export const metadata: Metadata = {
   description: "GoTech'in kendi yazılım ekibiyle kurumlara özel geliştirdiği yazılımlar, entegrasyonlar ve birlikte çalıştığı kurumlar.",
 };
 
+// Şimdilik gizli (25.09.2026): sayfa 404 verir, menüde ve site haritasında yok. Açmak için false yapın ve bağlantıları geri ekleyin.
+const HIDDEN = true;
+
 export default async function ReferanslarPage() {
+  if (HIDDEN) notFound();
   const { settings, content } = await getSiteConfig();
 
   return (

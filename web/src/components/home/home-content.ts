@@ -8,7 +8,6 @@ export const SITE_NAV = [
   { href: "/urunler", label: "Ürünler" },
   { href: "/hizmetlerimiz", label: "Hizmetler" },
   { href: "/yazilim-cozumleri", label: "Yazılım" },
-  { href: "/referanslar", label: "Referanslar" },
   { href: "/hakkimizda", label: "Hakkımızda" },
   { href: "/iletisim", label: "İletişim" },
 ];
@@ -106,7 +105,6 @@ export const HERO_SLIDES: HeroSlide[] = [
     image: "/images/stok/yazilimci.webp",
     alt: "Pencere kenarındaki masada iki ekranla kod yazan bir yazılımcı",
     cta: { label: "Yazılım çözümleri", href: "/yazilim-cozumleri" },
-    more: { label: "Referanslar", href: "/referanslar" },
   },
 ];
 

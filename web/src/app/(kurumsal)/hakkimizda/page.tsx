@@ -22,7 +22,7 @@ const WAYS = [
   {
     title: "Kendi yazılım ekibimiz var",
     body: "Mikro'nun yetmediği yerde ek ekran, rapor ve entegrasyonları kendimiz geliştiriyoruz; kurumlara Mikro'dan bağımsız yazılım da yapıyoruz.",
-    link: { href: "/referanslar", label: "Referanslar" },
+    link: { href: "/yazilim-cozumleri", label: "Yazılım çözümleri" },
   },
   {
     title: "Kendi destek araçlarımız",

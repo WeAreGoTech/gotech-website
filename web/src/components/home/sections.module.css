@@ -79,6 +79,11 @@
 .faq details[open] summary i::after{transform:rotate(0);opacity:0}
 .faq summary:hover i{background:var(--ground-2)}
 .faq details p{max-width:66ch;padding:0 26px 24px;color:var(--ink-2)}
+/* yan yana: başlık solda yapışkan, sorular sağda */
+.faqSplit{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(32px,5vw,80px);align-items:start}
+.faqSplit>:first-child{position:sticky;top:152px}
+.faqSplit .faq{margin:0;max-width:none}
+@media (max-width:900px){.faqSplit{grid-template-columns:1fr}.faqSplit>:first-child{position:static}}
 
 @media (max-width:900px){
   .journey,.edo,.about{grid-template-columns:1fr}

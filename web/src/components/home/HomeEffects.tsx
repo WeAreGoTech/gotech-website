@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { prefersReducedMotion } from "@/components/site/motion";
 
@@ -14,6 +15,10 @@ const REVEAL_MARGIN = "0px 0px -12% 0px";
  *    data-mesaj varsa ve mesaj alanı boşsa onu da yazar (ör. "Mikro Jump için demo istiyorum.").
  */
 export function HomeEffects({ rootId }: { rootId: string }) {
+  // kabuk (layout) sayfa değişince yeniden kurulmuyor: yeni sayfanın [data-in] öğeleri için gözlem her geçişte yenilenmeli,
+  // yoksa kök data-ready taşıdığı için yedek animasyon da kapalı kalır ve öğeler hiç görünmez
+  const pathname = usePathname();
+
   useEffect(() => {
     const root = document.getElementById(rootId);
     if (!root) return;
@@ -40,7 +45,7 @@ export function HomeEffects({ rootId }: { rootId: string }) {
     }, { rootMargin: REVEAL_MARGIN });
     items.forEach((el) => io.observe(el));
     return () => io.disconnect();
-  }, [rootId]);
+  }, [rootId, pathname]);
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {

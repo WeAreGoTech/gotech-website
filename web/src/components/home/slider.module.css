@@ -1,8 +1,9 @@
-/* Ana sayfa hero slider'ı (HeroSlider.tsx). Kalıp mikro.com.tr ve Logo Yazılım'ın ana sayfalarından: açık gri panelde solda
+/* Ana sayfa hero slider'ı (HeroSlider.tsx). Kalıp mikro.com.tr ve Logo Yazılım'ın ana sayfalarından: solda
    başlık, metin ve butonlar, sağda görsel; her slaytta hepsi birlikte değişir. Altta slayt adlarıyla sekme çubuğu; etkin sekmenin
    çizgisi --dur sürede dolar, dolunca sonraki slayt gelir. Görselin üstünde kart ya da yazı yok. */
 
-.hero{margin:8px clamp(10px,2.2vw,32px) 0;padding-top:clamp(36px,6vh,64px);border-radius:28px;background:var(--ground)}
+/* gri yuvarlak panel yok (25.09.2026, "arkadaki gri şeyi sevmiyorum"): hero düz beyaz zeminde */
+.hero{padding-block:clamp(28px,5vh,56px) clamp(8px,1.5vh,16px);border-bottom:1px solid var(--line)}
 
 /* slaytlar üst üste aynı hücrede: panel en uzun slayt kadar olur, geçişte yükseklik oynamaz */
 .stage{display:grid;touch-action:pan-y}

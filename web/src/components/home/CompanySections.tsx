@@ -70,14 +70,15 @@ export function About({ settings }: { settings: SiteSettings }) {
 }
 
 type FaqItem = { q: string; a: string };
-type FaqProps = { items?: FaqItem[]; eyebrow?: string; title?: string; id?: string };
+// split: başlık solda (yapışkan), sorular sağda; /hizmetlerimiz'de
+type FaqProps = { items?: FaqItem[]; eyebrow?: string; title?: string; id?: string; split?: boolean };
 
 /** SSS: yerel <details>, JS gerekmez; yükseklik geçişi sections.module.css'te. Ana sayfa, hizmetler ve ürün sayfalarında aynı. */
-export function Faq({ items = HOME_FAQ, eyebrow = "SSS", title = "Sık sorulan sorular", id = "sss" }: FaqProps) {
+export function Faq({ items = HOME_FAQ, eyebrow = "SSS", title = "Sık sorulan sorular", id = "sss", split = false }: FaqProps) {
   return (
     <section className={cx(h.sec, h.ground)} id={id}>
-      <div className={h.wrap}>
-        <SectionHead center eyebrow={eyebrow} title={title} />
+      <div className={cx(h.wrap, split && s.faqSplit)}>
+        <SectionHead center={!split} eyebrow={eyebrow} title={title} lede={split ? "Burada olmayan bir sorunuz varsa formdan yazın, çalışma saatlerinde dönüyoruz." : undefined} />
         <div className={s.faq}>
           {items.map((item) => (
             <details key={item.q} {...REVEAL}>
