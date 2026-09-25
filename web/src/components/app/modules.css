@@ -95,29 +95,33 @@ button.stagebar-step.is-current:hover{background:var(--w-forest);color:#fff}
 .rating-given .is-off{color:var(--w-border)}
 
 /* ---------- people ---------- */
-/* Satirda yalnizca kimlik ve durum durur; islemler kisiye tiklayinca acilir. */
-.people-row{display:block;padding:0}
-.people-row .w-row-main{min-width:180px}
+/* Satırda kimlik ve durum durur; bilgiler ve işlemler kişiye tıklayınca pencerede açılır (person-sheet.tsx). */
 .people-row .row-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-left:auto}
 .badge.is-admin{background:var(--w-forest);color:var(--w-accent-soft)}
+.person-badges{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.w-row > .person-badges{margin-left:auto}
+.w-row-button{width:100%;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.w-row-button:hover{background:var(--w-page)}
+.w-row-button:focus-visible{outline:2px solid var(--w-forest);outline-offset:-2px}
 
-/* Rozetler metne (min 180px) yer kalmayinca ust uste binmek yerine alt siraya iner. */
-.person-head{display:flex;flex-wrap:wrap;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;border-radius:12px;list-style:none}
-.person-head::-webkit-details-marker{display:none}
-.person-head:hover{background:var(--w-neutral)}
-.person-head:focus-visible{outline:2px solid var(--cobalt);outline-offset:-2px}
-.person-badges{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-left:auto}
-.person-caret{color:var(--w-muted);font-size:1.2rem;line-height:1;transition:transform .15s ease}
-.person[open] .person-caret{transform:rotate(90deg)}
-.person[open] .person-head{background:var(--w-neutral)}
-.person-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:0 14px 14px 58px}
-.person-hint{flex:1 1 100%;margin:0;color:var(--w-muted);font-size:.84rem}
-.btn-small.is-danger{color:var(--w-negative)}
-
-@media (max-width:600px){
-  .person-actions{padding-left:14px}
-  .person-actions .btn-small{flex:1 1 auto}
-}
+/* kişi penceresi: rozetler, bilgiler, Wise'ın ikonlu seçenek listesi */
+.sheet{display:grid;gap:20px}
+.sheet-back{display:inline-flex;align-items:center;gap:6px;justify-self:start;padding:.4rem .9rem .4rem .6rem;border:0;border-radius:999px;background:var(--w-neutral);color:var(--w-forest);font-weight:600;font-size:.9rem}
+.sheet-back:hover{background:var(--w-neutral-hover)}
+.sheet-note{margin:0;color:var(--w-ink-3);font-size:.88rem}
+.options{display:grid;gap:2px;margin:0 -12px;padding:0;list-style:none}
+.option{display:flex;align-items:center;gap:14px;width:100%;padding:12px;border:0;border-radius:16px;background:none;color:var(--w-ink);font:inherit;text-align:left;cursor:pointer;transition:background .15s}
+.option:hover:not(:disabled){background:var(--w-page)}
+.option:disabled{cursor:default}
+.option:focus-visible{outline:2px solid var(--w-forest);outline-offset:-2px}
+.option-text{flex:1;min-width:0;display:grid;gap:2px}
+.option-text strong{font-weight:600}
+.option-text small{color:var(--w-ink-3);font-size:.88rem;line-height:1.4}
+.option.is-danger .option-text strong{color:var(--w-negative)}
+.option.is-danger .w-icon{background:var(--w-negative-bg);color:var(--w-negative)}
+.option-extra{display:flex;gap:8px;padding:0 12px 12px 70px}
+.option-extra .input{flex:1;min-width:0;padding:.5rem .8rem;font-size:.85rem}
+@media (max-width:600px){.option-extra{padding-left:12px}}
 
 @media (max-width:1000px){
   .two-col{grid-template-columns:minmax(0,1fr)}
@@ -133,6 +137,10 @@ button.stagebar-step.is-current:hover{background:var(--w-forest);color:#fff}
   .ms-actions .icon-btn{width:44px;height:44px}
   .people-row .row-actions{width:100%;margin-left:0}
   .wise .people-row .btn-small{min-height:44px}
+  /* list rows: avatar left, text and badges stacked beside it, no chevron */
+  .w-row .avatar{grid-row:span 2}
+  .w-row > .person-badges,.w-row > .badge{grid-column:2;justify-self:start;margin-left:0}
+  .w-row > .w-chevron{display:none}
 }
 
 /* people taken out of a company, listed under the active ones */
