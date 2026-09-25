@@ -1,5 +1,6 @@
 /* Themed dropdown (components/forms/Select.tsx); uses panel tokens with site fallbacks */
-.select{position:relative;width:100%}
+/* min-width:0: otherwise the longest label sets the minimum width and the field overflows narrow cards */
+.select{position:relative;width:100%;min-width:0}
 .select-trigger{display:flex;align-items:center;gap:10px;width:100%;text-align:left;cursor:pointer}
 .select-trigger:disabled{cursor:not-allowed;opacity:.6}
 .select-value{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}

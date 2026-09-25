@@ -7,7 +7,7 @@ import { addCustomer, setCustomerPassword } from "@/features/customers/actions";
 import { MIN_PASSWORD_LENGTH } from "@/lib/auth/password-rules";
 import type { ActionState, NewAccount } from "@/lib/forms";
 import { Icon } from "./Icon";
-import { ModalButton, useCloseModal } from "./Modal";
+import { useCloseModal } from "./Modal";
 
 const NEW_COMPANY = "new";
 const COPIED_RESET_MS = 2000;
@@ -130,7 +130,8 @@ export function AddCustomerForm(props: AddCustomerProps) {
   );
 }
 
-function SetPasswordForm({ personId }: { personId: string }) {
+/** For a customer who lost their password: staff type a new one. */
+export function SetPasswordForm({ personId }: { personId: string }) {
   const { state, pending, onSubmit, errorFor } = useFormAction(setCustomerPassword);
   const close = useCloseModal();
   if (state.status === "success" && state.message) {
@@ -147,14 +148,5 @@ function SetPasswordForm({ personId }: { personId: string }) {
       <FormError state={state} />
       <button className="btn btn-block" type="submit" disabled={pending}>{pending ? "Kaydediliyor…" : "Şifreyi kaydet"}</button>
     </form>
-  );
-}
-
-/** For a customer who lost their password: staff type a new one. */
-export function SetPasswordButton({ personId, name }: { personId: string; name: string }) {
-  return (
-    <ModalButton look="small" label="Şifre belirle" title={`${name} için şifre`}>
-      <SetPasswordForm personId={personId} />
-    </ModalButton>
   );
 }
