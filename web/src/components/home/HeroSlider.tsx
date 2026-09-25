@@ -2,6 +2,7 @@
 
 /* eslint-disable @next/next/no-img-element -- site IIS arkasında next start ile çalışıyor; görseller public/'ten olduğu gibi */
 import { type CSSProperties, type KeyboardEvent, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { ProductLogo } from "@/components/kurumsal/ProductLogo";
 import { HERO_IMAGE, type HeroSlide } from "./home-content";
 import h from "./home.module.css";
 import { cx, PageLink } from "./parts";
@@ -111,6 +112,7 @@ export function HeroSlider({ slides }: { slides: HeroSlide[] }) {
                 inert={!on}
               >
                 <div className={sl.copy}>
+                  {slide.productId && <ProductLogo id={slide.productId} name={slide.label} />}
                   <span className={sl.eyebrow}>{slide.eyebrow}</span>
                   <Title className={sl.title}>{slide.title}</Title>
                   <p className={sl.lede}>{slide.lede}</p>

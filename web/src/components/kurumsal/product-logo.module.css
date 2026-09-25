@@ -1,0 +1,5 @@
+/* Mikro ürün logosu (ProductLogo): genişlik = --m x --k. --m'yi kullanan yer ayarlar (varsayılan 80px);
+   en dar logo (Fly, k 1.539) 80px'te 123px, Mikro kılavuzunun 120px sınırının üstünde. */
+.logo{display:inline-flex;flex-wrap:wrap;align-items:flex-end;gap:2px 8px;vertical-align:bottom}
+.logo img{width:calc(var(--m,80px) * var(--k));max-width:none;height:auto}
+.logo span{padding-bottom:.1em;font-size:1.02rem;font-weight:600;letter-spacing:-.02em;color:var(--ink)}

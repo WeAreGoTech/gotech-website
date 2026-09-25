@@ -46,6 +46,8 @@ export type HeroSlide = {
   lede: string;
   image: string;
   alt: string;
+  // Mikro ürün slaytı: başlığın üstünde ürünün resmi logosu (ProductLogo)
+  productId?: string;
   cta: PageLinkData;
   more?: PageLinkData;
 };
@@ -66,7 +68,8 @@ export const HERO_SLIDES: HeroSlide[] = [
   {
     key: "jump",
     label: "Mikro Jump",
-    eyebrow: "Mikro Jump · Jump Basic · Jump Bulut",
+    productId: "mikro-jump",
+    eyebrow: "Jump Basic · Jump · Jump Bulut",
     title: "Büyüyen işletmeler için Mikro Jump",
     lede: "Stok, satış, satın alma ve finans tek programda; genel muhasebe, personel ve üretim modül olarak eklenir. İnternet olan her yerden çalışmak için Jump Bulut var.",
     image: "/images/mikro-gorsel/depo-ofis.webp",
@@ -77,7 +80,8 @@ export const HERO_SLIDES: HeroSlide[] = [
   {
     key: "fly",
     label: "Mikro Fly",
-    eyebrow: "Mikro Fly",
+    productId: "mikro-fly",
+    eyebrow: "Grup şirketleri ve holdingler",
     title: "Büyük işletmeler ve grup şirketleri için Mikro Fly",
     lede: "Genel muhasebe, personel, üretim ve karar destek ana pakette. Sınırsız kullanıcı; birden çok şirket tek sistemde.",
     image: "/images/mikro-gorsel/ofis-toplanti.webp",

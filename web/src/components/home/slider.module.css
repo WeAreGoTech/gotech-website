@@ -11,7 +11,7 @@
   opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility 0s .45s}
 .slide.on{opacity:1;visibility:visible;transition:opacity .6s var(--ease) .1s}
 
-.copy{display:grid;gap:18px;justify-items:start}
+.copy{--m:96px;display:grid;gap:18px;justify-items:start}
 .eyebrow{font-size:.9rem;font-weight:600;color:var(--brand-deep)}
 /* h1 ve h2 aynı boyda: slaytlar eşit ağırlıkta */
 .slide .title{max-width:17ch;font-weight:700;font-size:clamp(2.05rem,3.3vw,3rem);line-height:1.12;letter-spacing:-.02em;text-wrap:balance}

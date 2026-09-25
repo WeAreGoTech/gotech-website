@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Contact } from "@/components/home/ContactSection";
 import { PageHeader } from "@/components/kurumsal/PageHeader";
 import { CompareTable, ProsCons } from "@/components/kurumsal/ProductCompare";
+import { MikroLogo } from "@/components/kurumsal/Logo";
+import { ProductLogo } from "@/components/kurumsal/ProductLogo";
 import { PRODUCTS } from "@/components/kurumsal/urunler-data";
 import { getSiteConfig } from "@/features/site-content/queries";
 
@@ -18,8 +20,9 @@ export default async function UrunlerPage() {
     <main>
       <PageHeader
         eyebrow="Ürünler"
-        title="Dört Mikro ürünü, dört ölçek."
-        lead="Hangisinde ne olduğunu aşağıda karşılaştırın; size uyanı ücretsiz keşif görüşmesinde birlikte seçiyoruz."
+        brand={<MikroLogo />}
+        title="Mikro ERP ürünleri"
+        lead="Mikro Jump Basic, Mikro Jump, Mikro Jump Bulut ve Mikro Fly'ın özelliklerini aşağıda karşılaştırabilirsiniz. İşletmenize uygun ürünü ücretsiz keşif görüşmesinde birlikte belirliyoruz."
       />
 
       <section className="sec" id="karsilastirma">
@@ -39,7 +42,7 @@ export default async function UrunlerPage() {
             {PRODUCTS.map((product) => (
               <article className="pc-row" key={product.id}>
                 <div>
-                  <h3>{product.name}</h3>
+                  <h3><ProductLogo id={product.id} name={product.name} /></h3>
                   <p className="tag">{product.scale}</p>
                   <p>{product.description}</p>
                   <Link className="btn btn-line btn-sm pd-more" href={product.page}>{product.name} sayfası</Link>

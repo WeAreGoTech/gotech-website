@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { editionOf, ProductLogo } from "./ProductLogo";
 import { COMPARE_GROUPS, COMPARE_PRODUCTS, findCompareProduct, type CompareId, type CompareValue } from "./karsilastirma";
 
 function Cell({ value }: { value: CompareValue }) {
@@ -34,8 +35,8 @@ export function CompareTable({ highlight }: { highlight?: CompareId }) {
               {COMPARE_PRODUCTS.map((p) => (
                 <th scope="col" key={p.id} className={cls(p.id)} data-col={p.id}>
                   {p.id === highlight && <em>Bu ürün</em>}
-                  <Link href={p.page}>{p.name}</Link>
-                  <span>{p.users}</span>
+                  <Link href={p.page}><ProductLogo id={p.id} name={p.name} edition={false} /></Link>
+                  <span>{editionOf(p.id) && `${editionOf(p.id)} · `}{p.users}</span>
                 </th>
               ))}
             </tr>
