@@ -73,3 +73,18 @@ export async function claimDevice(deviceId: string) {
     .returning({ id: devices.id });
   if (claimed.length > 0) revalidateDevice(deviceId, me.companyId);
 }
+
+/**
+ * A customer signs one of their own computers out from the panel, e.g. a lost laptop or one that changed hands. The
+ * registration is dropped as "Çıkış yap" in the app would do; the app notices at its next heartbeat and forgets it too.
+ */
+export async function signOutMyDevice(deviceId: string) {
+  const me = await requireCustomer();
+  if (!z.uuid().safeParse(deviceId).success) return;
+  const db = await getDb();
+  const removed = await db
+    .delete(devices)
+    .where(and(eq(devices.id, deviceId), eq(devices.companyId, me.companyId), eq(devices.userId, me.id)))
+    .returning({ id: devices.id });
+  if (removed.length > 0) revalidateDevice(deviceId, me.companyId);
+}
