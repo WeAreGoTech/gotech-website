@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { Faq } from "@/components/home/CompanySections";
 import { Contact } from "@/components/home/ContactSection";
-import { EDonusum, ServiceJourney } from "@/components/home/ServiceSections";
-import { Support } from "@/components/home/SupportSections";
-import { PageHeader } from "@/components/kurumsal/PageHeader";
-import { FAQ } from "@/components/kurumsal/urunler-data";
+import {
+  AnalysisChapter, EDocChapter, QuestionsHero, SetupChapter, SupportChapter, TrainingChapter,
+} from "@/components/hizmetler/Sections";
 import { getSiteConfig } from "@/features/site-content/queries";
 
 export const metadata: Metadata = {
@@ -12,21 +10,18 @@ export const metadata: Metadata = {
   description: "İş analizi, Mikro kurulumu, eğitim, teknik destek ve e-Dönüşüm danışmanlığı. İzmir'de Mikro Yazılım yetkili iş ortağı GoTech.",
 };
 
-/** Hizmetler: ana sayfanın hizmet süreci, e-Dönüşüm ve destek bölümleri (aynı bileşenler) ve SSS. */
+/** Hizmetler müşterinin sorularıyla: girişte beş soru, her soru bir bölüm (analiz, kurulum, e-Dönüşüm, eğitim, destek), sonra iletişim. */
 export default async function HizmetlerimizPage() {
   const { settings, content } = await getSiteConfig();
 
   return (
     <main>
-      <PageHeader
-        eyebrow="Hizmetler"
-        title="Yazılımı satmakla bitmiyor."
-        lead="İş analizinden eğitime, kurulumdan günlük desteğe: Mikro'nun bütün süreci tek ekipten."
-      />
-      <ServiceJourney head={false} />
-      <EDonusum />
-      <Support settings={settings} />
-      <Faq items={FAQ} />
+      <QuestionsHero />
+      <AnalysisChapter />
+      <SetupChapter />
+      <EDocChapter />
+      <TrainingChapter />
+      <SupportChapter settings={settings} />
       <Contact settings={settings} content={content} />
     </main>
   );

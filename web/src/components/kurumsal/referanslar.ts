@@ -62,9 +62,3 @@ export const SOFTWARE_TRACKS: SoftwareTrack[] = [
   },
 ];
 
-// GoTech'in kendi geliştirip her gün kullandığı yazılımlar (bu projede: panel, yönetim, GoTech Desk)
-export const OWN_SOFTWARE = [
-  { title: "Müşteri portalı", body: "Müşterilerimiz destek taleplerini, projelerini, dokümanlarını ve uzak destek bağlantılarını tek yerden takip ediyor." },
-  { title: "Yönetim paneli", body: "Müşteriler, talepler, projeler, cihazlar ve bu sitenin içeriği ekibimizin kendi panelinden yönetiliyor." },
-  { title: "GoTech Desk", body: "Uzak destek için kendi masaüstü uygulamamız: müşterimizin bilgisayarına bağlanıp sorunu ekranında çözüyoruz." },
-];

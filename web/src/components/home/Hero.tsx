@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- site IIS arkasında next start ile çalışıyor; görseller public/'ten olduğu gibi */
-import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { SiteContent } from "@/components/kurumsal/content";
-import { ArrowIcon } from "@/components/kurumsal/Icons";
 import { MikroLogo } from "@/components/kurumsal/Logo";
 import { REFERENCES } from "@/components/kurumsal/referanslar";
 import { HERO_INTRO, HERO_SLIDES, type HeroSlide } from "./home-content";
@@ -21,7 +19,7 @@ export function Hero({ content }: { content: SiteContent }) {
   return <HeroSlider slides={slides} />;
 }
 
-/** Özel yazılım geliştirdiğimiz kurumların logoları (kurumsal/referanslar.ts); tamamı /referanslar sayfasında. */
+/** Özel yazılım geliştirdiğimiz kurumların logoları (kurumsal/referanslar.ts); /referanslar sayfası şimdilik gizli. */
 export function ReferenceStrip() {
   return (
     <section className={h.refs} aria-label="Referanslar">
@@ -32,7 +30,6 @@ export function ReferenceStrip() {
             <li key={ref.name}><img src={ref.logo.src} alt={ref.name} width={ref.logo.width} height={ref.logo.height} loading="lazy" /></li>
           ))}
         </ul>
-        <Link className={h.link} href="/referanslar">Referanslar <ArrowIcon /></Link>
       </div>
     </section>
   );
