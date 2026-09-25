@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { PageHeader } from "@/components/app/AppShell";
-import { Icon } from "@/components/app/Icon";
-import { InviteCustomerForm } from "@/components/app/team-forms";
+import { CompanyList } from "@/components/app/company-list";
+import { AddCustomerForm } from "@/components/app/customer-forms";
+import { ModalButton } from "@/components/app/Modal";
 import { listCompaniesWithCustomers } from "@/features/customers/queries";
 import { listProjects } from "@/features/projects/queries";
 import { countOpenTicketsByCompany } from "@/features/tickets/queries";
@@ -14,37 +14,27 @@ export default async function CustomersPage() {
   await requireStaff();
   const [companies, projects, openTickets] = await Promise.all([listCompaniesWithCustomers(), listProjects(), countOpenTicketsByCompany()]);
 
-  const summary = (companyId: string) => {
-    const active = projects.filter((p) => p.companyId === companyId && p.stage !== "live").length;
-    return { active, open: openTickets.get(companyId) ?? 0 };
-  };
+  const rows = companies.map((company) => ({
+    id: company.id,
+    name: company.name,
+    people: company.customers.length,
+    activeProjects: projects.filter((p) => p.companyId === company.id && p.stage !== "live").length,
+    openTickets: openTickets.get(company.id) ?? 0,
+    search: [company.name, ...company.customers.flatMap((p) => [p.name, p.email])].join(" ").toLocaleLowerCase("tr-TR"),
+  }));
 
   return (
-    <>
-      <PageHeader title="Müşteriler" description="Firmalar, panele girebilen kişiler, projeler ve açık talepler." />
-      <div className="t-layout">
-        <ul className="w-list">
-          {companies.map((company) => {
-            const { active, open } = summary(company.id);
-            return (
-              <li key={company.id}>
-                <Link className="w-row" href={`/yonetim/musteriler/${company.id}`}>
-                  <span className="w-icon"><Icon name="building" size={18} /></span>
-                  <span className="w-row-main">
-                    <strong>{company.name}</strong>
-                    <small>{company.customers.length} kişi, {active} süren proje</small>
-                  </span>
-                  <span className="w-row-side">
-                    <span className="amount">{open}</span>
-                    <small>açık talep</small>
-                  </span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-        <InviteCustomerForm companies={companies.map((c) => ({ id: c.id, name: c.name }))} />
-      </div>
-    </>
+    <div className="profile">
+      <PageHeader
+        title="Müşteriler"
+        description="Müşteri firmaları ve panele girebilen kişiler."
+        actions={
+          <ModalButton icon="plus" label="Müşteri ekle">
+            <AddCustomerForm companies={companies.map((c) => ({ id: c.id, name: c.name }))} />
+          </ModalButton>
+        }
+      />
+      <CompanyList rows={rows} />
+    </div>
   );
 }

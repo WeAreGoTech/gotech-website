@@ -1,11 +1,13 @@
 import type { ZodError } from "zod";
 
+export type NewAccount = { name: string; email: string; password: string; companyName: string; loginUrl: string };
+
 export type ActionState = {
   status: "idle" | "error" | "success";
   message?: string;
   fieldErrors?: Record<string, string>;
-  // tek seferlik gosterilecek deger (personelin musteriye verecegi gecici sifre)
-  secret?: string;
+  // a customer account staff just created: the password is shown once, then gone
+  account?: NewAccount;
   // changes on every successful submit so forms can reset themselves
   submittedAt?: number;
 };
@@ -21,7 +23,7 @@ export function fieldErrors(error: ZodError): ActionState {
   return { status: "error", fieldErrors: errors };
 }
 
-export const success = (message?: string, secret?: string): ActionState => ({ status: "success", message, ...(secret ? { secret } : {}), submittedAt: Date.now() });
+export const success = (message?: string): ActionState => ({ status: "success", message, submittedAt: Date.now() });
 
 export const failure = (message: string): ActionState => ({ status: "error", message });
 

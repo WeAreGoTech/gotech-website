@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
 import { z } from "zod";
 import { BackButton } from "@/components/app/AppShell";
-import { Section, Stat } from "@/components/app/dashboard";
+import { AddCustomerForm } from "@/components/app/customer-forms";
 import { DeviceList, InstallLinks, StatusUnknownNotice } from "@/components/app/devices";
 import { DocumentList } from "@/components/app/documents";
-import { Icon } from "@/components/app/Icon";
+import { Avatar } from "@/components/app/Icon";
+import { ModalButton } from "@/components/app/Modal";
 import { PeopleList, PeopleNotice, RemovedPeopleList } from "@/components/app/people";
 import { ProjectCard } from "@/components/app/projects";
 import { AddDocumentForm } from "@/components/app/staff-forms";
-import { AddPersonForm } from "@/components/app/team-forms";
 import { TicketList } from "@/components/app/TicketList";
 import { demotePerson, promotePerson, removePerson, resendInvite, restorePerson } from "@/features/customers/actions";
 import { getCompany, listCompanyPeople, listRemovedCompanyPeople } from "@/features/customers/queries";
@@ -18,7 +20,7 @@ import { countDevicesByUser, listDevices } from "@/features/devices/queries";
 import { addDocument } from "@/features/documents/actions";
 import { listDocuments } from "@/features/documents/queries";
 import { listProjects } from "@/features/projects/queries";
-import { readNotice } from "@/features/team/membership";
+import { companyPage, readNotice } from "@/features/team/membership";
 import { listCompanyTickets } from "@/features/tickets/queries";
 import { requireStaff } from "@/lib/auth/session";
 import { formatDate } from "@/lib/format";
@@ -31,11 +33,30 @@ const PEOPLE_CONTROLS = {
   remove: (personId: string) => removePerson.bind(null, personId),
 };
 
+// The page's sections, one at a time; "kisiler" is the default, so people actions that redirect land on it.
+const TABS = [
+  { key: "kisiler", label: "Kişiler" },
+  { key: "talepler", label: "Talepler" },
+  { key: "projeler", label: "Projeler" },
+  { key: "cihazlar", label: "Cihazlar" },
+  { key: "dokumanlar", label: "Dokümanlar" },
+] as const;
+type TabKey = (typeof TABS)[number]["key"];
+
+const pickTab = (value: string | undefined): TabKey => TABS.find((t) => t.key === value)?.key ?? "kisiler";
+
+const Empty = ({ children }: { children: ReactNode }) => (
+  <ul className="w-list">
+    <li className="empty-row">{children}</li>
+  </ul>
+);
+
 export default async function CompanyPage({ params, searchParams }: PageProps<"/yonetim/musteriler/[id]">) {
   await requireStaff();
-  const [{ id }, { uyari }] = await Promise.all([params, searchParams]);
+  const [{ id }, { uyari, sekme }] = await Promise.all([params, searchParams]);
   const company = z.uuid().safeParse(id).success ? await getCompany(id) : null;
   if (!company) notFound();
+  const tab = pickTab(readNotice(sekme));
 
   const [people, removedPeople, projects, documents, tickets, deviceList, deviceCounts] = await Promise.all([
     listCompanyPeople(id),
@@ -47,44 +68,55 @@ export default async function CompanyPage({ params, searchParams }: PageProps<"/
     countDevicesByUser(id),
   ]);
   const openTickets = tickets.filter((t) => t.status !== "closed");
+  const closedTickets = tickets.filter((t) => t.status === "closed");
+  const counts: Record<TabKey, number> = {
+    kisiler: people.length,
+    talepler: openTickets.length,
+    projeler: projects.length,
+    cihazlar: deviceList.devices.length,
+    dokumanlar: documents.length,
+  };
+  const page = companyPage(id);
 
   return (
-    <>
+    <div className="profile">
       <BackButton href="/yonetim/musteriler" label="Müşterilere dön" />
-      <header className="t-head">
-        <span className="w-icon is-large"><Icon name="building" size={24} /></span>
-        <div className="t-head-text">
+      <header className="profile-head">
+        <Avatar name={company.name} tone="customer" />
+        <div>
           <h1>{company.name}</h1>
-          <div className="t-meta">
-            <span>{formatDate(company.createdAt)} tarihinden beri müşteri</span>
-            <span>Firma kodu: <b>{company.customerCode}</b></span>
-          </div>
+          <p>
+            {formatDate(company.createdAt)} tarihinden beri müşteri · {people.length} kişi
+          </p>
         </div>
       </header>
 
-      <div className="stats">
-        <Stat hero label="Açık talepler" icon="inbox" value={openTickets.length} note={`Toplam ${tickets.length} talep`} />
-        <Stat label="Projeler" icon="folder" value={projects.length} note={`${projects.filter((p) => p.stage === "live").length} canlıda`} />
-        <Stat label="Firma kodu" icon="monitor" value={company.customerCode} note={`${deviceList.devices.length} cihaz kayıtlı`} />
+      <div className="w-actions">
+        <ModalButton look="action" accent icon="plus" label="Müşteri ekle">
+          <AddCustomerForm companyId={id} />
+        </ModalButton>
+        <ModalButton look="action" icon="file" label="Doküman paylaş">
+          <AddDocumentForm action={addDocument.bind(null, id)} projects={projects.map((p) => ({ id: p.id, name: p.name }))} />
+        </ModalButton>
+        <ModalButton look="action" icon="download" label="Kurulum linki" title="GoTech Desk kurulum linki">
+          <InstallLinks />
+          <p className="muted">Kişi kurduktan sonra panel e-postası ve şifresiyle giriş yapar; bilgisayarı kendiliğinden firmaya eklenir.</p>
+        </ModalButton>
       </div>
 
-      <div className="two-col">
-        <div>
-          <Section title="Açık talepler">
-            {openTickets.length ? <TicketList rows={openTickets} audience="staff" /> : <ul className="w-list"><li className="empty-row">Açık talep yok.</li></ul>}
-          </Section>
-          <Section title="Projeler">
-            {projects.length ? (
-              <div className="projects">{projects.map((p) => <ProjectCard key={p.id} project={p} href={`/yonetim/projeler/${p.id}`} />)}</div>
-            ) : (
-              <ul className="w-list"><li className="empty-row">Henüz proje yok. Projeler sayfasından yeni proje açabilirsiniz.</li></ul>
-            )}
-          </Section>
-          <Section title="Dokümanlar"><DocumentList documents={documents} /></Section>
-        </div>
-        <div>
-          <Section title="Kişiler">
-            <PeopleNotice message={readNotice(uyari)} />
+      <nav className="w-tabs" aria-label="Firma bölümleri">
+        {TABS.map((t) => (
+          <Link key={t.key} href={t.key === "kisiler" ? page : `${page}?sekme=${t.key}`} scroll={false} aria-current={tab === t.key ? "page" : undefined}>
+            {t.label}
+            <span className={`w-tab-count${t.key === "talepler" && counts.talepler > 0 ? " is-alert" : ""}`}>{counts[t.key]}</span>
+          </Link>
+        ))}
+      </nav>
+
+      {tab === "kisiler" && (
+        <>
+          <PeopleNotice message={readNotice(uyari)} />
+          {people.length ? (
             <PeopleList
               people={people}
               tone="customer"
@@ -92,20 +124,45 @@ export default async function CompanyPage({ params, searchParams }: PageProps<"/
               resendAction={(personId) => resendInvite.bind(null, personId)}
               controls={PEOPLE_CONTROLS}
               setupLinks
+              passwordReset
             />
-            <AddPersonForm companyId={id} />
-            <RemovedPeopleList people={removedPeople} restore={(personId) => restorePerson.bind(null, personId)} />
-          </Section>
-          <Section title="Cihazlar" href="/yonetim/cihazlar" linkLabel="Tüm cihazlar">
-            <InstallLinks customerCode={company.customerCode} />
-            <StatusUnknownNotice show={!deviceList.statusKnown} />
-            <DeviceList devices={deviceList.devices} audience="staff" removeAction={(deviceId) => removeDevice.bind(null, deviceId)} />
-          </Section>
-          <Section title="Doküman paylaş">
-            <AddDocumentForm action={addDocument.bind(null, id)} projects={projects.map((p) => ({ id: p.id, name: p.name }))} />
-          </Section>
-        </div>
-      </div>
-    </>
+          ) : (
+            <Empty>Henüz kişi yok. &quot;Müşteri ekle&quot; ile ilk kişiyi ekleyin.</Empty>
+          )}
+          <RemovedPeopleList people={removedPeople} restore={(personId) => restorePerson.bind(null, personId)} />
+        </>
+      )}
+
+      {tab === "talepler" && (
+        <>
+          <div className="w-group">
+            <h3 className="w-group-title">Açık</h3>
+            {openTickets.length ? <TicketList rows={openTickets} audience="staff" /> : <Empty>Açık talep yok.</Empty>}
+          </div>
+          {closedTickets.length > 0 && (
+            <div className="w-group">
+              <h3 className="w-group-title">Kapanan</h3>
+              <TicketList rows={closedTickets} audience="staff" />
+            </div>
+          )}
+        </>
+      )}
+
+      {tab === "projeler" &&
+        (projects.length ? (
+          <div className="projects">{projects.map((p) => <ProjectCard key={p.id} project={p} href={`/yonetim/projeler/${p.id}`} />)}</div>
+        ) : (
+          <Empty>Henüz proje yok. Projeler sayfasından yeni proje açabilirsiniz.</Empty>
+        ))}
+
+      {tab === "cihazlar" && (
+        <>
+          <StatusUnknownNotice show={!deviceList.statusKnown} />
+          <DeviceList devices={deviceList.devices} audience="staff" removeAction={(deviceId) => removeDevice.bind(null, deviceId)} />
+        </>
+      )}
+
+      {tab === "dokumanlar" && <DocumentList documents={documents} />}
+    </div>
   );
 }

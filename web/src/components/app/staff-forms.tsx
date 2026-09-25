@@ -99,16 +99,15 @@ export function CreateProjectForm({ companies, staff, today }: { companies: Opti
 export function AddDocumentForm({ action, projects }: { action: FormAction; projects: Option[] }) {
   const { state, pending, onSubmit, errorFor } = useFormAction(action);
   return (
-    <form className="card form-stack" onSubmit={onSubmit} noValidate key={state.submittedAt}>
-      <h2>Doküman ekle</h2>
+    <form className="form-stack" onSubmit={onSubmit} noValidate key={state.submittedAt}>
       <TextField label="Doküman adı" name="title" placeholder="Örneğin: Eylül bakım raporu" error={errorFor("title")} />
       <div className="form-grid">
         <SelectField label="Tür" name="kind" options={toOptions(DOCUMENT_KIND_LABELS)} error={errorFor("kind")} />
         <SelectField label="Proje" name="projectId" options={[{ value: "", label: "Genel" }, ...projects.map((p) => ({ value: p.id, label: p.name }))]} error={errorFor("projectId")} />
       </div>
       <FormMessage state={state} />
-      <button className="btn" type="submit" disabled={pending}>{pending ? "Ekleniyor…" : "Dokümanı ekle"}</button>
       <p className="muted" style={{ margin: 0, fontSize: ".88rem" }}>Taslakta dosya yüklenmez; indirildiğinde örnek bir PDF oluşturulur.</p>
+      <button className="btn btn-block" type="submit" disabled={pending}>{pending ? "Ekleniyor…" : "Dokümanı ekle"}</button>
     </form>
   );
 }

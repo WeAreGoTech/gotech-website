@@ -17,9 +17,9 @@ export default async function LoginPage() {
     <AuthLayout heading="Tekrar hoş geldiniz" text="Destek taleplerinizi açmak ve takip etmek için giriş yapın.">
       <LoginForm />
       <p className="muted" style={{ margin: 0, fontSize: ".9rem" }}>
-        Şifrenizi unuttuysanız ya da davet e-postanız kaybolduysa <Link href="/sifremi-unuttum">yeni bağlantı isteyin</Link>.
+        Şifrenizi unuttuysanız <Link href="/sifremi-unuttum">yeni bağlantı isteyin</Link>.
       </p>
-      <p className="muted" style={{ margin: 0, fontSize: ".9rem" }}>Hesabınız yok mu? Hesapları GoTech ekibi açar; davet e-postanızdaki bağlantıyı kullanın.</p>
+      <p className="muted" style={{ margin: 0, fontSize: ".9rem" }}>Hesabınız yok mu? Hesapları GoTech ekibi açar ve giriş bilgilerinizi size iletir.</p>
       {!env.isProduction && (
         <div className="demo-box">
           <p><b>Deneme hesapları</b>, yalnızca geliştirmede görünür</p>

@@ -12,6 +12,7 @@
 
 .desk-code{display:grid;gap:18px;padding:clamp(20px,3vw,32px);border-radius:24px;background:var(--w-forest);color:#fff}
 .desk-code-label{color:rgba(255,255,255,.78);font-weight:500}
+.desk-code-value.is-name{font-size:clamp(1.6rem,3.6vw,2.4rem);letter-spacing:-.01em;line-height:1.15;font-variant-numeric:normal}
 .desk-code-value{margin:0;font-weight:800;font-size:clamp(2.6rem,6vw,4rem);line-height:1;letter-spacing:.06em;color:var(--w-accent-soft);font-variant-numeric:tabular-nums}
 .desk-steps{display:grid;gap:10px;margin:0;padding-left:1.3rem}
 .desk-steps a{color:var(--w-accent-soft);font-weight:600;text-decoration:underline;text-underline-offset:3px}

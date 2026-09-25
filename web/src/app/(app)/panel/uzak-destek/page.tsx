@@ -25,12 +25,8 @@ export default async function RemoteSupportPage() {
     listDevices(user.companyId),
     listCompanySessions(user.companyId),
   ]);
-  const customerCode = company?.customerCode;
-  // the file the customer gets is named after their company, so the app knows the code before it starts
   const available = await Promise.all(DOWNLOADS.map((d) => installerUrl(d.platform)));
-  const downloads = customerCode
-    ? DOWNLOADS.filter((_, i) => available[i]).map((d) => ({ ...d, href: installerHref(d.platform, customerCode) }))
-    : [];
+  const downloads = DOWNLOADS.filter((_, i) => available[i]).map((d) => ({ ...d, href: installerHref(d.platform) }));
   const mine = devices.filter((d) => d.userId === user.id);
   const others = devices.filter((d) => d.userId !== user.id);
   const claim = (deviceId: string) => claimDevice.bind(null, deviceId);
@@ -41,14 +37,14 @@ export default async function RemoteSupportPage() {
       <div className="two-col">
         <section className="desk-code" aria-labelledby="desk-code-label">
           <div>
-            <span className="desk-code-label" id="desk-code-label">Firma kodunuz</span>
-            <p className="desk-code-value">{customerCode}</p>
+            <span className="desk-code-label" id="desk-code-label">Firmanız</span>
+            <p className="desk-code-value is-name">{company?.name}</p>
           </div>
           <ol className="desk-steps">
             <li>GoTech Desk&apos;i bilgisayarınıza indirip kurun.</li>
             <li>
               Açılışta bu panelin e-posta ve şifresiyle giriş yapın; bilgisayarınız aşağıdaki listeye adınızla eklenir. Hesabı olmayan
-              çalışanlarınız ya da ortak bilgisayarlar için &quot;Firma koduyla kaydolun&quot; deyip yukarıdaki kodu girin.
+              çalışanlarınız için <Link href="/panel/ekip">Ekip</Link> sayfasından hesap açın.
             </li>
             <li>
               Destek gerektiğinde uygulamadaki &quot;Destek iste&quot; düğmesine basın, bizi arayın ya da{" "}
