@@ -1,50 +1,54 @@
 /* eslint-disable @next/next/no-img-element -- site IIS arkasında next start ile çalışıyor; görseller public/'ten olduğu gibi */
+import Link from "next/link";
 import type { CSSProperties } from "react";
 import type { SiteContent } from "@/components/kurumsal/content";
 import { ArrowIcon } from "@/components/kurumsal/Icons";
 import { MikroLogo } from "@/components/kurumsal/Logo";
-import { HERO_TRUST } from "./home-content";
+import { REFERENCES } from "@/components/kurumsal/referanslar";
+import { HERO_INTRO, HERO_SLIDES, type HeroSlide } from "./home-content";
+import { HeroSlider } from "./HeroSlider";
 import h from "./home.module.css";
-import { cx } from "./parts";
 
-// hero öğeleri açılışta sırayla yükselir (home.module.css .rise, gecikme = --i)
-const order = (i: number) => ({ "--i": i }) as CSSProperties;
-
-/** Giriş: başlık ve tanıtım cümlesi panelden (Site içeriği > Ana sayfa girişi). */
+/**
+ * Giriş: slider (HeroSlider). İlk slaydın başlığı, metni ve buton yazısı panelden (Site içeriği > Ana sayfa girişi),
+ * diğer slaytlar home-content.ts'te.
+ */
 export function Hero({ content }: { content: SiteContent }) {
+  const slides: HeroSlide[] = [
+    { ...HERO_INTRO, title: content.heroTitle, lede: content.heroLead, cta: { label: content.ctaButtonText, href: "#iletisim", konu: "demo" } },
+    ...HERO_SLIDES,
+  ];
+  return <HeroSlider slides={slides} />;
+}
+
+/** Özel yazılım geliştirdiğimiz kurumların logoları (kurumsal/referanslar.ts); tamamı /referanslar sayfasında. */
+export function ReferenceStrip() {
   return (
-    <section className={h.hero}>
+    <section className={h.refs} aria-label="Referanslar">
       <div className={h.wrap}>
-        <div className={h.heroCopy}>
-          <span className={cx(h.eyebrow, h.rise)} style={order(0)}>Mikro Yazılım Yetkili İş Ortağı · İzmir</span>
-          <h1 className={cx(h.heroTitle, h.rise)} style={order(1)}>{content.heroTitle}</h1>
-          <p className={cx(h.lede, h.rise)} style={order(2)}>{content.heroLead}</p>
-          <div className={cx(h.heroCta, h.rise)} style={order(3)}>
-            <a className={h.btn} href="#iletisim" data-konu="demo">{content.ctaButtonText} <ArrowIcon /></a>
-            <a className={cx(h.btn, h.ghost)} href="#urunler">Size uygun ürünü bulun</a>
-          </div>
-          <ul className={cx(h.trust, h.rise)} style={order(4)}>
-            {HERO_TRUST.map((t) => <li key={t.value}><b>{t.value}</b>{t.rest}</li>)}
-          </ul>
-        </div>
-        <figure className={cx(h.heroPhoto, h.rise)} style={order(2)}>
-          <img src="/images/analiz.jpg" alt="İş analizi toplantısı" width={1200} height={800} fetchPriority="high" />
-        </figure>
+        <p>Özel yazılım geliştirdiğimiz kurumlar</p>
+        <ul className={h.refLogos}>
+          {REFERENCES.map((ref) => (
+            <li key={ref.name}><img src={ref.logo.src} alt={ref.name} width={ref.logo.width} height={ref.logo.height} loading="lazy" /></li>
+          ))}
+        </ul>
+        <Link className={h.link} href="/referanslar">Referanslar <ArrowIcon /></Link>
       </div>
     </section>
   );
 }
 
-/** Mikro logosu + Silver Partner rozetleri + panelden gelen ilk üç rakam. Zemin TAM BEYAZ (logo kuralı). */
+/** Mikro logosu + Silver Partner rozetleri + panelden gelen rakamlar (boş bırakılan gösterilmez). Zemin TAM BEYAZ (logo kuralı). */
 export function PartnerBand({ content }: { content: SiteContent }) {
   const stats = [
     { value: content.stat1Value, label: content.stat1Label },
     { value: content.stat2Value, label: content.stat2Label },
     { value: content.stat3Value, label: content.stat3Label },
-  ];
+    { value: content.stat4Value, label: content.stat4Label },
+  ].filter((s) => s.value.trim());
   return (
     <section className={h.band} aria-label="İş ortaklığı">
-      <div className={h.wrap}>
+      <div className={h.wrap} style={{ "--n": Math.max(stats.length, 1) } as CSSProperties}>
         <div className={h.partner} data-in="">
           <MikroLogo className={h.mikroLogo} />
           <div className={h.badges}>

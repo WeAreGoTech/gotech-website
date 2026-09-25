@@ -1,10 +1,8 @@
-// Ana sayfa bölümlerinin ortak parçaları: bölüm başlığı ve ikonlu kart.
+// Ana sayfa bölümlerinin ortak parçaları: bölüm başlığı ve küçük yardımcılar.
 
-import type { ReactNode } from "react";
-import type { IconCardItem } from "./home-content";
+import Link from "next/link";
+import { ArrowIcon } from "@/components/kurumsal/Icons";
 import h from "./home.module.css";
-import { Icon } from "./icons";
-import s from "./sections.module.css";
 
 // data-in: HomeEffects görününce "on" yazar, CSS yumuşakça getirir
 export const REVEAL = { "data-in": "" };
@@ -21,17 +19,15 @@ export function SectionHead({ eyebrow, title, lede, center = false }: SectionHea
   );
 }
 
-export function IconCard({ icon, title, body, action }: IconCardItem & { action?: ReactNode }) {
-  return (
-    <article className={s.card} {...REVEAL}>
-      <span className={s.ico}><Icon name={icon} /></span>
-      <h3>{title}</h3>
-      <p>{body}</p>
-      {action}
-    </article>
-  );
-}
-
 export const cx = (...names: (string | false | undefined)[]) => names.filter(Boolean).join(" ");
 
 export const telHref = (phone: string) => `tel:${phone.replace(/\s/g, "")}`;
+
+export type PageLinkData = { label: string; href: string; konu?: string };
+
+/** Bağlantı: sayfa içi (#) olanlar düz <a> (SmoothScroll kaydırır); konu varsa iletişim formunun konusunu seçer (HomeEffects). */
+export function PageLink({ link, className, arrow }: { link: PageLinkData; className: string; arrow?: boolean }) {
+  const body = <>{link.label}{arrow && <ArrowIcon />}</>;
+  if (link.href.startsWith("#")) return <a className={className} href={link.href} data-konu={link.konu}>{body}</a>;
+  return <Link className={className} href={link.href}>{body}</Link>;
+}

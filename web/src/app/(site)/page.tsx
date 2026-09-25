@@ -1,21 +1,17 @@
 import type { Metadata } from "next";
-import { Figtree } from "next/font/google";
 import { About, Beyond, Faq } from "@/components/home/CompanySections";
 import { Contact, HomeFooter } from "@/components/home/ContactSection";
-import { Hero, PartnerBand } from "@/components/home/Hero";
+import { Hero, PartnerBand, ReferenceStrip } from "@/components/home/Hero";
 import { HomeEffects } from "@/components/home/HomeEffects";
 import h from "@/components/home/home.module.css";
 import { HomeNav } from "@/components/home/HomeNav";
 import { Notice } from "@/components/home/Notice";
 import { SectionHead } from "@/components/home/parts";
 import { ProductFinder } from "@/components/home/ProductFinder";
-import { EDonusum, Roadmap, Services } from "@/components/home/ServiceSections";
-import { Migration, Support } from "@/components/home/SupportSections";
+import { Services } from "@/components/home/ServiceSections";
 import { SmoothScroll } from "@/components/site/SmoothScroll";
+import type { SiteSettings } from "@/components/kurumsal/content";
 import { getSiteConfig } from "@/features/site-content/queries";
-
-// Mikro'nun sitesindeki Gilroy'a en yakın ücretsiz yazı; yalnız ana sayfada yükleniyor
-const figtree = Figtree({ subsets: ["latin", "latin-ext"], variable: "--font-figtree", display: "swap" });
 
 // Telefon, adres, hero metni ve rakamlar panelden okunuyor: sayfa build anında dondurulmamalı.
 export const dynamic = "force-dynamic";
@@ -23,16 +19,39 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: { absolute: "GoTech | Mikro Yazılım Yetkili İş Ortağı · İzmir" },
   description:
-    "Mikro Yazılım kurulumu, e-Dönüşüm, eğitim ve 7/24 destek. 2017'den beri İzmir'de yetkili iş ortağı; Mikro Run, Jump, Fly ve Müşavir.",
+    "Mikro Yazılım kurulumu, e-Dönüşüm, eğitim ve teknik destek. 2017'den beri İzmir'de yetkili iş ortağı; Mikro Jump Basic, Jump, Jump Bulut ve Fly.",
 };
 
 const ROOT_ID = "anasayfa";
+
+/** Arama motorları için işletme bilgisi (yalnız doğrulanmış alanlar; adres ve saat panelden). */
+function businessJsonLd(settings: SiteSettings) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    name: "GoTech",
+    description: "Mikro Yazılım yetkili iş ortağı: Mikro kurulumu, e-Dönüşüm, eğitim ve destek.",
+    url: process.env.SITE_URL || "http://localhost:3000",
+    email: settings.email,
+    ...(settings.salesPhone && { telephone: settings.salesPhone }),
+    foundingDate: "2017",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: settings.address.split("\n").slice(0, 2).join(", "),
+      addressLocality: "İzmir",
+      addressCountry: "TR",
+    },
+    openingHours: "Mo-Fr 09:00-18:00",
+    areaServed: "İzmir",
+  };
+}
 
 export default async function HomePage() {
   const { settings, content } = await getSiteConfig();
 
   return (
-    <div id={ROOT_ID} className={`${figtree.variable} ${h.home}`}>
+    <div id={ROOT_ID} className={h.home}>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd(settings)).replace(/</g, "\\u003c") }} />
       <SmoothScroll />
       <HomeEffects rootId={ROOT_ID} />
       <a className="skip" href="#icerik">İçeriğe geç</a>
@@ -41,6 +60,7 @@ export default async function HomePage() {
       <main id="icerik">
         <Hero content={content} />
         <PartnerBand content={content} />
+        <ReferenceStrip />
         <section className={`${h.sec} ${h.ground}`} id="urunler">
           <div className={h.wrap}>
             <SectionHead
@@ -52,17 +72,13 @@ export default async function HomePage() {
             <ProductFinder />
           </div>
         </section>
-        <Services />
-        <EDonusum />
-        <Roadmap />
-        <Migration />
-        <Support settings={settings} />
+        <Services settings={settings} />
         <Beyond />
-        <About />
+        <About settings={settings} />
         <Faq />
-        <Contact settings={settings} />
+        <Contact settings={settings} content={content} />
       </main>
-      <HomeFooter settings={settings} content={content} />
+      <HomeFooter settings={settings} content={content} onHome />
     </div>
   );
 }

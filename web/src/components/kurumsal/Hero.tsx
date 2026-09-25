@@ -21,14 +21,18 @@ export function Hero({ settings, content }: { settings: SiteSettings; content: S
           <img src="/images/mikro-logo.png" alt="Mikro Yazılım" />
           <p>Yetkili iş ortağı · Jumper ve Flyer Silver Partner</p>
           <div className="lines">
-            <a href={telHref(settings.salesPhone)}>
-              <span>Satış</span>
-              {settings.salesPhone}
-            </a>
-            <a href={telHref(settings.supportPhone)}>
-              <span>Destek</span>
-              {settings.supportPhone}
-            </a>
+            {settings.salesPhone && (
+              <a href={telHref(settings.salesPhone)}>
+                <span>Satış</span>
+                {settings.salesPhone}
+              </a>
+            )}
+            {settings.supportPhone && (
+              <a href={telHref(settings.supportPhone)}>
+                <span>Destek</span>
+                {settings.supportPhone}
+              </a>
+            )}
           </div>
         </div>
       </div>

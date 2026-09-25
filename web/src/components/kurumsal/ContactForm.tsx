@@ -1,25 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFormAction } from "@/components/forms/use-form-action";
 import { submitLead } from "@/features/leads/actions";
 import { TOPIC_LABELS } from "@/features/leads/labels";
 
+// hata metni alanın etiketinin içinde: ekran okuyucu alanı hatasıyla birlikte okur (ayrıca aria-describedby gerekmez)
 function Err({ message }: { message?: string }) {
   if (!message) return null;
-  return <span className="err">{message}</span>;
+  return <span className="err" role="alert">{message}</span>;
 }
 
-export function ContactForm() {
+const invalid = (message?: string) => (message ? { "aria-invalid": true } : {});
+
+export function ContactForm({ submitLabel = "Keşif görüşmesi isteyin" }: { submitLabel?: string }) {
   const { state, pending, onSubmit, errorFor } = useFormAction(submitLead);
   const [dismissedAt, setDismissedAt] = useState<number | undefined>();
+  const formRef = useRef<HTMLFormElement>(null);
   const sent = state.status === "success" && state.submittedAt !== dismissedAt;
+
+  // gönderim hatalıysa odak ilk hatalı alana gitsin (dar ekranda hata üstte kalıp görünmez olmasın)
+  useEffect(() => {
+    if (state.status !== "error") return;
+    const field = formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]');
+    field?.focus({ preventScroll: true });
+    field?.scrollIntoView({ block: "center", behavior: "smooth" });
+  }, [state]);
 
   if (sent) {
     return (
       <div className="form-done" role="status">
         <h3>Mesajınız alındı.</h3>
-        <p>En kısa sürede size dönüş yapacağız.</p>
+        <p>Keşif görüşmesini planlamak için ekibimiz size dönecek.</p>
         <button className="btn btn-line" type="button" onClick={() => setDismissedAt(state.submittedAt)}>
           Yeni mesaj yazın
         </button>
@@ -28,29 +40,29 @@ export function ContactForm() {
   }
 
   return (
-    <form className="kform" onSubmit={onSubmit} noValidate key={dismissedAt}>
+    <form ref={formRef} className="kform" onSubmit={(e) => (pending ? e.preventDefault() : onSubmit(e))} noValidate key={dismissedAt}>
       <div className="row">
         <label>
-          Ad soyad
-          <input type="text" name="name" required autoComplete="name" />
+          Ad soyad *
+          <input type="text" name="name" required autoComplete="name" {...invalid(errorFor("name"))} />
           <Err message={errorFor("name")} />
         </label>
         <label>
-          E-posta
-          <input type="email" name="email" required autoComplete="email" />
+          E-posta *
+          <input type="email" name="email" required autoComplete="email" {...invalid(errorFor("email"))} />
           <Err message={errorFor("email")} />
         </label>
       </div>
 
       <div className="row">
         <label>
-          Telefon
-          <input type="tel" name="phone" required autoComplete="tel" placeholder="05xx xxx xx xx" />
+          Telefon (isteğe bağlı)
+          <input type="tel" name="phone" autoComplete="tel" placeholder="05xx xxx xx xx" {...invalid(errorFor("phone"))} />
           <Err message={errorFor("phone")} />
         </label>
         <label>
-          Firma adı
-          <input type="text" name="company" autoComplete="organization" />
+          Firma adı (isteğe bağlı)
+          <input type="text" name="company" autoComplete="organization" {...invalid(errorFor("company"))} />
           <Err message={errorFor("company")} />
         </label>
       </div>
@@ -66,8 +78,8 @@ export function ContactForm() {
       </label>
 
       <label>
-        Mesajınız
-        <textarea name="message" required placeholder="İşletmenizden ve ihtiyacınızdan kısaca bahsedin." />
+        Mesajınız (isteğe bağlı)
+        <textarea name="message" placeholder="İşletmenizden, kaç kişinin çalışacağından ve ihtiyacınızdan kısaca bahsedin." {...invalid(errorFor("message"))} />
         <Err message={errorFor("message")} />
       </label>
 
@@ -75,17 +87,19 @@ export function ContactForm() {
       <input type="text" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" style={{ position: "absolute", left: "-10000px" }} />
 
       <div>
+        {/* TODO(GoTech): KVKK aydınlatma metni hukuk danışmanından gelince /kvkk sayfası açılıp bu cümleye bağlanacak */}
         <label className="consent">
-          <input type="checkbox" name="consent" />
+          <input type="checkbox" name="consent" {...invalid(errorFor("consent"))} />
           <span>Kişisel verilerimin iletişim amacıyla işlenmesine ilişkin aydınlatma metnini okudum, onaylıyorum.</span>
         </label>
         <Err message={errorFor("consent")} />
       </div>
 
-      {state.status === "error" && state.message && <p className="note bad">{state.message}</p>}
+      {state.status === "error" && state.message && <p className="note bad" role="alert">{state.message}</p>}
 
       <div className="cta-row">
-        <button className="btn" type="submit" disabled={pending}>{pending ? "Gönderiliyor…" : "Mesajı gönderin"}</button>
+        {/* disabled değil aria-disabled: odaklı buton devre dışı kalınca odak kaybolmasın; çift gönderimi onSubmit engelliyor */}
+        <button className="btn" type="submit" aria-disabled={pending}>{pending ? "Gönderiliyor…" : submitLabel}</button>
       </div>
     </form>
   );

@@ -33,9 +33,6 @@ const leadSchema = z.object({
 export async function submitLead(_prev: ActionState, formData: FormData): Promise<ActionState> {
   // honeypot: real visitors never see this field, so pretend success for bots
   if (text(formData, "website")) return success();
-  if (isRateLimited(`lead:${await clientIp()}`, LEADS_PER_WINDOW, LEAD_WINDOW_MS)) {
-    return failure("Kısa sürede çok fazla mesaj gönderildi. Birkaç dakika sonra tekrar deneyin.");
-  }
 
   const parsed = leadSchema.safeParse({
     name: text(formData, "name"),
@@ -47,6 +44,10 @@ export async function submitLead(_prev: ActionState, formData: FormData): Promis
     consent: formData.get("consent") === "on",
   });
   if (!parsed.success) return fieldErrors(parsed.error);
+  // yalnız geçerli gönderimler sayılır: formdaki yazım hataları ziyaretçiyi kilitlemesin
+  if (isRateLimited(`lead:${await clientIp()}`, LEADS_PER_WINDOW, LEAD_WINDOW_MS)) {
+    return failure("Kısa sürede çok fazla mesaj gönderildi. Birkaç dakika sonra tekrar deneyin.");
+  }
   const { name, company, email, phone, topics, message } = parsed.data;
 
   const db = await getDb();

@@ -8,9 +8,10 @@ const STAGGER_MS = 70;
 const REVEAL_MARGIN = "0px 0px -12% 0px";
 
 /**
- * Ana sayfanın iki küçük davranışı (bir şey çizmez):
+ * Sitenin iki küçük davranışı (bir şey çizmez; ana sayfa ve iç sayfaların kabuğunda çalışır):
  * 1. [data-in] öğeleri göründüğünde bir kez yumuşakça gelir (CSS: home.module.css). Hareket kapalıysa hepsi hemen görünür.
- * 2. data-konu taşıyan butonlar formdaki konuyu seçili getirir (ör. "Kurulumunuzu inceleyelim" -> geçiş).
+ * 2. data-konu taşıyan butonlar formdaki konuyu seçili getirir (ör. "Kurulumunuzu inceleyelim" -> geçiş);
+ *    data-mesaj varsa ve mesaj alanı boşsa onu da yazar (ör. "Mikro Jump için demo istiyorum.").
  */
 export function HomeEffects({ rootId }: { rootId: string }) {
   useEffect(() => {
@@ -44,8 +45,14 @@ export function HomeEffects({ rootId }: { rootId: string }) {
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
       const trigger = (event.target as Element | null)?.closest<HTMLElement>("[data-konu]");
+      if (!trigger) return;
       const topic = document.querySelector<HTMLSelectElement>(`#${rootId} select[name="topic"]`);
-      if (trigger?.dataset.konu && topic) topic.value = trigger.dataset.konu;
+      if (trigger.dataset.konu && topic) topic.value = trigger.dataset.konu;
+      const message = document.querySelector<HTMLTextAreaElement>(`#${rootId} textarea[name="message"]`);
+      if (trigger.dataset.mesaj && message && !message.value.trim()) message.value = trigger.dataset.mesaj;
+      // klavyeyle gelen ziyaretçi formda kalsın: ilk boş alana odak (kaydırmayı SmoothScroll yapıyor)
+      const first = document.querySelector<HTMLInputElement>(`#${rootId} #iletisim input[name="name"]`);
+      if (first && !first.value) first.focus({ preventScroll: true });
     };
     document.addEventListener("click", onClick);
     return () => document.removeEventListener("click", onClick);

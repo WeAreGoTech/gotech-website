@@ -1,4 +1,4 @@
-/* GoTech ana sayfa: temel, tipografi, buton, üst bant, nav, hero, iş ortaklığı bandı.
+/* GoTech ana sayfa: temel, tipografi, buton, üst bant, nav, iş ortaklığı bandı (hero: slider.module.css).
    Tasarım: mockups/pro/anasayfa.html ("Rehber" yönü, 23.09.2026'da seçildi).
    Kurallar: uydurma Mikro ekranı ve uydurma referans yok; Mikro logosu yalnız tam beyaz zeminde 156px;
    krem zemin, geniş bulanık gölge, gradient, noktalı hap etiket ve el çizimi vurgu yok ("AI işi" görünmesin).
@@ -11,10 +11,13 @@
   --ground-2:#E6E8EC;
   --ink:#16181D;
   --ink-2:rgba(22,24,29,.68);
-  --ink-3:rgba(22,24,29,.48);
+  /* .6: küçük gri yazılar beyaz zeminde AA kontrastını geçsin (~4.6:1) */
+  --ink-3:rgba(22,24,29,.6);
   --line:rgba(22,24,29,.12);
   --brand:#E53935;
+  /* dolgulu buton ve kırmızı zeminler: beyaz yazı --brand üstünde 4.2:1, --brand-deep üstünde ~5.9:1 */
   --brand-deep:#C0261F;
+  --brand-press:#A51F19;
   --brand-soft:rgba(229,57,53,.08);
   --gx:clamp(20px,5vw,72px);
   --maxw:1240px;
@@ -55,8 +58,8 @@
 
 /* ---------- butonlar ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.65em;padding:.9rem 1.4rem;border:0;border-radius:8px;cursor:pointer;
-  background:var(--brand);color:#fff;font-weight:600;font-size:.96rem;letter-spacing:0;white-space:nowrap;transition:background .25s var(--ease)}
-.btn:hover{background:var(--brand-deep)}
+  background:var(--brand-deep);color:#fff;font-weight:600;font-size:.96rem;letter-spacing:0;white-space:nowrap;transition:background .25s var(--ease)}
+.btn:hover{background:var(--brand-press)}
 .btn svg{transition:transform .35s var(--soft)}
 .btn:hover svg{transform:translateX(3px)}
 .ghost{background:var(--paper);color:var(--ink);box-shadow:inset 0 0 0 1px rgba(22,24,29,.2)}
@@ -85,66 +88,60 @@
 .logo{display:block;width:118px}
 .logo svg{width:100%;height:auto}
 .navLinks{display:flex;gap:26px;margin-left:auto;font-size:.95rem;font-weight:500;color:var(--ink-2)}
-.navLinks a:hover{color:var(--ink)}
+.navLinks a:hover,.navLinks a[aria-current="page"]{color:var(--ink)}
+.navLinks a[aria-current="page"]{text-decoration:underline;text-decoration-color:var(--brand);text-decoration-thickness:2px;text-underline-offset:8px}
 .navPortal{font-size:.95rem;font-weight:600;color:var(--brand-deep)}
 .navPortal:hover{color:var(--brand)}
 .menuBtn{display:none;padding:8px;border:0;border-radius:8px;background:transparent;color:var(--ink);cursor:pointer}
 .menu{border-top:1px solid var(--line);background:#fff}
 .menu .wrap{display:grid;gap:2px;padding-block:14px 22px}
 .menu a{padding:10px 0;font-size:1.05rem;font-weight:500}
-
-/* ---------- hero: beyaz, solda metin, sağda tek gerçek fotoğraf ---------- */
-.hero{padding-top:clamp(30px,5vh,64px);padding-bottom:clamp(56px,8vh,96px)}
-.hero .wrap{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(36px,5vw,80px);align-items:center}
-.heroCopy{display:grid;gap:22px;justify-items:start}
-.heroTitle{max-width:14ch}
-.heroCta{display:flex;flex-wrap:wrap;gap:12px}
-.trust{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:.93rem;color:var(--ink-2)}
-/* satır içi: "2017'den beri" kesme işaretinden bölünmesin */
-.trust li::before{content:"";display:inline-block;vertical-align:-1px;margin-right:7px;width:12px;height:12px;
-  background:no-repeat center/12px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23E53935' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
-.trust b{font-weight:700;color:var(--ink)}
-.heroPhoto{aspect-ratio:5/4;max-height:540px;border-radius:var(--r-lg);overflow:hidden}
-.heroPhoto img{width:100%;height:100%;object-fit:cover}
+.menu a[aria-current="page"]{color:var(--brand-deep)}
 
 /* ---------- iş ortaklığı + rakamlar (TAM BEYAZ zemin: Mikro logosu kuralı) ---------- */
-.band{padding-block:clamp(30px,4.5vh,48px);border-block:1px solid var(--line)}
-.band .wrap{display:grid;grid-template-columns:auto repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,48px);align-items:center}
+/* hero panelinin hemen altında: üst çizgi yok, panelin kenarı ayırıyor */
+.band{padding-block:clamp(30px,4.5vh,48px);border-bottom:1px solid var(--line)}
+.band .wrap{display:grid;grid-template-columns:auto repeat(var(--n,3),minmax(0,1fr));gap:clamp(20px,3vw,48px);align-items:center}
 /* PNG tuvali 268x170, mürekkep 211x111: kılavuzun 120px alt sınırı 152px CSS'te tutuyor, 156 güvenli */
 .partner{display:flex;align-items:center;gap:22px;padding-right:clamp(20px,3vw,48px);border-right:1px solid var(--line)}
 .mikroLogo{width:156px;height:auto;flex:none}
 .badges{display:flex;align-items:center;gap:10px}
 .badges img{width:auto;height:62px}
 .stat b{display:block;font-weight:700;font-size:clamp(1.8rem,2.5vw,2.3rem);letter-spacing:-.02em;line-height:1}
-.stat span{display:block;margin-top:6px;font-size:.9rem;color:var(--ink-2);line-height:1.4}
+.stat span{display:block;margin-top:6px;font-size:.9rem;color:var(--ink-2);line-height:1.4;max-width:32ch}
+
+/* ---------- referans şeridi: özel yazılım geliştirdiğimiz kurumların logoları (sabit, kaymaz) ---------- */
+.refs{padding-block:clamp(22px,3.2vh,34px);border-bottom:1px solid var(--line)}
+.refs .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:16px clamp(24px,4vw,56px)}
+.refs p{font-size:.9rem;font-weight:600;color:var(--ink-2)}
+.refLogos{display:flex;flex-wrap:wrap;align-items:center;gap:20px clamp(28px,4vw,56px);flex:1}
+.refLogos img{width:auto;height:26px}
 
 /* ---------- hareket: yalnız hareket isteyenlere ---------- */
 @media (prefers-reduced-motion:no-preference){
-  /* hero: sayfa açılışında yukarıdan aşağı tek akış (JS'e bağlı değil) */
-  .rise{animation:rise .9s var(--soft) both;animation-delay:calc(var(--i,0) * 90ms + 60ms)}
-  .heroPhoto.rise{animation-duration:1.2s}
   /* diğerleri: göründüğünde bir kez (HomeEffects data-in="on" yazar). JS gelmezse 2.6sn'de kendiliğinden görünür */
   .home [data-in]{opacity:0;transform:translateY(18px);animation:failsafe 0s linear 2.6s forwards}
   .home[data-ready] [data-in]:not([data-in="on"]){animation:none}
   .home [data-in="on"]{opacity:1;transform:none;animation:none;transition:opacity .8s var(--soft),transform .8s var(--soft)}
 }
-@keyframes rise{from{opacity:0;transform:translateY(22px)}}
 @keyframes failsafe{to{opacity:1;transform:none}}
 
 @media (max-width:1100px){
   .navLinks{display:none}
   .menuBtn{display:grid;place-items:center}
   .navPortal{margin-left:auto}
-  .band .wrap{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .band .wrap{grid-template-columns:repeat(var(--n,3),minmax(0,1fr))}
   .partner{grid-column:1/-1;border-right:0;padding-right:0}
 }
 @media (min-width:1101px){
   .menu{display:none}
 }
 @media (max-width:900px){
-  .hero .wrap{grid-template-columns:1fr}
-  .heroPhoto{aspect-ratio:4/3}
   .notice .wrap{justify-content:flex-start;padding-right:calc(var(--gx) + 36px)}
+}
+@media (max-width:400px){
+  .partner{flex-wrap:wrap}
+  .badges img{height:52px}
 }
 @media (max-width:560px){
   .noticeMore{display:none}

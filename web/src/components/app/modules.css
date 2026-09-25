@@ -149,8 +149,29 @@ button.stagebar-step.is-current:hover{background:var(--w-forest);color:#fff}
 .removed-people .desk-hint{margin:8px 0 0 6px;font-size:.85rem}
 .people-row.is-removed{opacity:.72}
 
-/* ---------- alan açıklaması (TextField hint) ---------- */
+/* ---------- site content editor (/yonetim/site) ---------- */
 .wise .field-hint{margin:-2px 0 0;color:var(--w-ink-3);font-size:.84rem;line-height:1.4}
+.site-editor{display:grid;gap:36px}
+.site-jump{position:sticky;top:12px;z-index:5;margin:0;padding:6px;border-radius:999px;background:rgba(246,242,241,.92);backdrop-filter:blur(8px)}
+.site-section{display:grid;gap:14px;scroll-margin-top:84px}
+.site-section-head{display:flex;align-items:center;gap:14px;padding:0 6px}
+.site-section-head h2{margin:0;font-weight:800;font-size:1.35rem;letter-spacing:-.035em}
+.site-section-head p{margin:2px 0 0;color:var(--w-ink-2);font-size:.92rem}
+.site-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 16px}
+.site-fields.is-pairs{grid-template-columns:minmax(0,180px) minmax(0,1fr)}
+.save-bar{position:sticky;bottom:16px;z-index:5;display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:12px 16px;padding:12px 12px 12px 20px;border-radius:999px;background:#fff;box-shadow:0 6px 24px rgba(42,22,20,.12)}
+.save-bar .muted{margin-right:auto;font-size:.9rem}
+.save-bar .form-message{flex:1 1 100%;order:-1}
+@media (max-width:900px){.site-jump{top:68px}.site-section{scroll-margin-top:140px}}
+@media (max-width:600px){
+  .site-jump{position:static;flex-wrap:nowrap;overflow-x:auto;border-radius:16px}
+  .site-jump a{white-space:nowrap}
+  .site-fields,.site-fields.is-pairs{grid-template-columns:1fr}
+  .site-fields.is-pairs .field:nth-child(odd):not(:first-child){margin-top:8px}
+  .save-bar{border-radius:20px;padding:12px}
+  .save-bar .muted{display:none}
+  .save-bar .btn{flex:1}
+}
 
 /* ---------- Wise düzeni: profil sayfası, yuvarlak işlem düğmeleri, sekmeler, arama ---------- */
 .profile{max-width:880px}
