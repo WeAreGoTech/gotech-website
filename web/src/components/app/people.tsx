@@ -22,17 +22,19 @@ type PeopleListProps = {
   setupLinks?: boolean;
   // staff pages of customer companies: a way to set a new password for people who lost theirs
   passwordReset?: boolean;
+  // a customer's own Ekibim page keeps one firma yetkilisi; GoTech staff may take out anyone
+  keepAnAdmin?: boolean;
 };
 
-export function PeopleList({ people, tone, youId, resendAction, deviceCounts, controls, removeAction, setupLinks = false, passwordReset = false }: PeopleListProps) {
-  // a company always keeps one firma yetkilisi, so the last one can be neither demoted nor removed
+export function PeopleList({ people, tone, youId, resendAction, deviceCounts, controls, removeAction, setupLinks = false, passwordReset = false, keepAnAdmin = true }: PeopleListProps) {
+  // where a company must keep one firma yetkilisi, the last one can be neither demoted nor removed
   const adminCount = people.filter((p) => p.isCompanyAdmin).length;
 
   return (
     <ul className="w-list">
       {people.map((person) => {
         const isYou = person.id === youId;
-        const lastAdmin = Boolean(person.isCompanyAdmin) && adminCount <= 1;
+        const lastAdmin = keepAnAdmin && Boolean(person.isCompanyAdmin) && adminCount <= 1;
         const actions: PersonActions = {
           resend: !person.active && resendAction ? resendAction(person.id) : undefined,
           setupLink: setupLinks,

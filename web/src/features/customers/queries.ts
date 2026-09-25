@@ -12,6 +12,7 @@ export async function listCompaniesWithCustomers() {
     .select({
       companyId: companies.id,
       companyName: companies.name,
+      closedAt: companies.closedAt,
       userId: users.id,
       userName: users.name,
       email: users.email,
@@ -21,9 +22,9 @@ export async function listCompaniesWithCustomers() {
     .leftJoin(users, and(eq(users.companyId, companies.id), eq(users.role, "customer"), stillHere))
     .orderBy(asc(companies.name), asc(users.name));
 
-  const byCompany = new Map<string, { id: string; name: string; customers: { id: string; name: string; email: string; active: boolean }[] }>();
+  const byCompany = new Map<string, { id: string; name: string; closedAt: Date | null; customers: { id: string; name: string; email: string; active: boolean }[] }>();
   for (const row of rows) {
-    const company = byCompany.get(row.companyId) ?? { id: row.companyId, name: row.companyName, customers: [] };
+    const company = byCompany.get(row.companyId) ?? { id: row.companyId, name: row.companyName, closedAt: row.closedAt, customers: [] };
     if (row.userId && row.userName && row.email) {
       company.customers.push({ id: row.userId, name: row.userName, email: row.email, active: Boolean(row.hasPassword) });
     }

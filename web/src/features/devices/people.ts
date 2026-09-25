@@ -16,7 +16,7 @@ export function maskName(name: string): string {
 
 export async function findCompanyByCode(customerCode: string) {
   const db = await getDb();
-  const [company] = await db.select({ id: companies.id, name: companies.name }).from(companies).where(eq(companies.customerCode, customerCode));
+  const [company] = await db.select({ id: companies.id, name: companies.name }).from(companies).where(and(eq(companies.customerCode, customerCode), isNull(companies.closedAt)));
   return company ?? null;
 }
 

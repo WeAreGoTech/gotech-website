@@ -28,7 +28,7 @@ export default async function TeamProjectsPage() {
             <div className="projects">{live.map((p) => <ProjectCard key={p.id} project={p} href={`/yonetim/projeler/${p.id}`} showCompany showAssignee />)}</div>
           </Section>
         </div>
-        <CreateProjectForm companies={companies.map((c) => ({ id: c.id, name: c.name }))} staff={staff.map((s) => ({ id: s.id, name: s.name }))} today={dayKey(new Date())} />
+        <CreateProjectForm companies={companies.filter((c) => !c.closedAt).map((c) => ({ id: c.id, name: c.name }))} staff={staff.map((s) => ({ id: s.id, name: s.name }))} today={dayKey(new Date())} />
       </div>
     </>
   );

@@ -34,6 +34,8 @@ export const companies = pgTable("companies", {
   name: text("name").notNull(),
   // 6-digit number the customer types into GoTech Desk to register a computer
   customerCode: text("customer_code").notNull().unique(),
+  // set when GoTech closes the company: its people can no longer sign in, its history stays; cleared on reopen
+  closedAt: timestamp("closed_at", { withTimezone: true }),
   createdAt: createdAt(),
 });
 
