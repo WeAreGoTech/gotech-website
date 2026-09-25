@@ -203,6 +203,13 @@ button.stagebar-step.is-current:hover{background:var(--w-forest);color:#fff}
 .w-search input:focus,.w-search input:focus-visible{outline:none}
 .w-chevron{display:grid;place-items:center;flex:none;color:var(--w-ink-3)}
 .badge.is-alert{background:var(--w-negative-bg);color:var(--w-negative)}
+.w-action.is-danger .w-action-icon{background:var(--w-negative-bg);color:var(--w-negative)}
+.w-action.is-danger:hover .w-action-icon{background:#FACFC8}
+.wise .btn-danger{background:var(--w-negative);color:#fff}
+.wise .btn-danger:hover{background:#8C1A0B}
+.closed-notice{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin:0 0 28px}
+.sheet-list{display:grid;gap:8px;margin:0;padding-left:1.2em;color:var(--w-ink-2)}
+.w-row.is-closed{opacity:.7}
 .wise .btn-block{width:100%}
 @media (max-width:600px){
   .profile-head{gap:14px}

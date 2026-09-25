@@ -1,5 +1,5 @@
 import "server-only";
-import { and, avg, count, desc, eq, isNotNull, ne } from "drizzle-orm";
+import { and, avg, count, desc, eq, isNotNull, isNull, ne } from "drizzle-orm";
 import { getDb } from "@/db";
 import { companies, documents, projectMilestones, projects, ticketMessages, tickets, users } from "@/db/schema";
 import { listDevices } from "@/features/devices/queries";
@@ -73,7 +73,7 @@ export async function staffOverview(staffId: string) {
     countNewLeads(),
     listDevices(),
     listUpcomingMilestones(UPCOMING_DAYS),
-    db.select({ value: count() }).from(companies),
+    db.select({ value: count() }).from(companies).where(isNull(companies.closedAt)),
   ]);
 
   const byStatus = Object.fromEntries(statusCounts.map((s) => [s.status, s.value]));

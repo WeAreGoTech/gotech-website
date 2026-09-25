@@ -1,11 +1,11 @@
 "use server";
 
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { getDb } from "@/db";
-import { companies, passwordTokens, sessions, users } from "@/db/schema";
+import { companies, devices, passwordTokens, sessions, users } from "@/db/schema";
 import { setupLinkForMail } from "@/features/devices/setup-links";
 import { changeMember, companyPage, findMemberCompany, isFirstMember, MEMBER_ERRORS, noticeHref, type MemberChange } from "@/features/team/membership";
 import { hashPassword, MIN_PASSWORD_LENGTH } from "@/lib/auth/password";
@@ -79,6 +79,7 @@ export async function addCustomer(_prev: ActionState, formData: FormData): Promi
       ? (await db.insert(companies).values({ name: input.companyName, customerCode: await newCustomerCode(db) }).returning())[0]
       : (await db.select().from(companies).where(eq(companies.id, input.companyId)))[0];
   if (!company) return failure("Seçilen firma bulunamadı.");
+  if (company.closedAt) return failure("Bu firma kapalı. Kişi eklemek için önce firmayı yeniden açın.");
 
   // asked for, or automatic for the company's first person
   const isCompanyAdmin = formData.get("companyAdmin") !== null || (await isFirstMember(company.id));
@@ -137,12 +138,13 @@ export async function resendInvite(userId: string) {
   revalidatePath("/yonetim/mailler");
 }
 
-/** GoTech staff manages a customer company's people; the "at least one yetkili" rule still applies. */
+/** GoTech staff manages a customer company's people. */
 async function managePerson(personId: string, change: MemberChange) {
   await requireStaff();
   const companyId = await findMemberCompany(personId);
   if (!companyId) throw new Error(MEMBER_ERRORS.notFound);
-  const error = await changeMember(companyId, personId, change);
+  // staff may take out even the last firma yetkilisi; the rule only guards a customer's own Ekibim page
+  const error = await changeMember(companyId, personId, change, false);
   redirect(error ? noticeHref(companyPage(companyId), error) : companyPage(companyId));
 }
 
@@ -160,4 +162,55 @@ export async function removePerson(personId: string) {
 
 export async function restorePerson(personId: string) {
   await managePerson(personId, "restore");
+}
+
+const isUuid = (value: string) => z.uuid().safeParse(value).success;
+
+function revalidateCompany(companyId: string) {
+  revalidatePath("/yonetim", "layout");
+  revalidatePath(companyPage(companyId));
+  revalidatePath("/panel", "layout");
+}
+
+/**
+ * GoTech closes a company that is no longer a customer: its people can no longer sign in anywhere and its computers
+ * are unregistered, while tickets, projects and documents stay. People are removed with the closing time as their
+ * removal time, so reopening brings back exactly them (with their firma yetkilisi flag).
+ */
+export async function closeCompany(companyId: string) {
+  await requireStaff();
+  if (!isUuid(companyId)) return;
+  const db = await getDb();
+  const closedAt = new Date();
+  const [closed] = await db
+    .update(companies)
+    .set({ closedAt })
+    .where(and(eq(companies.id, companyId), isNull(companies.closedAt)))
+    .returning({ id: companies.id });
+  if (!closed) return;
+
+  const people = await db
+    .update(users)
+    .set({ removedAt: closedAt })
+    .where(and(eq(users.companyId, companyId), eq(users.role, "customer"), isNull(users.removedAt)))
+    .returning({ id: users.id });
+  if (people.length > 0) await db.delete(sessions).where(inArray(sessions.userId, people.map((p) => p.id)));
+  // the app notices at its next heartbeat and forgets the registration
+  await db.delete(devices).where(eq(devices.companyId, companyId));
+  revalidateCompany(companyId);
+}
+
+/** Opens a closed company again; the people who were active when it closed can sign in with their old passwords. */
+export async function reopenCompany(companyId: string) {
+  await requireStaff();
+  if (!isUuid(companyId)) return;
+  const db = await getDb();
+  const [company] = await db.select({ closedAt: companies.closedAt }).from(companies).where(eq(companies.id, companyId));
+  if (!company?.closedAt) return;
+  await db
+    .update(users)
+    .set({ removedAt: null })
+    .where(and(eq(users.companyId, companyId), eq(users.role, "customer"), eq(users.removedAt, company.closedAt)));
+  await db.update(companies).set({ closedAt: null }).where(eq(companies.id, companyId));
+  revalidateCompany(companyId);
 }

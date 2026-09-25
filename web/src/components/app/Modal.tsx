@@ -58,17 +58,19 @@ type ModalButtonProps = {
   look?: "button" | "small" | "action";
   // the one action that stands out in a row of round buttons
   accent?: boolean;
+  // a destructive action, e.g. closing a company
+  danger?: boolean;
   children: ReactNode;
 };
 
 /** A button that opens its children in a modal. */
-export function ModalButton({ label, title = label, icon, look = "button", accent = false, children }: ModalButtonProps) {
+export function ModalButton({ label, title = label, icon, look = "button", accent = false, danger = false, children }: ModalButtonProps) {
   const [open, setOpen] = useState(false);
   const close = useCallback(() => setOpen(false), []);
 
   const trigger =
     look === "action" ? (
-      <button type="button" className={`w-action${accent ? " is-accent" : ""}`} onClick={() => setOpen(true)}>
+      <button type="button" className={`w-action${accent ? " is-accent" : ""}${danger ? " is-danger" : ""}`} onClick={() => setOpen(true)}>
         <span className="w-action-icon">{icon && <Icon name={icon} size={22} />}</span>
         {label}
       </button>

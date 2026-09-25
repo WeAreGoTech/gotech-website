@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import { useFormStatus } from "react-dom";
 import { SelectField, TextField } from "@/components/forms/fields";
 import { useFormAction } from "@/components/forms/use-form-action";
 import { addCustomer, setCustomerPassword } from "@/features/customers/actions";
@@ -147,6 +148,30 @@ export function SetPasswordForm({ personId }: { personId: string }) {
       <TextField label="Yeni şifre" name="password" autoComplete="off" hint={`En az ${MIN_PASSWORD_LENGTH} karakter.`} error={errorFor("password")} />
       <FormError state={state} />
       <button className="btn btn-block" type="submit" disabled={pending}>{pending ? "Kaydediliyor…" : "Şifreyi kaydet"}</button>
+    </form>
+  );
+}
+
+function CloseSubmit() {
+  const { pending } = useFormStatus();
+  return (
+    <button className="btn btn-block btn-danger" type="submit" disabled={pending}>
+      {pending ? "Kapatılıyor…" : "Firmayı kapat"}
+    </button>
+  );
+}
+
+/** Says what closing does before staff confirm it. */
+export function CloseCompanyForm({ action, people, devices }: { action: () => Promise<void>; people: number; devices: number }) {
+  return (
+    <form action={action} className="sheet">
+      <ul className="sheet-list">
+        <li>{people ? `${people} kişi` : "Kişiler"} panele ve GoTech Desk&apos;e giremez; açık oturumları kapanır.</li>
+        {devices > 0 && <li>{devices} bilgisayarın kaydı kaldırılır.</li>}
+        <li>Firma müşteri listesinden kalkar, &quot;Kapatılan firmalar&quot; altında durur.</li>
+        <li>Talepler, projeler ve dokümanlar silinmez. Firmayı istediğiniz zaman yeniden açabilirsiniz.</li>
+      </ul>
+      <CloseSubmit />
     </form>
   );
 }

@@ -20,6 +20,7 @@ export default async function CustomersPage() {
     people: company.customers.length,
     activeProjects: projects.filter((p) => p.companyId === company.id && p.stage !== "live").length,
     openTickets: openTickets.get(company.id) ?? 0,
+    closed: company.closedAt !== null,
     search: [company.name, ...company.customers.flatMap((p) => [p.name, p.email])].join(" ").toLocaleLowerCase("tr-TR"),
   }));
 
@@ -30,7 +31,7 @@ export default async function CustomersPage() {
         description="Müşteri firmaları ve panele girebilen kişiler."
         actions={
           <ModalButton icon="plus" label="Müşteri ekle">
-            <AddCustomerForm companies={companies.map((c) => ({ id: c.id, name: c.name }))} />
+            <AddCustomerForm companies={companies.filter((c) => !c.closedAt).map((c) => ({ id: c.id, name: c.name }))} />
           </ModalButton>
         }
       />

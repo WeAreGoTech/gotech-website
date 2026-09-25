@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { z } from "zod";
 import { BackButton } from "@/components/app/AppShell";
-import { AddCustomerForm } from "@/components/app/customer-forms";
+import { AddCustomerForm, CloseCompanyForm } from "@/components/app/customer-forms";
 import { DeviceList, InstallLinks, StatusUnknownNotice } from "@/components/app/devices";
 import { DocumentList } from "@/components/app/documents";
 import { Avatar } from "@/components/app/Icon";
@@ -13,7 +13,7 @@ import { PeopleList, PeopleNotice, RemovedPeopleList } from "@/components/app/pe
 import { ProjectCard } from "@/components/app/projects";
 import { AddDocumentForm } from "@/components/app/staff-forms";
 import { TicketList } from "@/components/app/TicketList";
-import { demotePerson, promotePerson, removePerson, resendInvite, restorePerson } from "@/features/customers/actions";
+import { closeCompany, demotePerson, promotePerson, removePerson, reopenCompany, resendInvite, restorePerson } from "@/features/customers/actions";
 import { getCompany, listCompanyPeople, listRemovedCompanyPeople } from "@/features/customers/queries";
 import { removeDevice } from "@/features/devices/actions";
 import { countDevicesByUser, listDevices } from "@/features/devices/queries";
@@ -86,23 +86,37 @@ export default async function CompanyPage({ params, searchParams }: PageProps<"/
         <div>
           <h1>{company.name}</h1>
           <p>
-            {formatDate(company.createdAt)} tarihinden beri müşteri · {people.length} kişi
+            {company.closedAt
+              ? `${formatDate(company.closedAt)} tarihinde kapatıldı`
+              : `${formatDate(company.createdAt)} tarihinden beri müşteri · ${people.length} kişi`}
           </p>
         </div>
       </header>
 
-      <div className="w-actions">
-        <ModalButton look="action" accent icon="plus" label="Müşteri ekle">
-          <AddCustomerForm companyId={id} />
-        </ModalButton>
-        <ModalButton look="action" icon="file" label="Doküman paylaş">
-          <AddDocumentForm action={addDocument.bind(null, id)} projects={projects.map((p) => ({ id: p.id, name: p.name }))} />
-        </ModalButton>
-        <ModalButton look="action" icon="download" label="Kurulum linki" title="GoTech Desk kurulum linki">
-          <InstallLinks />
-          <p className="muted">Kişi kurduktan sonra panel e-postası ve şifresiyle giriş yapar; bilgisayarı kendiliğinden firmaya eklenir.</p>
-        </ModalButton>
-      </div>
+      {company.closedAt ? (
+        <div className="notice closed-notice">
+          <span>Bu firma kapalı. Kişileri panele ve GoTech Desk&apos;e giremez; talepler, projeler ve dokümanlar duruyor.</span>
+          <form action={reopenCompany.bind(null, id)}>
+            <button className="btn btn-small" type="submit">Firmayı yeniden aç</button>
+          </form>
+        </div>
+      ) : (
+        <div className="w-actions">
+          <ModalButton look="action" accent icon="plus" label="Müşteri ekle">
+            <AddCustomerForm companyId={id} />
+          </ModalButton>
+          <ModalButton look="action" icon="file" label="Doküman paylaş">
+            <AddDocumentForm action={addDocument.bind(null, id)} projects={projects.map((p) => ({ id: p.id, name: p.name }))} />
+          </ModalButton>
+          <ModalButton look="action" icon="download" label="Kurulum linki" title="GoTech Desk kurulum linki">
+            <InstallLinks />
+            <p className="muted">Kişi kurduktan sonra panel e-postası ve şifresiyle giriş yapar; bilgisayarı kendiliğinden firmaya eklenir.</p>
+          </ModalButton>
+          <ModalButton look="action" danger icon="close" label="Firmayı kapat" title={`${company.name} kapatılsın mı?`}>
+            <CloseCompanyForm action={closeCompany.bind(null, id)} people={people.length} devices={deviceList.devices.length} />
+          </ModalButton>
+        </div>
+      )}
 
       <nav className="w-tabs" aria-label="Firma bölümleri">
         {TABS.map((t) => (
@@ -116,7 +130,9 @@ export default async function CompanyPage({ params, searchParams }: PageProps<"/
       {tab === "kisiler" && (
         <>
           <PeopleNotice message={readNotice(uyari)} />
-          {people.length ? (
+          {company.closedAt ? (
+            <Empty>Firma kapalı. Kapandığında aktif olan kişiler firmayı yeniden açınca geri gelir.</Empty>
+          ) : people.length ? (
             <PeopleList
               people={people}
               tone="customer"
@@ -125,11 +141,12 @@ export default async function CompanyPage({ params, searchParams }: PageProps<"/
               controls={PEOPLE_CONTROLS}
               setupLinks
               passwordReset
+              keepAnAdmin={false}
             />
           ) : (
             <Empty>Henüz kişi yok. &quot;Müşteri ekle&quot; ile ilk kişiyi ekleyin.</Empty>
           )}
-          <RemovedPeopleList people={removedPeople} restore={(personId) => restorePerson.bind(null, personId)} />
+          {!company.closedAt && <RemovedPeopleList people={removedPeople} restore={(personId) => restorePerson.bind(null, personId)} />}
         </>
       )}
 

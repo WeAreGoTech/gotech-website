@@ -3,7 +3,7 @@ import { and, count, eq, isNotNull, isNull, ne, type SQL } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { getDb } from "@/db";
-import { sessions, users } from "@/db/schema";
+import { companies, sessions, users } from "@/db/schema";
 
 export const TEAM_PAGE = "/panel/ekip";
 export const companyPage = (companyId: string) => `/yonetim/musteriler/${companyId}`;
@@ -15,6 +15,7 @@ export const MEMBER_ERRORS = {
   notFound: "Kişi bulunamadı.",
   lastAdmin: "Firmada en az bir firma yetkilisi kalmalı. Önce başka birini yetkili yapın.",
   selfRemove: "Kendinizi çıkaramazsınız.",
+  companyClosed: "Firma kapalı. Kişileri geri almak için önce firmayı yeniden açın.",
 };
 
 /** Sends the person back to the people page with a Turkish warning above the list. */
@@ -84,6 +85,8 @@ async function restoreMember(companyId: string, personId: string): Promise<strin
   const member = await findRemovedMember(companyId, personId);
   if (!member) return MEMBER_ERRORS.notFound;
   const db = await getDb();
+  const [company] = await db.select({ closedAt: companies.closedAt }).from(companies).where(eq(companies.id, companyId));
+  if (company?.closedAt) return MEMBER_ERRORS.companyClosed;
   await db.update(users).set({ removedAt: null }).where(eq(users.id, member.id));
   revalidateMembership(companyId);
   return null;
@@ -92,16 +95,17 @@ async function restoreMember(companyId: string, personId: string): Promise<strin
 export type MemberChange = "promote" | "demote" | "remove" | "restore";
 
 /**
- * Applies a people change under the company's invariants: the target must be an active person of
- * that company and at least one firma yetkilisi has to stay. Returns a Turkish message when the
+ * Applies a people change under the company's invariants: the target must be an active person of that company and,
+ * when [keepAnAdmin] (a customer managing their own company), at least one firma yetkilisi has to stay so the company
+ * is never locked out of its people. GoTech staff may leave a company without one. Returns a Turkish message when the
  * change is refused, null when it went through.
  */
-export async function changeMember(companyId: string, personId: string, change: MemberChange): Promise<string | null> {
+export async function changeMember(companyId: string, personId: string, change: MemberChange, keepAnAdmin = true): Promise<string | null> {
   if (change === "restore") return restoreMember(companyId, personId);
   const member = await findMember(companyId, personId);
   if (!member) return MEMBER_ERRORS.notFound;
 
-  if (member.isCompanyAdmin && change !== "promote") {
+  if (keepAnAdmin && member.isCompanyAdmin && change !== "promote") {
     const others = await countMembers(and(activeMember(companyId), eq(users.isCompanyAdmin, true), ne(users.id, member.id)));
     if (others === 0) return MEMBER_ERRORS.lastAdmin;
   }

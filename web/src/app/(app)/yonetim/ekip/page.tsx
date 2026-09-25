@@ -47,7 +47,7 @@ export default async function TeamMembersPage({ searchParams }: PageProps<"/yone
           title="Kişi ekle"
           submitLabel="Davet gönder"
           hint="Kişi şifresini belirleyince yönetim paneline girebilir."
-          companies={companies.map((c) => ({ id: c.id, name: c.name }))}
+          companies={companies.filter((c) => !c.closedAt).map((c) => ({ id: c.id, name: c.name }))}
         />
       </div>
     </>
