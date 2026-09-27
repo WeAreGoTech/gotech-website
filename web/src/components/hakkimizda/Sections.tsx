@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowIcon } from "@/components/kurumsal/Icons";
 import { MikroLogo } from "@/components/kurumsal/Logo";
 import { WAYS } from "./content";
+import { REVEAL } from "@/components/home/parts";
 import cx from "clsx";
 import h from "@/components/home/home.module.css";
 import styles from "./hakkimizda.module.css";
@@ -24,6 +25,9 @@ export function AboutCover() {
         <p className={styles.coverLede}>
           2017&apos;de GoTech olarak kendi yolumuza çıktık. Bugün İzmir&apos;den Mikro&apos;nun kurulumunu, eğitimini ve desteğini veriyor, Mikro&apos;nun yetmediği yerde kendi yazılımımızı yazıyoruz.
         </p>
+        <div className={styles.scrollCue} aria-hidden="true">
+          Aşağı kaydırın <i></i>
+        </div>
       </div>
     </section>
   );
@@ -33,7 +37,7 @@ export function AboutStory() {
   return (
     <section className="sec">
       <div className={`wrap ${styles.story}`}>
-        <div>
+        <div {...REVEAL}>
           <span className="tag">Biz kimiz</span>
           <h2 className="pd-h2">Mikro Yazılım yetkili iş ortağı GoTech</h2>
           <div className={styles.partner}>
@@ -46,7 +50,7 @@ export function AboutStory() {
             </span>
           </div>
         </div>
-        <div style={{ display: "grid", gap: 18 }}>
+        <div style={{ display: "grid", gap: 18 }} {...REVEAL}>
           <p className="lede">
             Uzun yıllar Mikro Yazılım&apos;ın içinde çalıştık. Programı, işletmelerin ondan ne beklediğini ve nerede zorlandığını oradan biliyoruz.
             2017&apos;den beri bu birikimle işletmelerin Mikro&apos;ya geçişini, kurulumunu, eğitimini ve günlük desteğini yürütüyoruz.
@@ -65,11 +69,11 @@ export function SupportFacts() {
   return (
     <section className="sec pd-ground">
       <div className="wrap">
-        <span className="tag">Nasıl çalışıyoruz</span>
-        <h2 className="pd-h2">Satıştan sonra da buradayız</h2>
+        <span className="tag" {...REVEAL}>Nasıl çalışıyoruz</span>
+        <h2 className="pd-h2" {...REVEAL}>Satıştan sonra da buradayız</h2>
         <ul className={styles.facts}>
           {WAYS.map((w) => (
-            <li key={w.title}>
+            <li key={w.title} {...REVEAL}>
               <h3>{w.title}</h3>
               <p>{w.body}</p>
               {w.link && (

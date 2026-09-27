@@ -153,3 +153,24 @@
 .crumbOver a:hover {
   color: #fff;
 }
+
+/* aşağı kaydırma ipucu: ince çizgi yukarı aşağı süzülür */
+.scrollCue {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(18px, 4vh, 40px);
+  font-size: 0.86rem;
+  font-weight: 500;
+  color: rgba(255,255,255,.72);
+  transition: color 0.25s var(--ease);
+}
+.scrollCue:hover {
+  color: #fff;
+}
+.scrollCue i {
+  display: block;
+  width: 1px;
+  height: 34px;
+  background: linear-gradient(to bottom, rgba(255,255,255,.9), rgba(255,255,255,0));
+}
