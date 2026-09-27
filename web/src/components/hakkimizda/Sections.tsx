@@ -1,0 +1,63 @@
+import Link from "next/link";
+import { ArrowIcon } from "@/components/kurumsal/Icons";
+import { MikroLogo } from "@/components/kurumsal/Logo";
+import { WAYS } from "./content";
+import styles from "./hakkimizda.module.css";
+
+export function AboutStory() {
+  return (
+    <section className="sec">
+      <div className={`wrap ${styles.story}`}>
+        <div>
+          <span className="tag">Biz kimiz</span>
+          <h2 className="pd-h2">Mikro Yazılım yetkili iş ortağı GoTech</h2>
+          <div className={styles.partner}>
+            <MikroLogo className={styles.mikro} />
+            <span className={styles.badges}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/jumper-silver.png" alt="Jumper Silver Partner" width={297} height={233} />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/flyer-silver.png" alt="Flyer Silver Partner" width={324} height={247} />
+            </span>
+          </div>
+        </div>
+        <div style={{ display: "grid", gap: 18 }}>
+          <p className="lede">
+            Uzun yıllar Mikro Yazılım&apos;ın içinde çalıştık. Programı, işletmelerin ondan ne beklediğini ve nerede zorlandığını oradan biliyoruz.
+            2017&apos;den beri bu birikimle işletmelerin Mikro&apos;ya geçişini, kurulumunu, eğitimini ve günlük desteğini yürütüyoruz.
+          </p>
+          <p className="lede">
+            KOBİ ve kurumlar için Mikro&apos;ya entegre iş analizi, 3. parti yazılımlar, kurulum, eğitim ve destek süreçlerinin tamamında yanınızdayız.
+            Mikro&apos;nun Jumper ve Flyer iş ortaklığı programlarında Silver seviyesindeyiz.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export function SupportFacts() {
+  return (
+    <section className="sec pd-ground">
+      <div className="wrap">
+        <span className="tag">Nasıl çalışıyoruz</span>
+        <h2 className="pd-h2">Satıştan sonra da buradayız</h2>
+        <ul className={styles.facts}>
+          {WAYS.map((w) => (
+            <li key={w.title}>
+              <h3>{w.title}</h3>
+              <p>{w.body}</p>
+              {w.link && (
+                w.link.href.startsWith("#") ? (
+                  <a href={w.link.href} data-konu={w.link.konu}>{w.link.label} <ArrowIcon /></a>
+                ) : (
+                  <Link href={w.link.href}>{w.link.label} <ArrowIcon /></Link>
+                )
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}

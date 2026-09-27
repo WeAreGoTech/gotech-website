@@ -238,20 +238,6 @@ html.lenis,html.lenis body{height:auto}
 @media (max-width:420px){.ref-list li{grid-template-columns:1fr}}
 
 /* ---------- hakkımızda ---------- */
-.ab-story{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:start}
-.ab-story .lede{max-width:none}
-.ab-partner{display:flex;flex-wrap:wrap;align-items:center;gap:18px 22px;margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
-/* Mikro logosu kuralı: düz beyaz zeminde en az 120px (PNG tuvali boşluklu, 156px güvenli) */
-.ab-partner .ab-mikro{width:156px;height:auto}
-.ab-partner img:not(.ab-mikro){width:auto;height:62px}
-.ab-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:clamp(30px,5vh,52px)}
-.ab-facts li{display:grid;gap:8px;align-content:start;padding:clamp(22px,2.4vw,30px);border-radius:var(--r-lg);background:#fff;box-shadow:inset 0 0 0 1px var(--line)}
-.ab-facts p{color:var(--ink-2);font-size:.97rem;line-height:1.55}
-.ab-facts a{justify-self:start;display:inline-flex;align-items:center;gap:.45em;margin-top:4px;font-weight:600;font-size:.97rem;color:var(--brand-deep)}
-.ab-facts a svg{transition:transform .35s var(--soft)}
-.ab-facts a:hover svg{transform:translateX(3px)}
-.ab-badges{display:flex;align-items:center;gap:10px}
-@media (max-width:900px){.ab-story,.ab-facts{grid-template-columns:1fr}}
 
 /* ==========================================================================
    İnce ayarlar — ana sayfadaki cilanın iç sayfa karşılığı. Yapı, metin ve
@@ -269,8 +255,8 @@ html.lenis,html.lenis body{height:auto}
 .site .btn-line:hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.32)}
 
 /* kartlar: dinlenirken ince çizgi, üstüne gelince bir tık koyu (gölge yok) */
-.site :where(.pd-steps > li,.ab-facts li,.ref-list li,.pd-addons li){transition:box-shadow .3s var(--ease)}
-.site :where(.pd-steps > li,.ab-facts li,.ref-list li,.pd-addons li):hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.24)}
+.site :where(.pd-steps > li,.ref-list li,.pd-addons li){transition:box-shadow .3s var(--ease)}
+.site :where(.pd-steps > li,.ref-list li,.pd-addons li):hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.24)}
 
 /* fotoğraflar beyaz zeminde kaybolmasın */
 .site :where(.pd-hero-photo img,.wide img,.training img){outline:1px solid rgba(22,24,29,.07);outline-offset:-1px}
@@ -288,5 +274,5 @@ html.lenis,html.lenis body{height:auto}
 .site .cmp tbody tr:hover{background:rgba(22,24,29,.03)}
 
 @media (prefers-reduced-motion:reduce){
-  .site :where(.btn,.btn-line,.pd-steps > li,.ab-facts li,.ref-list li,.pd-addons li,.crumb a,.cmp tbody tr){transition:none}
+  .site :where(.btn,.btn-line,.pd-steps > li,.ref-list li,.pd-addons li,.crumb a,.cmp tbody tr){transition:none}
 }
