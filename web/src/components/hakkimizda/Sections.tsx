@@ -2,8 +2,7 @@ import Link from "next/link";
 import { ArrowIcon } from "@/components/kurumsal/Icons";
 import { MikroLogo } from "@/components/kurumsal/Logo";
 import { WAYS } from "./content";
-import { REVEAL } from "@/components/home/parts";
-import cx from "clsx";
+import { REVEAL, cx } from "@/components/home/parts";
 import h from "@/components/home/home.module.css";
 import styles from "./hakkimizda.module.css";
 
