@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Contact } from "@/components/home/ContactSection";
-import { PageHeader } from "@/components/kurumsal/PageHeader";
-import { AboutStory, SupportFacts } from "@/components/hakkimizda/Sections";
+import { AboutCover, AboutStory, SupportFacts } from "@/components/hakkimizda/Sections";
 import { getSiteConfig } from "@/features/site-content/queries";
 
 export const metadata: Metadata = {
@@ -14,11 +13,7 @@ export default async function HakkimizdaPage() {
 
   return (
     <main>
-      <PageHeader
-        eyebrow="Hakkımızda"
-        title="Mikro Yazılım'ı üreticinin içinde öğrendik."
-        lead="2017'de GoTech olarak kendi yolumuza çıktık. Bugün İzmir'den Mikro'nun kurulumunu, eğitimini ve desteğini veriyor, Mikro'nun yetmediği yerde kendi yazılımımızı yazıyoruz."
-      />
+      <AboutCover />
       <AboutStory />
       <SupportFacts />
       <Contact settings={settings} content={content} />

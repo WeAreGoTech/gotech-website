@@ -12,7 +12,7 @@ import { cx } from "./parts";
 const STUCK_AFTER = 40;
 
 /** Girişi tam ekran fotoğrafla açan sayfalar: menü fotoğrafın üstünde, saydam ve beyaz başlar. */
-const OVER_HERO = new Set(["/yazilim-cozumleri"]);
+const OVER_HERO = new Set(["/yazilim-cozumleri", "/hakkimizda"]);
 
 /**
  * Sitenin tek üst menüsü (ana sayfa ve iç sayfalar): sayfa kayınca ince çizgi alır; 1100px altında menü düğmesine döner.

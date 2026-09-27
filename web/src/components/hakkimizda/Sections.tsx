@@ -2,7 +2,32 @@ import Link from "next/link";
 import { ArrowIcon } from "@/components/kurumsal/Icons";
 import { MikroLogo } from "@/components/kurumsal/Logo";
 import { WAYS } from "./content";
+import cx from "clsx";
+import h from "@/components/home/home.module.css";
 import styles from "./hakkimizda.module.css";
+
+export function AboutCover() {
+  return (
+    <section className={styles.cover}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img className={styles.coverPhoto} src="/images/stok/izmir-kordon.webp" alt="" width={960} height={640} fetchPriority="high" />
+      <div className={styles.coverScrim} aria-hidden="true" />
+      <div className={cx(h.wrap, styles.coverIn)}>
+        <nav className={cx(styles.crumb, styles.crumbOver)} aria-label="Konum">
+          <Link href="/">Ana sayfa</Link>
+          <span aria-hidden="true">/</span>
+          <span>Hakkımızda</span>
+        </nav>
+        <h1 className={styles.coverTitle}>
+          Mikro Yazılım&apos;ı üreticinin içinde öğrendik.
+        </h1>
+        <p className={styles.coverLede}>
+          2017&apos;de GoTech olarak kendi yolumuza çıktık. Bugün İzmir&apos;den Mikro&apos;nun kurulumunu, eğitimini ve desteğini veriyor, Mikro&apos;nun yetmediği yerde kendi yazılımımızı yazıyoruz.
+        </p>
+      </div>
+    </section>
+  );
+}
 
 export function AboutStory() {
   return (
