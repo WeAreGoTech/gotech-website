@@ -252,3 +252,41 @@ html.lenis,html.lenis body{height:auto}
 .ab-facts a:hover svg{transform:translateX(3px)}
 .ab-badges{display:flex;align-items:center;gap:10px}
 @media (max-width:900px){.ab-story,.ab-facts{grid-template-columns:1fr}}
+
+/* ==========================================================================
+   İnce ayarlar — ana sayfadaki cilanın iç sayfa karşılığı. Yapı, metin ve
+   yerleşim aynı kalır; yalnız kenar, durum, odak ve mikro geçişler.
+   ========================================================================== */
+
+/* bölüm etiketi başlığın üstünde: ana sayfadaki .eyebrow ile aynı marka çizgisi */
+.site .tag{display:inline-flex;align-items:center;gap:.6em}
+.site .tag::before{content:"";width:18px;height:2px;background:var(--brand);border-radius:2px}
+
+/* butonlar: basınca hafif oturur, çerçeveli olan üstüne gelince belirginleşir */
+.site .btn{transition:background .25s var(--ease),transform .12s var(--ease)}
+.site .btn:active{transform:translateY(1px)}
+.site .btn-line{transition:background .25s var(--ease),box-shadow .25s var(--ease),transform .12s var(--ease)}
+.site .btn-line:hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.32)}
+
+/* kartlar: dinlenirken ince çizgi, üstüne gelince bir tık koyu (gölge yok) */
+.site :where(.pd-steps > li,.ab-facts li,.ref-list li,.pd-addons li){transition:box-shadow .3s var(--ease)}
+.site :where(.pd-steps > li,.ab-facts li,.ref-list li,.pd-addons li):hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.24)}
+
+/* fotoğraflar beyaz zeminde kaybolmasın */
+.site :where(.pd-hero-photo img,.wide img,.training img){outline:1px solid rgba(22,24,29,.07);outline-offset:-1px}
+
+/* sayısal alanlar aynı genişlikte: numaralar ve rakamlar satır kaydırmasın */
+.site :where(.pd-n,.docNum,.qNum,.workNum,.panelNum,.chTag){font-variant-numeric:tabular-nums}
+
+/* bağlantılar: alt çizgi yavaşça gelir */
+.site .crumb a{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:4px;
+  transition:color .25s var(--ease),text-decoration-color .25s var(--ease)}
+.site .crumb a:hover{text-decoration-color:var(--line)}
+
+/* karşılaştırma tablosu: satırın üstüne gelince okunan satır belli olsun */
+.site .cmp tbody tr{transition:background .2s var(--ease)}
+.site .cmp tbody tr:hover{background:rgba(22,24,29,.03)}
+
+@media (prefers-reduced-motion:reduce){
+  .site :where(.btn,.btn-line,.pd-steps > li,.ab-facts li,.ref-list li,.pd-addons li,.crumb a,.cmp tbody tr){transition:none}
+}

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Figtree, Geologica } from "next/font/google";
+// tokens.css globals'tan önce: değişkenler tanımlı olsun (tek tema, color-scheme:light)
+import "./tokens.css";
 import "./globals.css";
 
 // Geologica: panel (globals.css). Figtree: kamuya açık site (ana sayfa + iç sayfalar), Mikro'nun Gilroy'una en yakın ücretsiz yazı.

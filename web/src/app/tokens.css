@@ -1,0 +1,147 @@
+/* GoTech tasarım tokenleri — tek kaynak. Ayrıntı ve gerekçe: ../../../UI-TASARIM.md (§6).
+   Üç katman: ilkel (ham rampa) → anlamsal (bileşenlerin kullandığı isimler) → ölçek.
+   Bileşenler YALNIZ --gt-* ve ölçek tokenlerini kullanır; ham rampa (--red, --gray) doğrudan kullanılmaz.
+
+   TEK TEMA: site ve panel tek renk tabanında (beyaz zemin, koyu mürekkep) çalışır. Koyu tema
+   yok; siyah zeminli varyant üretilmez. color-scheme:light bildirimi bu yüzden var — işletim
+   sistemi koyu temadayken yerel form denetimleri ve kaydırma çubukları da açık kalsın.
+
+   Kırılma noktaları (tek ölçek, her yeni sorgu bunlardan birini kullanır):
+     sm 560px · md 768px · lg 1024px · xl 1280px
+   Bunun dışındaki eşikler yalnız fiziksel zorunlulukta (logo/rozet sığmıyor) ve gerekçesi
+   yorumla yazılarak kullanılır. */
+
+:root{
+  /* sayfa tek renk tabanında: OS koyu temada da açık kalır */
+  color-scheme: light;
+
+  /* ---------- ilkel: marka rampası (#E53935 çekirdeğinden) ---------- */
+  --red-50:#FFF1F0;
+  --red-100:#FFE0DE;
+  --red-200:#FFC2BE;
+  --red-300:#FF9D94;
+  --red-400:#FF6B62;
+  --red-500:#E53935;
+  --red-600:#C0261F;
+  --red-700:#A51F19;
+  --red-800:#7A1712;
+  --red-900:#3D0C09;
+
+  /* ---------- ilkel: nötr rampa (sitenin #16181D mürekkebinden) ---------- */
+  --gray-0:#FFFFFF;
+  --gray-25:#FAFAFB;
+  --gray-50:#F4F5F7;
+  --gray-100:#E6E8EC;
+  --gray-200:#D2D5DA;
+  --gray-300:#B4B8BF;
+  --gray-400:#8A8F98;
+  --gray-500:#6A6F78;
+  --gray-600:#4A4E56;
+  --gray-700:#31353B;
+  --gray-800:#1F2227;
+  --gray-900:#16181D;
+
+  /* ---------- ilkel: koyu marka yüzeyi ----------
+     Yalnız küçük vurgu bloklarında (panel stat kutusu, müşteri numarası kartı, etiketler)
+     kullanılır. Tam sayfa ya da tam bölüm zemini olarak KULLANILMAZ. */
+  --clay-800:#2A1614;
+
+  /* ---------- ilkel: durum ---------- */
+  --green-100:#E2F6D5;  --green-700:#2F5711;
+  --amber-100:#FFF1C2;  --amber-700:#5C4A00;
+  --blue-100:#E3ECFF;   --blue-700:#1B4699;
+
+  /* ---------- anlamsal: yüzeyler ---------- */
+  --gt-bg:var(--gray-0);
+  --gt-surface:var(--gray-0);
+  --gt-surface-2:var(--gray-50);
+  --gt-surface-inverse:var(--clay-800);   /* küçük vurgu blokları */
+  --gt-scrim:rgba(22,24,29,.42);
+
+  /* ---------- anlamsal: mürekkep ---------- */
+  --gt-ink:var(--gray-900);
+  --gt-ink-2:rgba(22,24,29,.68);
+  /* .6: küçük gri yazılar beyaz zeminde AA'yı geçsin (~4.6:1) */
+  --gt-ink-3:rgba(22,24,29,.60);
+  --gt-ink-inverse:var(--gray-0);
+  --gt-ink-on-brand:var(--gray-0);
+
+  /* ---------- anlamsal: çizgi ---------- */
+  --gt-line:rgba(22,24,29,.12);
+  --gt-line-2:rgba(22,24,29,.06);
+  --gt-line-strong:rgba(22,24,29,.28);
+
+  /* ---------- anlamsal: marka ----------
+     Beyaz yazı --red-500 üstünde 4.2:1'de kalıyor; bu yüzden dolgulu yüzeylerin
+     varsayılanı --red-600 (~5.9:1). Vurgu, ray ve odak halkası --red-500 kullanır. */
+  --gt-brand:var(--red-500);
+  --gt-brand-fill:var(--red-600);
+  --gt-brand-press:var(--red-700);
+  --gt-brand-ink:var(--red-600);
+  --gt-brand-soft:var(--red-300);          /* koyu vurgu bloğu üstündeki kırmızı */
+  --gt-brand-wash:rgba(229,57,53,.08);
+
+  /* ---------- anlamsal: durum ---------- */
+  --gt-ok-bg:var(--green-100);    --gt-ok-ink:var(--green-700);
+  --gt-warn-bg:var(--amber-100);  --gt-warn-ink:var(--amber-700);
+  --gt-danger-bg:#FDE6E2;         --gt-danger-ink:#A8200D;
+  --gt-info-bg:var(--blue-100);   --gt-info-ink:var(--blue-700);
+
+  /* ---------- anlamsal: form ---------- */
+  --gt-field-bg:var(--gray-0);
+  --gt-field-line:var(--gray-200);
+  --gt-field-line-hover:var(--gray-400);
+  --gt-field-line-focus:var(--gt-brand);
+
+  /* ---------- boşluk: 4px tabanlı ---------- */
+  --sp-1:4px;   --sp-2:8px;   --sp-3:12px;  --sp-4:16px;  --sp-5:20px;
+  --sp-6:24px;  --sp-8:32px;  --sp-10:40px; --sp-12:48px; --sp-16:64px; --sp-20:80px;
+
+  /* ---------- kapsayıcı ve bölüm ritmi ---------- */
+  --gt-gutter:clamp(20px,5vw,72px);
+  --gt-maxw:1240px;
+  --gt-maxw-narrow:820px;
+  --gt-section:clamp(80px,11vh,136px);
+
+  /* ---------- yarıçap ----------
+     Site 8px (kurumsal ciddiyet), panel 999px/24px (yumuşaklık): ayrım bilinçli,
+     bileşen katmanı --gt-btn-radius / --gt-card-radius üstünden seçer. */
+  --r-xs:6px;  --r-sm:8px;  --r-md:10px;  --r-lg:14px;
+  --r-xl:20px; --r-2xl:24px; --r-pill:999px;
+
+  /* ---------- yükseklik: üç kademe, fazlası yok ---------- */
+  --el-0:none;
+  --el-1:inset 0 0 0 1px var(--gt-line);          /* kart: çizgi, gölge değil */
+  --el-2:0 1px 2px rgba(22,24,29,.06);            /* hafif kalkma */
+  --el-3:0 12px 32px -14px rgba(22,24,29,.30);    /* açılır katman */
+
+  /* ---------- hareket ---------- */
+  --ease-out:cubic-bezier(.22,.61,.36,1);
+  --ease-soft:cubic-bezier(.22,1,.36,1);
+  --dur-1:120ms;   /* hover, basma */
+  --dur-2:250ms;   /* küçük yer değişimi, çıkış */
+  --dur-3:450ms;   /* açılma/kapanma */
+  --dur-4:800ms;   /* göründüğünde gelme */
+
+  /* ---------- katman sırası ---------- */
+  --z-sticky:50; --z-drawer:60; --z-overlay:70; --z-dialog:80; --z-toast:90; --z-skip:100;
+
+  /* ---------- tipografi ölçeği ---------- */
+  --fs-display:clamp(2.4rem,4.2vw,3.7rem);
+  --fs-h1:clamp(2rem,3.2vw,2.8rem);
+  --fs-h2:clamp(1.85rem,3vw,2.6rem);
+  --fs-h3:1.14rem;
+  --fs-lede:clamp(1.05rem,1.2vw,1.16rem);
+  --fs-body:1.04rem;
+  --fs-sm:.93rem;
+  --fs-xs:.86rem;
+  --lh-tight:1.1;  --lh-heading:1.2;  --lh-body:1.6;
+  --tracking-display:-.02em; --tracking-h2:-.015em; --tracking-body:0;
+}
+
+/* Mikro logosu ve partner rozetlerini taşıyan bloklar: zemin her koşulda tam beyaz
+   (marka kılavuzu). Tek tema olduğu için bugün zaten beyaz; sınıf kuralı açık tutuyor. */
+.gt-brandsafe{
+  background:var(--gray-0);
+  color:var(--gray-900);
+}

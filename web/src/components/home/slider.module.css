@@ -59,6 +59,18 @@
   .track{height:3px;border-radius:2px}
   .pause{margin-top:-4px;width:32px;height:32px}
 }
+/* ---------- ince ayar: eyebrow çizgisi, fotoğraf kenarı, sekme çubuğu ---------- */
+/* bölüm başlıklarıyla aynı marka detayı (parts.tsx SectionHead) */
+.eyebrow{display:inline-flex;align-items:center;gap:.6em}
+.eyebrow::before{content:"";width:18px;height:2px;background:var(--brand);border-radius:2px}
+/* beyaz zeminde fotoğrafın kenarı kaybolmasın: içerik kutuyu kapattığı için dış hat */
+.media{outline:1px solid rgba(22,24,29,.07);outline-offset:-1px}
+/* etkin olmayan sekmenin çizgisi üstüne gelince biraz belirginleşir */
+.tab:hover .track{background:rgba(22,24,29,.18)}
+.track{transition:background .25s var(--ease)}
+.pause{transition:background .25s var(--ease),color .25s var(--ease),box-shadow .25s var(--ease)}
+.pause:hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.22)}
+
 @media (max-width:560px){
   .hero{padding-top:14px;border-radius:20px}
   .hero > div{padding-inline:14px}
