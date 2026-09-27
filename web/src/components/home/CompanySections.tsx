@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- site IIS arkasında next start ile çalışıyor; görseller public/'ten olduğu gibi */
 import Link from "next/link";
+import type { ReactNode } from "react";
 import type { SiteSettings } from "@/components/kurumsal/content";
 import { ArrowIcon } from "@/components/kurumsal/Icons";
 import { REFERENCES } from "@/components/kurumsal/referanslar";
@@ -71,14 +72,18 @@ export function About({ settings }: { settings: SiteSettings }) {
 
 type FaqItem = { q: string; a: string };
 // split: başlık solda (yapışkan), sorular sağda; /hizmetlerimiz'de
-type FaqProps = { items?: FaqItem[]; eyebrow?: string; title?: string; id?: string; split?: boolean };
+// side: split düzeninde başlığın altındaki ek içerik (ör. "projenizi anlatın" bağlantısı)
+type FaqProps = { items?: FaqItem[]; eyebrow?: string; title?: string; id?: string; split?: boolean; side?: ReactNode };
 
 /** SSS: yerel <details>, JS gerekmez; yükseklik geçişi sections.module.css'te. Ana sayfa, hizmetler ve ürün sayfalarında aynı. */
-export function Faq({ items = HOME_FAQ, eyebrow = "SSS", title = "Sık sorulan sorular", id = "sss", split = false }: FaqProps) {
+export function Faq({ items = HOME_FAQ, eyebrow = "SSS", title = "Sık sorulan sorular", id = "sss", split = false, side }: FaqProps) {
   return (
     <section className={cx(h.sec, h.ground)} id={id}>
       <div className={cx(h.wrap, split && s.faqSplit)}>
-        <SectionHead center={!split} eyebrow={eyebrow} title={title} lede={split ? "Burada olmayan bir sorunuz varsa formdan yazın, çalışma saatlerinde dönüyoruz." : undefined} />
+        <div>
+          <SectionHead center={!split} eyebrow={eyebrow} title={title} lede={split ? "Burada olmayan bir sorunuz varsa formdan yazın, çalışma saatlerinde dönüyoruz." : undefined} />
+          {side}
+        </div>
         <div className={s.faq}>
           {items.map((item) => (
             <details key={item.q} {...REVEAL}>

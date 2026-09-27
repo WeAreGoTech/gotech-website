@@ -1,30 +1,221 @@
-/* /yazilim-cozumleri: girişte geliştirdiğimiz yazılım türleri (süzülebilir liste), sonra referans.
-   Değişkenler ana sayfanın .home kökünden; stok "kod" fotoğrafı, kart ızgarası, çizgili bilgi şeridi yok. */
+/* /yazilim-cozumleri: tam ekran fotoğraflı giriş, sonra ne geliştirdiğimiz, iki iş türü,
+   çalışma biçimi, dört ilke, referans ve SSS. Değişkenler ana sayfanın .home kökünden.
+   Tam ekran fotoğraf yalnız bu sayfada: sitenin geri kalanı beyaz zemin düzeninde kalıyor. */
 
-.hero{padding-block:clamp(32px,6vh,64px) clamp(64px,10vh,112px)}
-.heroIn{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(36px,6vw,104px);align-items:start}
-.heroCopy{position:sticky;top:112px;display:grid;gap:22px;justify-items:start}
-.heroCopy h1{font-size:clamp(2rem,3.2vw,2.8rem);line-height:1.1;letter-spacing:-.025em;max-width:15ch}
+/* ---------- giriş: tam ekran fotoğraf, üstünde başlık ----------
+   Menü bu sayfada sabit ve saydam (home.module.css .navFixed/.navOver); fotoğraf menünün
+   altından başlıyor. Yazının okunabilirliği fotoğrafın üstündeki perdeyle sağlanıyor:
+   soldaki koyuluk beyaz yazıyı AA'nın üstünde tutuyor. */
+.cover{position:relative;display:grid;align-content:end;min-height:100svh;overflow:hidden;color:#fff;
+  padding-block:calc(72px + clamp(48px,12vh,120px)) clamp(52px,10vh,104px)}
+.coverPhoto{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%;z-index:0}
+/* soldan sağa açılan perde + altta beyaza eriyen geçiş: sonraki bölüm fotoğrafa yapışmasın */
+.coverScrim{position:absolute;inset:0;z-index:1;
+  background:linear-gradient(90deg,rgba(18,19,23,.9) 0%,rgba(18,19,23,.78) 42%,rgba(18,19,23,.42) 100%),
+             linear-gradient(to bottom,transparent 72%,rgba(255,255,255,.14) 100%)}
+.coverIn{position:relative;z-index:2;display:grid;justify-items:start;gap:20px;width:100%}
+.coverTitle{max-width:20ch;font-weight:700;font-size:clamp(2.4rem,5vw,4rem);line-height:1.06;letter-spacing:-.025em;text-wrap:balance}
+.coverLede{max-width:52ch;font-size:clamp(1.05rem,1.3vw,1.2rem);line-height:1.6;color:rgba(255,255,255,.82)}
+.coverCta{display:flex;flex-wrap:wrap;align-items:center;gap:14px 18px;margin-top:6px}
+/* fotoğrafın üstündeki ikincil buton: beyaz zemin, koyu yazı (saydam cam yok) */
+.btnLight{background:#fff;color:var(--ink)}
+.btnLight:hover{background:var(--ground)}
+.cover :focus-visible{outline:2px solid #fff;outline-offset:4px}
+
+/* aşağı kaydırma ipucu: ince çizgi yukarı aşağı süzülür */
+.scrollCue{display:inline-flex;align-items:center;gap:12px;margin-top:clamp(18px,4vh,40px);
+  font-size:.86rem;font-weight:500;color:rgba(255,255,255,.72);transition:color .25s var(--ease)}
+.scrollCue:hover{color:#fff}
+.scrollCue i{display:block;width:1px;height:34px;background:linear-gradient(to bottom,rgba(255,255,255,.9),rgba(255,255,255,0))}
+@media (prefers-reduced-motion:no-preference){
+  .scrollCue i{animation:cue 2.2s var(--soft) infinite}
+}
+@keyframes cue{0%,100%{transform:translateY(0);opacity:.9}50%{transform:translateY(6px);opacity:.5}}
+
 .crumb{display:flex;flex-wrap:wrap;align-items:center;gap:9px;font-size:.88rem;color:var(--ink-3)}
 .crumb a:hover{color:var(--ink)}
+.crumbOver{color:rgba(255,255,255,.72)}
+.crumbOver a:hover{color:#fff}
 
-/* yazılım türleri: iki grup, her grupta numaralı liste */
-.works{display:grid;gap:clamp(32px,5vh,48px)}
+/* ---------- ne geliştiriyoruz: iki grup yan yana ---------- */
+.worksIn{margin-top:clamp(36px,5.5vh,60px)}
+/* yazılım türleri: iki grup alt alta, her grubun maddeleri iki sütun (2 ve 4 madde dengeli dursun) */
+.works{display:grid;gap:clamp(32px,5vh,52px)}
 .groupHead{padding-bottom:12px;font-size:.9rem;font-weight:600;color:var(--brand-deep)}
-.workList li:last-child{border-bottom:1px solid rgba(22,24,29,.16)}
+.workList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(28px,4vw,64px);
+  border-bottom:1px solid rgba(22,24,29,.16)}
 .workList li{display:grid;grid-template-columns:40px minmax(0,1fr);gap:6px 14px;padding:24px 0;border-top:1px solid rgba(22,24,29,.16)}
 .workNum{font-size:.9rem;font-weight:600;color:var(--ink-3);font-variant-numeric:tabular-nums;padding-top:.3em}
 .workList h3{font-size:clamp(1.2rem,1.6vw,1.4rem);font-weight:700;letter-spacing:-.01em}
 .workList p{margin-top:6px;color:var(--ink-2)}
 
-/* referans: logo büyük (beyaz zemin), yanında sektör ve iş */
-.refs{margin-top:22px;border-top:1px solid var(--line)}
-.refs li{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,80px);align-items:center;padding:clamp(28px,5vh,48px) 0;border-bottom:1px solid var(--line)}
-.refs img{width:min(100%,320px);height:auto}
+/* referans: logo beyaz kutunun içinde (marka kuralı), yanında sektör ve yapılan iş */
+.refs{display:grid;gap:12px;margin-top:clamp(36px,5.5vh,60px)}
+.refs li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center;
+  padding:clamp(24px,3vw,36px);border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .3s var(--ease)}
+.refs li:hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.24)}
+.refLogo{display:grid;place-items:center;width:clamp(180px,22vw,260px);height:96px;border-radius:var(--r);background:#fff;
+  box-shadow:inset 0 0 0 1px var(--line)}
+.refs img{width:min(100%,180px);height:auto}
 .refs b{font-size:clamp(1.3rem,2vw,1.7rem);font-weight:700;letter-spacing:-.015em}
 .refs p{margin-top:8px;color:var(--ink-2);max-width:44ch}
 
+/* ---------- iki iş türü: fotoğraf + iki cümle (liste girişteki dizinde, burada tekrar yok) ---------- */
+.tracks{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2vw,28px);margin-top:clamp(36px,5.5vh,60px)}
+.track{display:grid;grid-template-rows:auto 1fr;overflow:hidden;border-radius:20px;background:#fff;
+  outline:1px solid rgba(22,24,29,.09);outline-offset:-1px;transition:outline-color .3s var(--ease)}
+.track:hover{outline-color:rgba(22,24,29,.22)}
+.trackPhoto{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;transition:transform 1.2s var(--soft)}
+.track:hover .trackPhoto{transform:scale(1.02)}
+.trackBody{display:grid;align-content:start;justify-items:start;gap:12px;padding:clamp(24px,3vw,38px)}
+.trackBody h3{font-weight:700;font-size:clamp(1.3rem,1.9vw,1.6rem);line-height:1.2;letter-spacing:-.01em}
+.trackBody p{max-width:44ch;color:var(--ink-2)}
+@media (max-width:820px){.tracks{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- çalışma biçimi: tam genişlik satırlar ----------
+   Ana sayfadaki dikey raydan bilerek farklı: her adım bir satır; solda büyük numara,
+   ortada ne yaptığımız, sağda o adımın kapsamı. Satır ekranın ortasına geldiğinde numara
+   markaya dönüyor; kaydırmaya bağlı tek hareket bu. */
+.flowTop{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 48px}
+.flow{margin-top:clamp(40px,6vh,68px);border-top:1px solid rgba(22,24,29,.16)}
+.flowRow{display:grid;grid-template-columns:clamp(72px,7vw,104px) minmax(0,1.25fr) minmax(0,.75fr);
+  gap:clamp(18px,3vw,48px);align-items:start;padding:clamp(24px,3.4vh,36px) 0;
+  border-bottom:1px solid rgba(22,24,29,.16);transition:padding-left .45s var(--soft)}
+.flowRow:hover{padding-left:10px}
+.flowNum{font-weight:700;font-size:clamp(2rem,3.4vw,2.9rem);line-height:1;letter-spacing:-.04em;
+  font-variant-numeric:tabular-nums;color:rgba(22,24,29,.22);transition:color .35s var(--ease)}
+.flowRow:hover .flowNum{color:var(--brand-deep)}
+.flowMain h3{font-size:clamp(1.15rem,1.7vw,1.4rem);font-weight:700;letter-spacing:-.01em;line-height:1.25}
+.flowMain p{margin-top:10px;color:var(--ink-2);max-width:52ch}
+.flowScope{display:grid;gap:8px;align-content:start;padding-top:4px;font-size:.92rem;color:var(--ink-2)}
+.flowScope li{display:flex;align-items:flex-start;gap:9px;line-height:1.45}
+.flowScope li::before{content:"";flex:none;width:13px;height:13px;margin-top:.25em;
+  background:no-repeat center/13px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23C0261F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+
+/* satır ekranın ortasına geldiğinde numara yanar; destekleyen tarayıcıda ve hareket isteyenlerde */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .flowNum{animation:flowLight linear both;animation-timeline:view();animation-range:entry 55% cover 45%}
+  }
+}
+@keyframes flowLight{to{color:var(--brand-deep)}}
+
+/* ---------- dört ilke: kart yok, ince ayraçlı sütunlar (hakkımızdaki .aboutFacts kalıbı) ---------- */
+.approach{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:clamp(36px,5.5vh,60px);
+  padding-block:clamp(22px,3vh,30px);border-block:1px solid var(--line)}
+.approach > div{display:grid;gap:8px;align-content:start;padding-inline:clamp(16px,2vw,30px);border-left:1px solid var(--line)}
+.approach > div:first-child{padding-left:0;border-left:0}
+.approach dt{font-weight:700;font-size:1.06rem;line-height:1.3;letter-spacing:-.01em;transition:color .3s var(--ease)}
+.approach dd{margin:0;font-size:.94rem;line-height:1.5;color:var(--ink-2)}
+/* üstüne gelince başlık markaya döner: sütunların okunabilirliği bozulmadan "canlı" hissi */
+.approach > div:hover dt{color:var(--brand-deep)}
+
+/* ---------- kapanış: tam ekran, tam kırmızı ----------
+   Kırmızı zemin ayrı bir katman (.ctaSkin): bölüm ekrana girerken kenarlardan içeride ve
+   yuvarlak köşeli duruyor, kaydırdıkça tam ekrana açılıyor. İçerik aynı anda alttan yükseliyor.
+   Kaydırmaya bağlı (animation-timeline:view()); destek yoksa ya da hareket kapalıysa
+   doğrudan tam ekran kırmızı görünür, hiçbir şey gizli kalmaz. */
+/* Zemin ve içerik aynı ızgara hücresinde üst üste. Zemin mutlak konumlu DEĞİL: mutlak konumda
+   view() zaman çizelgesi etkin olmuyor (animasyon hiç ilerlemiyordu). Dikey boşluk .ctaIn'de,
+   böylece zemin bölümün tamamını kaplıyor. overflow:clip: hidden olsaydı bölüm kendi kaydırma
+   bağlamını kurardı. */
+.cta{position:relative;display:grid;grid-template-areas:"stack";min-height:100svh;overflow:clip;color:#fff;isolation:isolate}
+/* kırmızı katman kutu ölçüsünü değiştirmeden clip-path ile açılıyor (ölçü değiştirmek
+   kaydırma ilerlemesini geri besleyip animasyonu anında bitiriyordu) */
+.ctaSkin{grid-area:stack;align-self:stretch;justify-self:stretch;width:100%;height:100%;
+  background:var(--brand-deep);clip-path:inset(0 0 round 0)}
+.ctaIn{grid-area:stack;align-self:center;z-index:1;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  gap:clamp(28px,4vw,72px);align-items:center;padding-block:clamp(56px,10vh,110px)}
+.ctaCopy{display:grid;justify-items:start;gap:18px}
+.ctaCopy h2{font-weight:700;font-size:clamp(2.2rem,4vw,3.4rem);line-height:1.08;letter-spacing:-.025em;text-wrap:balance}
+.ctaLede{max-width:46ch;font-size:clamp(1.02rem,1.2vw,1.14rem);line-height:1.6;color:rgba(255,255,255,.86)}
+.ctaInfo{display:grid;gap:14px;width:100%;margin-top:6px;padding-top:22px;border-top:1px solid rgba(255,255,255,.28)}
+.ctaInfo dt{font-size:.82rem;color:rgba(255,255,255,.78)}
+.ctaInfo dd{margin:0;font-weight:600}
+.ctaInfo a{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:text-decoration-color .25s var(--ease)}
+.ctaInfo a:hover{text-decoration-color:rgba(255,255,255,.8)}
+.cta :focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+/* beyaz form kutusu: alan ve buton biçimleri kurumsal ContactForm'un global sınıflarına veriliyor */
+.ctaForm{padding:clamp(22px,2.4vw,34px);border-radius:var(--r-lg);background:#fff;color:var(--ink)}
+.ctaForm :global(.kform){display:grid;gap:14px}
+.ctaForm :global(.kform .row){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.ctaForm :global(.kform label){display:grid;gap:6px;font-size:.86rem;font-weight:600;color:var(--ink-2)}
+.ctaForm :global(.kform) input,.ctaForm :global(.kform) select,.ctaForm :global(.kform) textarea{
+  width:100%;padding:.8rem .95rem;border:0;border-radius:8px;background:#fff;font:inherit;font-size:.96rem;font-weight:400;color:var(--ink);
+  box-shadow:inset 0 0 0 1px rgba(22,24,29,.2);transition:box-shadow .25s var(--ease)}
+.ctaForm :global(.kform) textarea{min-height:104px;resize:vertical}
+.ctaForm :global(.kform) input:hover,.ctaForm :global(.kform) select:hover,.ctaForm :global(.kform) textarea:hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.34)}
+.ctaForm :global(.kform) input:focus,.ctaForm :global(.kform) select:focus,.ctaForm :global(.kform) textarea:focus{
+  outline:none;box-shadow:inset 0 0 0 1.5px var(--brand),0 0 0 3px var(--brand-soft)}
+.ctaForm :global(.kform) [aria-invalid="true"]{box-shadow:inset 0 0 0 1.5px var(--brand-deep)}
+.ctaForm :global(.kform .err){font-size:.84rem;font-weight:500;color:var(--brand-deep)}
+.ctaForm :global(.kform .consent){display:flex;align-items:flex-start;gap:10px;font-weight:400;font-size:.88rem}
+.ctaForm :global(.kform .consent) input{width:17px;height:17px;flex:none;margin-top:3px;box-shadow:none;accent-color:var(--brand)}
+.ctaForm :global(.kform .note){padding:.8rem 1rem;border-radius:8px;background:var(--brand-soft);color:var(--brand-deep);font-size:.92rem}
+.ctaForm :global(.btn){display:inline-flex;align-items:center;gap:.6em;padding:.9rem 1.4rem;border:0;border-radius:8px;background:var(--brand-deep);color:#fff;
+  font-weight:600;font-size:.96rem;letter-spacing:0;box-shadow:none;transition:background .25s var(--ease),transform .12s var(--ease)}
+.ctaForm :global(.btn):hover{background:var(--brand-press)}
+.ctaForm :global(.btn):active{transform:translateY(1px)}
+.ctaForm :global(.btn-line){background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1px rgba(22,24,29,.2)}
+.ctaForm :global(.form-done){display:grid;gap:12px;justify-items:start}
+.ctaForm :global(.form-done) h3{font-size:1.3rem;font-weight:700}
+.ctaForm :global(.form-done) p{color:var(--ink-2)}
+.ctaNote{margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:.86rem;line-height:1.5;color:var(--ink-2)}
+
+/* zemin kaydırdıkça açılır: kenarlardan içeride, yuvarlak köşeli başlar, tam ekrana yayılır.
+   İçeriğin görünürlüğü buna bağlı değil (o, sitenin [data-in] mekanizmasıyla geliyor):
+   animasyon desteklenmese de bölüm tam ekran kırmızı görünür. */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    /* cover: bölüm ekranla kesişmeye başladığı andan çıkana kadar. Açılma ilk %35'te biter;
+       entry kullanılmıyordu çünkü bölüm ekrandan büyük olduğunda o aralık öngörülemez oluyor. */
+    .ctaSkin{animation:ctaOpen linear both;animation-timeline:view();animation-range:cover 0% cover 35%}
+  }
+}
+@keyframes ctaOpen{
+  from{clip-path:inset(clamp(28px,6vh,72px) clamp(20px,5vw,72px) round 28px)}
+  to{clip-path:inset(0 0 round 0)}
+}
+
+/* SSS'nin sol sütunundaki yönlendirmeler: başlığın altında, alt alta */
+.faqSide{display:grid;justify-items:start;gap:12px;margin-top:clamp(22px,3vh,30px)}
+
+/* ---------- ince ayar: iş listesinde satırın açılması ---------- */
+.workList li{transition:padding-left .45s var(--soft)}
+.workList li:hover{padding-left:10px}
+.workList h3{transition:color .3s var(--ease)}
+.workList li:hover h3{color:var(--brand-deep)}
+.workNum{transition:color .3s var(--ease)}
+.workList li:hover .workNum{color:var(--brand)}
+
+/* referans satırı: logo üstüne gelince tam güçte */
+.refs img{opacity:.88;transition:opacity .3s var(--ease)}
+.refs li:hover img{opacity:1}
+
 @media (max-width:1000px){
-  .heroIn,.refs li{grid-template-columns:1fr}
-  .heroCopy{position:static}
+  .refs li,.workList{grid-template-columns:1fr}
+  .approach{grid-template-columns:repeat(2,minmax(0,1fr));gap:22px 0}
+  .approach > div:nth-child(odd){padding-left:0;border-left:0}
+  /* kapsam listesi alta iner, numara solda kalır */
+  .flowRow{grid-template-columns:clamp(60px,9vw,88px) minmax(0,1fr);row-gap:14px}
+  .flowScope{grid-column:2;display:flex;flex-wrap:wrap;gap:8px 22px;padding-top:0}
+  /* kapanış: tek sütun, tam ekran şartı kalkar (form uzun, ekrana sığmaz) */
+  .ctaIn{grid-template-columns:1fr;gap:28px;padding-block:clamp(48px,8vh,88px)}
+  .cta{min-height:0}
+  .ctaForm :global(.kform .row){grid-template-columns:1fr}
+}
+@media (max-width:560px){
+  /* telefonda: fotoğrafın yüzü değil, boş tarafı görünsün; ipucu satırı yer kaplamasın */
+  .coverPhoto{object-position:72% 50%}
+  .coverScrim{background:linear-gradient(90deg,rgba(18,19,23,.92) 0%,rgba(18,19,23,.82) 60%,rgba(18,19,23,.6) 100%)}
+  .scrollCue{display:none}
+  .coverCta{gap:12px}
+  /* dar ekranda alt alta: ayraç soldan üste geçer */
+  .approach{grid-template-columns:1fr;padding-block:0;gap:0}
+  .approach > div,.approach > div:first-child{padding:16px 0;border-left:0}
+  .approach > div + div{border-top:1px solid var(--line)}
+}
+@media (prefers-reduced-motion:reduce){
+  .workList li,.workList h3,.workNum,.refs img,.approach dt,.track,.trackPhoto,.flowRow,.flowNum{transition:none}
 }

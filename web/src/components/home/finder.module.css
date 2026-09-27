@@ -92,6 +92,15 @@
   .inner{width:auto;padding:0 22px 24px}
   .features{grid-template-columns:1fr}
 }
+/* ---------- ince ayar ---------- */
+/* önerilen kartın üst kenarında ince marka çizgisi: hangi ürünün önerildiği bir bakışta belli olsun */
+.isRec{box-shadow:inset 0 0 0 1px var(--line),inset 0 3px 0 var(--brand-deep)}
+.isRec.open{box-shadow:inset 0 0 0 1.5px rgba(22,24,29,.22),inset 0 3px 0 var(--brand-deep),var(--shadow)}
+/* kapalı kartın artı düğmesi üstüne gelince markanın soluk zeminine döner */
+.prod:hover .plus{background:var(--brand-soft)}
+/* "neden bu ürün" satırı: kalın kısım marka rengiyle bağlansın */
+.why b{color:var(--brand-deep)}
+
 /* telefonda uzun seçenek (ör. "programa her yerden erişmek istiyoruz") ekrandan taşmasın: hap kırılabilir */
 @media (max-width:560px){
   .sayLine{font-size:1.2rem}

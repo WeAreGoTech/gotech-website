@@ -144,6 +144,78 @@
   .partner{flex-wrap:wrap}
   .badges img{height:52px}
 }
+
+/* ==========================================================================
+   İnce ayarlar — sayfanın yapısını, metnini ve yerleşimini değiştirmez.
+   Kurallar aynı: gradient, bulanık gölge, hap etiket, cam/blur, koyu zemin yok.
+   Yalnız kenar, durum, odak ve mikro geçişler: sayfanın "bitmiş" görünmesi için.
+   ========================================================================== */
+
+/* seçim rengi: markanın soluk tonu, yazı okunur kalır */
+.home ::selection{background:rgba(229,57,53,.18);color:var(--ink)}
+
+/* sayfa içi bağlantılar yapışkan menünün altında kalmasın */
+.home :where(section[id]){scroll-margin-top:96px}
+
+/* odak halkası her tıklanabilir öğede aynı: ince, markanın kırmızısı, yuvarlatılmış */
+.home :where(a,button):focus-visible{outline:2px solid var(--brand);outline-offset:4px;border-radius:6px}
+
+/* ---------- eyebrow: başlığın üstündeki kısa çizgi (marka detayı) ---------- */
+.eyebrow{display:inline-flex;align-items:center;gap:.6em}
+.eyebrow::before{content:"";width:18px;height:2px;background:var(--brand);border-radius:2px}
+/* ortalanmış bölüm başlığında çizgi de ortalanır */
+.center .eyebrow{justify-content:center}
+
+/* ---------- butonlar: basınca hafif oturma, okun yumuşak çıkışı ---------- */
+.btn{transition:background .25s var(--ease),transform .12s var(--ease)}
+.btn:active{transform:translateY(1px)}
+.ghost{transition:background .25s var(--ease),box-shadow .25s var(--ease),transform .12s var(--ease)}
+.ghost:hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.32)}
+/* metin bağlantısı: altı çizgi yavaşça belirir */
+.link{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:5px;text-decoration-thickness:1.5px;
+  transition:color .25s var(--ease),text-decoration-color .25s var(--ease)}
+.link:hover{text-decoration-color:var(--brand)}
+
+/* ---------- fotoğrafın üstündeki menü (yalnız tam ekran girişli sayfalar) ---------- */
+/* sabit: fotoğraf menünün altından başlasın (yapışkan olsaydı akışta yer kaplardı) */
+.navFixed{position:fixed;left:0;right:0;top:0}
+.navOver{background:transparent;box-shadow:none;transition:background .35s var(--ease)}
+.navOver .navLinks{color:rgba(255,255,255,.82)}
+.navOver .navLinks a:hover,.navOver .navLinks a[aria-current="page"]{color:#fff}
+.navOver .navLinks a[aria-current="page"]{text-decoration-color:#fff}
+.navOver .navLinks a::after{background:#fff}
+.navOver .navPortal{color:#fff}
+.navOver .navPortal:hover{color:rgba(255,255,255,.82)}
+.navOver .menuBtn{color:#fff}
+.navOver :focus-visible{outline-color:#fff}
+
+/* ---------- menü: etkin bağlantının altı çizgisi kayarak gelir ---------- */
+.navLinks a{position:relative;transition:color .25s var(--ease)}
+.navLinks a::after{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;background:var(--brand);
+  transform:scaleX(0);transform-origin:left;transition:transform .3s var(--soft)}
+.navLinks a:hover::after{transform:scaleX(1)}
+/* etkin sayfanın çizgisi zaten text-decoration ile duruyor: ikinci çizgi çıkmasın */
+.navLinks a[aria-current="page"]::after{display:none}
+/* sayfa kayınca menü çizgisi biraz daha belirgin */
+.stuck{box-shadow:0 1px 0 var(--line),0 6px 16px -16px rgba(22,24,29,.5)}
+
+/* ---------- rakamlar ve logolar ---------- */
+.stat b{font-variant-numeric:tabular-nums}
+/* rakamlar arasında ince ayraç: Mikro logosunu ayıran çizginin devamı (geniş ekranda) */
+@media (min-width:901px){
+  .band .stat + .stat{padding-left:clamp(16px,2vw,32px);border-left:1px solid var(--line)}
+}
+/* referans logoları dinlenirken bir tık sakin, üstüne gelince tam güçte
+   (Mikro logosu ve partner rozetleri hariç: onlar her zaman tam güçte) */
+.refLogos img{opacity:.78;transition:opacity .3s var(--ease)}
+.refLogos li:hover img{opacity:1}
+
+/* ---------- üst duyuru bandı: kapatma düğmesi daha yumuşak ---------- */
+.noticeX{transition:background .2s var(--ease),color .2s var(--ease)}
+
+@media (prefers-reduced-motion:reduce){
+  .navLinks a::after,.btn,.ghost,.link,.refLogos img{transition:none}
+}
 @media (max-width:560px){
   .noticeMore{display:none}
   .notice .wrap{flex-wrap:wrap;gap:2px 12px;padding-block:9px;min-height:0}

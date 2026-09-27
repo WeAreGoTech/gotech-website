@@ -12,7 +12,8 @@ export function PageHeader({ eyebrow, title, accent, titleAfter, lead, brand }: 
   brand?: ReactNode;
 }) {
   const heading = (
-    <h1 className="d2">
+    // sınıf yok: başlığı .phead h1 biçimliyor (eski "d2" sınıfı hiçbir stil dosyasında tanımlı değildi)
+    <h1>
       {accent ? `${title} ${accent}` : title}
       {titleAfter}
     </h1>

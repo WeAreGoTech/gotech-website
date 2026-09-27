@@ -47,6 +47,14 @@
 @media (max-width:560px){
   .cols{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+/* ---------- ince ayar ---------- */
+/* seçili olmayan maddenin rayı üstüne gelince soluk bir iz bırakır: tıklanabilirlik belli olsun */
+.item::after{content:"";position:absolute;left:-1px;top:0;bottom:0;width:3px;background:rgba(22,24,29,.18);
+  transform:scaleY(0);transform-origin:top;transition:transform .35s var(--soft)}
+.item:hover:not(.on)::after{transform:scaleY(1)}
+/* fotoğrafın kenarı beyaz zeminde kaybolmasın */
+.media{outline:1px solid rgba(22,24,29,.07);outline-offset:-1px}
+
 @media (prefers-reduced-motion:reduce){
-  .item::before,.panel,.media img,.chev{transition:none}
+  .item::before,.item::after,.panel,.media img,.chev{transition:none}
 }
