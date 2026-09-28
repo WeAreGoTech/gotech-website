@@ -17,6 +17,13 @@
 .compact li{padding:12px 0}
 .compact li:last-child{border-bottom:0}
 
+@media (prefers-reduced-motion:no-preference){
+  .track{transition:border-color .3s var(--ease)}
+  .track:hover{border-color:var(--line-strong)}
+  .photo{transition:transform 1.2s var(--soft)}
+  .track:hover .photo{transform:scale(1.03)}
+}
+
 @media (max-width:820px){
   .tracks{grid-template-columns:minmax(0,1fr)}
 }

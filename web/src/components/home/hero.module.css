@@ -21,7 +21,7 @@
 .hero :focus-visible{outline-color:#fff}
 
 /* ---------- sağ: fotoğraf ve altında iş ortaklığı kartı ---------- */
-.visual{display:grid;gap:12px;margin:0}
+.visual{display:grid;gap:12px;margin:0;overflow:hidden;border-radius:var(--r-lg)}
 .photo{width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:40% 50%;border-radius:var(--r-lg);background:#1B2D4B}
 /* PNG tuvali 268x170, mürekkep 211x111: kılavuzun 120px alt sınırı 152px CSS'te tutuyor, 156 güvenli */
 .partner{display:flex;align-items:center;gap:16px;padding:10px 18px;border-radius:var(--r-lg);background:#fff}
@@ -37,6 +37,26 @@
 .stat + .stat{border-left:1px solid var(--line)}
 .stat dt{font-weight:800;font-size:clamp(1.4rem,2vw,1.75rem);line-height:1.1;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
 .stat dd{margin:0;font-size:.9rem;line-height:1.45;color:var(--ink-2)}
+
+/* ---------- açılış hareketi: metin sırayla yükselir, fotoğraf yerine oturur, bilgiler arkadan gelir ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .copy > *{animation:rise .8s var(--soft) both}
+  .copy > :nth-child(2){animation-delay:.08s}
+  .copy > :nth-child(3){animation-delay:.16s}
+  .copy > :nth-child(4){animation-delay:.24s}
+  .copy > :nth-child(5){animation-delay:.32s}
+  .photo{animation:settle 1.6s var(--soft) both}
+  .partner{animation:rise .8s var(--soft) .35s both}
+  .stat{animation:rise .7s var(--soft) both}
+  .stat:nth-child(1){animation-delay:.4s}
+  .stat:nth-child(2){animation-delay:.48s}
+  .stat:nth-child(3){animation-delay:.56s}
+  .stat:nth-child(4){animation-delay:.64s}
+  .stat dt{transition:color .3s var(--ease)}
+  .stat:hover dt{color:var(--brand-deep)}
+}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}}
+@keyframes settle{from{opacity:0;transform:scale(1.04)}}
 
 @media (max-width:1000px){
   .in{grid-template-columns:1fr}

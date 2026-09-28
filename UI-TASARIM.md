@@ -698,6 +698,7 @@ Değişmeyenler: Mikro logosu ve rozetleri yalnız düz beyaz zeminde (koyu zemi
 - Kartların başındaki ikon kutuları kaldırıldı. Hizmetler, destek kanalları, "Neden GoTech", modüller, e-belgeler ve süreç adımları kart yerine numaralı ya da ince çizgili listeler (üstte 2px koyu çizgi, satırlar arasında ince çizgi). Sektörler çip değil tek satır metin.
 - Girişteki yüzen kartlar ve süzülme hareketi, rakam ikonları, buton gölgeleri (kırmızı parıltı), kartların üstüne gelince kalkması ve gölgeleri kaldırıldı. Köşe yarıçapı 6/8px.
 - İkon yalnız işlevsel yerlerde kaldı: üst şeritteki telefon/e-posta/saat/adres, menü oku, kapatma düğmesi, LinkedIn. `icons.tsx` bu yedi ikona indi.
+- **Hareket geri geldi (işe bağlı olanlar):** bölümler kaydırınca belirir (18px, sırayla); giriş açılışta sırayla yükselir, fotoğraf yerine oturur, bilgi şeridi arkadan gelir; süreç şeridinin üstündeki çizgi kaydırdıkça kırmızıyla dolar (`animation-timeline: view()`); hizmet, belge, destek ve "Neden GoTech" satırlarının altında marka çizgisi soldan uzar, başlık kırmızıya döner; buton okları kayar, buton basınca oturur; yazılım kartlarının fotoğrafı yavaşça yaklaşır; kart çerçeveleri koyulaşır. Yüzen/süzülen kartlar, kalkan kartlar ve parlamalar geri gelmedi. Hepsi `prefers-reduced-motion: no-preference` altında.
 
 Rakiplerde olup **alınmayanlar**: "3.000+ referans", "500+ mutlu müşteri", "7/24 destek", "%100 SLA" gibi sayılar ve kampanya pencereleri (doğrulanmış karşılığı yok); uydurma pano ekranı (Mikro ekranı gibi görünmesin); canlı destek/WhatsApp düğmesi (numara bekleniyor).
 

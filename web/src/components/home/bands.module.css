@@ -9,7 +9,7 @@
 .onNavy:hover{background:var(--ground)}
 .modules{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));column-gap:clamp(24px,3vw,40px);margin-top:clamp(36px,5vh,56px);
   border-top:2px solid rgba(255,255,255,.7)}
-.module{display:grid;gap:6px;align-content:start;padding:20px 0 24px;border-bottom:1px solid var(--line-navy)}
+.module{position:relative;display:grid;gap:6px;align-content:start;padding:20px 0 24px;border-bottom:1px solid var(--line-navy)}
 .module h3{color:#fff;font-size:1.08rem}
 .module p{font-size:.92rem;line-height:1.55;color:var(--on-navy)}
 .sectors{margin-top:clamp(24px,3.5vh,36px)}
@@ -17,7 +17,7 @@
 .sectors b{font-weight:700;color:#fff}
 
 /* ---------- süreç şeridi: altı adım yan yana, üstte kalın çizgi, büyük numara ---------- */
-.steps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:clamp(16px,2vw,28px);margin-top:clamp(36px,5vh,56px);border-top:2px solid var(--ink)}
+.steps{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));column-gap:clamp(16px,2vw,28px);margin-top:clamp(36px,5vh,56px);border-top:2px solid var(--ink)}
 .step{display:grid;gap:6px;align-content:start;padding-top:18px}
 .stepNum{font-size:2rem;font-weight:800;line-height:1;letter-spacing:-.03em;color:var(--brand-deep);font-variant-numeric:tabular-nums}
 .step h3{margin-top:8px;font-size:1.08rem}
@@ -37,6 +37,22 @@
 .line:hover{background:rgba(255,255,255,.1)}
 .band :focus-visible{outline-color:#fff}
 
+/* ---------- hareket ---------- */
+@media (prefers-reduced-motion:no-preference){
+  /* süreç: koyu çizginin üstünde marka çizgisi kaydırdıkça soldan dolar (destekleyen tarayıcıda) */
+  .steps::before{content:"";position:absolute;left:0;right:0;top:-2px;height:2px;background:var(--brand-deep);transform:scaleX(0);transform-origin:left}
+  @supports (animation-timeline:view()){
+    .steps::before{animation:fillLine linear both;animation-timeline:view();animation-range:entry 20% cover 55%}
+  }
+  .stepNum{transition:transform .35s var(--soft)}
+  .step:hover .stepNum{transform:translateY(-3px)}
+  /* modüller: satırın altındaki çizgi açık kırmızıyla uzar */
+  .module::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#FF8A80;transform:scaleX(0);transform-origin:left;transition:transform .45s var(--soft)}
+  .module:hover::after{transform:scaleX(1)}
+  .white,.line{transition:background .2s var(--ease)}
+}
+@keyframes fillLine{to{transform:scaleX(1)}}
+
 @media (max-width:1100px){
   .modules{grid-template-columns:repeat(2,minmax(0,1fr))}
   .steps{grid-template-columns:repeat(3,minmax(0,1fr));row-gap:28px}
@@ -44,6 +60,7 @@
 @media (max-width:640px){
   .modules{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr;row-gap:0;border-top:0}
+  .steps::before{display:none}
   .step{grid-template-columns:52px minmax(0,1fr);column-gap:12px;row-gap:2px;padding:16px 0;border-top:1px solid var(--line-strong)}
   .stepNum{grid-row:span 2;font-size:1.6rem}
   .step h3{margin-top:0}

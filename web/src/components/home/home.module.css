@@ -3,7 +3,9 @@
    lacivert üst iletişim şeridi, beyaz menü ve "Ücretsiz demo" butonu, rozetli giriş, gri/beyaz dönüşümlü bölüm zeminleri,
    lacivert iletişim bölümü ve alt bilgi. Marka rengi kırmızı: buton ve vurgu.
    "Yapay zekâ işi" görünmesin (28.09.2026): gradient, ızgara deseni, parlayan ışık, buton gölgesi, üstüne gelince kalkan kart,
-   kartların başında ikon kutusu ve eşit ikonlu kart ızgarası yok. Düz renk zeminler, ince çizgiler, numaralı listeler; ikon
+   yüzen/süzülen kartlar, kartların başında ikon kutusu ve eşit ikonlu kart ızgarası yok. Hareket var ama işe bağlı: bölümler
+   kaydırınca belirir, giriş açılışta sırayla gelir, süreç çizgisi kaydırdıkça dolar, satırların altında marka çizgisi uzar,
+   buton ve bağlantı okları kayar. Hepsi yalnız hareket isteyenlerde (prefers-reduced-motion). Düz renk zeminler, ince çizgiler, numaralı listeler; ikon
    yalnız işlevsel yerlerde (üst şeritteki iletişim satırları, menü oku, kapatma düğmesi).
    Kurallar: uydurma rakam, uydurma Mikro ekranı ve uydurma referans yok. Mikro logosu ve iş ortaklığı rozetleri yalnız düz
    beyaz zeminde (koyu zeminde beyaz kartın içinde); Mikro logosu 156px.
@@ -169,11 +171,21 @@
 /* ---------- hareket: yalnız hareket isteyenlere ---------- */
 @media (prefers-reduced-motion:no-preference){
   /* göründüğünde bir kez (HomeEffects data-in="on" yazar). JS gelmezse 2.6sn'de kendiliğinden görünür */
-  .home [data-in]{opacity:0;transform:translateY(8px);animation:failsafe 0s linear 2.6s forwards}
+  .home [data-in]{opacity:0;transform:translateY(18px);animation:failsafe 0s linear 2.6s forwards}
   .home[data-ready] [data-in]:not([data-in="on"]){animation:none}
   .home [data-in="on"]{opacity:1;transform:none;animation:none;transition:opacity .8s var(--soft),transform .8s var(--soft)}
 }
 @keyframes failsafe{to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:no-preference){
+  /* buton: basınca hafif oturur, ok sağa kayar; bağlantıda da ok kayar */
+  .btn{transition:background .2s var(--ease),transform .12s var(--ease)}
+  .btn:active{transform:translateY(1px)}
+  .btn svg,.link svg{transition:transform .35s var(--soft)}
+  .btn:hover svg,.link:hover svg{transform:translateX(4px)}
+  /* kart: kalkmaz, gölge almaz; çerçevesi koyulaşır */
+  .card{transition:border-color .3s var(--ease)}
+  .card:hover{border-color:var(--line-strong)}
+}
 @media (prefers-reduced-motion:reduce){
   .btn,.ghost,.link,.navTop::after,.navTop svg,.drop{transition:none}
 }

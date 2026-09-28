@@ -4,7 +4,7 @@
 .supportTop{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:24px 48px}
 /* kanal | ne zaman | nasıl: tablo gibi satırlar */
 .channels{margin-top:clamp(32px,5vh,52px);border-top:2px solid var(--ink)}
-.channel{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,.7fr) minmax(0,1.6fr);gap:6px 28px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line-strong)}
+.channel{position:relative;display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,.7fr) minmax(0,1.6fr);gap:6px 28px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line-strong)}
 .channel h3{font-size:1.12rem}
 .when{font-size:.9rem;font-weight:700;color:var(--brand-deep)}
 .channel p{color:var(--ink-2);font-size:.97rem;line-height:1.55}
@@ -27,7 +27,7 @@
 .aboutPhoto figcaption{font-size:.86rem;color:var(--ink-3)}
 .aboutAddress{font-size:.95rem;line-height:1.55;color:var(--ink-2)}
 .ways{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(24px,3vw,48px);border-top:2px solid var(--ink)}
-.way{display:grid;gap:8px;align-content:start;justify-items:start;padding:22px 0 26px;border-bottom:1px solid var(--line-strong)}
+.way{position:relative;display:grid;gap:8px;align-content:start;justify-items:start;padding:22px 0 26px;border-bottom:1px solid var(--line-strong)}
 .way h3{font-size:1.14rem}
 .way p{color:var(--ink-2);font-size:.96rem;line-height:1.6}
 
@@ -54,6 +54,13 @@
 .faqSplit>:first-child{position:sticky;top:120px}
 .faqSplit .faq{margin:0;max-width:none}
 
+@media (prefers-reduced-motion:no-preference){
+  .channel::after,.way::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--brand-deep);
+    transform:scaleX(0);transform-origin:left;transition:transform .45s var(--soft)}
+  .channel:hover::after,.way:hover::after{transform:scaleX(1)}
+  .channel h3,.way h3{transition:color .25s var(--ease)}
+  .channel:hover h3,.way:hover h3{color:var(--brand-deep)}
+}
 @media (max-width:760px){
   .channel{grid-template-columns:1fr;gap:2px}
 }

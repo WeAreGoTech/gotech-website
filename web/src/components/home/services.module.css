@@ -4,7 +4,7 @@
 /* ---------- hizmetler: iki sütun, numaralı satırlar ---------- */
 .list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(32px,5vw,80px);margin-top:clamp(32px,5vh,52px);
   border-top:2px solid var(--ink)}
-.item{display:grid;grid-template-columns:48px minmax(0,1fr);gap:16px;padding:26px 0;border-bottom:1px solid var(--line-strong)}
+.item{position:relative;display:grid;grid-template-columns:48px minmax(0,1fr);gap:16px;padding:26px 0;border-bottom:1px solid var(--line-strong)}
 .num{padding-top:3px;font-size:.95rem;font-weight:800;color:var(--brand-deep);font-variant-numeric:tabular-nums}
 .item h3{font-size:1.22rem}
 .item p{margin:8px 0 12px;max-width:52ch;color:var(--ink-2);font-size:.97rem;line-height:1.6}
@@ -17,9 +17,20 @@
 .ticks li::before{content:"";flex:none;width:14px;height:14px;
   background:no-repeat center/14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23C0261F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
 .docs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:clamp(24px,3vw,48px);border-top:2px solid var(--ink)}
-.docs div{display:grid;gap:3px;padding:16px 0;border-bottom:1px solid var(--line-strong)}
+.docs div{position:relative;display:grid;gap:3px;padding:16px 0;border-bottom:1px solid var(--line-strong)}
 .docs dt{font-weight:800;font-size:1.15rem}
 .docs dd{margin:0;font-size:.92rem;line-height:1.45;color:var(--ink-2)}
+
+/* satırın altındaki marka çizgisi üstüne gelince soldan uzar; numara ve başlık markaya döner */
+@media (prefers-reduced-motion:no-preference){
+  .item::after,.docs div::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--brand-deep);
+    transform:scaleX(0);transform-origin:left;transition:transform .45s var(--soft)}
+  .item:hover::after,.docs div:hover::after{transform:scaleX(1)}
+  .num{transition:transform .35s var(--soft)}
+  .item:hover .num{transform:translateX(4px)}
+  .item h3,.docs dt{transition:color .25s var(--ease)}
+  .item:hover h3,.docs div:hover dt{color:var(--brand-deep)}
+}
 
 @media (max-width:1000px){
   .edo{grid-template-columns:1fr}

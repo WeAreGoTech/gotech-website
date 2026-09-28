@@ -273,6 +273,13 @@ html.lenis,html.lenis body{height:auto}
 .site .cmp tbody tr{transition:background .2s var(--ease)}
 .site .cmp tbody tr:hover{background:rgba(16,27,45,.03)}
 
+/* hareket: buton basınca oturur, kartların çerçevesi koyulaşır (kalkma ve gölge yok) */
+@media (prefers-reduced-motion:no-preference){
+  .site .btn{transition:background .2s var(--ease),transform .12s var(--ease)}
+  .site .btn:active{transform:translateY(1px)}
+  .site :where(.pd-steps > li,.ref-list li,.pd-addons li,.pc-col){transition:border-color .3s var(--ease)}
+  .site :where(.pd-steps > li,.ref-list li,.pd-addons li,.pc-col):hover{border-color:var(--line-strong)}
+}
 @media (prefers-reduced-motion:reduce){
   .site :where(.btn,.btn-line,.pd-steps > li,.ref-list li,.pd-addons li,.crumb a,.cmp tbody tr){transition:none}
 }
