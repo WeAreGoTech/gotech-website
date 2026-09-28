@@ -121,7 +121,7 @@ export function TrainingChapter() {
 /** Destek: kanallar; telefon satırı yalnız numara panelden girilince görünür. */
 export function SupportChapter({ settings }: { settings: SiteSettings }) {
   const phone = settings.supportPhone;
-  const channels: { title: string; when: string; body: string; href: string }[] = [
+  const channels = [
     ...(phone ? [{ title: "Destek hattı", when: settings.workingHours, body: phone, href: telHref(phone) }] : []),
     ...SUPPORT_CHANNELS.map((c) => ({ ...c, when: c.when || settings.workingHours, href: "" })),
   ];

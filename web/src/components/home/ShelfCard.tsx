@@ -1,4 +1,6 @@
 /* eslint-disable @next/next/no-img-element -- Mikro'nun resmi logoları public/images/mikro'dan olduğu gibi */
+"use client";
+
 import Link from "next/link";
 import type { CSSProperties } from "react";
 import { ArrowIcon } from "@/components/kurumsal/Icons";
@@ -7,37 +9,36 @@ import f from "./finder.module.css";
 import h from "./home.module.css";
 import { cx } from "./parts";
 
-type Props = { item: ShelfItem; recommended: boolean };
+type Props = { item: ShelfItem; open: boolean; recommended: boolean; onOpen: () => void };
 
-/** Ürün kartı: tür etiketi ve GoTech'in iş ortaklığı rozeti, Mikro'nun resmi logosu, ölçek, kısa açıklama, kapsam; altta ürün sayfası ve demo. */
-export function ShelfCard({ item, recommended }: Props) {
+/** Raftaki bir ürün: kapalıyken logo + ölçek + kime uygun; açıkken açıklama, kapsam ve demo butonu. */
+export function ShelfCard({ item, open, recommended, onOpen }: Props) {
   const product = productOf(item);
+  const bodyId = `urun-${item.key}`;
   const logoStyle = { "--k": item.logo.wordmarkRatio } as CSSProperties;
 
   return (
-    <article className={cx(h.card, f.card, recommended && f.isRec)} id={`urun-${item.key}`}>
-      {recommended && <span className={f.rec}>Size önerimiz</span>}
-      <div className={f.cardTop}>
-        <span className={f.kind}>{item.kind}</span>
-        <span className={f.chip} title={`GoTech, Mikro ${item.partner} Partner`}>{item.partner}</span>
-      </div>
-      <h3 className={f.brand}>
-        <img className={f.logo} src={item.logo.src} alt={item.edition ? "Mikro Jump" : product.name} width={254} height={item.logo.height} style={logoStyle} />
-        {item.edition && <span className={f.edition}>{item.edition}</span>}
-      </h3>
-      <p className={f.scale}>{product.scale.replace("-", "–")}</p>
-      <p className={f.blurb}>{product.blurb}</p>
-      <ul className={f.features}>
-        {featuresOf(item).map((x) => (
-          <li key={x.label} className={x.included ? f.yes : f.no}>
-            {x.label}
-            {!x.included && <span className={h.sr}> (yok)</span>}
-          </li>
-        ))}
-      </ul>
-      <div className={f.cardFoot}>
-        <Link className={h.link} href={product.page}>Detayları inceleyin <ArrowIcon /></Link>
-        <a className={f.demo} href="#iletisim" data-konu="demo" data-mesaj={`${product.name} için demo istiyorum.`}>Demo isteyin</a>
+    <article className={cx(f.prod, open && f.open, recommended && f.isRec)}>
+      <button className={f.head} type="button" aria-expanded={open} aria-controls={bodyId} onClick={onOpen}>
+        <span className={f.rec}>Size önerimiz</span>
+        <span className={f.brand}>
+          <img className={f.logo} src={item.logo.src} alt={item.edition ? "Mikro Jump" : product.name} width={254} height={item.logo.height} style={logoStyle} />
+          {item.edition && <span className={f.edition}>{item.edition}</span>}
+        </span>
+        <span className={f.scale}>{product.scale.replace("-", "–")}</span>
+        <span className={f.forWho}>{item.forWho}</span>
+        <span className={f.plus} aria-hidden="true" />
+      </button>
+      {/* kapalı kartın gövdesi görünmez: inert ile odak ve ekran okuyucu dışında kalır */}
+      <div className={f.body} id={bodyId} role="region" aria-label={product.name} inert={!open}>
+        <div className={f.inner}>
+          <p className={f.blurb}>{product.blurb}</p>
+          <ul className={f.features}>
+            {featuresOf(item).map((x) => <li key={x.label} className={x.included ? f.yes : f.no}>{x.label}</li>)}
+          </ul>
+          <a className={cx(h.btn, f.demo)} href="#iletisim" data-konu="demo">{product.name} için demo isteyin <ArrowIcon /></a>
+          <Link className={cx(h.link, f.more)} href={product.page}>{product.name} sayfası <ArrowIcon /></Link>
+        </div>
       </div>
     </article>
   );

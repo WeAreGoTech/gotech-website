@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { Select, type SelectOption } from "@/components/forms/Select";
-import { ArrowIcon } from "@/components/kurumsal/Icons";
+import { prefersReducedMotion } from "@/components/site/motion";
 import {
   ACCESS_OPTIONS,
   COMPANY_OPTIONS,
@@ -15,11 +14,15 @@ import {
   shelfName,
   type CompanySize,
   type FinderAnswers,
+  type ShelfKey,
 } from "./finder";
 import f from "./finder.module.css";
-import h from "./home.module.css";
-import { cx, REVEAL } from "./parts";
+import { REVEAL } from "./parts";
 import { ShelfCard } from "./ShelfCard";
+
+// finder.module.css'teki dikey raf eşiği ve kartın açılma süresinin yarısı
+const NARROW = "(max-width: 900px)";
+const OPEN_SETTLE_MS = 350;
 
 type PickProps = { name: string; label: string; value: string; options: SelectOption[]; onChange: (v: string) => void };
 
@@ -30,7 +33,7 @@ function Pick({ name, label, value, options, onChange }: PickProps) {
 
 function Sentence({ answers, set }: { answers: FinderAnswers; set: (next: Partial<FinderAnswers>) => void }) {
   return (
-    <form className={f.say} aria-label="İşletmenizi anlatın" onSubmit={(e) => e.preventDefault()}>
+    <form className={f.say} aria-label="İşletmenizi anlatın" onSubmit={(e) => e.preventDefault()} {...REVEAL}>
       {/* div: Select bir <div> çiziyor, <p> içinde olamaz */}
       <div className={f.sayLine}>
         Biz{" "}
@@ -51,42 +54,41 @@ function Sentence({ answers, set }: { answers: FinderAnswers; set: (next: Partia
   );
 }
 
-/**
- * Mikro ürünleri: üstte "hangisi size uygun?" cümlesi, altında dört ürün kartı (Mikro iş ortaklarının sitelerindeki logolu
- * ürün kartları). Cümle değişince uygun ürünün kartı işaretlenir ve nedeni cümlenin altında yazar.
- */
+/** Ürün bulucu: cümleyi değiştirdikçe uygun Mikro ürünü rafta öne çıkar; başka ürüne tıklayınca o açılır. */
 export function ProductFinder() {
   const [answers, setAnswers] = useState<FinderAnswers>(DEFAULT_ANSWERS);
   // ziyaretçi cümleyi değiştirmeden "Size önerimiz" demeyelim: varsayılan cevaplar onun cevabı değil
   const [touched, setTouched] = useState(false);
   const rec = recommend(answers);
+  const [openKey, setOpenKey] = useState<ShelfKey>(rec.key);
 
   const set = (next: Partial<FinderAnswers>) => {
-    setAnswers({ ...answers, ...next });
+    const merged = { ...answers, ...next };
+    const key = recommend(merged).key;
+    setAnswers(merged);
     setTouched(true);
+    setOpenKey(key);
+    // dar ekranda raf alt alta: önerilen kart ekran dışında açılırsa ziyaretçi değişikliği görmez
+    if (window.matchMedia(NARROW).matches) {
+      window.setTimeout(() => {
+        document.getElementById(`urun-${key}`)?.closest("article")?.scrollIntoView({ block: "nearest", behavior: prefersReducedMotion() ? "auto" : "smooth" });
+      }, OPEN_SETTLE_MS);
+    }
   };
 
   return (
     <>
-      <div className={f.finder} {...REVEAL}>
-        <div className={f.finderBody}>
-          <p className={f.finderTitle}><b>Hangisi size uygun?</b> Cümleyi işletmenize göre değiştirin, uygun ürün aşağıda işaretlensin.</p>
-          <Sentence answers={answers} set={set} />
-          <p className={f.why} aria-live="polite" key={touched ? rec.why.join() : "ipucu"}>
-            {touched
-              ? <><b>Önerimiz: {shelfName(rec.key)}.</b> <span>{rec.why.join(" · ")}</span></>
-              : <span>Kesin seçimi ücretsiz keşif görüşmesinde birlikte yapıyoruz.</span>}
-          </p>
-        </div>
-      </div>
-      <div className={f.grid}>
+      <Sentence answers={answers} set={set} />
+      <div className={f.shelf} {...REVEAL}>
         {SHELF.map((item) => (
-          <ShelfCard key={item.key} item={item} recommended={touched && rec.key === item.key} />
+          <ShelfCard key={item.key} item={item} open={openKey === item.key} recommended={touched && rec.key === item.key} onOpen={() => setOpenKey(item.key)} />
         ))}
       </div>
-      <div className={f.after}>
-        <Link className={cx(h.btn, h.ghost)} href="/urunler">Tüm özellikleri karşılaştırın <ArrowIcon /></Link>
-      </div>
+      <p className={f.why} aria-live="polite" key={touched ? rec.why.join() : "ipucu"}>
+        {touched
+          ? <><b>Neden {shelfName(rec.key)}?</b> <span>{rec.why.join(" · ")}</span></>
+          : <span>Cümleyi işletmenize göre değiştirin; size uygun ürün öne çıksın.</span>}
+      </p>
     </>
   );
 }

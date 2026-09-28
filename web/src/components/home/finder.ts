@@ -38,19 +38,17 @@ export type ShelfItem = {
   logo: { src: string; height: number; wordmarkRatio: number };
   // Basic ve Bulut'un ayrı logosu yok: Jump logosunun yanında sürüm adı yazılır
   edition?: string;
-  // kartın üstündeki tür etiketi (Mikro'nun ürün sayfalarındaki konumlandırma) ve GoTech'in o üründeki iş ortaklığı rozeti
-  kind: string;
-  partner: "Jumper Silver" | "Flyer Silver";
+  forWho: string;
 };
 
 // wordmarkRatio = 254 / PNG içindeki "mikro" kelimesinin genişliği. Logolar bu oranla ölçeklenince
 // kartlarda "mikro" kelimesi aynı boyda görünüyor (ürün adı uzadıkça PNG'de küçülüyordu).
 const JUMP_LOGO = { src: "/images/mikro/jump.png", height: 40, wordmarkRatio: 1.752 };
 export const SHELF: ShelfItem[] = [
-  { key: "basic", productId: "mikro-jump-basic", logo: JUMP_LOGO, edition: "Basic", kind: "Ara ERP", partner: "Jumper Silver" },
-  { key: "jump", productId: "mikro-jump", logo: JUMP_LOGO, kind: "KOBİ ERP", partner: "Jumper Silver" },
-  { key: "bulut", productId: "mikro-jump-bulut", logo: JUMP_LOGO, edition: "Bulut", kind: "Bulut ERP", partner: "Jumper Silver" },
-  { key: "fly", productId: "mikro-fly", logo: { src: "/images/mikro/fly.png", height: 56, wordmarkRatio: 1.539 }, kind: "Kurumsal ERP", partner: "Flyer Silver" },
+  { key: "basic", productId: "mikro-jump-basic", logo: JUMP_LOGO, edition: "Basic", forWho: "Ön muhasebeden fazlasını isteyenler" },
+  { key: "jump", productId: "mikro-jump", logo: JUMP_LOGO, forWho: "Büyüyen KOBİ'ler" },
+  { key: "bulut", productId: "mikro-jump-bulut", logo: JUMP_LOGO, edition: "Bulut", forWho: "Her yerden erişmek isteyenler" },
+  { key: "fly", productId: "mikro-fly", logo: { src: "/images/mikro/fly.png", height: 56, wordmarkRatio: 1.539 }, forWho: "Grup şirketleri ve holdingler" },
 ];
 
 export const productOf = (item: ShelfItem) => {

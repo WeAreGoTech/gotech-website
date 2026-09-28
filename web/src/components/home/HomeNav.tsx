@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { MenuIcon } from "@/components/kurumsal/Icons";
-import { GoTechLogoHeader } from "@/components/kurumsal/Logo";
+import { GoTechLogoHeader, GoTechLogoWhite } from "@/components/kurumsal/Logo";
 import { PORTAL_HREF, SITE_NAV } from "./home-content";
 import h from "./home.module.css";
 import { Icon } from "./icons";
@@ -12,11 +12,14 @@ import { cx } from "./parts";
 
 const STUCK_AFTER = 40;
 
+/** Girişi tam ekran fotoğrafla açan sayfalar: menü fotoğrafın üstünde, saydam ve beyaz başlar. */
+const OVER_HERO = new Set(["/yazilim-cozumleri", "/hakkimizda"]);
+
 /**
- * Sitenin tek üst menüsü (ana sayfa ve iç sayfalar): beyaz, yapışkan; sağda "Destek portalı" ve "Ücretsiz demo".
- * Ürünler ve Hizmetler'in altında açılır menü var: üstüne gelince ya da klavyeyle odaklanınca açılır (üst bağlantı sayfaya gider).
- * 1100px altında bağlantılar menü düğmesine iner, alt bağlantılar girintili listelenir. "Ücretsiz demo" her sayfanın sonundaki
- * iletişim formuna (#iletisim) iner, konuyu da seçili getirir (HomeEffects).
+ * Sitenin tek üst menüsü (ana sayfa ve iç sayfalar): sayfa kayınca ince çizgi alır; 1100px altında menü düğmesine döner.
+ * Ürünler ve Hizmetler'in altında açılır menü var: üstüne gelince ya da klavyeyle odaklanınca açılır (üst bağlantı sayfaya gider);
+ * telefonda alt bağlantılar girintili listelenir.
+ * "Ücretsiz demo" her sayfanın sonundaki iletişim formuna (#iletisim) iner, konuyu da seçili getirir (HomeEffects).
  */
 export function HomeNav() {
   const pathname = usePathname();
@@ -59,16 +62,20 @@ export function HomeNav() {
 
   const current = (href: string) => (pathname === href || pathname.startsWith(`${href}/`) ? "page" : undefined);
 
+  // fotoğrafın üstündeyken: sayfa kaydırılmamış ve menü kapalıysa saydam; sonra normal beyaz menü
+  const overRoute = OVER_HERO.has(pathname);
+  const over = overRoute && !stuck && !open;
+
   return (
-    <header ref={headerRef} className={cx(h.nav, stuck && h.stuck)} data-sticky-nav="">
+    <header ref={headerRef} className={cx(h.nav, overRoute && h.navFixed, over && h.navOver, stuck && h.stuck)} data-sticky-nav="">
       <div className={h.wrap}>
-        <Link className={h.logo} href="/" aria-label="GoTech ana sayfa"><GoTechLogoHeader /></Link>
+        <Link className={h.logo} href="/" aria-label="GoTech ana sayfa">{over ? <GoTechLogoWhite /> : <GoTechLogoHeader />}</Link>
         <nav className={h.navLinks} aria-label="Ana menü">
           {SITE_NAV.map((link) => (
             <div key={link.href} className={h.navItem}>
-              <Link className={h.navTop} href={link.href} aria-current={current(link.href)}>
+              <Link href={link.href} aria-current={current(link.href)}>
                 {link.label}
-                {link.children && <Icon name="chevronDown" size={15} stroke={2} />}
+                {link.children && <Icon name="chevronDown" size={14} />}
               </Link>
               {link.children && (
                 <div className={h.drop}>
@@ -83,10 +90,8 @@ export function HomeNav() {
             </div>
           ))}
         </nav>
-        <div className={h.navActions}>
-          <Link className={cx(h.btn, h.ghost, h.small, h.navPortal)} href={PORTAL_HREF}>Destek portalı</Link>
-          <a className={cx(h.btn, h.small)} href="#iletisim" data-konu="demo" onClick={() => setOpen(false)}>Ücretsiz demo</a>
-        </div>
+        <Link className={h.navPortal} href={PORTAL_HREF}>Destek portalı</Link>
+        <a className={cx(h.btn, h.small, h.navCta)} href="#iletisim" data-konu="demo" onClick={() => setOpen(false)}>Ücretsiz demo</a>
         <button ref={buttonRef} className={h.menuBtn} type="button" aria-label="Menü" aria-expanded={open} aria-controls="site-menu" onClick={() => setOpen(!open)}>
           <MenuIcon open={open} />
         </button>

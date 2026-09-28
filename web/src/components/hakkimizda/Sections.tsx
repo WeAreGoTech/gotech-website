@@ -24,6 +24,9 @@ export function AboutCover() {
         <p className={styles.coverLede}>
           Ekibimiz Mikro Yazılım&apos;da çalıştıktan sonra 2017&apos;de GoTech&apos;i kurdu. İzmir&apos;den işletmelere Mikro kurulumu, eğitimi ve desteği veriyor; ihtiyaç duyulan ek yazılımları da kendimiz geliştiriyoruz.
         </p>
+        <div className={styles.scrollCue} aria-hidden="true">
+          Aşağı kaydırın <i></i>
+        </div>
       </div>
     </section>
   );

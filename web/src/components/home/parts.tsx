@@ -7,14 +7,13 @@ import h from "./home.module.css";
 // data-in: HomeEffects görününce "on" yazar, CSS yumuşakça getirir
 export const REVEAL = { "data-in": "" };
 
-// accent: başlığın sonunda marka renginde yazılan kısım ("İşletmenize uygun" + "Mikro çözümü"); dark: lacivert zeminli bölümde
-type SectionHeadProps = { eyebrow: string; title: string; accent?: string; lede?: string; center?: boolean; dark?: boolean };
+type SectionHeadProps = { eyebrow: string; title: string; lede?: string; center?: boolean };
 
-export function SectionHead({ eyebrow, title, accent, lede, center = false, dark = false }: SectionHeadProps) {
+export function SectionHead({ eyebrow, title, lede, center = false }: SectionHeadProps) {
   return (
-    <div className={cx(h.head, center && h.center, dark && h.onDark)}>
+    <div className={center ? `${h.head} ${h.center}` : h.head}>
       <span className={h.eyebrow} {...REVEAL}>{eyebrow}</span>
-      <h2 {...REVEAL}>{title}{accent && <> <em>{accent}</em></>}</h2>
+      <h2 {...REVEAL}>{title}</h2>
       {lede && <p className={h.lede} {...REVEAL}>{lede}</p>}
     </div>
   );

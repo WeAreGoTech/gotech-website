@@ -1,9 +1,7 @@
 import { PORTAL_HREF } from "@/components/home/home-content";
 
 // Yalnız doğrulanmış bilgiler. Ekip, tarihçe ve ofis fotoğrafı GoTech'ten gelince eklenecek.
-type Way = { title: string; body: string; link?: { href: string; label: string; konu?: string } };
-
-export const WAYS: Way[] = [
+export const WAYS = [
   {
     title: "Kurulumdan sonra destek",
     body: "Kurulum bittikten sonra da destek veriyoruz. Bize uzak bağlantıyla, destek portalından ya da e-postayla ulaşabilirsiniz.",

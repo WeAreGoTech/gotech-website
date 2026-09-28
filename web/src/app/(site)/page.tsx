@@ -1,17 +1,14 @@
 import type { Metadata } from "next";
 import { About, Beyond, Faq } from "@/components/home/CompanySections";
 import { Contact, HomeFooter } from "@/components/home/ContactSection";
-import { Hero } from "@/components/home/Hero";
-import { CtaBand, Modules, Process } from "@/components/home/HomeBands";
+import { Hero, PartnerBand, ReferenceStrip } from "@/components/home/Hero";
 import { HomeEffects } from "@/components/home/HomeEffects";
 import h from "@/components/home/home.module.css";
 import { HomeNav } from "@/components/home/HomeNav";
 import { Notice } from "@/components/home/Notice";
 import { SectionHead } from "@/components/home/parts";
 import { ProductFinder } from "@/components/home/ProductFinder";
-import { EDonusum, Services } from "@/components/home/ServiceSections";
-import { Support } from "@/components/home/SupportSections";
-import { TopBar } from "@/components/home/TopBar";
+import { Services } from "@/components/home/ServiceSections";
 import { SmoothScroll } from "@/components/site/SmoothScroll";
 import type { SiteSettings } from "@/components/kurumsal/content";
 import { getSiteConfig } from "@/features/site-content/queries";
@@ -59,28 +56,23 @@ export default async function HomePage() {
       <HomeEffects rootId={ROOT_ID} />
       <a className="skip" href="#icerik">İçeriğe geç</a>
       <Notice />
-      <TopBar settings={settings} />
       <HomeNav />
       <main id="icerik">
         <Hero content={content} />
-        <section className={h.sec} id="urunler">
+        <PartnerBand content={content} />
+        <ReferenceStrip />
+        <section className={`${h.sec} ${h.ground}`} id="urunler">
           <div className={h.wrap}>
             <SectionHead
               center
-              eyebrow="Mikro ürün ailesi"
-              title="İşletmenize uygun"
-              accent="Mikro çözümü"
-              lede="Küçük işletmeden grup şirketine dört ürün. Hangisinin size uyduğunu aşağıdaki cümleyle deneyin; kesin seçimi ücretsiz keşif görüşmesinde birlikte yapıyoruz."
+              eyebrow="Ürün bulucu"
+              title="Size uygun Mikro'yu birlikte bulalım"
+              lede="İşletmenizi tek cümleyle anlatın, uygun Mikro ürünü hemen öne çıksın. Kesin seçimi ücretsiz keşif görüşmesinde birlikte yapıyoruz."
             />
             <ProductFinder />
           </div>
         </section>
-        <Services />
-        <Modules />
-        <Process />
-        <EDonusum />
-        <Support settings={settings} />
-        <CtaBand settings={settings} />
+        <Services settings={settings} />
         <Beyond />
         <About settings={settings} />
         <Faq />

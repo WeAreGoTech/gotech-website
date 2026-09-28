@@ -13,7 +13,8 @@ import s from "./yazilim.module.css";
 const pad = (n: number) => String(n).padStart(2, "0");
 
 /**
- * Giriş: menünün altında fotoğraflı sayfa başlığı, üstünde başlık ve iki buton.
+ * Giriş: tam ekran fotoğraf, üstünde başlık ve iki buton. Menü bu sayfada fotoğrafın üstünde
+ * saydam duruyor (HomeNav OVER_HERO); sayfa kayınca normal beyaz menüye dönüyor.
  * Fotoğraf CC0 (public/images/stok/KAYNAK.md); okunabilirlik için üstünde koyu bir perde var.
  */
 export function SoftwareCover() {
@@ -40,6 +41,10 @@ export function SoftwareCover() {
           </a>
           <a className={cx(h.btn, s.btnLight)} href="#ne-yapiyoruz">Ne geliştiriyoruz?</a>
         </div>
+        <a className={s.scrollCue} href="#ne-yapiyoruz">
+          <span>Aşağı kaydırın</span>
+          <i aria-hidden="true" />
+        </a>
       </div>
     </section>
   );
@@ -187,7 +192,10 @@ export function ReferenceBand() {
 }
 
 /**
- * Kapanış: sitenin iletişim bölümüyle aynı lacivert zeminde proje formu; solda iletişim bilgileri, sağda beyaz form kartı.
+ * Kapanış: tam ekran, tam kırmızı iletişim bölümü. Kırmızı zemin ayrı bir div (.ctaSkin):
+ * bölüm ekrana girerken kenarlardan içeride ve yuvarlak köşeli başlıyor, kaydırdıkça
+ * tam ekrana açılıyor; içerik aynı anda alttan yükseliyor (animation-timeline:view()).
+ * Destek yoksa ya da hareket kapalıysa: doğrudan tam ekran kırmızı, animasyon yok.
  */
 export function ProjectCta({ settings }: { settings: SiteSettings }) {
   const address = settings.address.replace(/\n/g, " ");

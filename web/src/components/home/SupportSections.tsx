@@ -3,39 +3,38 @@ import type { SiteSettings } from "@/components/kurumsal/content";
 import { ArrowIcon } from "@/components/kurumsal/Icons";
 import { PORTAL_HREF, SUPPORT_CHANNELS } from "./home-content";
 import h from "./home.module.css";
-import { REVEAL, SectionHead, telHref } from "./parts";
+import { cx, REVEAL, SectionHead, telHref } from "./parts";
 import s from "./sections.module.css";
 
-type Channel = { title: string; when: string; body: string; href?: string };
-
 /**
- * Destek: kanal satırları (ad | ne zaman | nasıl) ve portal butonu. Telefon kartı yalnız numara panelden girilince görünür
- * (Site ayarları > Destek telefonu); çalışma saatleri de panelden.
+ * Destek: kanal, ne zaman, nasıl. Telefon satırı yalnız numara panelden girilince görünür (Site ayarları > Destek telefonu).
  */
 export function Support({ settings }: { settings: SiteSettings }) {
   const phone = settings.supportPhone;
-  const channels: Channel[] = [
-    ...(phone ? [{ title: "Destek hattı", when: settings.workingHours, body: phone, href: telHref(phone) }] : []),
-    ...SUPPORT_CHANNELS.map((c) => ({ ...c, when: c.when || settings.workingHours })),
-  ];
   return (
     <section className={h.sec} id="destek">
-      <div className={h.wrap}>
-        <div className={s.supportTop}>
-          <SectionHead
-            eyebrow="Destek"
-            title="Kurulum sonrası"
-            accent="destek"
-            lede={`Destek ekibimiz ${settings.workingHours.toLocaleLowerCase("tr")} arasında çalışıyor. Talepleriniz destek portalında kayıt altında.`}
-          />
-          <Link className={h.btn} href={PORTAL_HREF} {...REVEAL}>Destek portalına giriş <ArrowIcon /></Link>
-        </div>
+      <div className={cx(h.wrap, s.support)}>
+        <SectionHead
+          eyebrow="Destek"
+          title="Kurulum sonrası destek"
+          lede={`Destek ekibimiz ${settings.workingHours.toLocaleLowerCase("tr")} arasında çalışıyor.`}
+        />
         <ul className={s.channels}>
-          {channels.map((c) => (
-            <li key={c.title} className={s.channel} {...REVEAL}>
-              <h3>{c.title}</h3>
-              <span className={s.when}>{c.when}</span>
-              <p>{c.href ? <a href={c.href}>{c.body}</a> : c.body}</p>
+          {phone && (
+            <li {...REVEAL}>
+              <b>Destek hattı</b>
+              <span className={s.when}>{settings.workingHours}</span>
+              <span><a className={s.act} href={telHref(phone)}>{phone}</a></span>
+            </li>
+          )}
+          {SUPPORT_CHANNELS.map((c) => (
+            <li key={c.title} {...REVEAL}>
+              <b>{c.title}</b>
+              <span className={s.when}>{c.when || settings.workingHours}</span>
+              <span>
+                {c.body}
+                {c.title === "Destek portalı" && <Link className={s.act} href={PORTAL_HREF}>Portala giriş <ArrowIcon /></Link>}
+              </span>
             </li>
           ))}
         </ul>
