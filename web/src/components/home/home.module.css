@@ -1,7 +1,10 @@
 /* GoTech kamuya açık site: kök değişkenler, tipografi, butonlar, üst bilgi şeridi, duyuru bandı ve menü.
    Tasarım (28.09.2026): Mikro iş ortaklarının sitelerindeki yerleşik kalıp (Robox, Bayındır, ACR, Nokbil, Tempo, Mikrobayi):
-   lacivert üst iletişim şeridi, beyaz menü ve "Ücretsiz demo" butonu, rozetli giriş, ikonlu kartlar, gri/beyaz dönüşümlü
-   bölüm zeminleri, lacivert iletişim bölümü ve alt bilgi. Marka rengi kırmızı: buton ve vurgu.
+   lacivert üst iletişim şeridi, beyaz menü ve "Ücretsiz demo" butonu, rozetli giriş, gri/beyaz dönüşümlü bölüm zeminleri,
+   lacivert iletişim bölümü ve alt bilgi. Marka rengi kırmızı: buton ve vurgu.
+   "Yapay zekâ işi" görünmesin (28.09.2026): gradient, ızgara deseni, parlayan ışık, buton gölgesi, üstüne gelince kalkan kart,
+   kartların başında ikon kutusu ve eşit ikonlu kart ızgarası yok. Düz renk zeminler, ince çizgiler, numaralı listeler; ikon
+   yalnız işlevsel yerlerde (üst şeritteki iletişim satırları, menü oku, kapatma düğmesi).
    Kurallar: uydurma rakam, uydurma Mikro ekranı ve uydurma referans yok. Mikro logosu ve iş ortaklığı rozetleri yalnız düz
    beyaz zeminde (koyu zeminde beyaz kartın içinde); Mikro logosu 156px.
    Font Figtree: Mikro'nun sitesindeki Gilroy'a en yakın ücretsiz yazı.
@@ -31,13 +34,13 @@
   --gx:clamp(20px,5vw,72px);
   --maxw:1240px;
   --sec:clamp(72px,10vh,120px);
-  --r:10px;
-  --r-lg:16px;
+  --r:6px;
+  --r-lg:8px;
   --ease:cubic-bezier(.22,.61,.36,1);
   --soft:cubic-bezier(.22,1,.36,1);
   --shadow:0 1px 2px rgba(16,27,45,.06);
-  --card-shadow:0 1px 2px rgba(16,27,45,.05),0 12px 32px -20px rgba(16,27,45,.32);
-  --card-shadow-hover:0 1px 2px rgba(16,27,45,.06),0 20px 40px -20px rgba(16,27,45,.4);
+  --card-shadow:none;
+  --card-shadow-hover:none;
   background:var(--paper);
   color:var(--ink);
   font-family:var(--font-figtree),system-ui,-apple-system,"Segoe UI",sans-serif;
@@ -55,13 +58,8 @@
 
 .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gx)}
 .sec{padding-block:var(--sec)}
-/* lacivert bölüm (modüller, iletişim): ince ızgara deseni ve köşede soluk kırmızı ışık */
-.navySec{position:relative;overflow:hidden;background:var(--navy);color:#fff;isolation:isolate}
-.navySec::before{content:"";position:absolute;inset:0;z-index:-1;
-  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
-  background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 0%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 90% 80% at 50% 0%,#000 20%,transparent 75%)}
-.navySec::after{content:"";position:absolute;z-index:-1;width:760px;height:760px;right:-220px;top:-320px;border-radius:50%;
-  background:radial-gradient(closest-side,rgba(229,57,53,.24),transparent);pointer-events:none}
+/* lacivert bölüm (modüller, iletişim): düz renk */
+.navySec{background:var(--navy);color:#fff}
 /* dönüşümlü bölüm: açık gri zemin; üstündeki kartlar beyaz */
 .ground{background:var(--ground)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -72,8 +70,7 @@
 .home h3{font-weight:700;font-size:1.16rem;line-height:1.3;letter-spacing:-.005em}
 .lede{font-size:clamp(1.04rem,1.2vw,1.14rem);line-height:1.65;color:var(--ink-2);max-width:52ch}
 /* bölüm etiketi: küçük, büyük harf, kırmızı; solunda kısa marka çizgisi (tr büyük harfi: html lang="tr") */
-.eyebrow{display:inline-flex;align-items:center;gap:.7em;font-size:.8rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--brand-deep)}
-.eyebrow::before{content:"";width:22px;height:2px;background:var(--brand);border-radius:2px}
+.eyebrow{font-size:.8rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--brand-deep)}
 .head{display:grid;gap:14px;justify-items:start;max-width:760px}
 .center{justify-items:center;text-align:center;margin-inline:auto}
 .center .lede{margin-inline:auto}
@@ -82,46 +79,32 @@
 /* lacivert zeminli bölümde başlık (SectionHead dark): açık kırmızı etiket ve vurgu lacivert üstünde AA'yı geçiyor */
 .onDark h2{color:#fff}
 .onDark .eyebrow{color:#FF8A80}
-.onDark .eyebrow::before{background:#FF8A80}
 .onDark .lede{color:var(--on-navy)}
 .home .onDark h2 em{color:#FF7A70}
 
 /* ---------- butonlar ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;padding:.95rem 1.5rem;border:0;border-radius:10px;cursor:pointer;
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;padding:.95rem 1.5rem;border:0;border-radius:var(--r);cursor:pointer;
   background:var(--brand-deep);color:#fff;font:inherit;font-weight:700;font-size:.97rem;line-height:1.2;letter-spacing:0;white-space:nowrap;
-  box-shadow:0 10px 22px -12px rgba(192,38,31,.7);transition:background .25s var(--ease),box-shadow .25s var(--ease),transform .12s var(--ease)}
+  transition:background .2s var(--ease)}
 .btn:hover{background:var(--brand-press)}
-.btn:active{transform:translateY(1px)}
-.btn svg{transition:transform .35s var(--soft)}
-.btn:hover svg{transform:translateX(3px)}
+
 /* ikincil: beyaz zemin, lacivert çerçeve */
 .ghost{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line-strong)}
 .ghost:hover{background:var(--ground);box-shadow:inset 0 0 0 1.5px rgba(16,27,45,.4)}
-.small{padding:.68rem 1.1rem;font-size:.92rem;border-radius:9px}
+.small{padding:.68rem 1.1rem;font-size:.92rem}
 .link{display:inline-flex;align-items:center;gap:.5em;font-weight:700;font-size:.96rem;color:var(--brand-deep);
   text-decoration:underline;text-decoration-color:transparent;text-underline-offset:5px;text-decoration-thickness:1.5px;
   transition:color .25s var(--ease),text-decoration-color .25s var(--ease)}
-.link svg{transition:transform .35s var(--soft)}
 .link:hover{color:var(--brand-press);text-decoration-color:currentColor}
-.link:hover svg{transform:translateX(3px)}
 
-/* ---------- ikon kutusu: kartların başındaki dolgulu kare; kartın üstüne gelince markanın kırmızısına döner ---------- */
-.iconBox{display:grid;place-items:center;flex:none;width:52px;height:52px;border-radius:14px;color:#fff;
-  background:linear-gradient(145deg,#243F69,var(--navy));box-shadow:0 10px 20px -12px rgba(15,30,54,.8);transition:background .3s var(--ease),box-shadow .3s var(--ease)}
-.card:hover .iconBox{background:linear-gradient(145deg,#E53935,var(--brand-press));box-shadow:0 10px 20px -12px rgba(192,38,31,.8)}
-
-/* ---------- kart: beyaz, ince çerçeve, yumuşak gölge; üstüne gelince hafifçe kalkar ---------- */
-.card{border-radius:var(--r-lg);background:#fff;border:1px solid var(--line);box-shadow:var(--card-shadow);
-  transition:transform .35s var(--soft),box-shadow .35s var(--ease),border-color .35s var(--ease)}
-.card:hover{transform:translateY(-3px);box-shadow:var(--card-shadow-hover);border-color:rgba(229,57,53,.32)}
+/* ---------- kart: beyaz, ince çerçeve; gölge ve kalkma yok ---------- */
+.card{border-radius:var(--r-lg);background:#fff;border:1px solid var(--line)}
 
 /* ---------- duyuru bandı (V16 takvimi): Mikro'nun kendi sitesindeki gibi kırmızı ---------- */
 .notice{background:var(--brand-deep);color:#fff;font-size:.9rem}
 .notice .wrap{position:relative;display:flex;align-items:center;justify-content:center;gap:10px 16px;min-height:44px;padding-right:calc(var(--gx) + 36px)}
 .notice b{font-weight:700}
-.notice a{display:inline-flex;align-items:center;gap:.4em;padding:.3rem .75rem;border-radius:999px;background:#fff;color:var(--brand-deep);
-  font-weight:700;font-size:.84rem;white-space:nowrap;transition:background .2s var(--ease)}
-.notice a:hover{background:rgba(255,255,255,.88)}
+.notice a{display:inline-flex;align-items:center;gap:.4em;font-weight:700;white-space:nowrap;text-decoration:underline;text-underline-offset:3px}
 .notice :focus-visible{outline-color:#fff}
 .noticeX{position:absolute;right:var(--gx);top:50%;transform:translateY(-50%);display:grid;place-items:center;width:30px;height:30px;
   border:0;border-radius:50%;background:transparent;color:rgba(255,255,255,.82);cursor:pointer;transition:background .2s var(--ease),color .2s var(--ease)}
@@ -138,8 +121,7 @@
 .topbar :focus-visible{outline-color:#fff}
 .topSide{display:inline-flex;align-items:center;gap:18px}
 .topPartner{display:inline-flex;align-items:center;gap:8px;font-weight:600;color:#fff}
-.topPartner svg{color:var(--brand)}
-.topSocial{display:grid;place-items:center;width:28px;height:28px;border-radius:7px;background:rgba(255,255,255,.08);transition:background .2s var(--ease)}
+.topSocial{display:grid;place-items:center;width:28px;height:28px;border-radius:var(--r);background:rgba(255,255,255,.08);transition:background .2s var(--ease)}
 .topSocial:hover{background:rgba(255,255,255,.16)}
 .topSocial svg{color:#fff}
 
@@ -161,13 +143,13 @@
 .navItem:hover .navTop svg,.navItem:has(:focus-visible) .navTop svg{transform:rotate(180deg);color:var(--brand-deep)}
 /* açılır menü: üstüne gelince ya da klavyeyle odaklanınca (:focus-visible) görünür; fareyle tıklanan bağlantının odağı
    sayfa değişince menüyü açık tutmasın diye :focus-within değil. Görünmezken içindeki bağlantılar odaklanamaz (visibility). */
-.drop{position:absolute;top:calc(100% + 12px);left:50%;z-index:60;display:grid;gap:2px;width:max-content;min-width:290px;padding:10px;
-  border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:0 28px 56px -24px rgba(16,27,45,.4);
+.drop{position:absolute;top:calc(100% + 12px);left:50%;z-index:60;display:grid;gap:2px;width:max-content;min-width:290px;padding:8px;
+  border-radius:var(--r-lg);background:#fff;border:1px solid var(--line-strong);box-shadow:0 8px 20px -12px rgba(16,27,45,.35);
   opacity:0;visibility:hidden;transform:translate(-50%,8px);transition:opacity .2s var(--ease),transform .2s var(--ease),visibility 0s .2s}
 /* imleç bağlantıdan menüye geçerken aradaki boşlukta menü kapanmasın */
 .drop::before{content:"";position:absolute;left:0;right:0;top:-14px;height:14px}
 .navItem:hover .drop,.navItem:has(:focus-visible) .drop{opacity:1;visibility:visible;transform:translate(-50%,0);transition:opacity .2s var(--ease),transform .2s var(--ease)}
-.drop a{display:grid;gap:2px;padding:10px 14px;border-radius:10px;transition:background .15s var(--ease)}
+.drop a{display:grid;gap:2px;padding:10px 14px;border-radius:var(--r);transition:background .15s var(--ease)}
 .drop a:hover,.drop a:focus-visible{background:var(--ground)}
 .drop b{font-weight:700;font-size:.95rem;color:var(--ink)}
 .drop a:hover b{color:var(--brand-deep)}
@@ -187,14 +169,13 @@
 /* ---------- hareket: yalnız hareket isteyenlere ---------- */
 @media (prefers-reduced-motion:no-preference){
   /* göründüğünde bir kez (HomeEffects data-in="on" yazar). JS gelmezse 2.6sn'de kendiliğinden görünür */
-  .home [data-in]{opacity:0;transform:translateY(18px);animation:failsafe 0s linear 2.6s forwards}
+  .home [data-in]{opacity:0;transform:translateY(8px);animation:failsafe 0s linear 2.6s forwards}
   .home[data-ready] [data-in]:not([data-in="on"]){animation:none}
   .home [data-in="on"]{opacity:1;transform:none;animation:none;transition:opacity .8s var(--soft),transform .8s var(--soft)}
 }
 @keyframes failsafe{to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){
-  .btn,.ghost,.link,.card,.navTop::after,.navTop svg,.drop,.btn svg,.link svg{transition:none}
-  .card:hover{transform:none}
+  .btn,.ghost,.link,.navTop::after,.navTop svg,.drop{transition:none}
 }
 
 /* seçim rengi: markanın soluk tonu, yazı okunur kalır */

@@ -18,7 +18,6 @@ import {
 } from "./finder";
 import f from "./finder.module.css";
 import h from "./home.module.css";
-import { Icon } from "./icons";
 import { cx, REVEAL } from "./parts";
 import { ShelfCard } from "./ShelfCard";
 
@@ -70,7 +69,6 @@ export function ProductFinder() {
   return (
     <>
       <div className={f.finder} {...REVEAL}>
-        <span className={h.iconBox}><Icon name="compass" size={24} /></span>
         <div className={f.finderBody}>
           <p className={f.finderTitle}><b>Hangisi size uygun?</b> Cümleyi işletmenize göre değiştirin, uygun ürün aşağıda işaretlensin.</p>
           <Sentence answers={answers} set={set} />

@@ -6,7 +6,6 @@ import { MikroLogo } from "@/components/kurumsal/Logo";
 import { HERO, HERO_FACTS } from "./home-content";
 import hr from "./hero.module.css";
 import h from "./home.module.css";
-import { Icon } from "./icons";
 import { cx } from "./parts";
 
 // başlıkta marka renginde yazılan ilk ifade; panelden gelen başlıkta yoksa başlık tek renk kalır
@@ -21,10 +20,10 @@ function withAccent(title: string): ReactNode {
 }
 
 /**
- * Giriş (Mikro'nun Gold iş ortaklarının sitelerindeki kalıp): lacivert zeminde solda rozet, başlık, açıklama, iki buton ve
- * güven maddeleri; sağda fotoğraf, üstünde iki kısa bilgi kartı ve Mikro iş ortaklığı kartı (logo ve rozetler beyaz kartta).
- * Altta girişin kenarına taşan rakam kartları. Başlık, açıklama ve buton yazısı panelden (Site içeriği > Ana sayfa girişi);
- * rakamlar da panelden, boş kalanların yerini doğrulanmış sabit bilgiler (HERO_FACTS) doldurur.
+ * Giriş: düz lacivert zeminde solda rozet, başlık, açıklama, iki buton ve güven maddeleri; sağda fotoğraf ve altında Mikro
+ * iş ortaklığı kartı (logo ve rozetler beyaz kartta). Altında beyaz zeminde ince ayraçlı dört bilgi. Başlık, açıklama ve
+ * buton yazısı panelden (Site içeriği > Ana sayfa girişi); rakamlar da panelden, boş kalanların yerini doğrulanmış sabit
+ * bilgiler (HERO_FACTS) doldurur.
  */
 export function Hero({ content }: { content: SiteContent }) {
   const panelStats = [
@@ -33,16 +32,14 @@ export function Hero({ content }: { content: SiteContent }) {
     { value: content.stat3Value, label: content.stat3Label },
     { value: content.stat4Value, label: content.stat4Label },
   ].filter((s) => s.value.trim());
-  const stats = [...panelStats, ...HERO_FACTS.filter((f) => !panelStats.some((s) => s.value === f.value))]
-    .slice(0, 4)
-    .map((s, i) => ({ ...s, icon: HERO_FACTS.find((f) => f.value === s.value)?.icon ?? HERO_FACTS[i].icon }));
+  const stats = [...panelStats, ...HERO_FACTS.filter((f) => !panelStats.some((s) => s.value === f.value))].slice(0, 4);
 
   return (
     <>
       <section className={hr.hero}>
         <div className={cx(h.wrap, hr.in)}>
           <div className={hr.copy}>
-            <span className={hr.badge}><Icon name="shieldCheck" size={16} />{HERO.badge}</span>
+            <span className={hr.badge}>{HERO.badge}</span>
             <h1>{withAccent(content.heroTitle)}</h1>
             <p className={hr.lede}>{content.heroLead}</p>
             <div className={hr.actions}>
@@ -55,12 +52,6 @@ export function Hero({ content }: { content: SiteContent }) {
           </div>
           <figure className={hr.visual}>
             <img className={hr.photo} src={HERO.image} alt={HERO.alt} width={1080} height={607} fetchPriority="high" />
-            {HERO.floats.map((f, i) => (
-              <div key={f.title} className={cx(hr.float, i === 0 ? hr.floatA : hr.floatB)} aria-hidden="true">
-                <span className={hr.floatIcon}><Icon name={f.icon} size={18} /></span>
-                <span><b>{f.title}</b><small>{f.text}</small></span>
-              </div>
-            ))}
             <figcaption className={hr.partner}>
               <MikroLogo className={hr.mikro} />
               <span className={hr.badges}>
@@ -71,13 +62,10 @@ export function Hero({ content }: { content: SiteContent }) {
           </figure>
         </div>
       </section>
-      <div className={cx(h.wrap, hr.statsWrap)}>
-        <dl className={hr.stats}>
+      <div className={hr.statsBar}>
+        <dl className={cx(h.wrap, hr.stats)}>
           {stats.map((s) => (
-            <div key={s.value} className={hr.stat}>
-              <span className={hr.statIcon}><Icon name={s.icon} size={22} /></span>
-              <div><dt>{s.value}</dt><dd>{s.label}</dd></div>
-            </div>
+            <div key={s.value} className={hr.stat}><dt>{s.value}</dt><dd>{s.label}</dd></div>
           ))}
         </dl>
       </div>

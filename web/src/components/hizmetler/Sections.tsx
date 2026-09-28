@@ -3,7 +3,6 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { EDONUSUM_NOTES, PORTAL_HREF, SUPPORT_CHANNELS } from "@/components/home/home-content";
 import h from "@/components/home/home.module.css";
-import { Icon, type IconName } from "@/components/home/icons";
 import { cx, REVEAL, telHref } from "@/components/home/parts";
 import type { SiteSettings } from "@/components/kurumsal/content";
 import { ArrowIcon } from "@/components/kurumsal/Icons";
@@ -122,16 +121,15 @@ export function TrainingChapter() {
 /** Destek: kanallar; telefon satırı yalnız numara panelden girilince görünür. */
 export function SupportChapter({ settings }: { settings: SiteSettings }) {
   const phone = settings.supportPhone;
-  const channels: { icon: IconName; title: string; when: string; body: string; href: string }[] = [
-    ...(phone ? [{ icon: "phone" as const, title: "Destek hattı", when: settings.workingHours, body: phone, href: telHref(phone) }] : []),
+  const channels: { title: string; when: string; body: string; href: string }[] = [
+    ...(phone ? [{ title: "Destek hattı", when: settings.workingHours, body: phone, href: telHref(phone) }] : []),
     ...SUPPORT_CHANNELS.map((c) => ({ ...c, when: c.when || settings.workingHours, href: "" })),
   ];
   return (
     <Chapter id="destek">
       <ul className={s.channels}>
         {channels.map((c) => (
-          <li key={c.title} className={h.card} {...REVEAL}>
-            <span className={h.iconBox}><Icon name={c.icon} size={24} /></span>
+          <li key={c.title} {...REVEAL}>
             <h3>{c.title}</h3>
             <span className={s.when}>{c.when}</span>
             <p>{c.href ? <a href={c.href}>{c.body}</a> : c.body}</p>

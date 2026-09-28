@@ -6,7 +6,6 @@ import { ArrowIcon } from "@/components/kurumsal/Icons";
 import { REFERENCES } from "@/components/kurumsal/referanslar";
 import { HOME_FAQ, WHY_GOTECH } from "./home-content";
 import h from "./home.module.css";
-import { Icon } from "./icons";
 import { cx, PageLink, REVEAL, SectionHead } from "./parts";
 import s from "./sections.module.css";
 import { SoftwareTracks } from "./SoftwareTracks";
@@ -41,7 +40,7 @@ export function Beyond() {
 }
 
 /**
- * Neden GoTech: solda hikâye, şehir fotoğrafı (ofis değil, altında yeri yazar) ve adres; sağda dört gerekçe ikonlu kartlarda.
+ * Neden GoTech: solda hikâye, şehir fotoğrafı (ofis değil, altında yeri yazar) ve adres; sağda dört gerekçe, ince ayraçlı liste.
  */
 export function About({ settings }: { settings: SiteSettings }) {
   return (
@@ -59,15 +58,13 @@ export function About({ settings }: { settings: SiteSettings }) {
             <figcaption>Kordon, İzmir</figcaption>
           </figure>
           <p className={s.aboutAddress} {...REVEAL}>
-            <Icon name="mapPin" size={18} />
-            <span>{settings.address.replace(/\n/g, ", ")}<br />{settings.workingHours}</span>
+            {settings.address.replace(/\n/g, ", ")}<br />{settings.workingHours}
           </p>
           <Link className={h.link} href="/hakkimizda" {...REVEAL}>GoTech&apos;i tanıyın <ArrowIcon /></Link>
         </div>
         <ul className={s.ways}>
           {WHY_GOTECH.map((w) => (
-            <li key={w.title} className={cx(h.card, s.way)} {...REVEAL}>
-              <span className={h.iconBox}><Icon name={w.icon} size={24} /></span>
+            <li key={w.title} className={s.way} {...REVEAL}>
               <h3>{w.title}</h3>
               <p>{w.body}</p>
               {w.link && <PageLink className={h.link} link={w.link} arrow />}

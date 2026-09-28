@@ -5,7 +5,6 @@ import { ArrowIcon } from "@/components/kurumsal/Icons";
 import { featuresOf, productOf, type ShelfItem } from "./finder";
 import f from "./finder.module.css";
 import h from "./home.module.css";
-import { Icon } from "./icons";
 import { cx } from "./parts";
 
 type Props = { item: ShelfItem; recommended: boolean };
@@ -20,13 +19,13 @@ export function ShelfCard({ item, recommended }: Props) {
       {recommended && <span className={f.rec}>Size önerimiz</span>}
       <div className={f.cardTop}>
         <span className={f.kind}>{item.kind}</span>
-        <span className={f.chip} title={`GoTech, Mikro ${item.partner} Partner`}><Icon name="award" size={13} stroke={2} />{item.partner}</span>
+        <span className={f.chip} title={`GoTech, Mikro ${item.partner} Partner`}>{item.partner}</span>
       </div>
       <h3 className={f.brand}>
         <img className={f.logo} src={item.logo.src} alt={item.edition ? "Mikro Jump" : product.name} width={254} height={item.logo.height} style={logoStyle} />
         {item.edition && <span className={f.edition}>{item.edition}</span>}
       </h3>
-      <p className={f.scale}><Icon name="users" size={15} />{product.scale.replace("-", "–")}</p>
+      <p className={f.scale}>{product.scale.replace("-", "–")}</p>
       <p className={f.blurb}>{product.blurb}</p>
       <ul className={f.features}>
         {featuresOf(item).map((x) => (

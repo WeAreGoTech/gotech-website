@@ -37,15 +37,15 @@ export function Contact({ settings, content, title, lead, submitLabel, note = DI
           <p className={c.lead}>{lead ?? content.ctaLead}</p>
           <ul className={c.info}>
             {settings.salesPhone && (
-              <li><span className={c.infoIcon}><Icon name="phone" size={18} /></span><span><small>Satış</small><a href={telHref(settings.salesPhone)}>{settings.salesPhone}</a></span></li>
+              <li><span><small>Satış</small><a href={telHref(settings.salesPhone)}>{settings.salesPhone}</a></span></li>
             )}
             {settings.supportPhone && (
-              <li><span className={c.infoIcon}><Icon name="headset" size={18} /></span><span><small>Destek</small><a href={telHref(settings.supportPhone)}>{settings.supportPhone}</a></span></li>
+              <li><span><small>Destek</small><a href={telHref(settings.supportPhone)}>{settings.supportPhone}</a></span></li>
             )}
-            <li><span className={c.infoIcon}><Icon name="mail" size={18} /></span><span><small>E-posta</small><a href={`mailto:${settings.email}`}>{settings.email}</a></span></li>
-            <li><span className={c.infoIcon}><Icon name="clock" size={18} /></span><span><small>Çalışma saatleri</small>{settings.workingHours}</span></li>
+            <li><span><small>E-posta</small><a href={`mailto:${settings.email}`}>{settings.email}</a></span></li>
+            <li><span><small>Çalışma saatleri</small>{settings.workingHours}</span></li>
             <li>
-              <span className={c.infoIcon}><Icon name="mapPin" size={18} /></span>
+              
               <span>
                 <small>Adres</small>
                 <span className={c.address}>{settings.address}</span>
@@ -104,10 +104,10 @@ export function HomeFooter({ settings, content, onHome = false }: FooterProps) {
           <div>
             <h4>İletişim</h4>
             <ul className={c.footContact}>
-              {phones.map((p) => <li key={p}><Icon name="phone" size={16} /><a href={telHref(p)}>{p}</a></li>)}
-              <li><Icon name="mail" size={16} /><a href={`mailto:${settings.email}`}>{settings.email}</a></li>
-              <li><Icon name="clock" size={16} /><span>{settings.workingHours}</span></li>
-              <li><Icon name="mapPin" size={16} /><span>{settings.address.replace(/\n/g, ", ")}</span></li>
+              {phones.map((p) => <li key={p}><a href={telHref(p)}>{p}</a></li>)}
+              <li><a href={`mailto:${settings.email}`}>{settings.email}</a></li>
+              <li>{settings.workingHours}</li>
+              <li>{settings.address.replace(/\n/g, ", ")}</li>
             </ul>
           </div>
         </div>

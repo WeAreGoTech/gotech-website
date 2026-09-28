@@ -84,7 +84,7 @@ export function HomeNav() {
           ))}
         </nav>
         <div className={h.navActions}>
-          <Link className={cx(h.btn, h.ghost, h.small, h.navPortal)} href={PORTAL_HREF}><Icon name="headset" size={17} />Destek portalı</Link>
+          <Link className={cx(h.btn, h.ghost, h.small, h.navPortal)} href={PORTAL_HREF}>Destek portalı</Link>
           <a className={cx(h.btn, h.small)} href="#iletisim" data-konu="demo" onClick={() => setOpen(false)}>Ücretsiz demo</a>
         </div>
         <button ref={buttonRef} className={h.menuBtn} type="button" aria-label="Menü" aria-expanded={open} aria-controls="site-menu" onClick={() => setOpen(!open)}>

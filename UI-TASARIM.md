@@ -692,6 +692,13 @@ Değişmeyenler: Mikro logosu ve rozetleri yalnız düz beyaz zeminde (koyu zemi
 - **Kartlar**: ikon kutuları lacivert dolgulu, kartın üstüne gelince kırmızı. Ürün kartlarında tür etiketi (Ara/KOBİ/Bulut/Kurumsal ERP) ve GoTech'in o üründeki rozeti (Jumper Silver / Flyer Silver) çip olarak.
 - **İç sayfa başlıkları** (`.phead`, hizmetler girişi) lacivert, girişle aynı desen. Ürün detay sayfalarının girişi beyaz kaldı: Mikro ürün logoları saydam PNG, yalnız beyaz zeminde.
 
+**Üçüncü tur — "AI slop" temizliği (aynı gün).** Geri bildirim: gradient geçişler ve ikonlar yapay zekâ işi gibi duruyor. Bilinen işaretlere bakıldı (her yerde gradient, her kartın üstünde yuvarlak kutuda ikon, eşit boyutlu ikonlu kart ızgaraları, parlayan arka plan ışıkları, yüzen kartlar, kalkan kartlar). Yapılanlar:
+
+- Tüm gradientler, ızgara desenleri ve köşedeki kırmızı ışık kaldırıldı; lacivert ve kırmızı yüzeyler düz renk. Fotoğraf üstündeki perdeler de düz yarı saydam lacivert.
+- Kartların başındaki ikon kutuları kaldırıldı. Hizmetler, destek kanalları, "Neden GoTech", modüller, e-belgeler ve süreç adımları kart yerine numaralı ya da ince çizgili listeler (üstte 2px koyu çizgi, satırlar arasında ince çizgi). Sektörler çip değil tek satır metin.
+- Girişteki yüzen kartlar ve süzülme hareketi, rakam ikonları, buton gölgeleri (kırmızı parıltı), kartların üstüne gelince kalkması ve gölgeleri kaldırıldı. Köşe yarıçapı 6/8px.
+- İkon yalnız işlevsel yerlerde kaldı: üst şeritteki telefon/e-posta/saat/adres, menü oku, kapatma düğmesi, LinkedIn. `icons.tsx` bu yedi ikona indi.
+
 Rakiplerde olup **alınmayanlar**: "3.000+ referans", "500+ mutlu müşteri", "7/24 destek", "%100 SLA" gibi sayılar ve kampanya pencereleri (doğrulanmış karşılığı yok); uydurma pano ekranı (Mikro ekranı gibi görünmesin); canlı destek/WhatsApp düğmesi (numara bekleniyor).
 
 ---

@@ -6,14 +6,13 @@
 .section{background:var(--navy);color:#fff}
 .contact{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,5vw,80px);align-items:center}
 .copy{display:grid;gap:16px;justify-items:start}
-/* bölüm etiketi lacivertte de kırmızı çizgiyle; yazısı açık kırmızı (lacivert üstünde okunur) */
+/* bölüm etiketi lacivert üstünde açık kırmızı (okunur) */
 .copy > span{color:#FF8A80}
 .copy h2{color:#fff;max-width:18ch}
 .lead{max-width:46ch;font-size:clamp(1.02rem,1.2vw,1.12rem);line-height:1.65;color:var(--on-navy)}
 .info{display:grid;gap:16px;width:100%;margin-top:14px;padding-top:24px;border-top:1px solid var(--line-navy)}
-.info li{display:grid;grid-template-columns:44px minmax(0,1fr);gap:14px;align-items:start}
-.infoIcon{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:rgba(255,255,255,.08);color:#fff}
-.info li > span:last-child{display:grid;gap:2px;font-weight:600;line-height:1.45}
+.info li{display:grid}
+.info li > span{display:grid;gap:2px;font-weight:600;line-height:1.45}
 .info small{font-size:.8rem;font-weight:500;color:var(--on-navy)}
 .address{white-space:pre-line}
 .info a{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:text-decoration-color .25s var(--ease)}
@@ -22,13 +21,13 @@
 .section :focus-visible{outline-color:#fff}
 
 /* ---------- form kartı ---------- */
-.formBox{padding:clamp(22px,2.6vw,36px);border-radius:var(--r-lg);background:#fff;color:var(--ink);box-shadow:0 30px 60px -30px rgba(0,0,0,.55)}
+.formBox{padding:clamp(22px,2.6vw,36px);border-radius:var(--r-lg);background:#fff;color:var(--ink)}
 .formBox :focus-visible{outline-color:var(--brand)}
 .formBox :global(.kform){display:grid;gap:14px}
 .formBox :global(.kform .row){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .formBox :global(.kform label){display:grid;gap:6px;font-size:.86rem;font-weight:600;color:var(--ink-2)}
 .formBox :global(.kform) input,.formBox :global(.kform) select,.formBox :global(.kform) textarea{
-  width:100%;padding:.8rem .95rem;border:0;border-radius:9px;background:#fff;font:inherit;font-size:.96rem;font-weight:400;color:var(--ink);
+  width:100%;padding:.8rem .95rem;border:0;border-radius:var(--r);background:#fff;font:inherit;font-size:.96rem;font-weight:400;color:var(--ink);
   box-shadow:inset 0 0 0 1px var(--line-strong);transition:box-shadow .25s var(--ease)}
 .formBox :global(.kform) textarea{min-height:104px;resize:vertical}
 .formBox :global(.kform) input:hover,.formBox :global(.kform) select:hover,.formBox :global(.kform) textarea:hover{box-shadow:inset 0 0 0 1px rgba(16,27,45,.4)}
@@ -40,10 +39,9 @@
 .formBox :global(.kform .consent) input:focus-visible{outline:2px solid var(--brand-deep);outline-offset:2px}
 .formBox :global(.kform) [aria-invalid="true"]{box-shadow:inset 0 0 0 1.5px var(--brand-deep)}
 .formBox :global(.kform .note){padding:.8rem 1rem;border-radius:8px;background:var(--brand-soft);color:var(--brand-deep);font-size:.92rem}
-.formBox :global(.btn){display:inline-flex;align-items:center;gap:.6em;padding:.95rem 1.5rem;border:0;border-radius:10px;background:var(--brand-deep);color:#fff;
-  font-weight:700;font-size:.97rem;letter-spacing:0;box-shadow:0 10px 22px -12px rgba(192,38,31,.7);transition:background .25s var(--ease),transform .12s var(--ease)}
+.formBox :global(.btn){display:inline-flex;align-items:center;gap:.6em;padding:.95rem 1.5rem;border:0;border-radius:var(--r);background:var(--brand-deep);color:#fff;
+  font-weight:700;font-size:.97rem;letter-spacing:0;box-shadow:none;transition:background .2s var(--ease)}
 .formBox :global(.btn):hover{background:var(--brand-press)}
-.formBox :global(.btn):active{transform:translateY(1px)}
 .formBox :global(.btn-line){background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line-strong)}
 .formBox :global(.btn-line):hover{background:var(--ground)}
 .formBox :global(.form-done){display:grid;gap:12px;justify-items:start}
@@ -57,7 +55,7 @@
 .foot :focus-visible{outline-color:#fff}
 /* Mikro iş ortaklığı: logo ve rozetler beyaz kartta (koyu zeminde logo kuralı), yanında kısa cümle */
 .partner{display:flex;flex-wrap:wrap;align-items:center;gap:20px 32px;padding-bottom:clamp(32px,5vh,48px);border-bottom:1px solid var(--line-navy)}
-.partnerCard{display:flex;align-items:center;gap:18px;padding:12px 20px;border-radius:14px;background:#fff}
+.partnerCard{display:flex;align-items:center;gap:18px;padding:12px 20px;border-radius:var(--r-lg);background:#fff}
 /* PNG tuvali 268x170, mürekkep 211x111: kılavuzun 120px alt sınırı 152px CSS'te tutuyor, 156 güvenli */
 .mikro{width:156px;height:auto}
 .badges{display:flex;align-items:center;gap:10px;padding-left:18px;border-left:1px solid var(--line)}
@@ -70,14 +68,13 @@
 .footBrand p{max-width:34ch;font-size:.92rem;line-height:1.6}
 .footLogo{display:block;width:128px}
 .footLogo svg{width:100%;height:auto}
-.social{display:grid;place-items:center;width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.08);color:#fff;transition:background .2s var(--ease)}
+.social{display:grid;place-items:center;width:36px;height:36px;border-radius:var(--r);background:rgba(255,255,255,.08);color:#fff;transition:background .2s var(--ease)}
 .social:hover{background:rgba(255,255,255,.16)}
 .foot h4{margin:0 0 16px;font-size:.95rem;font-weight:700;color:#fff}
 .foot ul{display:grid;gap:10px;font-size:.93rem}
 .foot ul a{text-decoration:underline;text-decoration-color:transparent;text-underline-offset:4px;transition:color .2s var(--ease),text-decoration-color .2s var(--ease)}
 .foot ul a:hover{color:#fff;text-decoration-color:rgba(255,255,255,.4)}
-.footContact li{display:grid;grid-template-columns:18px minmax(0,1fr);gap:10px;align-items:start;line-height:1.45}
-.footContact svg{margin-top:2px;color:#FF8A80}
+.footContact li{line-height:1.45}
 .footBot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px;margin-top:clamp(36px,5vh,56px);padding-top:22px;border-top:1px solid var(--line-navy);font-size:.85rem;color:rgba(255,255,255,.64)}
 .footBot nav{display:flex;gap:20px}
 .footBot a{transition:color .2s var(--ease)}

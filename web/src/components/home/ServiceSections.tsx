@@ -1,42 +1,44 @@
 import { ArrowIcon } from "@/components/kurumsal/Icons";
 import { EDONUSUM_CONSULTING, EDONUSUM_DOCS } from "@/components/kurumsal/urunler-data";
-import { EDONUSUM_ICONS, EDONUSUM_NOTES, SERVICE_CARDS } from "./home-content";
+import { EDONUSUM_NOTES, SERVICE_CARDS } from "./home-content";
 import h from "./home.module.css";
-import { Icon } from "./icons";
 import { cx, PageLink, REVEAL, SectionHead } from "./parts";
 import sv from "./services.module.css";
 
+const pad = (n: number) => String(n).padStart(2, "0");
+
 /**
- * Ana sayfa Hizmetler: ikonlu altı kart (analiz, kurulum, e-Dönüşüm, eğitim, destek, özel yazılım). Ayrıntısı /hizmetlerimiz'de;
- * e-Dönüşüm ve Destek kartları ana sayfadaki kendi bölümlerine iner.
+ * Ana sayfa Hizmetler: altı hizmet, iki sütun numaralı liste (ikon ve kart yok, ince ayraçlar). Ayrıntısı /hizmetlerimiz'de;
+ * e-Dönüşüm ve Destek maddeleri ana sayfadaki kendi bölümlerine iner.
  */
 export function Services() {
   return (
     <section className={cx(h.sec, h.ground)} id="hizmetler">
       <div className={h.wrap}>
         <SectionHead
-          center
           eyebrow="Hizmetlerimiz"
           title="Ürün seçiminden"
           accent="kurulum sonrası desteğe"
           lede="Lisans Mikro'dan; analizi, kurulumu, e-Dönüşümü, eğitimi ve desteği GoTech ekibi yapıyor."
         />
-        <ul className={sv.grid}>
-          {SERVICE_CARDS.map((card) => (
-            <li key={card.id} className={cx(h.card, sv.card)} {...REVEAL}>
-              <span className={h.iconBox}><Icon name={card.icon} size={24} /></span>
-              <h3>{card.title}</h3>
-              <p>{card.body}</p>
-              <PageLink className={cx(h.link, sv.more)} link={card.link} arrow />
+        <ol className={sv.list}>
+          {SERVICE_CARDS.map((card, i) => (
+            <li key={card.id} className={sv.item} {...REVEAL}>
+              <span className={sv.num}>{pad(i + 1)}</span>
+              <div>
+                <h3>{card.title}</h3>
+                <p>{card.body}</p>
+                <PageLink className={h.link} link={card.link} arrow />
+              </div>
             </li>
           ))}
-        </ul>
+        </ol>
       </div>
     </section>
   );
 }
 
-/** e-Dönüşüm: solda ne yaptığımız ve iletişim, sağda sekiz e-belge kartı (ikon, ad, tek satır açıklama). */
+/** e-Dönüşüm: solda ne yaptığımız ve iletişim, sağda sekiz e-belge; satır satır bir belge listesi. */
 export function EDonusum() {
   return (
     <section className={cx(h.sec, h.ground)} id="edonusum">
@@ -53,14 +55,11 @@ export function EDonusum() {
             Hangi e-belgeler size zorunlu? <ArrowIcon />
           </a>
         </div>
-        <ul className={sv.docs}>
+        <dl className={sv.docs} {...REVEAL}>
           {EDONUSUM_DOCS.map((doc) => (
-            <li key={doc} className={sv.doc} {...REVEAL}>
-              <span className={sv.docIcon}><Icon name={EDONUSUM_ICONS[doc]} size={20} /></span>
-              <span><b>{doc}</b><small>{EDONUSUM_NOTES[doc]}</small></span>
-            </li>
+            <div key={doc}><dt>{doc}</dt><dd>{EDONUSUM_NOTES[doc]}</dd></div>
           ))}
-        </ul>
+        </dl>
       </div>
     </section>
   );

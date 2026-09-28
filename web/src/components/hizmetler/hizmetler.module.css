@@ -2,12 +2,7 @@
    Değişkenler ana sayfanın .home kökünden; gradient, bulanık gölge, hap etiket, çizgili bilgi şeridi yok. */
 
 /* ---------- giriş: lacivert sayfa başlık bandı (iç sayfaların .phead'i gibi); solda ne olduğu, sağda sorular ---------- */
-.hero{position:relative;overflow:hidden;padding-block:clamp(36px,6vh,64px) clamp(48px,8vh,88px);background:var(--navy);color:#fff;isolation:isolate}
-.hero::before{content:"";position:absolute;inset:0;z-index:-1;
-  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
-  background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse 80% 90% at 75% 20%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 80% 90% at 75% 20%,#000 20%,transparent 75%)}
-.hero::after{content:"";position:absolute;z-index:-1;width:640px;height:640px;right:-160px;top:-320px;border-radius:50%;
-  background:radial-gradient(closest-side,rgba(229,57,53,.28),transparent);pointer-events:none}
+.hero{padding-block:clamp(36px,6vh,64px) clamp(48px,8vh,88px);background:var(--navy);color:#fff}
 .hero h1{color:#fff}
 .hero :focus-visible{outline-color:#fff}
 /* .lede ana sayfa modülünden: lacivert üstünde açık renk */
@@ -86,10 +81,10 @@
 .training li{padding:22px 0;border-bottom:1px solid rgba(16,27,45,.16);font-weight:700;font-size:clamp(1.4rem,2.2vw,1.9rem);letter-spacing:-.02em}
 .training li:first-child{border-top:1px solid rgba(16,27,45,.16)}
 
-/* ---------- destek: ikonlu kanal kartları yan yana ---------- */
-.channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:18px}
-.channels li{display:grid;gap:8px;align-content:start;justify-items:start;padding:28px 26px}
-.channels h3{margin-top:6px;font-size:1.2rem;font-weight:700}
+/* ---------- destek: kanallar yan yana, üstte kalın çizgi ---------- */
+.channels{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:clamp(24px,3vw,48px)}
+.channels li{display:grid;gap:6px;align-content:start;padding-top:18px;border-top:2px solid var(--ink)}
+.channels h3{font-size:1.2rem;font-weight:700}
 .when{font-size:.9rem;font-weight:600;color:var(--brand-deep)}
 .channels p{margin-top:4px;color:var(--ink-2)}
 .channels p a{font-weight:600;color:var(--ink)}

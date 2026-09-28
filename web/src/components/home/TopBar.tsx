@@ -24,7 +24,7 @@ export function TopBar({ settings }: { settings: SiteSettings }) {
           {city && <li className={h.topCity}><Icon name="mapPin" size={15} />{city}</li>}
         </ul>
         <div className={h.topSide}>
-          <span className={h.topPartner}><Icon name="shieldCheck" size={16} />Mikro Yazılım Jumper &amp; Flyer Silver Partner</span>
+          <span className={h.topPartner}>Mikro Yazılım Jumper &amp; Flyer Silver Partner</span>
           {settings.linkedin && (
             <a className={h.topSocial} href={settings.linkedin} target="_blank" rel="noopener noreferrer" aria-label="GoTech LinkedIn sayfası">
               <Icon name="linkedin" size={14} />
