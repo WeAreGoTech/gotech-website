@@ -69,6 +69,26 @@ export const PRODUCTS: Product[] = [
   },
 ];
 
+// /urunler girişindeki ürün kartları: kimin için ve öne çıkan üç madde. Hepsi ürün sayfalarındaki bilgilerden (urun-detay.ts).
+export const PRODUCT_CARDS: Record<CompareId, { audience: string; points: string[] }> = {
+  "mikro-jump-basic": {
+    audience: "Küçük işletmeler",
+    points: ["3 kullanıcıya kadar eş zamanlı çalışma", "e-Fatura, e-Arşiv, e-İrsaliye programın içinden", "Kiralama modeliyle ilk yatırım maliyeti yok"],
+  },
+  "mikro-jump": {
+    audience: "Büyüyen KOBİ'ler",
+    points: ["20 ek kullanıcıya kadar eş zamanlı çalışma", "Genel muhasebe, personel ve üretim modülleri", "e-Defter ve e-Bordro dahil bütün e-belgeler"],
+  },
+  "mikro-jump-bulut": {
+    audience: "Her yerden çalışan ekipler",
+    points: ["Sunucu, kurulum ve donanım yatırımı yok", "Tarayıcıdan, internet olan her yerden", "Yedekleme ve bakım otomatik"],
+  },
+  "mikro-fly": {
+    audience: "Büyük işletmeler ve grup şirketleri",
+    points: ["Sınırsız eş zamanlı kullanıcı", "MRP2, CRM ve iş zekası", "Çok şirketli yapı ve konsolidasyon"],
+  },
+};
+
 export const EDONUSUM_DOCS = ["e-Fatura", "e-Arşiv", "e-İrsaliye", "e-Defter", "e-Mutabakat", "e-SMM", "e-Müstahsil", "e-Bordro"];
 
 export const EDONUSUM_CONSULTING = ["GİB başvuruları", "Sistem kurulumu", "Entegratör bağlantısı", "Zorunlu belgelerin tespiti"];
