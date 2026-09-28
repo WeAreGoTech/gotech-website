@@ -4,21 +4,21 @@ import { PORTAL_HREF } from "@/components/home/home-content";
 export const WAYS = [
   {
     title: "Kurulumdan sonra destek",
-    body: "Kurulumdan sonra da destek bizden. Uzak bağlantıyla, portaldan ya da e-postayla ulaşın.",
+    body: "Kurulum bittikten sonra da destek veriyoruz. Bize uzak bağlantıyla, destek portalından ya da e-postayla ulaşabilirsiniz.",
   },
   {
     title: "Kendi yazılım ekibimiz var",
-    body: "Mikro'nun yetmediği yerde ek ekran, rapor ve entegrasyonları kendimiz geliştiriyoruz; kurumlara Mikro'dan bağımsız yazılım da yapıyoruz.",
+    body: "İşletmenize özel ek ekran, rapor ve entegrasyonları Mikro'ya bağlı olarak kendimiz geliştiriyoruz. Mikro'dan bağımsız yazılım projeleri de yapıyoruz.",
     link: { href: "/yazilim-cozumleri", label: "Yazılım çözümleri" },
   },
   {
     title: "Kendi destek araçlarımız",
-    body: "Talepleriniz destek portalında kayıt altında, kimin üstlendiğini oradan görürsünüz. Uzak bağlantıyı kendi uygulamamız GoTech Desk ile yapıyoruz.",
+    body: "Talepleriniz destek portalında kayıt altına alınır; hangi aşamada olduğunu ve kimin ilgilendiğini oradan takip edersiniz. Uzak bağlantı için kendi uygulamamız GoTech Desk'i kullanıyoruz.",
     link: { href: PORTAL_HREF, label: "Destek portalı" },
   },
   {
     title: "Mevcut kurulumunuzu devralıyoruz",
-    body: "Mikro'yu başka bir iş ortağından aldıysanız desteği bize taşıyabilirsiniz. Lisansınız ve verileriniz sizde kalır, baştan başlamazsınız.",
+    body: "Mikro'yu başka bir iş ortağından aldıysanız desteğinizi bize taşıyabilirsiniz. Lisansınız ve verileriniz olduğu gibi kalır.",
     link: { href: "#iletisim", label: "Kurulumunuzu inceleyelim", konu: "gecis" },
   },
 ];

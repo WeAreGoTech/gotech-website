@@ -47,8 +47,8 @@ export const SOFTWARE_TRACKS: SoftwareTrack[] = [
   {
     id: "mikroya-ozel",
     tag: "Mikro'ya bağlı",
-    title: "Mikro'nun yetmediği yerde",
-    body: "Mikro'yu değiştirmeden eksik kalan ekranı, raporu ya da bağlantıyı yazıyoruz; verileriniz yine Mikro'da kalır.",
+    title: "Mikro'ya özel geliştirmeler",
+    body: "Mikro'nun yapısına dokunmadan işletmenize özel ekran, rapor ve bağlantılar geliştiriyoruz; verileriniz yine Mikro'da kalır.",
     image: "/images/stok/rapor-tablet.webp",
     items: MIKRO_WORK,
   },

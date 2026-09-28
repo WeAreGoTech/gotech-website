@@ -19,10 +19,10 @@ export function AboutCover() {
           <span>Hakkımızda</span>
         </nav>
         <h1 className={styles.coverTitle}>
-          Mikro Yazılım&apos;ı üreticinin içinde öğrendik.
+          Mikro Yazılım&apos;da başladık, 2017&apos;den beri iş ortağıyız.
         </h1>
         <p className={styles.coverLede}>
-          2017&apos;de GoTech olarak kendi yolumuza çıktık. Bugün İzmir&apos;den Mikro&apos;nun kurulumunu, eğitimini ve desteğini veriyor, Mikro&apos;nun yetmediği yerde kendi yazılımımızı yazıyoruz.
+          Ekibimiz Mikro Yazılım&apos;da çalıştıktan sonra 2017&apos;de GoTech&apos;i kurdu. İzmir&apos;den işletmelere Mikro kurulumu, eğitimi ve desteği veriyor; ihtiyaç duyulan ek yazılımları da kendimiz geliştiriyoruz.
         </p>
         <div className={styles.scrollCue} aria-hidden="true">
           Aşağı kaydırın <i></i>
@@ -51,11 +51,11 @@ export function AboutStory() {
         </div>
         <div style={{ display: "grid", gap: 18 }} {...REVEAL}>
           <p className="lede">
-            Uzun yıllar Mikro Yazılım&apos;ın içinde çalıştık. Programı, işletmelerin ondan ne beklediğini ve nerede zorlandığını oradan biliyoruz.
+            Uzun yıllar Mikro Yazılım&apos;da çalıştık. Programı ve işletmelerin günlük kullanımda nelere ihtiyaç duyduğunu oradan biliyoruz.
             2017&apos;den beri bu birikimle işletmelerin Mikro&apos;ya geçişini, kurulumunu, eğitimini ve günlük desteğini yürütüyoruz.
           </p>
           <p className="lede">
-            KOBİ ve kurumlar için Mikro&apos;ya entegre iş analizi, 3. parti yazılımlar, kurulum, eğitim ve destek süreçlerinin tamamında yanınızdayız.
+            KOBİ&apos;lere ve kurumlara iş analizi, kurulum, eğitim ve destek veriyor; Mikro&apos;yla entegre çalışan 3. parti yazılımları kurup bağlıyoruz.
             Mikro&apos;nun Jumper ve Flyer iş ortaklığı programlarında Silver seviyesindeyiz.
           </p>
         </div>
@@ -69,7 +69,7 @@ export function SupportFacts() {
     <section className="sec pd-ground">
       <div className="wrap">
         <span className="tag" {...REVEAL}>Nasıl çalışıyoruz</span>
-        <h2 className="pd-h2" {...REVEAL}>Satıştan sonra da buradayız</h2>
+        <h2 className="pd-h2" {...REVEAL}>Satış sonrası hizmet</h2>
         <ul className={styles.facts}>
           {WAYS.map((w) => (
             <li key={w.title} {...REVEAL}>

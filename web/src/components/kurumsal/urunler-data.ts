@@ -42,7 +42,7 @@ export const PRODUCTS: Product[] = [
     name: "Mikro Jump",
     category: "kobi",
     scale: "5-50 çalışan",
-    blurb: "KOBİ'ler için kapsamlı ERP. İşiniz büyüdükçe yazılımınız da sizinle büyür.",
+    blurb: "KOBİ'ler için kapsamlı ERP. İhtiyaç duydukça yeni modül eklenir.",
     description:
       "Küçük ve orta ölçekli işletmeler için kapsamlı ERP çözümü. Satış, stok, muhasebe ve üretim aynı yerde çalışır.",
     page: "/urunler/mikro-jump",
@@ -74,24 +74,24 @@ export const EDONUSUM_DOCS = ["e-Fatura", "e-Arşiv", "e-İrsaliye", "e-Defter",
 export const EDONUSUM_CONSULTING = ["GİB başvuruları", "Sistem kurulumu", "Entegratör bağlantısı", "Zorunlu belgelerin tespiti"];
 
 export const SERVICES = [
-  { title: "İş analizi", body: "İhtiyaçlarınızı detaylı analiz ederek en uygun çözümü belirliyoruz.", ticks: ["Mevcut süreç analizi", "İhtiyaç tespiti", "Çözüm önerisi", "Maliyet analizi"] },
-  { title: "Kurulum & entegrasyon", body: "Yazılımınızı profesyonelce kuruyor, mevcut sistemlerinizle entegre ediyoruz.", ticks: ["Yazılım kurulumu", "Sistem entegrasyonu", "Özelleştirme"] },
+  { title: "İş analizi", body: "İhtiyaçlarınızı inceleyip size uygun ürün ve modülleri belirliyoruz.", ticks: ["Mevcut süreç analizi", "İhtiyaç tespiti", "Çözüm önerisi", "Maliyet analizi"] },
+  { title: "Kurulum & entegrasyon", body: "Programı kuruyor, kullandığınız diğer sistemlerle bağlantısını yapıyoruz.", ticks: ["Yazılım kurulumu", "Sistem entegrasyonu", "Özelleştirme"] },
   { title: "Eğitim", body: "Ekibinizin programı kendi işleri üzerinden öğrenmesini sağlıyoruz.", ticks: ["Kullanıcı eğitimi", "Yönetici eğitimi"] },
-  { title: "Teknik destek", body: "Çalışma saatlerimizde uzak bağlantı ve destek portalıyla yanınızdayız; gerektiğinde yerinde.", ticks: ["Uzak bağlantı (GoTech Desk)", "Destek portalı", "Yerinde destek"] },
-  { title: "e-Dönüşüm danışmanlığı", body: "e-Fatura, e-Defter ve tüm e-belge süreçlerinizde danışmanlık.", ticks: ["GİB başvuruları", "Sistem kurulumu", "Entegratör bağlantısı", "Zorunlu belgelerin tespiti"] },
+  { title: "Teknik destek", body: "Çalışma saatlerimizde uzak bağlantı ve destek portalı üzerinden destek veriyoruz; gerektiğinde yerinde.", ticks: ["Uzak bağlantı (GoTech Desk)", "Destek portalı", "Yerinde destek"] },
+  { title: "e-Dönüşüm danışmanlığı", body: "e-Fatura, e-Defter ve diğer e-belgelere geçişte danışmanlık.", ticks: ["GİB başvuruları", "Sistem kurulumu", "Entegratör bağlantısı", "Zorunlu belgelerin tespiti"] },
 ];
 
 export const PROCESS_STEPS = [
   { title: "İletişim", body: "Bize ulaşın, ihtiyaçlarınızı dinleyelim." },
   { title: "Analiz", body: "İşletmenizi ve süreçlerinizi analiz edelim." },
-  { title: "Teklif", body: "Size özel çözüm ve fiyat sunalım." },
-  { title: "Kurulum", body: "Kuralım, entegre edelim." },
+  { title: "Teklif", body: "İhtiyacınıza göre ürün ve fiyat teklifi hazırlayalım." },
+  { title: "Kurulum", body: "Programı kuralım, gerekli bağlantıları yapalım." },
   { title: "Eğitim", body: "Ekibinizi kullanıcı ve yönetici eğitimleriyle hazırlayalım." },
-  { title: "Destek", body: "Destek, güncelleme ve bakımla yanınızda olalım." },
+  { title: "Destek", body: "Kurulumdan sonra destek, güncelleme ve bakımı sürdürelim." },
 ];
 
 export const EXTRA_SOLUTIONS = [
-  { title: "Zeus WMS", body: "Yapay zeka destekli depo yönetim sistemi.", chips: ["Stok takibi", "Raf yönetimi", "Barkod", "SKT takibi"] },
+  { title: "Zeus WMS", body: "Depo yönetim sistemi.", chips: ["Stok takibi", "Raf yönetimi", "Barkod", "SKT takibi"] },
   { title: "B2B / B4B", body: "Bayi ve saha satış yönetim sistemi.", chips: ["Online sipariş", "Bayi portalı", "Saha satış", "Mobil"] },
   { title: "Mikro Hızlı Satış", body: "Perakende satış noktası (POS) çözümü.", chips: ["Hızlı satış", "Barkod okuma", "Kasa", "Z raporu"] },
   { title: "Mikro Drive", body: "Bulut yedekleme ve dosya paylaşımı.", chips: ["Otomatik yedekleme", "Dosya paylaşımı", "Güvenli depolama"] },
@@ -102,7 +102,7 @@ export const EXTRA_SOLUTIONS = [
 export const FAQ = [
   {
     q: "GoTech tam olarak ne yapıyor?",
-    a: "Mikro Yazılım İş Ortağı'yız. 2017'den beri Mikro Yazılım'ın ERP ürünlerini işletmelere kuruyor, iş analizinden eğitime ve teknik desteğe kadar sürecin tamamında yanınızda oluyoruz.",
+    a: "Mikro Yazılım İş Ortağı'yız. 2017'den beri Mikro Yazılım'ın ERP ürünlerini işletmelere kuruyor; iş analizi, eğitim ve teknik destek de veriyoruz.",
   },
   {
     q: "Hangi ürün bize uygun?",

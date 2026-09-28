@@ -21,8 +21,8 @@ export function Beyond() {
         <div className={s.beyondTop}>
           <SectionHead
             eyebrow="Yazılım"
-            title="Mikro'nun yetmediği yerde kendi yazılım ekibimiz var"
-            lede="Mikro'ya bağlı ek ekranlardan kurumsal web sitesine kadar Mikro'nun dışındaki işleri de kendimiz geliştiriyoruz."
+            title="İşletmenize özel yazılım geliştiriyoruz"
+            lede="Mikro'ya bağlı ek ekran ve raporların yanında kurumsal web sitesi, portal ve e-ticaret projelerini de kendi ekibimizle geliştiriyoruz."
           />
           <div className={s.beyondSide} {...REVEAL}>
             <div className={s.refRow}>
@@ -56,8 +56,8 @@ export function About({ settings }: { settings: SiteSettings }) {
         <div className={s.aboutCopy}>
           <SectionHead
             eyebrow="Hakkımızda"
-            title="Mikro Yazılım'ı üreticinin içinde öğrendik, 2017'de kendi yolumuza çıktık."
-            lede="KOBİ ve kurumlar için Mikro çözümlerine entegre iş analizi, 3. parti yazılımlar, kurulum, eğitim ve destek süreçlerinin tamamında yanınızdayız."
+            title="Mikro Yazılım'da başladık, 2017'den beri Mikro iş ortağıyız."
+            lede="KOBİ'lere ve kurumlara Mikro ürünlerinde iş analizi, kurulum, eğitim ve destek veriyor; Mikro'yla entegre çalışan yazılımları kurup bağlıyoruz."
           />
           <dl className={s.aboutFacts} {...REVEAL}>
             {facts.map((f) => <div key={f.term}><dt>{f.term}</dt><dd>{f.text}</dd></div>)}

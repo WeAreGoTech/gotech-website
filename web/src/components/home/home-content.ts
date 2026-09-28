@@ -93,7 +93,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     key: "edonusum",
     label: "e-Dönüşüm",
     eyebrow: "e-Dönüşüm",
-    title: "e-Fatura'dan e-Defter'e, e-Dönüşüm tek elden",
+    title: "e-Fatura'dan e-Defter'e e-Dönüşüm geçişi",
     lede: "Hangi belgelerin sizin için zorunlu olduğunu çıkarıyor; GİB başvurusunu, entegratör bağlantısını ve Mikro'daki e-belge ayarlarını biz yapıyoruz.",
     image: "/images/mikro-gorsel/bulut-rapor.webp",
     alt: "Dizüstü bilgisayarda rapor ekranına bakan bir çalışan",
@@ -104,8 +104,8 @@ export const HERO_SLIDES: HeroSlide[] = [
     key: "yazilim",
     label: "Özel yazılım",
     eyebrow: "Özel yazılım",
-    title: "Mikro'nun yetmediği yerde kendi yazılım ekibimiz var",
-    lede: "Mikro'ya bağlı ekran ve raporlar, web siteleri, müşteri ve bayi portalları geliştiriyoruz.",
+    title: "İşletmenize özel yazılım geliştiriyoruz",
+    lede: "Mikro'yla birlikte çalışan ek ekran ve raporlar, web siteleri, müşteri ve bayi portalları geliştiriyoruz.",
     image: "/images/stok/yazilimci.webp",
     alt: "Pencere kenarındaki masada iki ekranla kod yazan bir yazılımcı",
     cta: { label: "Yazılım çözümleri", href: "/yazilim-cozumleri" },
@@ -178,7 +178,7 @@ export function supportTab(workingHours: string, phone: string): ServiceTab {
   return {
     id: "destek",
     label: "Destek",
-    body: `Kurulumdan sonra destek de bizden: ${workingHours.toLocaleLowerCase("tr")}. Talebinizi portaldan açar, kimin üstlendiğini ve hangi aşamada olduğunu oradan görürsünüz.`,
+    body: `Kurulumdan sonraki desteği de biz veriyoruz (${workingHours.toLocaleLowerCase("tr")}). Talebinizi portaldan açar, kimin üstlendiğini ve hangi aşamada olduğunu oradan görürsünüz.`,
     items: [
       ...(phone ? [`Destek hattı: ${phone}`] : []),
       "Uzak bağlantı: GoTech Desk",
