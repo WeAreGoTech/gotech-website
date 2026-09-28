@@ -682,6 +682,18 @@ Telefonda kapak: fotoğrafın odak noktası boş tarafa kayıyor (`object-positi
 
 Değişmeyenler: Mikro logosu ve rozetleri yalnız düz beyaz zeminde (koyu zeminde beyaz kartın içinde), 156px; uydurma rakam, müşteri sayısı, "7/24" gibi doğrulanmamış iddia yok; Figtree; `[data-in]` belirme hareketi ve hareket tercihi.
 
+**İkinci tur — Gold iş ortakları (aynı gün).** İstek: "biraz daha başarılı Mikro bayilerine bak". Bakılanlar: Entry Bilişim ("Mikro'nun en güçlü Gold partneri"), Robox (İzmir, Fly ve Jump Gold), Eryaz (Zeus WMS'in üreticisi, 1996'dan beri), BSK Yazılım (25+ yıl), Fark Yazılım. Küçük bayilerden ayrılan kalıplar siteye taşındı:
+
+- **Lacivert giriş** (`Hero.tsx`, `hero.module.css`): ince ızgara deseni ve köşede soluk kırmızı ışık; başlıkta "Mikro Yazılım" (yoksa "Mikro") açık kırmızı; beyaz çerçeveli ikincil buton. Fotoğrafın kenarlarına taşan iki bilgi kartı (e-Dönüşüm, Destek portalı) ve Mikro logosu + iki Silver rozetli beyaz kart. Telefonda yüzen kartlar yok, iş ortaklığı kartı fotoğrafın altında.
+- **Taşan rakam kartları**: girişin alt kenarına binen dört beyaz kart. Panel rakamları önce, boş kalanların yerine `HERO_FACTS` (2017 · 2× Silver · 4 ürün · 8 e-belge; hepsi sitedeki doğrulanmış bilgiden sayıldı).
+- **Menüde açılır alt menü**: Ürünler (dört ürün + karşılaştırma) ve Hizmetler (beş hizmet), `SITE_NAV[].children`. Üstüne gelince ya da klavye odağında (`:has(:focus-visible)`) açılır; fareyle tıklanan bağlantının odağı sayfa değişince menüyü açık tutmasın diye `:focus-within` değil. Telefonda girintili liste.
+- **Başlık vurgusu**: `SectionHead` `accent` ile başlığın sonu marka renginde ("İşletmenize uygun **Mikro çözümü**"); `dark` lacivert bölüm içindir.
+- **Yeni bantlar** (`HomeBands.tsx`, `bands.module.css`): lacivert "Stoktan bordroya, tek programda" (Mikro Jump/Fly'ın sekiz alanı + Mikro'nun sektörel modülleri çip olarak; GoTech'in sektör deneyimi iddiası değil), altı adımlı süreç şeridi (`PROCESS_STEPS`), kırmızı "Mevcut kurulumunuzu ücretsiz inceleyelim" bandı.
+- **Kartlar**: ikon kutuları lacivert dolgulu, kartın üstüne gelince kırmızı. Ürün kartlarında tür etiketi (Ara/KOBİ/Bulut/Kurumsal ERP) ve GoTech'in o üründeki rozeti (Jumper Silver / Flyer Silver) çip olarak.
+- **İç sayfa başlıkları** (`.phead`, hizmetler girişi) lacivert, girişle aynı desen. Ürün detay sayfalarının girişi beyaz kaldı: Mikro ürün logoları saydam PNG, yalnız beyaz zeminde.
+
+Rakiplerde olup **alınmayanlar**: "3.000+ referans", "500+ mutlu müşteri", "7/24 destek", "%100 SLA" gibi sayılar ve kampanya pencereleri (doğrulanmış karşılığı yok); uydurma pano ekranı (Mikro ekranı gibi görünmesin); canlı destek/WhatsApp düğmesi (numara bekleniyor).
+
 ---
 
 ## 9. Uygulama yol haritası

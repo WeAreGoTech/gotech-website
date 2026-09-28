@@ -5,10 +5,31 @@
 import type { IconName } from "./icons";
 import type { PageLinkData } from "./parts";
 
-// Üst menü: ana sayfada da iç sayfalarda da aynı (HomeNav)
-export const SITE_NAV = [
-  { href: "/urunler", label: "Ürünler" },
-  { href: "/hizmetlerimiz", label: "Hizmetler" },
+// Üst menü: ana sayfada da iç sayfalarda da aynı (HomeNav). children: masaüstünde açılır alt menü, telefonda girintili liste
+export type NavLink = { href: string; label: string; note?: string };
+export const SITE_NAV: (NavLink & { children?: NavLink[] })[] = [
+  {
+    href: "/urunler",
+    label: "Ürünler",
+    children: [
+      { href: "/urunler/mikro-jump#basic", label: "Mikro Jump Basic", note: "3 kullanıcıya kadar ara ERP" },
+      { href: "/urunler/mikro-jump", label: "Mikro Jump", note: "KOBİ'ler için modüler ERP" },
+      { href: "/urunler/mikro-jump#bulut", label: "Mikro Jump Bulut", note: "Sunucusuz, tarayıcıdan" },
+      { href: "/urunler/mikro-fly", label: "Mikro Fly", note: "Büyük işletmeler ve grup şirketleri" },
+      { href: "/urunler", label: "Ürün karşılaştırması", note: "Hangisinde ne var, ne yok?" },
+    ],
+  },
+  {
+    href: "/hizmetlerimiz",
+    label: "Hizmetler",
+    children: [
+      { href: "/hizmetlerimiz#analiz", label: "Analiz ve teklif", note: "Ücretsiz keşif görüşmesi" },
+      { href: "/hizmetlerimiz#kurulum", label: "Kurulum ve entegrasyon", note: "Kurulum, yetkiler, ek çözümler" },
+      { href: "/hizmetlerimiz#edonusum", label: "e-Dönüşüm", note: "GİB başvurusu ve e-belge ayarları" },
+      { href: "/hizmetlerimiz#egitim", label: "Eğitim", note: "Kullanıcı ve yönetici eğitimi" },
+      { href: "/hizmetlerimiz#destek", label: "Teknik destek", note: "Uzak bağlantı, portal, yerinde" },
+    ],
+  },
   { href: "/yazilim-cozumleri", label: "Yazılım" },
   { href: "/hakkimizda", label: "Hakkımızda" },
   { href: "/iletisim", label: "İletişim" },
@@ -18,6 +39,7 @@ export const SITE_NAV = [
 export const HOME_ANCHORS = [
   { href: "#urunler", label: "Mikro ürünleri" },
   { href: "#hizmetler", label: "Hizmetler" },
+  { href: "#moduller", label: "Modüller ve sektörler" },
   { href: "#edonusum", label: "e-Dönüşüm" },
   { href: "#destek", label: "Destek" },
   { href: "#yazilim", label: "Yazılım" },
@@ -35,21 +57,26 @@ export const PRODUCT_LINKS = [
 
 export const PORTAL_HREF = "/giris";
 
-// Giriş (Hero.tsx): başlık, açıklama ve buton yazısı panelden; rozet, güven maddeleri ve fotoğraf burada.
-// Fotoğraf Mikro'nun sitesinden (public/images/mikro-gorsel/KAYNAK.md).
+// Giriş (Hero.tsx): başlık, açıklama ve buton yazısı panelden; rozet, güven maddeleri, fotoğraf ve fotoğrafın üstündeki
+// iki kısa bilgi kartı burada. Fotoğraf Mikro'nun sitesinden (public/images/mikro-gorsel/KAYNAK.md).
 export const HERO = {
   badge: "Mikro Yazılım Yetkili İş Ortağı · İzmir",
+  floats: [
+    { icon: "fileText", title: "e-Dönüşüm", text: "GİB başvurusu ve e-belge ayarları" },
+    { icon: "ticket", title: "Destek portalı", text: "Talepleriniz kayıt altında" },
+  ] satisfies { icon: IconName; title: string; text: string }[],
   checks: ["Ücretsiz keşif ve demo", "İzmir'de yerinde destek", "Kurulum, eğitim, e-Dönüşüm", "Kendi yazılım ekibimiz"],
   image: "/images/mikro-gorsel/edonusum-ofis.webp",
   alt: "Ofiste bilgisayar başında birlikte çalışan iki kişi",
 };
 
-// Girişin altındaki bilgi şeridi: panelde girilmemiş rakamların yerini bunlar doldurur (hepsi doğrulanmış bilgi)
-export const HERO_FACTS = [
-  { value: "2017", label: "yılından beri Mikro Yazılım yetkili iş ortağı" },
-  { value: "Silver Partner", label: "Mikro'nun Jumper ve Flyer iş ortaklığı programlarında" },
-  { value: "Alsancak", label: "İzmir'deki ofisimizden yerinde destek" },
-  { value: "GoTech Desk", label: "Kendi uzak destek uygulamamızla bağlanıyoruz" },
+// Girişin altındaki rakam kartları: panelde girilmemiş rakamların yerini bunlar doldurur. Hepsi doğrulanmış bilgiden:
+// kuruluş yılı, iki Silver rozeti, satılan dört Mikro ürünü (urunler-data PRODUCTS), kurulan sekiz e-belge (EDONUSUM_DOCS).
+export const HERO_FACTS: { value: string; label: string; icon: IconName }[] = [
+  { value: "2017", label: "yılından beri Mikro Yazılım yetkili iş ortağı", icon: "calendar" },
+  { value: "2× Silver", label: "Jumper ve Flyer iş ortaklığı programlarında", icon: "award" },
+  { value: "4 ürün", label: "Jump Basic, Jump, Jump Bulut ve Fly", icon: "layers" },
+  { value: "8 e-belge", label: "e-Fatura'dan e-Bordro'ya e-Dönüşüm kurulumu", icon: "fileText" },
 ];
 
 // Üst bant: V16'nın destek bitiş tarihi. Bant kalan günü yazar, tarih geçince "sona erdi"ye döner.
@@ -150,6 +177,35 @@ export const WHY_GOTECH: { icon: IconName; title: string; body: string; link?: P
     link: { href: "#iletisim", label: "Kurulumunuzu inceleyelim", konu: "gecis" },
   },
 ];
+
+// Ana sayfa "Modüller ve sektörler" (lacivert bölüm): Mikro Jump ve Fly'da ana pakette gelen ve modül olarak eklenen başlıca
+// alanlar; altında Mikro'nun sektörel modülleri ve ek çözümleri. Hepsi Mikro'nun ürün sayfalarından (kurumsal/urun-detay.ts).
+export const MIKRO_MODULES: { icon: IconName; title: string; body: string }[] = [
+  { icon: "package", title: "Stok ve depo", body: "Şube ve depolarda renk, beden ve parti-lot bazında stok takibi." },
+  { icon: "shoppingCart", title: "Satış ve satın alma", body: "Müşteri ve tedarikçi yönetimi, sipariş, irsaliye ve fatura." },
+  { icon: "wallet", title: "Finans ve bütçe", body: "Kasa, banka, çek-senet ve kredi süreçleri; bütçe yönetimi." },
+  { icon: "calculator", title: "Genel muhasebe", body: "Genel muhasebe kayıtları, sabit kıymet ve amortisman takibi." },
+  { icon: "users", title: "Personel ve bordro", body: "Puantaj, izin takibi, bordro ve özlük işlemleri." },
+  { icon: "factory", title: "Üretim", body: "Temel üretim ve fason; Fly'da MRP2 ile makine ve iş gücü planlama." },
+  { icon: "fileText", title: "e-Dönüşüm", body: "e-Fatura, e-Arşiv, e-İrsaliye, e-Defter ve e-Bordro programın içinden." },
+  { icon: "globe", title: "Dış ticaret", body: "İthalat ve ihracat süreçleri; Jump'ta modül, Fly'da ana pakette." },
+];
+
+export const SECTORS: { icon: IconName; label: string }[] = [
+  { icon: "store", label: "Perakende ve mağaza" },
+  { icon: "utensils", label: "Restoran" },
+  { icon: "truck", label: "Bayi ve saha satış" },
+  { icon: "factory", label: "Üretim ve fason" },
+  { icon: "warehouse", label: "Depo yönetimi" },
+  { icon: "wrench", label: "Tamir ve teknik servis" },
+  { icon: "keyRound", label: "Kiralama" },
+  { icon: "fuel", label: "Akaryakıt" },
+  { icon: "building", label: "Gayrimenkul" },
+  { icon: "globe", label: "Dış ticaret" },
+];
+
+// Ana sayfa süreç şeridi: urunler-data PROCESS_STEPS'in altı adımı, sırasıyla bu ikonlarla
+export const PROCESS_ICONS: IconName[] = ["phone", "search", "fileText", "wrench", "graduationCap", "headset"];
 
 // Hizmetler: ana sayfadaki yol haritasının (PROCESS_STEPS) her adımında o adımda yaptığımız iş (SERVICES kapsamı)
 export const JOURNEY_SCOPE: string[][] = [

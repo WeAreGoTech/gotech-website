@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { About, Beyond, Faq } from "@/components/home/CompanySections";
 import { Contact, HomeFooter } from "@/components/home/ContactSection";
 import { Hero } from "@/components/home/Hero";
+import { CtaBand, Modules, Process } from "@/components/home/HomeBands";
 import { HomeEffects } from "@/components/home/HomeEffects";
 import h from "@/components/home/home.module.css";
 import { HomeNav } from "@/components/home/HomeNav";
@@ -62,20 +63,24 @@ export default async function HomePage() {
       <HomeNav />
       <main id="icerik">
         <Hero content={content} />
-        <section className={`${h.sec} ${h.ground}`} id="urunler">
+        <section className={h.sec} id="urunler">
           <div className={h.wrap}>
             <SectionHead
               center
               eyebrow="Mikro ürün ailesi"
-              title="İşletmenize uygun Mikro çözümü"
+              title="İşletmenize uygun"
+              accent="Mikro çözümü"
               lede="Küçük işletmeden grup şirketine dört ürün. Hangisinin size uyduğunu aşağıdaki cümleyle deneyin; kesin seçimi ücretsiz keşif görüşmesinde birlikte yapıyoruz."
             />
             <ProductFinder />
           </div>
         </section>
         <Services />
+        <Modules />
+        <Process />
         <EDonusum />
         <Support settings={settings} />
+        <CtaBand settings={settings} />
         <Beyond />
         <About settings={settings} />
         <Faq />

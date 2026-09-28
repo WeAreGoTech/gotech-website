@@ -14,8 +14,9 @@ const STUCK_AFTER = 40;
 
 /**
  * Sitenin tek üst menüsü (ana sayfa ve iç sayfalar): beyaz, yapışkan; sağda "Destek portalı" ve "Ücretsiz demo".
- * 1100px altında bağlantılar menü düğmesine iner. "Ücretsiz demo" her sayfanın sonundaki iletişim formuna (#iletisim) iner,
- * konuyu da seçili getirir (HomeEffects).
+ * Ürünler ve Hizmetler'in altında açılır menü var: üstüne gelince ya da klavyeyle odaklanınca açılır (üst bağlantı sayfaya gider).
+ * 1100px altında bağlantılar menü düğmesine iner, alt bağlantılar girintili listelenir. "Ücretsiz demo" her sayfanın sonundaki
+ * iletişim formuna (#iletisim) iner, konuyu da seçili getirir (HomeEffects).
  */
 export function HomeNav() {
   const pathname = usePathname();
@@ -63,7 +64,24 @@ export function HomeNav() {
       <div className={h.wrap}>
         <Link className={h.logo} href="/" aria-label="GoTech ana sayfa"><GoTechLogoHeader /></Link>
         <nav className={h.navLinks} aria-label="Ana menü">
-          {SITE_NAV.map((link) => <Link key={link.href} href={link.href} aria-current={current(link.href)}>{link.label}</Link>)}
+          {SITE_NAV.map((link) => (
+            <div key={link.href} className={h.navItem}>
+              <Link className={h.navTop} href={link.href} aria-current={current(link.href)}>
+                {link.label}
+                {link.children && <Icon name="chevronDown" size={15} stroke={2} />}
+              </Link>
+              {link.children && (
+                <div className={h.drop}>
+                  {link.children.map((child) => (
+                    <Link key={child.href} href={child.href}>
+                      <b>{child.label}</b>
+                      {child.note && <small>{child.note}</small>}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </nav>
         <div className={h.navActions}>
           <Link className={cx(h.btn, h.ghost, h.small, h.navPortal)} href={PORTAL_HREF}><Icon name="headset" size={17} />Destek portalı</Link>
@@ -77,7 +95,16 @@ export function HomeNav() {
         <nav className={h.menu} id="site-menu" aria-label="Menü">
           <div className={h.wrap}>
             {SITE_NAV.map((link) => (
-              <Link key={link.href} href={link.href} aria-current={current(link.href)} onClick={() => setOpen(false)}>{link.label}</Link>
+              <div key={link.href} className={h.menuGroup}>
+                <Link href={link.href} aria-current={current(link.href)} onClick={() => setOpen(false)}>{link.label}</Link>
+                {link.children && (
+                  <div className={h.menuSub}>
+                    {link.children.map((child) => (
+                      <Link key={child.href} href={child.href} onClick={() => setOpen(false)}>{child.label}</Link>
+                    ))}
+                  </div>
+                )}
+              </div>
             ))}
             <Link href={PORTAL_HREF} onClick={() => setOpen(false)}>Destek portalı</Link>
           </div>

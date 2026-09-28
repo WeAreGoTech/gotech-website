@@ -29,7 +29,7 @@ const mapsHref = (address: string) => `https://www.google.com/maps/search/?api=1
  */
 export function Contact({ settings, content, title, lead, submitLabel, note = DISCOVERY_NOTE }: ContactProps) {
   return (
-    <section className={cx(h.sec, c.section)} id="iletisim">
+    <section className={cx(h.sec, h.navySec, c.section)} id="iletisim">
       <div className={cx(h.wrap, c.contact)}>
         <div className={c.copy} {...REVEAL}>
           <span className={h.eyebrow}>İletişim</span>

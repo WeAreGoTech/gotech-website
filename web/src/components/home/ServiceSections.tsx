@@ -12,12 +12,13 @@ import sv from "./services.module.css";
  */
 export function Services() {
   return (
-    <section className={h.sec} id="hizmetler">
+    <section className={cx(h.sec, h.ground)} id="hizmetler">
       <div className={h.wrap}>
         <SectionHead
           center
           eyebrow="Hizmetlerimiz"
-          title="Ürün seçiminden kurulum sonrası desteğe"
+          title="Ürün seçiminden"
+          accent="kurulum sonrası desteğe"
           lede="Lisans Mikro'dan; analizi, kurulumu, e-Dönüşümü, eğitimi ve desteği GoTech ekibi yapıyor."
         />
         <ul className={sv.grid}>
@@ -43,7 +44,8 @@ export function EDonusum() {
         <div className={sv.edoCopy}>
           <SectionHead
             eyebrow="e-Dönüşüm"
-            title="e-Belgelerinizi de biz kuruyoruz"
+            title="e-Belgelerinizi de"
+            accent="biz kuruyoruz"
             lede="GİB başvurusunu, entegratör bağlantısını ve Mikro'daki e-belge ayarlarını biz yapıyoruz. Belgeler programın içinden, kontörle kesilir."
           />
           <ul className={sv.ticks} {...REVEAL}>{EDONUSUM_CONSULTING.map((t) => <li key={t}>{t}</li>)}</ul>

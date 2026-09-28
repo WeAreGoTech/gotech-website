@@ -64,8 +64,12 @@
   .faqSplit>:first-child{position:static}
 }
 @media (max-width:640px){
-  .ways{grid-template-columns:1fr}
-  .channel,.way{padding:24px 22px}
+  .ways{grid-template-columns:1fr;gap:12px}
+  .channels{gap:12px}
+  /* telefonda kart yatay: solda ikon, sağda metin (sayfa kısalsın) */
+  .channel,.way{display:grid;grid-template-columns:44px minmax(0,1fr);gap:4px 14px;padding:20px}
+  .channel > span:first-child,.way > span:first-child{grid-row:span 4;width:44px;height:44px;border-radius:12px}
+  .channel h3,.way h3{margin-top:0}
   .faq summary{padding:18px 18px}
   .faq details p{padding:0 18px 20px}
 }

@@ -25,7 +25,8 @@ export function Support({ settings }: { settings: SiteSettings }) {
         <div className={s.supportTop}>
           <SectionHead
             eyebrow="Destek"
-            title="Kurulum sonrası destek"
+            title="Kurulum sonrası"
+            accent="destek"
             lede={`Destek ekibimiz ${settings.workingHours.toLocaleLowerCase("tr")} arasında çalışıyor. Talepleriniz destek portalında kayıt altında.`}
           />
           <Link className={h.btn} href={PORTAL_HREF} {...REVEAL}>Destek portalına giriş <ArrowIcon /></Link>

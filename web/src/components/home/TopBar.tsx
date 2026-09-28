@@ -10,6 +10,8 @@ import { telHref } from "./parts";
  */
 export function TopBar({ settings }: { settings: SiteSettings }) {
   const phone = settings.salesPhone || settings.supportPhone;
+  // adresin son satırı (ör. "Alsancak — İzmir")
+  const city = settings.address.split("\n").pop()?.trim();
   return (
     <div className={h.topbar}>
       <div className={h.wrap}>
@@ -19,9 +21,10 @@ export function TopBar({ settings }: { settings: SiteSettings }) {
           )}
           <li><Icon name="mail" size={15} /><a href={`mailto:${settings.email}`}>{settings.email}</a></li>
           <li className={h.topHours}><Icon name="clock" size={15} />{settings.workingHours}</li>
+          {city && <li className={h.topCity}><Icon name="mapPin" size={15} />{city}</li>}
         </ul>
         <div className={h.topSide}>
-          <span className={h.topPartner}><Icon name="shieldCheck" size={16} />Mikro Yazılım Yetkili İş Ortağı</span>
+          <span className={h.topPartner}><Icon name="shieldCheck" size={16} />Mikro Yazılım Jumper &amp; Flyer Silver Partner</span>
           {settings.linkedin && (
             <a className={h.topSocial} href={settings.linkedin} target="_blank" rel="noopener noreferrer" aria-label="GoTech LinkedIn sayfası">
               <Icon name="linkedin" size={14} />

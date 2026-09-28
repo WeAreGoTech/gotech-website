@@ -39,9 +39,22 @@ html.lenis,html.lenis body{height:auto}
 .site .btn-sm{padding:.68rem 1.1rem;font-size:.92rem;border-radius:9px}
 .site .row-cta{display:flex;flex-wrap:wrap;align-items:center;gap:12px}
 
-/* ---------- iç sayfa girişi (PageHeader): gri sayfa başlık bandı ---------- */
-/* solda konum + başlık, sağda alta hizalı açıklama (Mikro iş ortaklarının sitelerindeki sayfa başlığı kalıbı) */
-.phead{background:var(--ground);border-bottom:1px solid var(--line)}
+/* ---------- iç sayfa girişi (PageHeader): lacivert sayfa başlık bandı (ana sayfanın girişiyle aynı zemin ve desen) ---------- */
+/* solda konum + başlık, sağda alta hizalı açıklama (Mikro'nun Gold iş ortaklarının sitelerindeki sayfa başlığı kalıbı) */
+.phead{position:relative;overflow:hidden;background:var(--navy);color:#fff;isolation:isolate}
+.phead::before{content:"";position:absolute;inset:0;z-index:-1;
+  background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
+  background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse 80% 90% at 75% 20%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 80% 90% at 75% 20%,#000 20%,transparent 75%)}
+.phead::after{content:"";position:absolute;z-index:-1;width:640px;height:640px;right:-160px;top:-320px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(229,57,53,.28),transparent);pointer-events:none}
+.phead h1{color:#fff}
+.phead .lede{color:var(--on-navy)}
+.phead .crumb{color:rgba(255,255,255,.62)}
+.phead .crumb a{color:rgba(255,255,255,.86)}
+.phead .crumb a:hover{color:#fff}
+.phead :focus-visible{outline-color:#fff}
+/* iletişim sayfasında başlık bandının hemen altında lacivert iletişim bölümü: ikisi ince çizgiyle ayrılır */
+.phead + #iletisim{border-top:1px solid var(--line-navy)}
 .phead .wrap{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);column-gap:clamp(32px,6vw,96px);row-gap:14px;align-items:end;
   padding-block:clamp(36px,6vh,64px) clamp(36px,6vh,60px)}
 .phead .crumb{grid-column:1/-1}

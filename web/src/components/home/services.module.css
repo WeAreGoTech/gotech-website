@@ -29,8 +29,12 @@
   .edo{grid-template-columns:1fr}
 }
 @media (max-width:640px){
-  .grid{grid-template-columns:1fr}
-  .card{padding:24px 22px}
+  .grid{grid-template-columns:1fr;gap:12px}
+  /* telefonda kart yatay: solda ikon, sağda başlık, metin ve bağlantı (sayfa kısalsın) */
+  .card{display:grid;grid-template-columns:44px minmax(0,1fr);gap:6px 14px;padding:20px}
+  .card > span:first-child{grid-row:span 3;width:44px;height:44px;border-radius:12px}
+  .card h3{margin-top:0}
+  .more{padding-top:2px}
 }
 @media (max-width:420px){
   .docs{grid-template-columns:1fr}

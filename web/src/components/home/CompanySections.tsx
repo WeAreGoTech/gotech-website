@@ -22,7 +22,8 @@ export function Beyond() {
         <div className={s.beyondTop}>
           <SectionHead
             eyebrow="Yazılım"
-            title="İşletmenize özel yazılım geliştiriyoruz"
+            title="İşletmenize özel"
+            accent="yazılım geliştiriyoruz"
             lede="Mikro'ya bağlı ek ekran ve raporların yanında kurumsal web sitesi, portal ve e-ticaret projelerini de kendi ekibimizle geliştiriyoruz."
           />
           <div className={s.beyondSide} {...REVEAL}>

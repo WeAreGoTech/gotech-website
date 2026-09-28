@@ -55,6 +55,13 @@
 
 .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gx)}
 .sec{padding-block:var(--sec)}
+/* lacivert bölüm (modüller, iletişim): ince ızgara deseni ve köşede soluk kırmızı ışık */
+.navySec{position:relative;overflow:hidden;background:var(--navy);color:#fff;isolation:isolate}
+.navySec::before{content:"";position:absolute;inset:0;z-index:-1;
+  background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);
+  background-size:56px 56px;-webkit-mask-image:radial-gradient(ellipse 90% 80% at 50% 0%,#000 20%,transparent 75%);mask-image:radial-gradient(ellipse 90% 80% at 50% 0%,#000 20%,transparent 75%)}
+.navySec::after{content:"";position:absolute;z-index:-1;width:760px;height:760px;right:-220px;top:-320px;border-radius:50%;
+  background:radial-gradient(closest-side,rgba(229,57,53,.24),transparent);pointer-events:none}
 /* dönüşümlü bölüm: açık gri zemin; üstündeki kartlar beyaz */
 .ground{background:var(--ground)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
@@ -70,6 +77,14 @@
 .head{display:grid;gap:14px;justify-items:start;max-width:760px}
 .center{justify-items:center;text-align:center;margin-inline:auto}
 .center .lede{margin-inline:auto}
+/* başlığın marka renginde yazılan kısmı (SectionHead accent) */
+.home h1 em,.home h2 em{font-style:normal;color:var(--brand-deep)}
+/* lacivert zeminli bölümde başlık (SectionHead dark): açık kırmızı etiket ve vurgu lacivert üstünde AA'yı geçiyor */
+.onDark h2{color:#fff}
+.onDark .eyebrow{color:#FF8A80}
+.onDark .eyebrow::before{background:#FF8A80}
+.onDark .lede{color:var(--on-navy)}
+.home .onDark h2 em{color:#FF7A70}
 
 /* ---------- butonlar ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:.6em;padding:.95rem 1.5rem;border:0;border-radius:10px;cursor:pointer;
@@ -90,8 +105,10 @@
 .link:hover{color:var(--brand-press);text-decoration-color:currentColor}
 .link:hover svg{transform:translateX(3px)}
 
-/* ---------- ikon kutusu: kartların başındaki kırmızı çizgi ikon ---------- */
-.iconBox{display:grid;place-items:center;flex:none;width:52px;height:52px;border-radius:14px;background:var(--brand-soft);color:var(--brand-deep)}
+/* ---------- ikon kutusu: kartların başındaki dolgulu kare; kartın üstüne gelince markanın kırmızısına döner ---------- */
+.iconBox{display:grid;place-items:center;flex:none;width:52px;height:52px;border-radius:14px;color:#fff;
+  background:linear-gradient(145deg,#243F69,var(--navy));box-shadow:0 10px 20px -12px rgba(15,30,54,.8);transition:background .3s var(--ease),box-shadow .3s var(--ease)}
+.card:hover .iconBox{background:linear-gradient(145deg,#E53935,var(--brand-press));box-shadow:0 10px 20px -12px rgba(192,38,31,.8)}
 
 /* ---------- kart: beyaz, ince çerçeve, yumuşak gölge; üstüne gelince hafifçe kalkar ---------- */
 .card{border-radius:var(--r-lg);background:#fff;border:1px solid var(--line);box-shadow:var(--card-shadow);
@@ -134,20 +151,38 @@
 .logo{display:block;flex:none;width:124px}
 .logo svg{width:100%;height:auto}
 .navLinks{display:flex;align-items:center;gap:2px;margin-left:auto;font-size:.98rem;font-weight:600;color:var(--ink)}
-.navLinks a{position:relative;padding:10px 14px;border-radius:8px;transition:color .2s var(--ease)}
-.navLinks a::after{content:"";position:absolute;left:14px;right:14px;bottom:2px;height:2px;border-radius:2px;background:var(--brand);
+.navItem{position:relative}
+.navTop{position:relative;display:inline-flex;align-items:center;gap:4px;padding:10px 14px;border-radius:8px;transition:color .2s var(--ease)}
+.navTop svg{color:var(--ink-3);transition:transform .25s var(--ease),color .2s var(--ease)}
+.navTop::after{content:"";position:absolute;left:14px;right:14px;bottom:2px;height:2px;border-radius:2px;background:var(--brand);
   transform:scaleX(0);transform-origin:left;transition:transform .3s var(--soft)}
-.navLinks a:hover{color:var(--brand-deep)}
-.navLinks a:hover::after,.navLinks a[aria-current="page"]::after{transform:scaleX(1)}
-.navLinks a[aria-current="page"]{color:var(--brand-deep)}
+.navItem:hover .navTop,.navTop[aria-current="page"]{color:var(--brand-deep)}
+.navItem:hover .navTop::after,.navTop[aria-current="page"]::after{transform:scaleX(1)}
+.navItem:hover .navTop svg,.navItem:has(:focus-visible) .navTop svg{transform:rotate(180deg);color:var(--brand-deep)}
+/* açılır menü: üstüne gelince ya da klavyeyle odaklanınca (:focus-visible) görünür; fareyle tıklanan bağlantının odağı
+   sayfa değişince menüyü açık tutmasın diye :focus-within değil. Görünmezken içindeki bağlantılar odaklanamaz (visibility). */
+.drop{position:absolute;top:calc(100% + 12px);left:50%;z-index:60;display:grid;gap:2px;width:max-content;min-width:290px;padding:10px;
+  border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:0 28px 56px -24px rgba(16,27,45,.4);
+  opacity:0;visibility:hidden;transform:translate(-50%,8px);transition:opacity .2s var(--ease),transform .2s var(--ease),visibility 0s .2s}
+/* imleç bağlantıdan menüye geçerken aradaki boşlukta menü kapanmasın */
+.drop::before{content:"";position:absolute;left:0;right:0;top:-14px;height:14px}
+.navItem:hover .drop,.navItem:has(:focus-visible) .drop{opacity:1;visibility:visible;transform:translate(-50%,0);transition:opacity .2s var(--ease),transform .2s var(--ease)}
+.drop a{display:grid;gap:2px;padding:10px 14px;border-radius:10px;transition:background .15s var(--ease)}
+.drop a:hover,.drop a:focus-visible{background:var(--ground)}
+.drop b{font-weight:700;font-size:.95rem;color:var(--ink)}
+.drop a:hover b{color:var(--brand-deep)}
+.drop small{font-size:.84rem;font-weight:500;color:var(--ink-3)}
 .navActions{display:flex;align-items:center;gap:10px}
 .navPortal{display:inline-flex;align-items:center;gap:.5em}
 .menuBtn{display:none;padding:8px;border:0;border-radius:8px;background:transparent;color:var(--ink);cursor:pointer}
 .menu{border-top:1px solid var(--line);background:#fff}
 .menu .wrap{display:grid;gap:2px;padding-block:12px 22px}
-.menu a{padding:12px 0;border-bottom:1px solid var(--line);font-size:1.05rem;font-weight:600}
-.menu a:last-child{border-bottom:0}
+.menu .wrap > a,.menuGroup{border-bottom:1px solid var(--line)}
+.menu .wrap > a:last-child{border-bottom:0}
+.menu a{display:block;padding:12px 0;font-size:1.05rem;font-weight:600}
 .menu a[aria-current="page"]{color:var(--brand-deep)}
+.menuSub{display:grid;margin:-4px 0 10px;padding-left:14px;border-left:2px solid var(--brand-soft)}
+.menuSub a{padding:7px 0;font-size:.97rem;font-weight:500;color:var(--ink-2)}
 
 /* ---------- hareket: yalnız hareket isteyenlere ---------- */
 @media (prefers-reduced-motion:no-preference){
@@ -158,7 +193,7 @@
 }
 @keyframes failsafe{to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){
-  .btn,.ghost,.link,.card,.navLinks a::after,.btn svg,.link svg{transition:none}
+  .btn,.ghost,.link,.card,.navTop::after,.navTop svg,.drop,.btn svg,.link svg{transition:none}
   .card:hover{transform:none}
 }
 
@@ -176,6 +211,9 @@
 }
 @media (min-width:1101px){
   .menu{display:none}
+}
+@media (max-width:1100px){
+  .topCity{display:none}
 }
 @media (max-width:900px){
   .topPartner{display:none}
