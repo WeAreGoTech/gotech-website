@@ -67,6 +67,6 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
   ctaLead: "İşinizi dinleyip hangi ürünün uygun olduğunu söyleyelim. Görüşme ve demo için ücret almıyoruz.",
   ctaButtonText: "Ücretsiz demo talep edin",
   ctaButtonLink: "/iletisim",
-  footerAbout: "Mikro Yazılım İş Ortağı olarak 2017'den beri işletmelere ERP çözümleri sunuyoruz.",
+  footerAbout: "2017'den beri Mikro Yazılım iş ortağı olarak işletmelere Mikro ERP kurulumu, eğitimi ve desteği veriyoruz.",
   footerCopyright: "© 2026 GoTech ERP Solutions · Mikro Yazılım İş Ortağı",
 };

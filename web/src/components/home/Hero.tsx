@@ -1,61 +1,61 @@
 /* eslint-disable @next/next/no-img-element -- site IIS arkasında next start ile çalışıyor; görseller public/'ten olduğu gibi */
 import type { CSSProperties } from "react";
 import type { SiteContent } from "@/components/kurumsal/content";
+import { ArrowIcon } from "@/components/kurumsal/Icons";
 import { MikroLogo } from "@/components/kurumsal/Logo";
-import { REFERENCES } from "@/components/kurumsal/referanslar";
-import { HERO_INTRO, HERO_SLIDES, type HeroSlide } from "./home-content";
-import { HeroSlider } from "./HeroSlider";
+import { HERO, HERO_FACTS } from "./home-content";
+import hr from "./hero.module.css";
 import h from "./home.module.css";
+import { Icon } from "./icons";
+import { cx } from "./parts";
 
 /**
- * Giriş: slider (HeroSlider). İlk slaydın başlığı, metni ve buton yazısı panelden (Site içeriği > Ana sayfa girişi),
- * diğer slaytlar home-content.ts'te.
+ * Giriş (Mikro iş ortaklarının sitelerindeki kalıp): solda rozet, başlık, açıklama, iki buton ve güven maddeleri;
+ * sağda fotoğraf ve üstünde Mikro iş ortaklığı kartı (logo ve rozetler beyaz kartta). Altta bilgi şeridi.
+ * Başlık, açıklama ve buton yazısı panelden (Site içeriği > Ana sayfa girişi). Şeridin ilk rakamları da panelden;
+ * boş kalanların yerini doğrulanmış sabit bilgiler (HERO_FACTS) doldurur.
  */
 export function Hero({ content }: { content: SiteContent }) {
-  const slides: HeroSlide[] = [
-    { ...HERO_INTRO, title: content.heroTitle, lede: content.heroLead, cta: { label: content.ctaButtonText, href: "#iletisim", konu: "demo" } },
-    ...HERO_SLIDES,
-  ];
-  return <HeroSlider slides={slides} />;
-}
-
-/** Özel yazılım geliştirdiğimiz kurumların logoları (kurumsal/referanslar.ts); /referanslar sayfası şimdilik gizli. */
-export function ReferenceStrip() {
-  return (
-    <section className={h.refs} aria-label="Referanslar">
-      <div className={h.wrap}>
-        <p>Özel yazılım geliştirdiğimiz kurumlar</p>
-        <ul className={h.refLogos}>
-          {REFERENCES.map((ref) => (
-            <li key={ref.name}><img src={ref.logo.src} alt={ref.name} width={ref.logo.width} height={ref.logo.height} loading="lazy" /></li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-/** Mikro logosu + Silver Partner rozetleri + panelden gelen rakamlar (boş bırakılan gösterilmez). Zemin TAM BEYAZ (logo kuralı). */
-export function PartnerBand({ content }: { content: SiteContent }) {
-  const stats = [
+  const panelStats = [
     { value: content.stat1Value, label: content.stat1Label },
     { value: content.stat2Value, label: content.stat2Label },
     { value: content.stat3Value, label: content.stat3Label },
     { value: content.stat4Value, label: content.stat4Label },
   ].filter((s) => s.value.trim());
+  const stats = [...panelStats, ...HERO_FACTS.filter((f) => !panelStats.some((s) => s.value === f.value))].slice(0, 4);
+
   return (
-    <section className={h.band} aria-label="İş ortaklığı">
-      <div className={h.wrap} style={{ "--n": Math.max(stats.length, 1) } as CSSProperties}>
-        <div className={h.partner} data-in="">
-          <MikroLogo className={h.mikroLogo} />
-          <div className={h.badges}>
-            <img src="/images/jumper-silver.png" alt="Jumper Silver Partner" width={297} height={233} loading="lazy" />
-            <img src="/images/flyer-silver.png" alt="Flyer Silver Partner" width={324} height={247} loading="lazy" />
+    <section className={hr.hero}>
+      <div className={h.wrap}>
+        <div className={hr.in}>
+          <div className={hr.copy}>
+            <span className={hr.badge}><Icon name="shieldCheck" size={16} />{HERO.badge}</span>
+            <h1>{content.heroTitle}</h1>
+            <p className={h.lede}>{content.heroLead}</p>
+            <div className={hr.actions}>
+              <a className={h.btn} href="#iletisim" data-konu="demo">{content.ctaButtonText} <ArrowIcon /></a>
+              <a className={cx(h.btn, h.ghost)} href="#urunler">Size uygun ürünü bulun</a>
+            </div>
+            <ul className={hr.checks}>
+              {HERO.checks.map((c) => <li key={c}>{c}</li>)}
+            </ul>
           </div>
+          <figure className={hr.visual}>
+            <img className={hr.photo} src={HERO.image} alt={HERO.alt} width={1080} height={607} fetchPriority="high" />
+            <figcaption className={hr.partner}>
+              <MikroLogo className={hr.mikro} />
+              <span className={hr.badges}>
+                <img src="/images/jumper-silver.png" alt="Jumper Silver Partner" width={297} height={233} />
+                <img src="/images/flyer-silver.png" alt="Flyer Silver Partner" width={324} height={247} />
+              </span>
+            </figcaption>
+          </figure>
         </div>
-        {stats.map((s) => (
-          <div className={h.stat} key={s.label} data-in=""><b>{s.value}</b><span>{s.label}</span></div>
-        ))}
+        <dl className={hr.stats} style={{ "--n": stats.length } as CSSProperties}>
+          {stats.map((s) => (
+            <div key={s.value} className={hr.stat}><dt>{s.value}</dt><dd>{s.label}</dd></div>
+          ))}
+        </dl>
       </div>
     </section>
   );

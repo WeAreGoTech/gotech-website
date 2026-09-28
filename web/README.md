@@ -15,8 +15,8 @@ Values live in `site_texts`; anything not saved there falls back to the defaults
 `src/components/kurumsal/content.ts`. Product, service and process copy is fixed content and lives in
 `src/components/kurumsal/urunler-data.ts`.
 
-The design comes from `mockups/pro/v1-kurumsal.html` ("V1 Kurumsal"); `kurumsal.css` is that mockup's
-`base.css` plus its page styles. The site uses no CSS framework.
+The public site follows the layout common to Mikro partner sites (contact bar, card sections, navy contact
+section and footer); see `UI-TASARIM.md` §8.11. The site uses no CSS framework.
 
 Everything a customer sees is scoped to their own company. Document downloads (`/dokuman/[id]`) generate a sample PDF: the mockup stores document records, not files.
 

@@ -3,6 +3,7 @@ import { HomeFooter } from "@/components/home/ContactSection";
 import { HomeEffects } from "@/components/home/HomeEffects";
 import h from "@/components/home/home.module.css";
 import { HomeNav } from "@/components/home/HomeNav";
+import { TopBar } from "@/components/home/TopBar";
 import "@/components/kurumsal/kurumsal.css";
 import { SmoothScroll } from "@/components/site/SmoothScroll";
 import { getSiteConfig } from "@/features/site-content/queries";
@@ -13,8 +14,8 @@ export const dynamic = "force-dynamic";
 const ROOT_ID = "site";
 
 /**
- * İç sayfaların kabuğu ana sayfayla aynı: aynı kök (home.module.css .home: renkler, yazı, butonlar), aynı üst menü ve
- * alt bilgi. Sayfalara özel bölümler kurumsal.css'te ama aynı değişkenlerle çiziliyor. Her sayfa iletişim kartıyla biter.
+ * İç sayfaların kabuğu ana sayfayla aynı: aynı kök (home.module.css .home: renkler, yazı, butonlar), aynı üst bilgi şeridi,
+ * üst menü ve alt bilgi. Sayfalara özel bölümler kurumsal.css'te ama aynı değişkenlerle çiziliyor. Her sayfa iletişim kartıyla biter.
  */
 export default async function SiteLayout({ children }: { children: ReactNode }) {
   const { settings, content } = await getSiteConfig();
@@ -24,6 +25,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
       <SmoothScroll />
       <HomeEffects rootId={ROOT_ID} />
       <a className="skip" href="#icerik">İçeriğe geç</a>
+      <TopBar settings={settings} />
       <HomeNav />
       <div id="icerik">{children}</div>
       <HomeFooter settings={settings} content={content} />

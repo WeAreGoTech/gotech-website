@@ -1,60 +1,40 @@
-/* Ana sayfa Hizmetler (ServiceExplorer.tsx): solda hizmet listesi, sağda seçilen hizmetin fotoğrafı (SAP / Siemens kalıbı).
-   Liste sol kenarda ince bir ray üstünde; seçilen maddede ray kırmızıya döner ve madde açılır. Dar ekranda akordeon, fotoğraf maddenin içinde. */
+/* Ana sayfa Hizmetler (ikonlu kartlar) ve e-Dönüşüm (e-belge kartları) — ServiceSections.tsx. */
 
-.explorer{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(36px,5vw,88px);align-items:start;margin-top:clamp(40px,6vh,64px)}
+/* ---------- hizmet kartları: üç sütun ---------- */
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:clamp(36px,5vh,56px)}
+.card{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding:30px 28px 26px}
+.card h3{margin-top:4px;font-size:1.22rem}
+.card p{color:var(--ink-2);font-size:.97rem;line-height:1.6}
+.more{margin-top:auto;padding-top:6px}
 
-/* ---------- liste ---------- */
-.list{border-left:1px solid var(--line)}
-.item{position:relative}
-.item::before{content:"";position:absolute;left:-1px;top:0;bottom:0;width:3px;background:var(--brand-deep);
-  transform:scaleY(0);transform-origin:top;transition:transform .5s var(--soft)}
-.item.on::before{transform:scaleY(1)}
-.head{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;padding:17px 0 17px 28px;border:0;background:none;
-  font:inherit;font-size:clamp(1.15rem,1.5vw,1.34rem);font-weight:600;line-height:1.3;color:var(--ink-3);text-align:left;cursor:pointer;transition:color .3s var(--ease)}
-.head:hover,.on .head{color:var(--ink)}
-.head:focus-visible{outline-offset:-2px;border-radius:4px}
-/* ok yalnız dar ekranda (akordeon) */
-.chev{display:none;flex:none;width:10px;height:10px;margin-right:4px;border-right:2px solid currentColor;border-bottom:2px solid currentColor;
-  transform:translateY(-3px) rotate(45deg);transition:transform .35s var(--soft)}
-.on .chev{transform:translateY(2px) rotate(-135deg)}
-
-.panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--soft)}
-.on .panel{grid-template-rows:1fr}
-.clip{min-height:0;overflow:hidden}
-.body{display:grid;gap:18px;justify-items:start;padding:0 0 28px 28px}
-.body p{max-width:50ch;color:var(--ink-2)}
-.ticks{display:grid;gap:10px 28px;font-size:.98rem;font-weight:500}
-.cols{grid-template-columns:repeat(2,max-content)}
+/* ---------- e-Dönüşüm: solda metin, sağda e-belge kartları ---------- */
+.edo{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(36px,5vw,80px);align-items:center}
+.edoCopy{display:grid;gap:26px;justify-items:start}
+.ticks{display:grid;gap:12px;font-size:1rem;font-weight:600}
 .ticks li{display:flex;align-items:center;gap:10px}
-.ticks li::before{content:"";flex:none;width:14px;height:14px;
-  background:no-repeat center/14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23C0261F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
-.body .inlineImg{display:none}
+.ticks li::before{content:"";flex:none;width:22px;height:22px;border-radius:50%;
+  background:#fff no-repeat center/12px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23C0261F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  box-shadow:inset 0 0 0 1px rgba(229,57,53,.3)}
+.docs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.doc{display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:14px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);
+  transition:border-color .3s var(--ease),box-shadow .3s var(--ease)}
+.doc:hover{border-color:rgba(229,57,53,.32);box-shadow:var(--card-shadow)}
+.docIcon{display:grid;place-items:center;flex:none;width:42px;height:42px;border-radius:11px;background:var(--brand-soft);color:var(--brand-deep)}
+.doc > span:last-child{display:grid;gap:2px;min-width:0}
+.doc b{font-weight:700;font-size:1.02rem}
+.doc small{font-size:.86rem;line-height:1.4;color:var(--ink-2)}
 
-/* ---------- fotoğraf: seçilen hizmetinki görünür, ötekiler altında bekler ---------- */
-.media{position:sticky;top:112px;display:grid;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:var(--ground-2)}
-.media img{grid-area:1/1;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);
-  transition:opacity .6s var(--ease),transform 1.2s var(--soft)}
-.media img.on{opacity:1;transform:none}
-
-@media (max-width:900px){
-  .explorer{grid-template-columns:minmax(0,1fr);margin-top:32px}
-  .media{display:none}
-  .head{padding-left:20px}
-  .chev{display:block}
-  .body{padding-left:20px}
-  .body .inlineImg{display:block;width:100%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:14px}
+@media (max-width:1000px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .edo{grid-template-columns:1fr}
 }
-@media (max-width:560px){
-  .cols{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:640px){
+  .grid{grid-template-columns:1fr}
+  .card{padding:24px 22px}
 }
-/* ---------- ince ayar ---------- */
-/* seçili olmayan maddenin rayı üstüne gelince soluk bir iz bırakır: tıklanabilirlik belli olsun */
-.item::after{content:"";position:absolute;left:-1px;top:0;bottom:0;width:3px;background:rgba(22,24,29,.18);
-  transform:scaleY(0);transform-origin:top;transition:transform .35s var(--soft)}
-.item:hover:not(.on)::after{transform:scaleY(1)}
-/* fotoğrafın kenarı beyaz zeminde kaybolmasın */
-.media{outline:1px solid rgba(22,24,29,.07);outline-offset:-1px}
-
+@media (max-width:420px){
+  .docs{grid-template-columns:1fr}
+}
 @media (prefers-reduced-motion:reduce){
-  .item::before,.item::after,.panel,.media img,.chev{transition:none}
+  .doc{transition:none}
 }

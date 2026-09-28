@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import { About, Beyond, Faq } from "@/components/home/CompanySections";
 import { Contact, HomeFooter } from "@/components/home/ContactSection";
-import { Hero, PartnerBand, ReferenceStrip } from "@/components/home/Hero";
+import { Hero } from "@/components/home/Hero";
 import { HomeEffects } from "@/components/home/HomeEffects";
 import h from "@/components/home/home.module.css";
 import { HomeNav } from "@/components/home/HomeNav";
 import { Notice } from "@/components/home/Notice";
 import { SectionHead } from "@/components/home/parts";
 import { ProductFinder } from "@/components/home/ProductFinder";
-import { Services } from "@/components/home/ServiceSections";
+import { EDonusum, Services } from "@/components/home/ServiceSections";
+import { Support } from "@/components/home/SupportSections";
+import { TopBar } from "@/components/home/TopBar";
 import { SmoothScroll } from "@/components/site/SmoothScroll";
 import type { SiteSettings } from "@/components/kurumsal/content";
 import { getSiteConfig } from "@/features/site-content/queries";
@@ -56,23 +58,24 @@ export default async function HomePage() {
       <HomeEffects rootId={ROOT_ID} />
       <a className="skip" href="#icerik">İçeriğe geç</a>
       <Notice />
+      <TopBar settings={settings} />
       <HomeNav />
       <main id="icerik">
         <Hero content={content} />
-        <PartnerBand content={content} />
-        <ReferenceStrip />
         <section className={`${h.sec} ${h.ground}`} id="urunler">
           <div className={h.wrap}>
             <SectionHead
               center
-              eyebrow="Ürün bulucu"
-              title="Size uygun Mikro'yu birlikte bulalım"
-              lede="İşletmenizi tek cümleyle anlatın, uygun Mikro ürünü hemen öne çıksın. Kesin seçimi ücretsiz keşif görüşmesinde birlikte yapıyoruz."
+              eyebrow="Mikro ürün ailesi"
+              title="İşletmenize uygun Mikro çözümü"
+              lede="Küçük işletmeden grup şirketine dört ürün. Hangisinin size uyduğunu aşağıdaki cümleyle deneyin; kesin seçimi ücretsiz keşif görüşmesinde birlikte yapıyoruz."
             />
             <ProductFinder />
           </div>
         </section>
-        <Services settings={settings} />
+        <Services />
+        <EDonusum />
+        <Support settings={settings} />
         <Beyond />
         <About settings={settings} />
         <Faq />

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowIcon } from "@/components/kurumsal/Icons";
 import { MikroLogo } from "@/components/kurumsal/Logo";
 import { WAYS } from "./content";
+import { Icon } from "@/components/home/icons";
 import { REVEAL, cx } from "@/components/home/parts";
 import h from "@/components/home/home.module.css";
 import styles from "./hakkimizda.module.css";
@@ -24,9 +25,6 @@ export function AboutCover() {
         <p className={styles.coverLede}>
           Ekibimiz Mikro Yazılım&apos;da çalıştıktan sonra 2017&apos;de GoTech&apos;i kurdu. İzmir&apos;den işletmelere Mikro kurulumu, eğitimi ve desteği veriyor; ihtiyaç duyulan ek yazılımları da kendimiz geliştiriyoruz.
         </p>
-        <div className={styles.scrollCue} aria-hidden="true">
-          Aşağı kaydırın <i></i>
-        </div>
       </div>
     </section>
   );
@@ -73,6 +71,7 @@ export function SupportFacts() {
         <ul className={styles.facts}>
           {WAYS.map((w) => (
             <li key={w.title} {...REVEAL}>
+              <span className={h.iconBox}><Icon name={w.icon} size={24} /></span>
               <h3>{w.title}</h3>
               <p>{w.body}</p>
               {w.link && (

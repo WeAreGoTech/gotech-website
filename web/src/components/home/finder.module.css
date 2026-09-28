@@ -1,7 +1,13 @@
-/* Ürün bulucu: tek cümle + dört ürünlük raf (Jump Basic, Jump, Jump Bulut, Fly). Uygun ürün rafta akarak genişler. */
+/* Mikro ürünleri (ProductFinder.tsx, ShelfCard.tsx): üstte "hangisi size uygun?" cümlesi, altında dört ürün kartı. */
 
-.say{margin-top:clamp(36px,5.5vh,60px);text-align:center}
-.sayLine{max-width:1020px;margin-inline:auto;font-size:clamp(1.4rem,2.4vw,2.15rem);font-weight:500;line-height:1.8;letter-spacing:-.01em;text-wrap:balance}
+/* ---------- bulucu: beyaz panel, solda ikon, sağda cümle ve öneri ---------- */
+.finder{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px 22px;align-items:start;margin-top:clamp(36px,5vh,52px);
+  padding:clamp(20px,2.4vw,30px);border-radius:var(--r-lg);background:#fff;border:1px solid var(--line);box-shadow:var(--card-shadow)}
+.finderBody{display:grid;gap:12px;min-width:0}
+.finderTitle{font-size:.98rem;color:var(--ink-2)}
+.finderTitle b{font-weight:700;color:var(--ink)}
+.say{margin:0}
+.sayLine{font-size:clamp(1.15rem,1.9vw,1.55rem);font-weight:600;line-height:1.85;letter-spacing:-.01em}
 /* hap + noktalama birlikte kalır: virgül/nokta yeni satırın başına düşmez */
 .nowrap{white-space:nowrap}
 
@@ -10,101 +16,64 @@
    her kural .pick altında ve onlardan özgül, yüklenme sırasına bağlı değil. */
 .pick{display:inline-block;width:auto;margin:0 .06em;vertical-align:baseline;text-align:left}
 .pick :global(.select-trigger){display:inline-flex;align-items:center;gap:.28em;width:auto;padding:.02em .42em .08em .5em;border:0;border-radius:8px;
-  background:#fff;box-shadow:inset 0 0 0 1.5px rgba(229,57,53,.35);font-weight:600;color:var(--brand-deep);line-height:inherit;transition:box-shadow .3s var(--ease)}
+  background:var(--brand-soft);box-shadow:inset 0 0 0 1.5px rgba(229,57,53,.3);font-weight:700;color:var(--brand-deep);line-height:inherit;transition:box-shadow .3s var(--ease)}
 .pick :global(.select-trigger):hover,.pick:global(.select.is-open) :global(.select-trigger){border-color:transparent;box-shadow:inset 0 0 0 1.5px var(--brand)}
-.pick :global(.select-trigger):focus{background:#fff;border-color:transparent;box-shadow:inset 0 0 0 1.5px var(--brand)}
+.pick :global(.select-trigger):focus{background:var(--brand-soft);border-color:transparent;box-shadow:inset 0 0 0 1.5px var(--brand)}
 .pick :global(.select-trigger):focus-visible{outline:2px solid var(--brand);outline-offset:3px}
 .pick :global(.select-value){overflow:visible}
 .pick :global(.select-chevron){width:.55em;height:.55em;color:var(--brand-deep)}
 /* liste: seçeneklerin boyunda (hap daha kısaysa taşar), sağ yarıdaki hapta sağa yaslanır, ekrandan taşmaz */
 .pick :global(.select-list){right:auto;width:max-content;min-width:100%;max-width:calc(100vw - 2 * var(--gx));padding:6px;
-  border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 32px -14px rgba(22,24,29,.3);font-weight:500;line-height:1.4;letter-spacing:0}
+  border-radius:12px;border:1px solid var(--line);box-shadow:0 12px 32px -14px rgba(16,27,45,.3);font-weight:500;line-height:1.4;letter-spacing:0}
 .pick:global(.opens-left) :global(.select-list){left:auto;right:0}
 .pick :global(.select-list li){padding:.62rem .8rem;border-radius:8px;font-size:1rem;color:var(--ink)}
 .pick :global(.select-list li.is-active){background:var(--ground)}
 .pick :global(.select-list li[aria-selected="true"]){font-weight:600;color:var(--brand-deep)}
 .pick :global(.select-list li[aria-selected="true"] svg){color:var(--brand)}
 
-/* raf: dört ürün yan yana; açık olan akarak genişler, içerik yeniden akmaz (sabit genişlikte açığa çıkar) */
-.shelf{container-type:inline-size;display:flex;gap:12px;height:clamp(430px,54vh,500px);margin-top:clamp(40px,6vh,64px)}
-.prod{position:relative;flex:1 1 0;min-width:0;display:flex;flex-direction:column;overflow:hidden;border-radius:var(--r-lg);
-  background:#fff;box-shadow:inset 0 0 0 1px var(--line);transition:flex-grow .8s var(--soft),box-shadow .4s var(--ease)}
-.prod:hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.28)}
-.open{flex-grow:2.6;box-shadow:inset 0 0 0 1.5px rgba(22,24,29,.22),var(--shadow)}
-.open:hover{box-shadow:inset 0 0 0 1.5px rgba(22,24,29,.22),var(--shadow)}
-/* position yok: .forWho ve .plus kartın (.prod) dibine göre konumlanır */
-.head{display:grid;gap:10px;justify-items:start;align-content:start;padding:26px 24px 0;border:0;background:none;text-align:left;cursor:pointer;flex:none}
-.open .head{cursor:default}
-.head:focus-visible{outline:2px solid var(--brand);outline-offset:-4px;border-radius:var(--r-lg)}
-.rec{height:0;overflow:hidden;opacity:0;margin-bottom:-10px;font-size:.84rem;font-weight:600;color:var(--brand-deep);
-  transition:opacity .4s var(--soft),height .4s var(--soft),margin .4s var(--soft)}
-.isRec .rec{height:1.4em;opacity:1;margin-bottom:0}
-/* Mikro'nun resmi ürün logoları. Genişlik = --m x --k (k: finder.ts SHELF wordmarkRatio) */
-.logo{--m:74px;width:calc(var(--m) * var(--k));max-width:100%;height:auto;transition:width .6s var(--soft)}
-.open .logo{--m:104px}
-/* Basic / Bulut: Jump logosunun yanında sürüm adı (Mikro'nun bu sürümler için ayrı logosu yok) */
-/* dar (kapalı) kartta sürüm adı logonun altına iner */
-.brand{display:flex;flex-wrap:wrap;align-items:flex-end;gap:2px 8px;max-width:100%}
-.edition{flex:none;padding-bottom:.1em;font-size:1.02rem;font-weight:600;letter-spacing:-.02em;color:var(--ink);transition:font-size .6s var(--soft)}
-.open .edition{font-size:1.3rem}
-.scale{font-size:.9rem;font-weight:500;color:var(--ink-2);white-space:nowrap}
-/* kapalı kartın dibinde kime uygun olduğu + artı; açılınca kaybolur */
-.forWho{position:absolute;left:24px;right:68px;bottom:24px;font-size:.93rem;line-height:1.4;color:var(--ink-2);transition:opacity .35s var(--soft),transform .6s var(--soft)}
-.plus{position:absolute;right:20px;bottom:22px;width:34px;height:34px;border-radius:8px;background:var(--ground);transition:opacity .4s var(--soft),transform .5s var(--soft),background .3s var(--ease)}
-.plus::before,.plus::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.6px;margin:-.8px 0 0 -6px;background:var(--ink)}
-.plus::after{transform:rotate(90deg)}
-.prod:hover .plus{background:var(--ground-2)}
-.open .forWho,.open .plus{opacity:0;transform:translateY(10px)}
-
-.body{flex:1;min-height:0;opacity:0;transition:opacity .25s var(--ease)}
-.open .body{opacity:1;transition:opacity .5s var(--soft) .28s}
-/* açık kartın son genişliği = (raf - 3 boşluk) * 2.6 / 5.6; içerik bu genişlikte sabit, açılırken yeniden akmaz */
-.inner{width:calc((100cqw - 36px) * 2.6 / 5.6);display:grid;gap:16px;justify-items:start;padding:18px 24px 26px}
-.blurb{color:var(--ink-2);font-size:1rem;max-width:46ch}
-.features{display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;width:100%;padding-top:16px;border-top:1px solid var(--line);font-size:.94rem}
-.features li{display:flex;align-items:center;gap:9px}
-.features li::before{content:"";flex:none;width:14px;height:14px}
-.yes::before{background:no-repeat center/14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23E53935' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
-.no{color:var(--ink-3)}
-.no::before{background:no-repeat center/9px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6h6' stroke='%2316181D' stroke-opacity='.35' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")}
-.demo{margin-top:6px}
-/* demo butonunun altında ürün sayfasına bağlantı */
-.more{justify-self:start;margin-top:4px}
-
-.why{margin-top:22px;text-align:center;font-size:.96rem;color:var(--ink-2);animation:whyIn .45s var(--soft)}
-.why b{font-weight:600;color:var(--ink)}
+.why{font-size:.95rem;color:var(--ink-2);animation:whyIn .45s var(--soft)}
+.why b{font-weight:700;color:var(--brand-deep)}
 @keyframes whyIn{from{opacity:0}}
 
-/* dar ekran: raf dikey akordeon, açılan kartın gövdesi 0fr -> 1fr akarak açılır */
-@media (max-width:900px){
-  .shelf{flex-direction:column;height:auto;gap:10px}
-  /* flex:none değil: eşik geçişinde flex-grow değişip raf bir an ezik açılmasın (sütun yönünde grow etkisiz) */
-  .prod{display:grid;grid-template-rows:auto 0fr;flex-basis:auto;transition:grid-template-rows .7s var(--soft),box-shadow .4s var(--ease)}
-  .open{grid-template-rows:auto 1fr}
-  .head{padding:20px 22px;grid-template-columns:1fr auto;align-items:center}
-  .rec,.brand,.scale{grid-column:1}
-  .forWho{display:none}
-  /* relative: artının çizgileri (::before/::after) kutunun içinde kalsın */
-  .plus{position:relative;bottom:auto;right:auto;grid-column:2;grid-row:1/span 3;align-self:center}
-  .open .plus{opacity:0}
-  .open .logo{--m:92px}
-  .body{overflow:hidden}
-  .inner{width:auto;padding:0 22px 24px}
-  .features{grid-template-columns:1fr}
-}
-/* ---------- ince ayar ---------- */
-/* önerilen kartın üst kenarında ince marka çizgisi: hangi ürünün önerildiği bir bakışta belli olsun */
-.isRec{box-shadow:inset 0 0 0 1px var(--line),inset 0 3px 0 var(--brand-deep)}
-.isRec.open{box-shadow:inset 0 0 0 1.5px rgba(22,24,29,.22),inset 0 3px 0 var(--brand-deep),var(--shadow)}
-/* kapalı kartın artı düğmesi üstüne gelince markanın soluk zeminine döner */
-.prod:hover .plus{background:var(--brand-soft)}
-/* "neden bu ürün" satırı: kalın kısım marka rengiyle bağlansın */
-.why b{color:var(--brand-deep)}
+/* ---------- ürün kartları ---------- */
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;margin-top:22px}
+.card{position:relative;display:flex;flex-direction:column;gap:10px;padding:26px 22px 22px}
+/* önerilen kart: kırmızı çerçeve ve üstte etiket */
+.isRec{border-color:var(--brand);box-shadow:0 0 0 1px var(--brand),var(--card-shadow-hover)}
+.isRec:hover{border-color:var(--brand)}
+.rec{position:absolute;top:-12px;left:20px;padding:.22rem .7rem;border-radius:999px;background:var(--brand-deep);color:#fff;font-size:.78rem;font-weight:700;
+  animation:whyIn .35s var(--soft)}
+/* Mikro'nun resmi ürün logoları. Genişlik = --m x --k (k: finder.ts SHELF wordmarkRatio); en dar (Fly) 84px'te 129px, kılavuzun 120px sınırının üstünde */
+.brand{display:flex;flex-wrap:wrap;align-items:flex-end;gap:2px 8px;min-height:44px;margin:0}
+.logo{--m:84px;width:calc(var(--m) * var(--k));max-width:100%;height:auto}
+/* Basic / Bulut: Jump logosunun yanında sürüm adı (Mikro'nun bu sürümler için ayrı logosu yok) */
+.edition{flex:none;padding-bottom:.1em;font-size:1.15rem;font-weight:700;letter-spacing:-.02em;color:var(--ink)}
+.scale{margin-top:6px;font-size:.76rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--brand-deep)}
+.blurb{font-size:.93rem;line-height:1.55;color:var(--ink-2)}
+.features{display:grid;gap:8px;margin-top:4px;padding-top:14px;border-top:1px solid var(--line);font-size:.9rem}
+.features li{display:flex;align-items:center;gap:9px;line-height:1.35}
+.features li::before{content:"";flex:none;width:16px;height:16px}
+.yes::before{background:no-repeat center/13px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23C0261F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.no{color:var(--ink-3)}
+.no::before{background:no-repeat center/9px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M3 6h6' stroke='%23101B2D' stroke-opacity='.4' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E")}
+.cardFoot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 14px;margin-top:auto;padding-top:16px}
+.demo{font-size:.9rem;font-weight:600;color:var(--ink-2);text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:4px;
+  transition:color .2s var(--ease),text-decoration-color .2s var(--ease)}
+.demo:hover{color:var(--ink);text-decoration-color:currentColor}
+.after{display:flex;justify-content:center;margin-top:clamp(28px,4vh,40px)}
 
-/* telefonda uzun seçenek (ör. "programa her yerden erişmek istiyoruz") ekrandan taşmasın: hap kırılabilir */
-@media (max-width:560px){
-  .sayLine{font-size:1.2rem}
+@media (max-width:1100px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  .finder{grid-template-columns:1fr}
+  .grid{grid-template-columns:1fr;gap:22px}
+  /* telefonda uzun seçenek (ör. "programa her yerden erişmek istiyoruz") ekrandan taşmasın: hap kırılabilir */
+  .sayLine{font-size:1.12rem}
   .nowrap{white-space:normal}
   .pick,.pick :global(.select-trigger){max-width:100%}
   .pick :global(.select-value){white-space:normal;text-align:left}
+}
+@media (prefers-reduced-motion:reduce){
+  .why,.rec{animation:none}
 }

@@ -38,17 +38,16 @@ export type ShelfItem = {
   logo: { src: string; height: number; wordmarkRatio: number };
   // Basic ve Bulut'un ayrı logosu yok: Jump logosunun yanında sürüm adı yazılır
   edition?: string;
-  forWho: string;
 };
 
 // wordmarkRatio = 254 / PNG içindeki "mikro" kelimesinin genişliği. Logolar bu oranla ölçeklenince
 // kartlarda "mikro" kelimesi aynı boyda görünüyor (ürün adı uzadıkça PNG'de küçülüyordu).
 const JUMP_LOGO = { src: "/images/mikro/jump.png", height: 40, wordmarkRatio: 1.752 };
 export const SHELF: ShelfItem[] = [
-  { key: "basic", productId: "mikro-jump-basic", logo: JUMP_LOGO, edition: "Basic", forWho: "Ön muhasebeden fazlasını isteyenler" },
-  { key: "jump", productId: "mikro-jump", logo: JUMP_LOGO, forWho: "Büyüyen KOBİ'ler" },
-  { key: "bulut", productId: "mikro-jump-bulut", logo: JUMP_LOGO, edition: "Bulut", forWho: "Her yerden erişmek isteyenler" },
-  { key: "fly", productId: "mikro-fly", logo: { src: "/images/mikro/fly.png", height: 56, wordmarkRatio: 1.539 }, forWho: "Grup şirketleri ve holdingler" },
+  { key: "basic", productId: "mikro-jump-basic", logo: JUMP_LOGO, edition: "Basic" },
+  { key: "jump", productId: "mikro-jump", logo: JUMP_LOGO },
+  { key: "bulut", productId: "mikro-jump-bulut", logo: JUMP_LOGO, edition: "Bulut" },
+  { key: "fly", productId: "mikro-fly", logo: { src: "/images/mikro/fly.png", height: 56, wordmarkRatio: 1.539 } },
 ];
 
 export const productOf = (item: ShelfItem) => {

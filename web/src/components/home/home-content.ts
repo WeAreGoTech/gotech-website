@@ -1,6 +1,8 @@
-// Ana sayfaya özel sabit metinler. Panelden düzenlenenler (hero, rakamlar, iletişim, alt bilgi)
+// Ana sayfaya özel sabit metinler. Panelden düzenlenenler (giriş, rakamlar, iletişim, alt bilgi)
 // kurumsal/content.ts + getSiteConfig'ten; ürün ve hizmetler kurumsal/urunler-data.ts'ten geliyor.
-import { EDONUSUM_DOCS } from "@/components/kurumsal/urunler-data";
+// Metinlerde yalnız GoTech'in onayladığı bilgiler ve Mikro'nun ürün sayfalarındaki bilgiler var: süre, müşteri sayısı ya da
+// "7/24" gibi doğrulanmamış iddia yazılmaz.
+import type { IconName } from "./icons";
 import type { PageLinkData } from "./parts";
 
 // Üst menü: ana sayfada da iç sayfalarda da aynı (HomeNav)
@@ -14,7 +16,7 @@ export const SITE_NAV = [
 
 // Ana sayfanın bölümleri: alt bilgideki "Bu sayfada" sütunu
 export const HOME_ANCHORS = [
-  { href: "#urunler", label: "Ürün bulucu" },
+  { href: "#urunler", label: "Mikro ürünleri" },
   { href: "#hizmetler", label: "Hizmetler" },
   { href: "#edonusum", label: "e-Dönüşüm" },
   { href: "#destek", label: "Destek" },
@@ -33,89 +35,27 @@ export const PRODUCT_LINKS = [
 
 export const PORTAL_HREF = "/giris";
 
-// Hero slider'ı (HeroSlider): mikro.com.tr ve Logo Yazılım'daki kalıp. Her slaytta başlık, metin, buton ve görsel birlikte
-// değişir; altta slaytların adıyla sekme çubuğu. İlk slayt (GoTech) başlığını ve metnini panelden alır (Hero.tsx), diğerleri burada.
-// Görseller Mikro'nun sitesinden (public/images/mikro-gorsel/KAYNAK.md) ve CC0 stoktan (public/images/stok/KAYNAK.md).
-// Metinlerde yalnız GoTech'in onayladığı iddialar ve Mikro'nun ürün sayfalarındaki bilgiler var.
-export type HeroSlide = {
-  key: string;
-  // sekme çubuğunda görünen kısa ad
-  label: string;
-  eyebrow: string;
-  title: string;
-  lede: string;
-  image: string;
-  alt: string;
-  // Mikro ürün slaytı: başlığın üstünde ürünün resmi logosu (ProductLogo)
-  productId?: string;
-  cta: PageLinkData;
-  more?: PageLinkData;
-};
-
-export const HERO_IMAGE = { width: 1080, height: 607 };
-
-// ilk slayt: GoTech'in kendisi. Başlık, metin ve buton yazısı panelden gelir (Site içeriği > Ana sayfa girişi), gerisi burada
-export const HERO_INTRO = {
-  key: "gotech",
-  label: "Kurulum ve destek",
-  eyebrow: "Mikro Yazılım Yetkili İş Ortağı · İzmir",
+// Giriş (Hero.tsx): başlık, açıklama ve buton yazısı panelden; rozet, güven maddeleri ve fotoğraf burada.
+// Fotoğraf Mikro'nun sitesinden (public/images/mikro-gorsel/KAYNAK.md).
+export const HERO = {
+  badge: "Mikro Yazılım Yetkili İş Ortağı · İzmir",
+  checks: ["Ücretsiz keşif ve demo", "İzmir'de yerinde destek", "Kurulum, eğitim, e-Dönüşüm", "Kendi yazılım ekibimiz"],
   image: "/images/mikro-gorsel/edonusum-ofis.webp",
   alt: "Ofiste bilgisayar başında birlikte çalışan iki kişi",
-  more: { label: "Size uygun ürünü bulun", href: "#urunler" },
-} satisfies Partial<HeroSlide>;
+};
 
-export const HERO_SLIDES: HeroSlide[] = [
-  {
-    key: "jump",
-    label: "Mikro Jump",
-    productId: "mikro-jump",
-    eyebrow: "Jump Basic · Jump · Jump Bulut",
-    title: "Büyüyen işletmeler için Mikro Jump",
-    lede: "Stok, satış, satın alma ve finans tek programda; genel muhasebe, personel ve üretim modül olarak eklenir. İnternet olan her yerden çalışmak için Jump Bulut var.",
-    image: "/images/mikro-gorsel/depo-ofis.webp",
-    alt: "Depo ofisinde dizüstü bilgisayara birlikte bakan iki çalışan",
-    cta: { label: "Mikro Jump'ı inceleyin", href: "/urunler/mikro-jump" },
-    more: { label: "Sürümleri karşılaştırın", href: "/urunler" },
-  },
-  {
-    key: "fly",
-    label: "Mikro Fly",
-    productId: "mikro-fly",
-    eyebrow: "Grup şirketleri ve holdingler",
-    title: "Büyük işletmeler ve grup şirketleri için Mikro Fly",
-    lede: "Genel muhasebe, personel, üretim ve karar destek ana pakette. Sınırsız kullanıcı; birden çok şirket tek sistemde.",
-    image: "/images/mikro-gorsel/ofis-toplanti.webp",
-    alt: "Cam bölmeli toplantı odasında çalışan bir ekip",
-    cta: { label: "Mikro Fly'ı inceleyin", href: "/urunler/mikro-fly" },
-    more: { label: "Jump ile farkı", href: "/urunler/mikro-fly#fark" },
-  },
-  {
-    key: "edonusum",
-    label: "e-Dönüşüm",
-    eyebrow: "e-Dönüşüm",
-    title: "e-Fatura'dan e-Defter'e e-Dönüşüm geçişi",
-    lede: "Hangi belgelerin sizin için zorunlu olduğunu çıkarıyor; GİB başvurusunu, entegratör bağlantısını ve Mikro'daki e-belge ayarlarını biz yapıyoruz.",
-    image: "/images/mikro-gorsel/bulut-rapor.webp",
-    alt: "Dizüstü bilgisayarda rapor ekranına bakan bir çalışan",
-    cta: { label: "e-Dönüşüm hizmeti", href: "#edonusum" },
-    more: { label: "Bilgi isteyin", href: "#iletisim", konu: "bilgi" },
-  },
-  {
-    key: "yazilim",
-    label: "Özel yazılım",
-    eyebrow: "Özel yazılım",
-    title: "İşletmenize özel yazılım geliştiriyoruz",
-    lede: "Mikro'yla birlikte çalışan ek ekran ve raporlar, web siteleri, müşteri ve bayi portalları geliştiriyoruz.",
-    image: "/images/stok/yazilimci.webp",
-    alt: "Pencere kenarındaki masada iki ekranla kod yazan bir yazılımcı",
-    cta: { label: "Yazılım çözümleri", href: "/yazilim-cozumleri" },
-  },
+// Girişin altındaki bilgi şeridi: panelde girilmemiş rakamların yerini bunlar doldurur (hepsi doğrulanmış bilgi)
+export const HERO_FACTS = [
+  { value: "2017", label: "yılından beri Mikro Yazılım yetkili iş ortağı" },
+  { value: "Silver Partner", label: "Mikro'nun Jumper ve Flyer iş ortaklığı programlarında" },
+  { value: "Alsancak", label: "İzmir'deki ofisimizden yerinde destek" },
+  { value: "GoTech Desk", label: "Kendi uzak destek uygulamamızla bağlanıyoruz" },
 ];
 
 // Üst bant: V16'nın destek bitiş tarihi. Bant kalan günü yazar, tarih geçince "sona erdi"ye döner.
 export const V16_END = { iso: "2026-10-15", label: "15 Ekim 2026" };
 
-// urunler-data.ts EDONUSUM_DOCS'taki her belge için tek satır
+// urunler-data.ts EDONUSUM_DOCS'taki her belge için tek satır ve kart ikonu
 export const EDONUSUM_NOTES: Record<string, string> = {
   "e-Fatura": "Kayıtlı kullanıcılara kesilen fatura",
   "e-Arşiv": "e-Fatura kullanmayan alıcılara fatura",
@@ -126,69 +66,90 @@ export const EDONUSUM_NOTES: Record<string, string> = {
   "e-Müstahsil": "Çiftçiden alımlarda makbuz",
   "e-Bordro": "Bordroların elektronik gönderimi",
 };
-
-// Ana sayfa Hizmetler bölümü (ServiceExplorer): solda hizmet listesi, seçilen açılır; sağda o hizmetin fotoğrafı (SAP ve Siemens
-// ana sayfalarındaki kalıp). id'ler sayfa içi bağlantı: #edonusum ve #destek o hizmeti açar. Destek sekmesi çalışma saatlerini ve
-// telefonu panelden alır (Services, ServiceSections.tsx). Fotoğraflar CC0 (public/images/stok/KAYNAK.md).
-export type ServiceTab = {
-  id: string;
-  label: string;
-  body: string;
-  items: string[];
-  image: string;
-  link?: PageLinkData;
+export const EDONUSUM_ICONS: Record<string, IconName> = {
+  "e-Fatura": "receipt",
+  "e-Arşiv": "archive",
+  "e-İrsaliye": "truck",
+  "e-Defter": "bookOpen",
+  "e-Mutabakat": "checkCheck",
+  "e-SMM": "briefcase",
+  "e-Müstahsil": "sprout",
+  "e-Bordro": "users",
 };
 
-export const SERVICE_TABS: ServiceTab[] = [
+// Ana sayfa Hizmetler bölümü: ikonlu altı kart (Mikro iş ortaklarının sitelerindeki kalıp). Ayrıntısı /hizmetlerimiz'de;
+// e-Dönüşüm ve Destek kartları ana sayfadaki kendi bölümlerine iner.
+export type ServiceCard = { id: string; icon: IconName; title: string; body: string; link: PageLinkData };
+
+export const SERVICE_CARDS: ServiceCard[] = [
   {
     id: "analiz",
-    label: "Analiz ve teklif",
-    body: "İşinizi dinliyor; bugün ne kullandığınızı, kaç kişinin çalışacağını ve süreçlerinizi çıkarıyoruz. Hangi Mikro ürününün ve hangi modüllerin gerektiğini birlikte belirliyor, teklifi kalem kalem hazırlıyoruz.",
-    items: ["Ücretsiz keşif görüşmesi", "Süreç analizi", "Ürün ve modül önerisi", "Lisans ya da kiralama teklifi"],
-    image: "/images/stok/analiz-atolye.webp",
+    icon: "search",
+    title: "Analiz ve teklif",
+    body: "İşinizi dinliyor; bugün ne kullandığınızı, kaç kişinin çalışacağını ve süreçlerinizi çıkarıyoruz. Hangi Mikro ürününün ve modüllerin gerektiğini birlikte belirleyip teklifi kalem kalem hazırlıyoruz.",
     link: { label: "Keşif görüşmesi isteyin", href: "#iletisim", konu: "demo" },
   },
   {
     id: "kurulum",
-    label: "Kurulum ve entegrasyon",
-    body: "Mikro'yu sunucunuza ya da bilgisayarlarınıza kuruyor, kullanıcıları ve yetkileri tanımlıyoruz; Jump Bulut'ta sunucu kurulumu gerekmiyor. Zeus WMS, B2B/B4B gibi ek çözümleri de kurup Mikro'ya bağlıyoruz.",
-    items: ["Yazılım kurulumu", "Kullanıcı ve yetki tanımları", "Ek çözümlerin entegrasyonu"],
-    image: "/images/stok/kurulum-ekip.webp",
-    link: { label: "Ürünleri karşılaştırın", href: "/urunler" },
+    icon: "wrench",
+    title: "Kurulum ve entegrasyon",
+    body: "Mikro'yu sunucunuza ya da bilgisayarlarınıza kuruyor, kullanıcıları ve yetkileri tanımlıyoruz. Zeus WMS, B2B/B4B gibi ek çözümleri de kurup Mikro'ya bağlıyoruz.",
+    link: { label: "Kurulum adımları", href: "/hizmetlerimiz#kurulum" },
   },
   {
-    id: "edonusum",
-    label: "e-Dönüşüm",
-    body: "Hangi e-belgelerin sizin için zorunlu olduğunu çıkarıyor; GİB başvurusunu, entegratör bağlantısını ve Mikro'daki e-belge ayarlarını yapıyoruz. Belgeler programın içinden, kontörle kesilir.",
-    items: EDONUSUM_DOCS,
-    image: "/images/stok/edonusum-evrak.webp",
-    link: { label: "Hangi e-belgeler size zorunlu? Birlikte bakalım", href: "#iletisim", konu: "bilgi" },
+    id: "edonusum-hizmet",
+    icon: "fileText",
+    title: "e-Dönüşüm",
+    body: "Hangi e-belgelerin sizin için zorunlu olduğunu çıkarıyor; GİB başvurusunu, entegratör bağlantısını ve Mikro'daki e-belge ayarlarını yapıyoruz.",
+    link: { label: "e-Belgeler", href: "#edonusum" },
   },
   {
     id: "egitim",
-    label: "Eğitim",
-    body: "Kurulumdan sonra kullanıcılarınıza ve yöneticilere programı kendi işleriniz üzerinden öğretiyoruz.",
-    items: ["Kullanıcı eğitimi", "Yönetici eğitimi"],
-    image: "/images/stok/egitim-sunum.webp",
+    icon: "graduationCap",
+    title: "Eğitim",
+    body: "Kurulumdan sonra kullanıcılarınıza ve yöneticilere programı kendi işleriniz üzerinden öğretiyoruz: kullanıcı eğitimi ve yönetici eğitimi.",
+    link: { label: "Eğitim hakkında", href: "/hizmetlerimiz#egitim" },
+  },
+  {
+    id: "destek-hizmet",
+    icon: "headset",
+    title: "Teknik destek",
+    body: "Kurulumdan sonraki desteği de biz veriyoruz. Talebinizi destek portalından açar, hangi aşamada olduğunu ve kimin ilgilendiğini oradan takip edersiniz.",
+    link: { label: "Destek kanalları", href: "#destek" },
+  },
+  {
+    id: "yazilim-hizmet",
+    icon: "code",
+    title: "Özel yazılım",
+    body: "Mikro'ya bağlı ek ekran ve raporların yanında web sitesi, müşteri ve bayi portalı, e-ticaret projelerini kendi ekibimizle geliştiriyoruz.",
+    link: { label: "Yazılım çözümleri", href: "/yazilim-cozumleri" },
   },
 ];
 
-// Destek sekmesi: çalışma saatleri ve telefon panelden (Site ayarları)
-export function supportTab(workingHours: string, phone: string): ServiceTab {
-  return {
-    id: "destek",
-    label: "Destek",
-    body: `Kurulumdan sonraki desteği de biz veriyoruz (${workingHours.toLocaleLowerCase("tr")}). Talebinizi portaldan açar, kimin üstlendiğini ve hangi aşamada olduğunu oradan görürsünüz.`,
-    items: [
-      ...(phone ? [`Destek hattı: ${phone}`] : []),
-      "Uzak bağlantı: GoTech Desk",
-      "Destek portalı: talep açmak için saat sınırı yok",
-      "Yerinde destek: İzmir ve çevresi",
-    ],
-    image: "/images/stok/destek-gorusme.webp",
-    link: { label: "Destek portalına giriş", href: PORTAL_HREF },
-  };
-}
+// Ana sayfa "Neden GoTech": dört kısa gerekçe, hepsi hakkımızdaki doğrulanmış cümlelerden
+export const WHY_GOTECH: { icon: IconName; title: string; body: string; link?: PageLinkData }[] = [
+  {
+    icon: "shieldCheck",
+    title: "Mikro deneyimi",
+    body: "Ekibimiz uzun yıllar Mikro Yazılım'da çalıştı. Programı ve işletmelerin günlük kullanımda nelere ihtiyaç duyduğunu oradan biliyoruz.",
+  },
+  {
+    icon: "users",
+    title: "Tek muhatap",
+    body: "Lisans, kurulum, e-Dönüşüm, eğitim ve destek için tek muhatabınız GoTech. Mikro'ya bağlı ek geliştirmeleri de kendi yazılım ekibimiz yapıyor.",
+  },
+  {
+    icon: "ticket",
+    title: "Kayıtlı destek",
+    body: "Talepleriniz destek portalında kayıt altına alınır; hangi aşamada olduğunu ve kimin ilgilendiğini oradan takip edersiniz.",
+  },
+  {
+    icon: "arrowRightLeft",
+    title: "Mevcut kurulumunuzu devralıyoruz",
+    body: "Mikro'yu başka bir iş ortağından aldıysanız desteğinizi bize taşıyabilirsiniz. Lisansınız ve verileriniz olduğu gibi kalır.",
+    link: { href: "#iletisim", label: "Kurulumunuzu inceleyelim", konu: "gecis" },
+  },
+];
 
 // Hizmetler: ana sayfadaki yol haritasının (PROCESS_STEPS) her adımında o adımda yaptığımız iş (SERVICES kapsamı)
 export const JOURNEY_SCOPE: string[][] = [
@@ -201,10 +162,10 @@ export const JOURNEY_SCOPE: string[][] = [
 ];
 
 // Destek kanalları; telefon satırı yalnız numara panelden girilince (Support). when boşsa çalışma saatleri (panelden) yazılır
-export const SUPPORT_CHANNELS = [
-  { title: "Uzak bağlantı", when: "", body: "Kendi uygulamamız GoTech Desk ile bilgisayarınıza bağlanıp sorunu ekranınızda çözüyoruz." },
-  { title: "Destek portalı", when: "Talep açmak için saat sınırı yok", body: "Talebinizi açın; kimin üstlendiğini ve hangi aşamada olduğunu görün." },
-  { title: "Yerinde destek", when: "Gerektiğinde", body: "İzmir ve çevresinde işletmenize geliyoruz." },
+export const SUPPORT_CHANNELS: { icon: IconName; title: string; when: string; body: string }[] = [
+  { icon: "monitor", title: "Uzak bağlantı", when: "", body: "Kendi uygulamamız GoTech Desk ile bilgisayarınıza bağlanıp sorunu ekranınızda çözüyoruz." },
+  { icon: "ticket", title: "Destek portalı", when: "Talep açmak için saat sınırı yok", body: "Talebinizi açın; kimin üstlendiğini ve hangi aşamada olduğunu görün." },
+  { icon: "mapPin", title: "Yerinde destek", when: "Gerektiğinde", body: "İzmir ve çevresinde işletmenize geliyoruz." },
 ];
 
 export const HOME_FAQ = [
@@ -219,5 +180,9 @@ export const HOME_FAQ = [
   {
     q: "Kurulumdan sonra desteği kim veriyor?",
     a: "GoTech ekibi. Destek portalından talep açıyorsunuz; talebinizi kimin üstlendiğini ve hangi aşamada olduğunu oradan takip ediyorsunuz.",
+  },
+  {
+    q: "Mikro'yu başka bir iş ortağından aldık, desteği size taşıyabilir miyiz?",
+    a: "Evet. Lisansınız ve verileriniz olduğu gibi kalır; mevcut kurulumunuzu inceleyip desteği devralıyoruz.",
   },
 ];

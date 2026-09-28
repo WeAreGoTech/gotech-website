@@ -667,6 +667,21 @@ Telefonda kapak: fotoğrafın odak noktası boş tarafa kayıyor (`object-positi
 
 İçerik `components/yazilim/content.ts` içinde: `SOFTWARE_STEPS`, `APPROACH`, `YAZILIM_FAQ`. Üçünün başında `TODO(GoTech)` var — müşteri, süre ya da fiyat iddiası yok, yalnız çalışma biçimi anlatılıyor; ekibin onayından geçmesi gerekiyor. Yeni bileşen dosyası açılmadı; hepsi `components/yazilim/Sections.tsx` içinde ve var olan bileşenleri (`SectionHead`, `Faq`, `.journeyList`) yeniden kullanıyor.
 
+### 8.11 Mikro iş ortaklarının kalıbına geçiş (28.09.2026)
+
+İstek: sitenin tasarımı Mikro'nun diğer iş ortaklarının siteleri gibi olsun. İncelenen siteler: Robox (İzmir), Bayındır, ACR Bilgi, Nokbil, Tempo Bilişim, Tekprosis, Mikrobayi/Aksiyon, Valorem, Metropol, Mikro İstanbul ve mikro.com.tr. Hepsinde tekrar eden kalıp siteye taşındı; §8.10'daki kapak ve kapanış kararlarının bir kısmı bununla geri alındı.
+
+- **Üst bilgi şeridi** (`TopBar.tsx`, yeni): menünün üstünde lacivert (`--navy`) şerit; telefon (panelde girildiyse), e-posta, çalışma saatleri, sağda "Mikro Yazılım Yetkili İş Ortağı" ve LinkedIn. Tüm site sayfalarında.
+- **Menü**: beyaz ve yapışkan; sağda "Destek portalı" (çerçeveli) ve "Ücretsiz demo" (kırmızı) butonları. Saydam menü (`OVER_HERO`, `.navOver/.navFixed`) kaldırıldı: hakkımızda ve yazılım kapakları artık menünün altından başlıyor ve tam ekran değil (`clamp(440px,62vh,620px)`); "Aşağı kaydırın" ipucu kalktı.
+- **Duyuru bandı** (V16): mikro.com.tr'deki gibi kırmızı zeminde, beyaz hap buton.
+- **Ana sayfa girişi**: kayar slayt (`HeroSlider`) kaldırıldı; yerine sabit giriş — rozet, başlık, açıklama, iki buton, dört güven maddesi, sağda fotoğraf ve üstünde Mikro logosu + iki Silver rozeti **beyaz kartta**. Altında bilgi şeridi: panelden girilen rakamlar, boş kalanların yerine doğrulanmış sabit bilgiler (`HERO_FACTS`: 2017, Silver Partner, Alsancak, GoTech Desk).
+- **Bölümler kartlı**: ürünler (Mikro logolu dört kart + üstte "hangisi size uygun?" cümlesi; öneri kartı kırmızı çerçeve ve "Size önerimiz" etiketiyle işaretlenir), ikonlu altı hizmet kartı (`ServiceExplorer` kaldırıldı), sekiz e-belge kartı, destek kanalı kartları, "Neden GoTech" dört kartı, SSS kartları. Kart kalıbı `home.module.css` `.card` + `.iconBox`.
+- **Zeminler**: bölümler beyaz ve açık gri (`--ground:#F4F6FA`) dönüşümlü; iç sayfalarda `.pd-ground` ve sayfa başlığı (`.phead`) gri bant. Gölge yumuşak ve kısa (`--card-shadow`).
+- **İletişim bölümü ve alt bilgi lacivert**: form beyaz kartta. Alt bilgide Mikro logosu ve rozetler beyaz kartta (logo kuralı). Yazılım sayfasının kapanışı da aynı lacivert; kaydırmayla açılan kırmızı zemin animasyonu kaldırıldı.
+- **Renk**: yazı rengi lacivert-siyah (`--ink:#101B2D`), marka kırmızısı buton ve vurguda aynı. §6.4'teki "siyah zeminli bölüm yapılmaz" kararı bu istekle değişti: lacivert yalnız üst şerit, iletişim bölümü ve alt bilgide.
+
+Değişmeyenler: Mikro logosu ve rozetleri yalnız düz beyaz zeminde (koyu zeminde beyaz kartın içinde), 156px; uydurma rakam, müşteri sayısı, "7/24" gibi doğrulanmamış iddia yok; Figtree; `[data-in]` belirme hareketi ve hareket tercihi.
+
 ---
 
 ## 9. Uygulama yol haritası

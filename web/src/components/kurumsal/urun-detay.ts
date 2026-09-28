@@ -199,7 +199,7 @@ const FLY: ProductDetail = {
   photo: { src: "/images/mikro-gorsel/uretim-hatti.webp", alt: "Tekstil üretim hattında çalışanlar" },
   intro: {
     title: "Büyük ölçekli işletmeler için Mikro Fly",
-    body: "Mikro Fly; üretim, ileri muhasebe, insan kaynakları, CRM ve raporlamayı sınırsız kullanıcıyla tek çatı altında toplar. Holding ve çok şirketli yapılarda kurumsallaşmayı ve büyümeyi tek sistemden yönetirsiniz; güçlü API altyapısıyla kullandığınız diğer yazılımlar da Fly'a bağlanır. Süreç analizini, kurulumu ve eğitimi GoTech ekibi yapıyor.",
+    body: "Mikro Fly; üretim, ileri muhasebe, insan kaynakları, CRM ve raporlamayı sınırsız kullanıcıyla tek çatı altında toplar. Holding ve çok şirketli yapılarda kurumsallaşmayı ve büyümeyi tek sistemden yönetirsiniz; API altyapısıyla kullandığınız diğer yazılımlar da Fly'a bağlanır. Süreç analizini, kurulumu ve eğitimi GoTech ekibi yapıyor.",
   },
   features: [
     { title: "İleri seviye üretim (MRP2)", body: "MRP2 modülüyle malzemenin yanında zaman, makine, iş istasyonu ve iş gücü birlikte planlanır: Gantt şeması, iş emirleri, operasyon rotaları, detaylı üretim maliyeti." },

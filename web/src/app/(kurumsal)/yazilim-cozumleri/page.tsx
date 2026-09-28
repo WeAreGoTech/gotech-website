@@ -35,7 +35,7 @@ function pageJsonLd() {
 }
 
 /**
- * Yazılım: tam ekran fotoğrafla açılan giriş (menü bu sayfada saydam), ne geliştirdiğimiz,
+ * Yazılım: fotoğraflı giriş, ne geliştirdiğimiz,
  * iki iş türü, çalışma biçimi, dört ilke, referans, SSS ve iletişim.
  */
 export default async function YazilimCozumleriPage() {
