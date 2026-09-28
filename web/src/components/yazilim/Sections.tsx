@@ -32,7 +32,7 @@ export function SoftwareCover() {
           İşinize özel yazılım,<br />Mikro&apos;ya bağlı ya da bağımsız
         </h1>
         <p className={s.coverLede}>
-          Mikro kullanıyorsanız eksik kalan ekranı, raporu ya da bağlantıyı Mikro&apos;ya bağlı yazıyoruz; verileriniz
+          Mikro kullanıyorsanız işletmenize özel ekran, rapor ve bağlantıları Mikro&apos;ya bağlı geliştiriyoruz; verileriniz
           Mikro&apos;da kalır. Kullanmıyorsanız da web sitenizi, portalınızı ya da iş uygulamanızı aynı ekip geliştirir.
         </p>
         <div className={s.coverCta}>
@@ -58,7 +58,7 @@ export function WorksSection() {
         <SectionHead
           eyebrow="Ne geliştiriyoruz"
           title="Mikro'ya bağlı işler ve Mikro'dan bağımsız işler"
-          lede="Aşağıdakilerin hepsini kendi ekibimiz yazıyor; hazır paket kurup bırakmıyoruz."
+          lede="Aşağıdaki işlerin tamamını kendi yazılım ekibimiz geliştiriyor."
         />
         <div className={s.worksIn}>
           <WorkIndex />
@@ -79,7 +79,7 @@ export function TracksSection() {
         <SectionHead
           eyebrow="İki tür iş"
           title="Mikro'ya bağlı ya da tamamen bağımsız"
-          lede="Mikro kullanıyorsanız eksik kalan parçayı yazıyoruz; kullanmıyorsanız işinizin yazılımını sıfırdan geliştiriyoruz. İkisi de aynı ekibin işi."
+          lede="Mikro kullanıyorsanız ihtiyacınız olan ek geliştirmeyi Mikro'ya bağlı yapıyoruz; kullanmıyorsanız yazılımınızı baştan geliştiriyoruz. İki durumda da aynı ekip çalışıyor."
         />
         <div className={s.tracks}>
           {SOFTWARE_TRACKS.map((track) => (
@@ -144,8 +144,8 @@ export function Approach() {
       <div className={h.wrap}>
         <SectionHead
           eyebrow="Nasıl geliştiriyoruz"
-          title="Her işte değişmeyen dört şey"
-          lede="Hangi işi yaparsak yapalım bu dördü aynı kalıyor."
+          title="Geliştirirken dikkat ettiklerimiz"
+          lede="Her projede uyguladığımız dört temel kural."
         />
         <dl className={s.approach}>
           {APPROACH.map((item) => (

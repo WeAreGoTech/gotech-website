@@ -5,7 +5,7 @@ import { getSiteConfig } from "@/features/site-content/queries";
 
 export const metadata: Metadata = {
   title: "Hakkımızda",
-  description: "GoTech, 2017'den beri İzmir'de Mikro Yazılım yetkili iş ortağı: Mikro kurulumu, eğitimi ve desteği; Mikro'nun yetmediği yerde kendi yazılım ekibi.",
+  description: "GoTech, 2017'den beri İzmir'de Mikro Yazılım yetkili iş ortağı: Mikro kurulumu, eğitimi, desteği ve işletmelere özel yazılım geliştirme.",
 };
 
 export default async function HakkimizdaPage() {

@@ -16,8 +16,8 @@ export function Support({ settings }: { settings: SiteSettings }) {
       <div className={cx(h.wrap, s.support)}>
         <SectionHead
           eyebrow="Destek"
-          title="Kurulumdan sonra da yanınızdayız"
-          lede={`Kurulumdan sonra destek de bizden: ${settings.workingHours.toLocaleLowerCase("tr")}.`}
+          title="Kurulum sonrası destek"
+          lede={`Destek ekibimiz ${settings.workingHours.toLocaleLowerCase("tr")} arasında çalışıyor.`}
         />
         <ul className={s.channels}>
           {phone && (

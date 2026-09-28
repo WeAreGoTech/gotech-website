@@ -3,10 +3,31 @@
 import { EDONUSUM_DOCS } from "@/components/kurumsal/urunler-data";
 import type { PageLinkData } from "./parts";
 
-// Üst menü: ana sayfada da iç sayfalarda da aynı (HomeNav)
-export const SITE_NAV = [
-  { href: "/urunler", label: "Ürünler" },
-  { href: "/hizmetlerimiz", label: "Hizmetler" },
+// Üst menü: ana sayfada da iç sayfalarda da aynı (HomeNav). children: masaüstünde açılır alt menü, telefonda girintili liste
+export type NavLink = { href: string; label: string; note?: string };
+export const SITE_NAV: (NavLink & { children?: NavLink[] })[] = [
+  {
+    href: "/urunler",
+    label: "Ürünler",
+    children: [
+      { href: "/urunler/mikro-jump#basic", label: "Mikro Jump Basic", note: "3 kullanıcıya kadar ara ERP" },
+      { href: "/urunler/mikro-jump", label: "Mikro Jump", note: "KOBİ'ler için modüler ERP" },
+      { href: "/urunler/mikro-jump#bulut", label: "Mikro Jump Bulut", note: "Sunucusuz, tarayıcıdan" },
+      { href: "/urunler/mikro-fly", label: "Mikro Fly", note: "Büyük işletmeler ve grup şirketleri" },
+      { href: "/urunler", label: "Ürün karşılaştırması", note: "Hangisinde ne var, ne yok?" },
+    ],
+  },
+  {
+    href: "/hizmetlerimiz",
+    label: "Hizmetler",
+    children: [
+      { href: "/hizmetlerimiz#analiz", label: "Analiz ve teklif", note: "Ücretsiz keşif görüşmesi" },
+      { href: "/hizmetlerimiz#kurulum", label: "Kurulum ve entegrasyon", note: "Kurulum, yetkiler, ek çözümler" },
+      { href: "/hizmetlerimiz#edonusum", label: "e-Dönüşüm", note: "GİB başvurusu ve e-belge ayarları" },
+      { href: "/hizmetlerimiz#egitim", label: "Eğitim", note: "Kullanıcı ve yönetici eğitimi" },
+      { href: "/hizmetlerimiz#destek", label: "Teknik destek", note: "Uzak bağlantı, portal, yerinde" },
+    ],
+  },
   { href: "/yazilim-cozumleri", label: "Yazılım" },
   { href: "/hakkimizda", label: "Hakkımızda" },
   { href: "/iletisim", label: "İletişim" },
@@ -93,7 +114,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     key: "edonusum",
     label: "e-Dönüşüm",
     eyebrow: "e-Dönüşüm",
-    title: "e-Fatura'dan e-Defter'e, e-Dönüşüm tek elden",
+    title: "e-Fatura'dan e-Defter'e e-Dönüşüm geçişi",
     lede: "Hangi belgelerin sizin için zorunlu olduğunu çıkarıyor; GİB başvurusunu, entegratör bağlantısını ve Mikro'daki e-belge ayarlarını biz yapıyoruz.",
     image: "/images/mikro-gorsel/bulut-rapor.webp",
     alt: "Dizüstü bilgisayarda rapor ekranına bakan bir çalışan",
@@ -104,8 +125,8 @@ export const HERO_SLIDES: HeroSlide[] = [
     key: "yazilim",
     label: "Özel yazılım",
     eyebrow: "Özel yazılım",
-    title: "Mikro'nun yetmediği yerde kendi yazılım ekibimiz var",
-    lede: "Mikro'ya bağlı ekran ve raporlar, web siteleri, müşteri ve bayi portalları geliştiriyoruz.",
+    title: "İşletmenize özel yazılım geliştiriyoruz",
+    lede: "Mikro'yla birlikte çalışan ek ekran ve raporlar, web siteleri, müşteri ve bayi portalları geliştiriyoruz.",
     image: "/images/stok/yazilimci.webp",
     alt: "Pencere kenarındaki masada iki ekranla kod yazan bir yazılımcı",
     cta: { label: "Yazılım çözümleri", href: "/yazilim-cozumleri" },
@@ -178,7 +199,7 @@ export function supportTab(workingHours: string, phone: string): ServiceTab {
   return {
     id: "destek",
     label: "Destek",
-    body: `Kurulumdan sonra destek de bizden: ${workingHours.toLocaleLowerCase("tr")}. Talebinizi portaldan açar, kimin üstlendiğini ve hangi aşamada olduğunu oradan görürsünüz.`,
+    body: `Kurulumdan sonraki desteği de biz veriyoruz (${workingHours.toLocaleLowerCase("tr")}). Talebinizi portaldan açar, kimin üstlendiğini ve hangi aşamada olduğunu oradan görürsünüz.`,
     items: [
       ...(phone ? [`Destek hattı: ${phone}`] : []),
       "Uzak bağlantı: GoTech Desk",
@@ -219,5 +240,9 @@ export const HOME_FAQ = [
   {
     q: "Kurulumdan sonra desteği kim veriyor?",
     a: "GoTech ekibi. Destek portalından talep açıyorsunuz; talebinizi kimin üstlendiğini ve hangi aşamada olduğunu oradan takip ediyorsunuz.",
+  },
+  {
+    q: "Mikro'yu başka bir iş ortağından aldık, desteği size taşıyabilir miyiz?",
+    a: "Evet. Lisansınız ve verileriniz olduğu gibi kalır; mevcut kurulumunuzu inceleyip desteği devralıyoruz.",
   },
 ];

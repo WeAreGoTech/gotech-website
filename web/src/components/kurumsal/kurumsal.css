@@ -53,6 +53,69 @@ html.lenis,html.lenis body{height:auto}
 .crumb{display:flex;flex-wrap:wrap;align-items:center;gap:9px;font-size:.88rem;color:var(--ink-3)}
 .crumb a:hover{color:var(--ink)}
 
+/* ---------- /urunler girişi: solda başlık, iki buton ve iş ortaklığı; sağda fotoğraf ---------- */
+.pl-hero{border-bottom:1px solid var(--line)}
+.pl-hero-in{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(32px,5vw,80px);align-items:center;
+  padding-block:clamp(32px,5vh,60px) clamp(40px,6vh,72px)}
+.pl-hero-copy{display:grid;gap:20px;justify-items:start}
+.pl-hero-copy h1{font-size:clamp(2.1rem,3.6vw,3.1rem);line-height:1.1;letter-spacing:-.02em;max-width:17ch}
+.pl-hero-copy .lede{max-width:50ch}
+.pl-hero-photo{margin:0;border-radius:20px;overflow:hidden;aspect-ratio:5/4;background:var(--ground)}
+.pl-hero-photo img{width:100%;height:100%;object-fit:cover;outline:1px solid rgba(22,24,29,.07);outline-offset:-1px}
+/* iş ortaklığı: Mikro logosu ve rozetler düz beyaz zeminde (logo kuralı), yanında kısa yazı */
+.pl-partner{display:flex;flex-wrap:wrap;align-items:center;gap:12px 20px;margin-top:10px;padding-top:20px;border-top:1px solid var(--line);width:100%}
+.pl-mikro{width:156px;height:auto}
+.pl-badges{display:flex;align-items:center;gap:8px}
+.pl-badges img{width:auto;height:50px}
+/* yazı logoların üstünde tek satır */
+.pl-partner-text{order:-1;flex-basis:100%;font-size:.88rem;line-height:1.4;color:var(--ink-2)}
+.pl-partner-text b{margin-right:.4em;font-weight:600;color:var(--ink)}
+@media (prefers-reduced-motion:no-preference){
+  .pl-hero-copy > *{animation:plRise .8s var(--soft) both}
+  .pl-hero-copy > :nth-child(2){animation-delay:.06s}
+  .pl-hero-copy > :nth-child(3){animation-delay:.12s}
+  .pl-hero-copy > :nth-child(4){animation-delay:.18s}
+  .pl-hero-copy > :nth-child(5){animation-delay:.24s}
+  .pl-hero-copy > :nth-child(6){animation-delay:.3s}
+  .pl-hero-photo img{animation:plSettle 1.6s var(--soft) both}
+}
+@keyframes plRise{from{opacity:0;transform:translateY(16px)}}
+@keyframes plSettle{from{transform:scale(1.05)}}
+
+/* ---------- /urunler ürün kartları: dört ürün yan yana ---------- */
+.site .pl-products{padding-top:clamp(36px,5vh,56px)}
+.pl-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.pl-card{position:relative;display:flex;flex-direction:column;gap:10px;padding:24px 22px 22px;border-radius:var(--r-lg);background:#fff;
+  box-shadow:inset 0 0 0 1px var(--line);transition:box-shadow .3s var(--ease)}
+/* üstüne gelince üst kenarda marka çizgisi soldan uzar */
+.pl-card::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;border-radius:var(--r-lg) var(--r-lg) 0 0;background:var(--brand-deep);
+  transform:scaleX(0);transform-origin:left;transition:transform .45s var(--soft)}
+.pl-card:hover{box-shadow:inset 0 0 0 1px rgba(22,24,29,.24)}
+.pl-card:hover::before{transform:scaleX(1)}
+.pl-audience{font-size:.85rem;font-weight:600;color:var(--brand-deep)}
+.pl-card h2{--m:84px;margin-top:2px;font-size:1rem;min-height:44px;display:flex;align-items:flex-end}
+.pl-scale{font-size:.9rem;font-weight:500;color:var(--ink-2)}
+.pl-points{display:grid;gap:8px;margin-top:4px;padding-top:14px;border-top:1px solid var(--line);font-size:.93rem;line-height:1.45}
+.pl-points li{position:relative;padding-left:22px}
+.pl-points li::before{content:"";position:absolute;left:0;top:.3em;width:14px;height:14px;
+  background:no-repeat center/14px url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath d='M2 6.4 4.6 9 10 3.2' fill='none' stroke='%23C0261F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")}
+.pl-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px 14px;margin-top:auto;padding-top:14px}
+.pl-actions .btn svg{transition:transform .35s var(--soft)}
+.pl-actions .btn:hover svg{transform:translateX(3px)}
+.pl-demo{font-size:.9rem;font-weight:600;color:var(--ink-2);text-decoration:underline;text-decoration-color:rgba(22,24,29,.25);text-underline-offset:4px;
+  transition:color .2s var(--ease),text-decoration-color .2s var(--ease)}
+.pl-demo:hover{color:var(--brand-deep);text-decoration-color:currentColor}
+@media (max-width:1100px){.pl-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+  .pl-hero-in{grid-template-columns:1fr}
+  .pl-hero-photo{aspect-ratio:16/10;max-width:640px}
+}
+/* telefonda fotoğraf yok: ürün kartları ilk ekrana yaklaşsın */
+@media (max-width:600px){.pl-grid{grid-template-columns:1fr}.pl-hero-photo{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .pl-card,.pl-card::before,.pl-demo,.pl-actions .btn svg{transition:none}
+}
+
 /* ---------- paket listesi: solda başlık, sağda iki sütun madde ---------- */
 .prods{margin-top:clamp(30px,5vh,52px);border-top:1px solid var(--line)}
 .prod{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(20px,3vw,56px);padding:clamp(26px,3.4vw,42px) 0;border-bottom:1px solid var(--line)}

@@ -26,7 +26,7 @@ export default async function ReferanslarPage() {
         title="Kurumlara özel"
         accent="yazılım"
         titleAfter="."
-        lead="Mikro'nun yetmediği yerde kendi yazılım ekibimizle kurumlara özel ekranlar, raporlar, entegrasyonlar ve uygulamalar geliştiriyoruz."
+        lead="Kendi yazılım ekibimizle kurumlara özel ekranlar, raporlar, entegrasyonlar ve uygulamalar geliştiriyoruz."
       />
 
       <section className="sec">

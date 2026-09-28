@@ -50,7 +50,7 @@ const JUMP: ProductDetail = {
   compareId: "mikro-jump",
   name: "Mikro Jump",
   logo: { src: "/images/mikro/jump.png", height: 40 },
-  headline: "Stoktan bordroya işinizin tamamı tek programda",
+  headline: "Stoktan bordroya işlerinizi tek programda yönetin",
   audience: "Büyüyen KOBİ'ler ve orta ölçekli işletmeler",
   lead: "Satış, stok, finans, genel muhasebe, personel ve üretimi tek sistemde yönetin. Basic, Jump ve Bulut sürümlerinden işletmenize uyanla başlayın.",
   metaDescription:
@@ -198,8 +198,8 @@ const FLY: ProductDetail = {
     "Mikro Fly: büyük ölçekli şirketler ve holdingler için MRP2, CRM, gelişmiş İK, UFRS uyumlu muhasebe ve iş zekası sunan kurumsal ERP. Analiz, kurulum ve eğitim GoTech'ten.",
   photo: { src: "/images/mikro-gorsel/uretim-hatti.webp", alt: "Tekstil üretim hattında çalışanlar" },
   intro: {
-    title: "Jump'ın yetmediği ölçekte Fly",
-    body: "Mikro Fly; üretim, ileri muhasebe, insan kaynakları, CRM ve raporlamayı sınırsız kullanıcıyla tek çatı altında toplar. Holding ve çok şirketli yapılarda kurumsallaşmayı ve büyümeyi tek sistemden yönetirsiniz; güçlü API altyapısıyla kullandığınız diğer yazılımlar da Fly'a bağlanır. Süreç analizini, kurulumu ve eğitimi GoTech ekibi yapıyor.",
+    title: "Büyük ölçekli işletmeler için Mikro Fly",
+    body: "Mikro Fly; üretim, ileri muhasebe, insan kaynakları, CRM ve raporlamayı sınırsız kullanıcıyla tek çatı altında toplar. Holding ve çok şirketli yapılarda kurumsallaşmayı ve büyümeyi tek sistemden yönetirsiniz; API altyapısıyla kullandığınız diğer yazılımlar da Fly'a bağlanır. Süreç analizini, kurulumu ve eğitimi GoTech ekibi yapıyor.",
   },
   features: [
     { title: "İleri seviye üretim (MRP2)", body: "MRP2 modülüyle malzemenin yanında zaman, makine, iş istasyonu ve iş gücü birlikte planlanır: Gantt şeması, iş emirleri, operasyon rotaları, detaylı üretim maliyeti." },

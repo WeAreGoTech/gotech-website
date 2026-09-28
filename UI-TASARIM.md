@@ -667,6 +667,18 @@ Telefonda kapak: fotoğrafın odak noktası boş tarafa kayıyor (`object-positi
 
 İçerik `components/yazilim/content.ts` içinde: `SOFTWARE_STEPS`, `APPROACH`, `YAZILIM_FAQ`. Üçünün başında `TODO(GoTech)` var — müşteri, süre ya da fiyat iddiası yok, yalnız çalışma biçimi anlatılıyor; ekibin onayından geçmesi gerekiyor. Yeni bileşen dosyası açılmadı; hepsi `components/yazilim/Sections.tsx` içinde ve var olan bileşenleri (`SectionHead`, `Faq`, `.journeyList`) yeniden kullanıyor.
 
+
+### 8.11 Üst menüde açılır alt menü (28.09.2026)
+
+Ürünler ve Hizmetler'in altında açılır menü var (`SITE_NAV[].children`, `HomeNav.tsx`, `home.module.css` "açılır alt menü"):
+ürünler (Jump Basic, Jump, Jump Bulut, Fly, karşılaştırma) ve hizmetler (analiz, kurulum, e-Dönüşüm, eğitim, destek), her biri
+kısa bir açıklamayla. Üstüne gelince ya da klavyeyle odaklanınca beyaz kart yumuşakça iner; `:focus-within` değil
+`:has(:focus-visible)`, fareyle tıklanan bağlantının odağı sayfa değişince menüyü açık tutmasın. Fotoğrafın üstündeki saydam
+menüde de kart beyaz, yazı koyu. Telefonda alt bağlantılar girintili liste.
+
+Aynı gün denenen "Mikro bayi kalıbı" (lacivert üst şerit, lacivert giriş ve iletişim, kartlı / listeli bölümler) geri alındı:
+kırmızı-beyaz, hareketli tasarım tercih edildi. O denemeden yalnız açılır menü kaldı.
+
 ---
 
 ## 9. Uygulama yol haritası

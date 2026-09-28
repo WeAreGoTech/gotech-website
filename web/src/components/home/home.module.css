@@ -213,8 +213,35 @@
 /* ---------- üst duyuru bandı: kapatma düğmesi daha yumuşak ---------- */
 .noticeX{transition:background .2s var(--ease),color .2s var(--ease)}
 
+/* ---------- açılır alt menü (Ürünler, Hizmetler) ---------- */
+/* üst bağlantı: ok simgesi; açılınca döner */
+.navItem{position:relative;display:flex;align-items:center}
+.navItem > a{display:inline-flex;align-items:center;gap:4px}
+.navItem > a svg{transition:transform .25s var(--ease)}
+.navItem:hover > a svg,.navItem:has(:focus-visible) > a svg{transform:rotate(180deg)}
+/* beyaz kart; üstüne gelince ya da klavyeyle odaklanınca yumuşakça iner. :focus-within değil: fareyle tıklanan bağlantının
+   odağı sayfa değişince menüyü açık tutmasın. Görünmezken içindeki bağlantılar odaklanamaz (visibility). */
+.drop{position:absolute;top:calc(100% + 18px);left:50%;z-index:60;display:grid;gap:2px;width:max-content;min-width:280px;padding:8px;
+  border-radius:var(--r-lg);background:#fff;box-shadow:0 0 0 1px var(--line),0 18px 40px -22px rgba(22,24,29,.45);
+  opacity:0;visibility:hidden;transform:translate(-50%,8px);transition:opacity .2s var(--ease),transform .3s var(--soft),visibility 0s .2s}
+/* imleç bağlantıdan menüye geçerken aradaki boşlukta menü kapanmasın */
+.drop::before{content:"";position:absolute;left:0;right:0;top:-20px;height:20px}
+.navItem:hover .drop,.navItem:has(:focus-visible) .drop{opacity:1;visibility:visible;transform:translate(-50%,0);transition:opacity .2s var(--ease),transform .3s var(--soft)}
+.navLinks .drop a{display:grid;gap:2px;padding:10px 14px;border-radius:var(--r);color:var(--ink);transition:background .15s var(--ease)}
+.navLinks .drop a::after{display:none}
+.navLinks .drop a:hover,.navLinks .drop a:focus-visible{background:var(--ground)}
+.drop b{font-weight:600;font-size:.95rem}
+.navLinks .drop a:hover b{color:var(--brand-deep)}
+.drop small{font-size:.84rem;font-weight:400;color:var(--ink-3)}
+/* fotoğrafın üstündeki saydam menüde de kart beyaz, yazı koyu */
+.navOver .navLinks .drop a,.navOver .navLinks .drop a:hover{color:var(--ink)}
+/* telefon menüsü: alt bağlantılar girintili */
+.menuGroup{display:grid}
+.menuSub{display:grid;margin:-2px 0 8px;padding-left:14px;border-left:2px solid var(--brand-soft)}
+.menu .menuSub a{padding:7px 0;font-size:.97rem;color:var(--ink-2)}
+
 @media (prefers-reduced-motion:reduce){
-  .navLinks a::after,.btn,.ghost,.link,.refLogos img{transition:none}
+  .drop,.navItem > a svg,.navLinks a::after,.btn,.ghost,.link,.refLogos img{transition:none}
 }
 @media (max-width:560px){
   .noticeMore{display:none}

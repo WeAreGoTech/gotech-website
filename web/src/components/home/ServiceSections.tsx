@@ -19,7 +19,7 @@ export function Services({ settings }: { settings: SiteSettings }) {
       <div className={h.wrap}>
         <SectionHead
           eyebrow="Hizmetler"
-          title="Mikro'yu seçerken de kullanırken de yanınızdayız"
+          title="Ürün seçiminden kurulum sonrası desteğe"
           lede="Lisans Mikro'dan; analizi, kurulumu, e-Dönüşümü, eğitimi ve desteği GoTech ekibi yapıyor."
         />
         <ServiceExplorer tabs={[...SERVICE_TABS, supportTab(settings.workingHours, settings.supportPhone)]} />
@@ -41,7 +41,7 @@ export function ServiceJourney({ head = true }: { head?: boolean }) {
             <SectionHead
               eyebrow="Hizmetler"
               title="İlk görüşmeden canlı kullanıma tek ekip"
-              lede="Lisans, kurulum, eğitim ve destek tek elden."
+              lede="Lisans, kurulum, eğitim ve destek için tek muhatabınız GoTech."
             />
           )}
           <a className={h.btn} href="#iletisim" data-konu="demo" {...REVEAL}>Keşif görüşmesi isteyin <ArrowIcon /></a>
@@ -72,7 +72,7 @@ export function EDonusum() {
           <SectionHead
             eyebrow="e-Dönüşüm"
             title="e-Belgelerinizi de biz kuruyoruz"
-            lede="GİB başvurusu, entegratör bağlantısı ve Mikro'daki ayarlar tek elden. Belgeler programın içinden, kontörle kesilir."
+            lede="GİB başvurusunu, entegratör bağlantısını ve Mikro'daki e-belge ayarlarını biz yapıyoruz. Belgeler programın içinden, kontörle kesilir."
           />
           <ul className={s.ticks} {...REVEAL}>{EDONUSUM_CONSULTING.map((t) => <li key={t}>{t}</li>)}</ul>
           <a className={h.link} href="#iletisim" data-konu="bilgi" data-mesaj="Hangi e-belgelerin bizim için zorunlu olduğunu öğrenmek istiyoruz." {...REVEAL}>

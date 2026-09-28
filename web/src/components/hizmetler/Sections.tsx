@@ -22,8 +22,8 @@ export function QuestionsHero() {
       <div className={cx(h.wrap, s.heroIn)}>
         <div className={s.heroCopy}>
           <nav className={s.crumb} aria-label="Konum"><Link href="/">Ana sayfa</Link><span aria-hidden="true">/</span><span>Hizmetler</span></nav>
-          <h1>Mikro&apos;ya geçerken aklınıza gelecek beş soru</h1>
-          <p className={h.lede}>Her birinin cevabı bizim yaptığımız bir iş. Sorunuz burada yoksa keşif görüşmesinde soralım.</p>
+          <h1>Mikro&apos;ya geçerken sık sorulan beş soru</h1>
+          <p className={h.lede}>Aşağıda her sorunun cevabını ve bu konuda ne yaptığımızı bulabilirsiniz. Sorunuz burada yoksa keşif görüşmesinde konuşalım.</p>
           <a className={h.btn} href="#iletisim" data-konu="demo">Keşif görüşmesi isteyin <ArrowIcon /></a>
         </div>
         <ol className={s.qlist}>
