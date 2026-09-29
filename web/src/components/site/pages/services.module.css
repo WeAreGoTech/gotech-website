@@ -1,0 +1,12 @@
+.items { width: 100%; padding-block: 20px; border-block: 1px solid var(--line); }
+
+/* kurup bağladığımız ek çözümler: ad ve kısa açıklama, iki sütun */
+.extras { display: grid; grid-template-columns: 1fr 1fr; width: 100%; border-top: 1px solid var(--line); }
+.extras li { display: grid; gap: 2px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.extras li:nth-child(odd) { padding-right: 20px; }
+.extras b { font-weight: 600; }
+.extras span { color: var(--ink-3); font-size: .9375rem; }
+@media (max-width: 560px) {
+  .extras { grid-template-columns: 1fr; }
+  .extras li:nth-child(odd) { padding-right: 0; }
+}

@@ -1,0 +1,27 @@
+/* Vitrin bölümleri: sitenin boşluğundan daha sıkı; bölümler çizgiyle değil boşluk ve fotoğrafla ayrılır. */
+
+.sec { padding-block: clamp(64px, 7vw, 112px); }
+.sec + .sec { padding-top: 0; }
+
+.head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px 32px; margin-bottom: clamp(28px, 3vw, 44px); }
+.head :global(.h2) { max-width: 18ch; }
+
+.intro {
+  max-width: 30em; font-size: clamp(1.625rem, 1.1rem + 2.1vw, 3rem); font-weight: 600; line-height: 1.18; letter-spacing: -.03em;
+  text-wrap: balance;
+}
+
+.soft { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); align-items: center; gap: 40px clamp(32px, 5vw, 88px); }
+.softPhoto { aspect-ratio: 5 / 4; }
+.softText { display: grid; justify-items: start; gap: 26px; }
+.works { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .6rem 1.6rem; color: var(--ink-2); }
+.refs { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+.refs span { color: var(--ink-3); font-size: .8125rem; font-weight: 600; }
+.refs img { width: auto; height: 24px; }
+
+@media (max-width: 960px) {
+  .soft { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .works { grid-template-columns: 1fr; }
+}

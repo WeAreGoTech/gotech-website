@@ -1,0 +1,66 @@
+/* Ürün sayfası (Jump, Fly) bölümleri — kutusuz: ince çizgi, boşluk, yazı. */
+
+/* özellikler: iki sütun */
+.features { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--gap); }
+.features li { position: relative; display: grid; align-content: start; gap: 10px; padding-block: 28px 36px; }
+.features p { max-width: 50ch; color: var(--ink-2); }
+.num { font-size: .875rem; font-weight: 600; color: var(--red-ink); font-variant-numeric: tabular-nums; }
+@media (max-width: 760px) {
+  .features { grid-template-columns: 1fr; }
+}
+
+/* sürümler: üç açık sütun, üstte kırmızı çizgi */
+.versions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 44px var(--gap); }
+.version { position: relative; display: grid; align-content: start; gap: 14px; padding-top: 28px; }
+.versionRule { position: absolute; left: 0; right: 0; top: 0; height: 2px; border-radius: 2px; background: var(--ink); }
+.version:target .versionRule { background: var(--red); }
+.versionTitle { font-size: clamp(1.5rem, 1.25rem + .9vw, 2rem); line-height: 1.15; letter-spacing: -.028em; font-weight: 600; }
+.version > p { color: var(--ink-2); }
+.version :global(.ticks) { margin-top: 6px; font-size: .9375rem; }
+@media (max-width: 960px) {
+  .versions { grid-template-columns: 1fr; }
+}
+
+.when { display: grid; gap: 22px; margin-top: clamp(56px, 6vw, 88px); }
+.need { color: var(--ink-2); }
+.answer { font-size: clamp(1.125rem, 1.05rem + .35vw, 1.375rem); font-weight: 600; letter-spacing: -.015em; }
+
+/* Fly: Jump'tan farkı */
+.diff { border-bottom: 1px solid var(--line); font-size: .9375rem; }
+.diffHead,
+.diffRow { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 3fr) minmax(0, 3fr); gap: 16px; padding: 15px 0; border-top: 1px solid var(--line); }
+.diffHead { border-top: 0; border-bottom: 1px solid var(--ink); font-size: .8125rem; font-weight: 600; color: var(--ink-3); }
+.diffRow span:first-child { font-weight: 500; }
+.diffSelf { color: var(--ink); font-weight: 600; }
+.yes { color: var(--red-ink); font-weight: 600; }
+.no { color: var(--ink-3); }
+
+/* kimler için */
+.whom { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 40px var(--gap); align-items: start; }
+@media (max-width: 960px) {
+  .whom { grid-template-columns: 1fr; }
+}
+
+/* bir bakışta */
+.pc { display: grid; grid-template-columns: 1fr 1fr; gap: 40px var(--gap); padding-top: 28px; border-top: 1px solid var(--line); }
+.pcTitle { margin-bottom: 16px; font-size: .8125rem; font-weight: 600; letter-spacing: .01em; color: var(--ink-3); }
+.cons { display: grid; gap: .55rem; color: var(--ink-2); }
+.cons li { position: relative; padding-left: 1.4rem; }
+.cons li::before { content: ""; position: absolute; left: 0; top: calc(.82em - .8px); width: 9px; height: 1.6px; border-radius: 1px; background: var(--ink-3); }
+@media (max-width: 760px) {
+  .pc { grid-template-columns: 1fr; }
+}
+
+.more { margin-top: 48px; border-block: 1px solid var(--line); }
+.more summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 22px;
+  list-style: none; cursor: pointer; font-weight: 600; font-size: 1.0625rem;
+}
+.more summary::-webkit-details-marker { display: none; }
+.more summary:hover { color: var(--red-ink); }
+.more summary i { position: relative; flex: none; width: 34px; height: 34px; border: 1px solid var(--line-2); border-radius: 50%; transition: transform .5s var(--ease); }
+.more summary i::before,
+.more summary i::after { content: ""; position: absolute; left: 50%; top: 50%; width: 12px; height: 1.6px; margin: -.8px 0 0 -6px; border-radius: 1px; background: var(--ink); }
+.more summary i::after { transform: rotate(90deg); }
+.more[open] summary i { transform: rotate(45deg); }
+.more[open] { padding-bottom: 28px; }

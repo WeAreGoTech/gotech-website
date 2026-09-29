@@ -4,7 +4,7 @@ import s from "./yazilim.module.css";
 const KINDS: WorkKind[] = ["mikro", "bagimsiz"];
 const pad = (n: number) => String(n).padStart(2, "0");
 
-/** Geliştirdiğimiz yazılım türleri: iki grup (Mikro'ya bağlı / Mikro'dan bağımsız), her grupta numaralı liste. */
+/** Geliştirdiğimiz yazılım türleri: iki grup (Mikro'ya özel / web ve portal), her grupta numaralı liste. */
 export function WorkIndex() {
   return (
     <div className={s.works}>

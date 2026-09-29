@@ -5,7 +5,7 @@ import { INDEPENDENT_WORK, MIKRO_WORK } from "@/components/kurumsal/referanslar"
 export type WorkKind = "mikro" | "bagimsiz";
 export type Work = { title: string; body: string; kind: WorkKind };
 
-export const KIND_LABEL: Record<WorkKind, string> = { mikro: "Mikro'ya bağlı", bagimsiz: "Mikro'dan bağımsız" };
+export const KIND_LABEL: Record<WorkKind, string> = { mikro: "Mikro'ya özel", bagimsiz: "Web ve portal" };
 
 // hazır çözümleri kurup bağlamak yazılım geliştirme değil: bu sayfada yalnız yazdığımız işler
 const NOT_DEVELOPMENT = "Kurup bağladığımız ek çözümler";
@@ -47,7 +47,7 @@ export const SOFTWARE_STEPS = [
   },
   {
     title: "Destek ve geliştirme",
-    body: "Yayından sonra da aynı ekip bakıyor. Yeni bir ihtiyaç çıktığında üstüne ekliyoruz.",
+    body: "Yayından sonraki taleplerinizi destek portalından açarsınız. Yeni bir ihtiyaç çıkarsa ayrıca konuşuyoruz.",
     scope: ["Destek portalı", "Yeni geliştirmeler"],
   },
 ];
@@ -74,8 +74,8 @@ export const APPROACH = [
 
 export const YAZILIM_FAQ = [
   {
-    q: "Mikro kullanmıyoruz, yine de çalışır mısınız?",
-    a: "Evet. Web sitesi, e-ticaret, portal ve iş uygulamalarını Mikro'dan bağımsız da geliştiriyoruz; Mikro kullanıyor olmanız gerekmez.",
+    q: "Web sitesi ya da portal için de çalışıyor musunuz?",
+    a: "Evet. Kurumsal web sitesi, e-ticaret, portal ve iş uygulaması projelerini de kendi ekibimiz yapıyor.",
   },
   {
     q: "Ne kadar sürer?",
@@ -87,6 +87,6 @@ export const YAZILIM_FAQ = [
   },
   {
     q: "Yayından sonra ne oluyor?",
-    a: "Aynı ekip bakmaya devam ediyor. Talebinizi destek portalından açıyor, kimin üstlendiğini ve hangi aşamada olduğunu oradan takip ediyorsunuz.",
+    a: "Talebinizi destek portalından açıyor, kimin üstlendiğini ve hangi aşamada olduğunu oradan takip ediyorsunuz. Yeni geliştirmeleri ayrıca konuşuyoruz.",
   },
 ];

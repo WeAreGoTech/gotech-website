@@ -1,0 +1,51 @@
+/* Hizmet panelleri: yan yana fotoğraflar, açık olan genişler; sekme girişteki gibi fotoğrafın sol altına oyulmuş. */
+
+.panels { display: flex; gap: 10px; height: clamp(460px, 66vh, 640px); }
+.panel {
+  --pr: 22px;
+  position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; border-radius: var(--pr);
+  /* sol alt köşe beyaz sekmenin altında: yuvarlatılırsa sekmedeki numarayı kırpar */
+  border-bottom-left-radius: 0;
+  background: #eef0f3; cursor: pointer; transition: flex-grow .9s var(--ease);
+}
+.on { flex-grow: 4; cursor: default; }
+.panel img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  transform: scale(1.1); filter: saturate(.7) brightness(.96);
+  transition: transform 1.4s var(--ease), filter .8s var(--ease);
+}
+.on img { transform: none; filter: none; }
+
+/* sekme: dışbükey köşe sağ üstte, içbükey köşeler ::before (üstte) ve ::after (sağda) */
+.tab {
+  position: absolute; left: 0; bottom: 0; z-index: 1; width: max-content; max-width: calc(100% - 18px);
+  padding: 16px 20px 0 0; border-top-right-radius: var(--pr); background: #fff;
+  transition: max-width .9s var(--ease);
+}
+.on .tab { max-width: min(460px, calc(100% - 24px)); }
+.tab::before, .tab::after { content: ""; position: absolute; width: var(--pr); height: var(--pr); pointer-events: none; background: radial-gradient(circle at 100% 0, transparent var(--pr), #fff calc(var(--pr) + .5px)); }
+.tab::before { left: 0; bottom: 100%; }
+.tab::after { left: 100%; bottom: 0; }
+
+.head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; width: 100%; padding: 0; border: 0; background: none; color: var(--ink); font: inherit; text-align: left; cursor: pointer; }
+.num { flex: none; color: var(--red-ink); font-size: .8125rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+/* kelime içinden (e-Dönüşüm'ün tiresinden) bölünmesin */
+.word { white-space: nowrap; }
+.title { font-size: clamp(1.0625rem, .95rem + .45vw, 1.5rem); font-weight: 600; line-height: 1.15; letter-spacing: -.02em; }
+.panel:not(.on) .title { font-size: clamp(.9375rem, .8rem + .4vw, 1.25rem); }
+
+/* açılan içerik: yükseklik 0fr → 1fr */
+.more { display: grid; grid-template-rows: 0fr; opacity: 0; transition: grid-template-rows .8s var(--ease), opacity .5s var(--ease); }
+.on .more { grid-template-rows: 1fr; opacity: 1; transition-delay: .15s; }
+.moreIn { display: grid; justify-items: start; gap: 10px; min-height: 0; overflow: hidden; }
+.text { margin-top: 10px; color: var(--ink-2); font-size: 1rem; line-height: 1.5; }
+.tags { color: var(--ink-3); font-size: .8125rem; line-height: 1.5; }
+.moreIn :global(.tlink) { margin-bottom: 2px; font-size: .9375rem; }
+
+/* telefonda paneller alt alta; açık olan uzar */
+@media (max-width: 759px) {
+  .panels { flex-direction: column; height: auto; gap: 8px; }
+  .panel { flex: none; height: 104px; transition: height .8s var(--ease); }
+  .on { height: 440px; }
+  .on .tab { max-width: calc(100% - 20px); }
+}

@@ -1,0 +1,51 @@
+/* /urunler: iki ürün ailesi ve artılar/sınırlar */
+
+.lines { display: grid; grid-template-columns: 1fr 1fr; }
+.line { display: grid; align-content: start; justify-items: start; gap: 18px; padding-right: clamp(24px, 4vw, 64px); }
+.line + .line { padding-right: 0; padding-left: clamp(24px, 4vw, 64px); border-left: 1px solid var(--line); }
+.linePhoto { width: 100%; aspect-ratio: 16 / 10; margin-bottom: 14px; }
+/* kılavuz: ürün logosu en az 120px */
+.lineLogo { --m: 100px; margin-top: 6px; }
+.lineFor { font-size: clamp(1.375rem, 1.15rem + .8vw, 1.875rem); line-height: 1.2; letter-spacing: -.025em; font-weight: 600; }
+.lineBody { max-width: 52ch; color: var(--ink-2); }
+
+.versions { width: 100%; border-bottom: 1px solid var(--line); }
+.versions li { border-top: 1px solid var(--line); }
+.versions a { display: grid; grid-template-columns: minmax(8rem, auto) minmax(0, 1fr) auto; align-items: baseline; gap: 4px 18px; padding-block: 15px; }
+.versions b { font-weight: 600; transition: color .25s; }
+.versions span { color: var(--ink-2); font-size: .9375rem; }
+.versions svg { color: var(--ink-3); transition: transform .45s var(--ease), color .25s; }
+.versions a:hover b { color: var(--red-ink); }
+.versions a:hover svg { transform: translateX(4px); color: var(--red-ink); }
+.points { width: 100%; padding-block: 18px; border-block: 1px solid var(--line); }
+
+@media (max-width: 960px) {
+  .lines { grid-template-columns: 1fr; gap: 72px; }
+  .line, .line + .line { padding: 0; border-left: 0; }
+}
+@media (max-width: 560px) {
+  .versions a { grid-template-columns: minmax(0, 1fr) auto; }
+  .versions span { grid-column: 1; grid-row: 2; }
+}
+
+/* ---------- artılar ve sınırlar ---------- */
+.pc { border-bottom: 1px solid var(--line); }
+.pcRow {
+  position: relative; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 4fr) minmax(0, 4fr); gap: 28px var(--gap);
+  padding-block: clamp(28px, 3.4vw, 44px);
+}
+.pcHead { display: grid; justify-items: start; align-content: start; gap: 12px; }
+.pcLogo { --m: 80px; }
+.pcScale { font-size: .875rem; font-weight: 600; color: var(--ink-3); }
+.pcText { max-width: 38ch; color: var(--ink-2); font-size: .9375rem; }
+.pcTitle { margin-bottom: 14px; font-size: .8125rem; font-weight: 600; letter-spacing: .01em; color: var(--ink-3); }
+.cons { display: grid; gap: .55rem; color: var(--ink-2); }
+.cons li { position: relative; padding-left: 1.4rem; }
+.cons li::before { content: ""; position: absolute; left: 0; top: calc(.82em - .8px); width: 9px; height: 1.6px; border-radius: 1px; background: var(--ink-3); }
+@media (max-width: 960px) {
+  .pcRow { grid-template-columns: 1fr 1fr; }
+  .pcHead { grid-column: 1 / -1; }
+}
+@media (max-width: 560px) {
+  .pcRow { grid-template-columns: 1fr; }
+}

@@ -9,6 +9,9 @@ export type Reference = {
   work: string;
 };
 
+// referans logolarının yanındaki etiket
+export const REFERENCES_LABEL = "Özel yazılım geliştirdiğimiz kurumlar";
+
 export const REFERENCES: Reference[] = [
   {
     name: "ASELSAN",
@@ -23,13 +26,13 @@ export const REFERENCES: Reference[] = [
 // Yalnız GoTech'in gerçekten yaptığı işler; fotoğraflar CC0 (public/images/stok/KAYNAK.md).
 export const INDEPENDENT_WORK = [
   { title: "Kurumsal web siteleri", body: "Kurumunuzu anlatan web sitesi; tasarımından yayına biz yapıyoruz." },
-  { title: "E-ticaret", body: "Mikro'ya bağlı ya da bağımsız çalışan e-ticaret siteniz." },
+  { title: "E-ticaret", body: "İşletmenizin e-ticaret sitesi; isterseniz Mikro'nuzla bağlantılı." },
   { title: "Müşteri ve bayi portalları", body: "Müşterilerinizin ya da bayilerinizin sipariş verdiği, talep açtığı, belge indirdiği portallar." },
   { title: "Ekip ve saha panelleri", body: "Sahadaki ekibinizin ya da ofisinizin günlük işini takip ettiği iş uygulamaları." },
 ];
 
 export const MIKRO_WORK = [
-  { title: "Mikro'ya özel ekran ve raporlar", body: "Mikro'ya entegre çalışan ek ekranlar ve işletmenize özel raporlar. Verileriniz Mikro'da kalır." },
+  { title: "Mikro'ya özel ekran ve raporlar", body: "Mikro'ya entegre çalışan ek ekranlar ve işletmenize özel raporlar." },
   { title: "Bayi sipariş portalı ve saha satış", body: "Bayi siparişini ve saha satışı Mikro'ya bağlayan uygulamalar." },
   { title: "Kurup bağladığımız ek çözümler", body: "Zeus WMS, Mikro Hızlı Satış, Mikro Drive gibi çözümleri kurup Mikro'nuza bağlıyoruz." },
 ];
@@ -46,17 +49,17 @@ export type SoftwareTrack = {
 export const SOFTWARE_TRACKS: SoftwareTrack[] = [
   {
     id: "mikroya-ozel",
-    tag: "Mikro'ya bağlı",
+    tag: "Mikro'ya özel",
     title: "Mikro'ya özel geliştirmeler",
-    body: "Mikro'nun yapısına dokunmadan işletmenize özel ekran, rapor ve bağlantılar geliştiriyoruz; verileriniz yine Mikro'da kalır.",
+    body: "İşletmenize özel ekran, rapor ve bağlantılar geliştiriyoruz.",
     image: "/images/stok/rapor-tablet.webp",
     items: MIKRO_WORK,
   },
   {
     id: "bagimsiz",
-    tag: "Mikro'dan bağımsız",
+    tag: "Web ve portal",
     title: "Web, e-ticaret, portal ve iş uygulamaları",
-    body: "ERP dışındaki işlerinizi de aynı ekibe verebilirsiniz; Mikro kullanıyor olmanız gerekmez.",
+    body: "Kurumsal web sitesi, e-ticaret ve portal projelerinizi de aynı ekip yapıyor.",
     image: "/images/stok/web-cihazlar.webp",
     items: INDEPENDENT_WORK,
   },

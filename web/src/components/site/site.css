@@ -1,0 +1,212 @@
+/*
+  GoTech kamuya açık site (ana sayfa + iç sayfalar) — tasarım sistemi.
+  Kök: .gt (SiteShell). Panel bu dosyayı kullanmaz; buradaki her kural .gt altında.
+
+  Dil: beyaz zemin, koyu mürekkep, ince çizgi. Kırmızı yalnız vurgu (buton, + imi, etkin durum);
+  gri zeminli bant/panel, gradient, bulanık gölge, cam efekti yok. Yazı Figtree (Mikro'nun Gilroy'una en yakın ücretsiz yazı).
+  Hareket GSAP + Lenis (shell/Motion.tsx); başlangıç durumları yalnız html[data-motion="on"] iken gizli,
+  JS yoksa ya da ziyaretçi hareketi kapattıysa her şey son hâlinde görünür.
+*/
+
+.gt {
+  --bg: #fff;
+  --ink: #121417;
+  --ink-2: #464b54;
+  /* küçük gri yazı: beyazda ~4.9:1 */
+  --ink-3: #686d77;
+  --line: #e6e7eb;
+  --line-2: #d2d5db;
+  /* #E53935 yalnız iz ve büyük yazıda; buton ve küçük kırmızı yazı --red-ink (beyazda 5.6:1) */
+  --red: #e53935;
+  --red-ink: #c0261f;
+  --red-press: #a51f19;
+  --font: var(--font-figtree), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --wrap: 1320px;
+  --gutter: clamp(20px, 4vw, 48px);
+  --gap: clamp(16px, 2vw, 32px);
+  --sec: clamp(80px, 9vw, 144px);
+  --nav-h: 72px;
+  --r-sm: 10px;
+  --r: 16px;
+  --r-lg: 24px;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+  --ease-io: cubic-bezier(.65, 0, .35, 1);
+
+  /* eski bileşenlerin (ürün bulucu, ürün logosu) beklediği adlar */
+  --brand: var(--red);
+  --brand-deep: var(--red-ink);
+  --brand-press: var(--red-press);
+  --soft: var(--ease);
+
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  font-size: 1.0625rem;
+  font-weight: 400;
+  line-height: 1.65;
+  letter-spacing: -.003em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  interpolate-size: allow-keywords;
+}
+body:has(.gt) { background: #fff; }
+
+.gt :where(h1, h2, h3, h4, p, figure, dl, dd, ul, ol, blockquote) { margin: 0; }
+.gt :where(ul, ol) { list-style: none; padding: 0; }
+.gt :where(img, svg, video) { display: block; max-width: 100%; }
+.gt :where(img) { height: auto; }
+.gt :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; border-radius: 4px; }
+.gt ::selection { background: var(--red); color: #fff; }
+.gt [id] { scroll-margin-top: calc(var(--nav-h) + 24px); }
+
+.gt .skip {
+  position: absolute; left: 12px; top: -60px; z-index: 100;
+  padding: .7rem 1.1rem; border-radius: 999px; background: var(--ink); color: #fff; font-weight: 600;
+}
+.gt .skip:focus { top: 12px; }
+.gt .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+/* ---------- yerleşim ---------- */
+.gt .wrap { width: min(100% - 2 * var(--gutter), var(--wrap)); margin-inline: auto; }
+.gt .sec { padding-block: var(--sec); }
+.gt .sec-line { border-top: 1px solid var(--line); }
+.gt .grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); }
+
+/* ---------- yazı ---------- */
+.gt .display,
+.gt .h1,
+.gt .h2 {
+  font-weight: 600;
+  text-wrap: balance;
+  color: var(--ink);
+}
+.gt .display { font-size: clamp(2.625rem, 1.62rem + 4.3vw, 5.5rem); line-height: 1.02; letter-spacing: -.04em; }
+.gt .h1 { font-size: clamp(2.5rem, 1.62rem + 3.76vw, 5rem); line-height: 1.02; letter-spacing: -.038em; }
+.gt .h2 { font-size: clamp(2rem, 1.47rem + 2.25vw, 3.5rem); line-height: 1.06; letter-spacing: -.032em; }
+.gt .h3 { font-size: clamp(1.25rem, 1.16rem + .38vw, 1.5rem); line-height: 1.25; letter-spacing: -.018em; font-weight: 600; }
+/* iki tonlu başlık: ikinci cümle gri (başlık lede'i de taşır) */
+.gt .soft { color: var(--ink-3); }
+.gt .lede { font-size: clamp(1.125rem, 1.06rem + .28vw, 1.3125rem); line-height: 1.6; color: var(--ink-2); text-wrap: pretty; }
+.gt .muted { color: var(--ink-3); }
+.gt .small { font-size: .9375rem; line-height: 1.55; }
+.gt p { text-wrap: pretty; }
+
+/* başlık grubu (ui/parts Head): etiket, başlık, açıklama */
+.gt .head { display: grid; justify-items: start; gap: 20px; }
+.gt .head > .lede { max-width: 58ch; }
+
+/* bölüm başı: başlık solda, açıklama sağda (split-top: sağ taraf uzunsa üstten hizalı) */
+.gt .split {
+  display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); align-items: end; gap: 24px var(--gap);
+  margin-bottom: clamp(40px, 5vw, 72px);
+}
+.gt .split .h2 { max-width: 22ch; }
+.gt .split-side { display: grid; justify-items: start; gap: 22px; max-width: 520px; }
+.gt .split-top { align-items: start; }
+.gt .split-top .split-side { padding-top: 2.4rem; }
+@media (max-width: 960px) {
+  .gt .split { grid-template-columns: 1fr; align-items: start; }
+  .gt .split-top .split-side { padding-top: 0; }
+}
+
+/* bölüm etiketi: logodaki + imiyle, düz yazı (hap/nokta yok) */
+.gt .label {
+  display: inline-flex; align-items: center; gap: .6rem;
+  font-size: .875rem; font-weight: 600; letter-spacing: .005em; line-height: 1.2; color: var(--ink-2);
+}
+.gt .plus { position: relative; flex: none; width: 10px; height: 10px; }
+.gt .plus::before,
+.gt .plus::after { content: ""; position: absolute; border-radius: 1px; background: var(--red); }
+.gt .plus::before { left: 0; right: 0; top: calc(50% - .8px); height: 1.6px; }
+.gt .plus::after { top: 0; bottom: 0; left: calc(50% - .8px); width: 1.6px; }
+
+/* ---------- butonlar ve bağlantılar ---------- */
+.gt .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 14px; }
+.gt .btn {
+  position: relative; isolation: isolate; overflow: hidden;
+  display: inline-flex; align-items: center; justify-content: center; gap: .6em;
+  min-height: 52px; padding: .8rem 1.5rem .8rem 1.65rem; border: 0; border-radius: 999px;
+  background: var(--red-ink); color: #fff;
+  font: 600 1rem/1.2 var(--font); letter-spacing: -.005em; white-space: nowrap; cursor: pointer;
+  transition: background-color .3s var(--ease), color .3s var(--ease), box-shadow .3s var(--ease), transform .2s var(--ease);
+}
+/* üstüne gelince koyu kırmızı alttan dolar */
+.gt .btn::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
+  background: var(--red-press); transform: translateY(101%); transition: transform .45s var(--ease);
+}
+.gt .btn:hover::before { transform: none; }
+.gt .btn:active { transform: scale(.98); }
+.gt .btn svg { flex: none; transition: transform .45s var(--ease); }
+.gt .btn:hover svg { transform: translateX(3px); }
+.gt .btn-line { background: transparent; color: var(--ink); box-shadow: inset 0 0 0 1px var(--line-2); }
+.gt .btn-line::before { background: var(--ink); }
+.gt .btn-line:hover { color: #fff; box-shadow: inset 0 0 0 1px var(--ink); }
+.gt .btn-sm { min-height: 44px; padding: .6rem 1.15rem .6rem 1.3rem; font-size: .9375rem; }
+.gt .btn[aria-disabled="true"] { opacity: .6; pointer-events: none; }
+
+/* satır içi: uzun bağlantı kırılınca ok son kelimenin yanında kalır */
+.gt .tlink {
+  display: inline; padding-bottom: 3px;
+  font-weight: 600; color: var(--ink);
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+  -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  transition: background-size .5s var(--ease), color .25s var(--ease);
+}
+.gt .tlink:hover { background-size: 100% 1px; color: var(--red-ink); }
+.gt .tlink svg { display: inline-block; margin-left: .45em; vertical-align: -.1em; transition: transform .45s var(--ease); }
+.gt .tlink:hover svg { transform: translateX(3px); }
+
+/* ---------- listeler ---------- */
+.gt .ticks { display: grid; gap: .55rem; }
+.gt .ticks li { position: relative; padding-left: 1.4rem; }
+.gt .ticks li::before,
+.gt .ticks li::after { content: ""; position: absolute; left: 0; top: calc(.82em - .8px); width: 9px; height: 1.6px; border-radius: 1px; background: var(--red); }
+.gt .ticks li::after { left: calc(4.5px - .8px); top: calc(.82em - 4.5px); width: 1.6px; height: 9px; }
+
+/* ---------- görsel ---------- */
+.gt .media { position: relative; overflow: hidden; border-radius: var(--r-lg); background: #eef0f3; }
+.gt .media img { width: 100%; height: 100%; object-fit: cover; }
+/* data-parallax: fotoğraf çerçevesinden taşar ki kayarken kenarda boşluk kalmasın */
+.gt [data-parallax] > img { position: absolute; left: 0; top: -7%; width: 100%; height: 114%; }
+.gt .media figcaption {
+  position: absolute; left: 16px; bottom: 14px; z-index: 1;
+  padding: .3rem .7rem; border-radius: 8px; background: #fff; color: var(--ink-2);
+  font-size: .8125rem; font-weight: 500;
+}
+
+/* ---------- hareket: başlangıç durumları (Motion.tsx) ----------
+   Yalnız hareketi kapatmamış ziyaretçide gizli başlar. Motion kurulunca kök data-motion-ready alır; kurulamazsa
+   (JS yok ya da hata) güvenlik animasyonu 3 sn sonra her şeyi son hâline getirir, hiçbir içerik görünmez kalmaz. */
+@media (prefers-reduced-motion: no-preference) {
+  .gt [data-reveal]:not([data-shown]) { opacity: 0; transform: translateY(26px); }
+  .gt [data-split] { visibility: hidden; }
+  .gt [data-media]:not([data-shown]) { clip-path: inset(18% 12% 18% 12% round var(--r-lg)); }
+  .gt [data-media]:not([data-shown]) img { transform: scale(1.18); }
+  .gt [data-draw] { transform: scaleX(0); transform-origin: left center; }
+  .gt:not([data-motion-ready]) :is([data-reveal], [data-split], [data-media], [data-media] img, [data-draw]) {
+    animation: gt-failsafe 1ms 3s forwards;
+  }
+}
+@keyframes gt-failsafe { to { opacity: 1; visibility: visible; transform: none; clip-path: none; } }
+/* SplitText satır maskesi (overflow:clip): İ/Ğ üstü ve ş/ç/g altı kırpılmasın */
+.gt .ln-mask { padding-block: .1em .16em; margin-block: -.1em -.16em; }
+
+/* ---------- sayfa geçişi (React ViewTransition, SiteShell) ---------- */
+::view-transition { pointer-events: none; }
+::view-transition-old(.gt-page) { animation: gt-page-out .28s var(--ease, ease) both; }
+::view-transition-new(.gt-page) { animation: gt-page-in .6s cubic-bezier(.22, 1, .36, 1) .12s both; }
+::view-transition-group(gt-nav) { animation: none; z-index: 50; }
+::view-transition-old(gt-nav) { display: none; }
+::view-transition-new(gt-nav) { animation: none; }
+@keyframes gt-page-out { to { opacity: 0; transform: translateY(-10px); } }
+@keyframes gt-page-in { from { opacity: 0; transform: translateY(18px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) { animation-duration: 0s !important; animation-delay: 0s !important; }
+  .gt *, .gt *::before, .gt *::after { transition-duration: .01ms !important; }
+}
