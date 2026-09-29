@@ -22,13 +22,13 @@ const subscribe = (onChange: () => void) => {
   return () => window.clearInterval(id);
 };
 
-/** Çalışma saatleri ve şu anki durum (açık/kapalı). Sunucuda durum yazılmaz: saat farkı hidrasyonu bozmasın. */
-export function LiveHours({ hours }: { hours: string }) {
+/** Çalışma saatleri ve şu anki durum (açık/kapalı). Sunucuda durum yazılmaz: saat farkı hidrasyonu bozmasın. reveal: kaydırınca belirsin. */
+export function LiveHours({ hours, reveal = true }: { hours: string; reveal?: boolean }) {
   const open = useSyncExternalStore(subscribe, isOpenNow, () => null);
   const live = hours === DEFAULT_HOURS && open !== null;
 
   return (
-    <p className={s.hours} data-reveal="">
+    <p className={s.hours} {...(reveal && { "data-reveal": "" })}>
       <span>{hours}</span>
       {live && (
         <span className={open ? s.isOpen : s.isClosed}>

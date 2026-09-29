@@ -3,29 +3,30 @@ import Link from "next/link";
 import type { SiteContent, SiteSettings } from "@/components/kurumsal/content";
 import { GoTechLogoHeader, MikroLogo } from "@/components/kurumsal/Logo";
 import { FOOTER_PRODUCTS, FOOTER_SERVICES, mapsHref, PORTAL_HREF } from "../content";
+import { LiveHours } from "../home/LiveHours";
 import { telHref } from "../ui/parts";
 import s from "./footer.module.css";
+import { ToTop } from "./ToTop";
 
 type Props = { settings: SiteSettings; content: SiteContent };
 
-/** Sitenin alt bilgisi: kısa tanım ve adres, bağlantılar, Mikro iş ortaklığı, büyük marka yazısı. */
+/**
+ * Sitenin alt bilgisi: solda logo ve kısa tanım, ortada bağlantı sütunları, sağda iletişim (adres, saat ve şu anki durum,
+ * e-posta; telefon panelden girildiyse). Altında Mikro iş ortaklığı (logo yalnız beyaz zeminde) ve telif satırı.
+ */
 export function Footer({ settings, content }: Props) {
-  const address = settings.address.replace(/\n/g, ", ");
+  const phones = [settings.salesPhone, settings.supportPhone].filter(Boolean);
 
   return (
     <footer className={s.foot}>
       <div className="wrap">
         <div className={s.top}>
-          <div className={s.intro}>
-            <p className={s.say}>{content.footerAbout}</p>
-            <p className={s.addr}>
-              <a href={mapsHref(settings.address)} target="_blank" rel="noopener noreferrer">{address}</a>
-              <br />
-              {settings.workingHours} · <a href={`mailto:${settings.email}`}>{settings.email}</a>
-              {settings.salesPhone && <> · <a href={telHref(settings.salesPhone)}>{settings.salesPhone}</a></>}
-            </p>
+          <div className={s.brand}>
+            <Link className={s.logo} href="/" aria-label="GoTech ana sayfa"><GoTechLogoHeader /></Link>
+            <p>{content.footerAbout}</p>
           </div>
-          <div className={s.cols}>
+
+          <nav className={s.cols} aria-label="Alt menü">
             <div>
               <h2>Ürünler</h2>
               <ul>{FOOTER_PRODUCTS.map((l) => <li key={l.href}><Link href={l.href}>{l.label}</Link></li>)}</ul>
@@ -43,6 +44,19 @@ export function Footer({ settings, content }: Props) {
                 {settings.linkedin && <li><a href={settings.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn</a></li>}
               </ul>
             </div>
+          </nav>
+
+          <div className={s.contact}>
+            <h2>İletişim</h2>
+            <address>
+              {settings.address}
+              <a href={mapsHref(settings.address)} target="_blank" rel="noopener noreferrer">Haritada açın</a>
+            </address>
+            <p className={s.lines}>
+              <a href={`mailto:${settings.email}`}>{settings.email}</a>
+              {phones.map((ph) => <a key={ph} href={telHref(ph)}>{ph}</a>)}
+            </p>
+            <LiveHours hours={settings.workingHours} reveal={false} />
           </div>
         </div>
 
@@ -55,16 +69,13 @@ export function Footer({ settings, content }: Props) {
           <p><b>Mikro Yazılım yetkili iş ortağı</b>2017&apos;den beri · Jumper ve Flyer programlarında Silver Partner</p>
         </div>
 
-        <div className={s.mark} aria-hidden="true">
-          <GoTechLogoHeader />
-        </div>
-
         <div className={s.bottom}>
           <span>{content.footerCopyright}</span>
-          <nav aria-label="Alt bağlantılar">
+          <div className={s.bottomEnd}>
             <Link href={PORTAL_HREF}>Destek portalı</Link>
             <Link href="/iletisim">İletişim</Link>
-          </nav>
+            <ToTop className={s.toTop} />
+          </div>
         </div>
       </div>
     </footer>

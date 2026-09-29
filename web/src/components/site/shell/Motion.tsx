@@ -14,6 +14,7 @@ gsap.registerPlugin(ScrollTrigger, SplitText);
 const LENIS_LERP = 0.09;
 const NAV_CLEARANCE = 24;
 const WORD_FROM = "#c5c8ce";
+const REFRESH_DEBOUNCE_MS = 200;
 const WORD_TO = "#121417";
 
 let lenis: Lenis | null = null;
@@ -243,14 +244,24 @@ export function Motion({ rootId }: { rootId: string }) {
       }
     }, root);
 
-    // yazı tipi ve görseller yüklenince konumlar değişir
+    // yazı tipi, görseller ya da açılan bölümler sayfanın boyunu değiştirince tetikleme konumları yenilensin;
+    // yoksa sayfanın sonundaki öğeler eski konuma göre hiç görünmeyebilir
     const refresh = () => ScrollTrigger.refresh();
+    let pending = 0;
+    let lastHeight = root.offsetHeight;
+    const resized = new ResizeObserver(() => {
+      if (root.offsetHeight === lastHeight) return;
+      lastHeight = root.offsetHeight;
+      window.clearTimeout(pending);
+      pending = window.setTimeout(refresh, REFRESH_DEBOUNCE_MS);
+    });
+    resized.observe(root);
     document.fonts?.ready.then(refresh);
     window.addEventListener("load", refresh);
-    const late = window.setTimeout(refresh, 800);
 
     return () => {
-      window.clearTimeout(late);
+      window.clearTimeout(pending);
+      resized.disconnect();
       window.removeEventListener("load", refresh);
       ctx.revert();
     };
