@@ -84,7 +84,6 @@ export function Nav() {
     <header
       ref={headerRef}
       className={cx(s.nav, stuck && s.stuck, hidden && !open && s.hidden)}
-      style={{ viewTransitionName: "gt-nav" }}
       data-nav=""
     >
       <div className={cx("wrap", s.bar)}>
