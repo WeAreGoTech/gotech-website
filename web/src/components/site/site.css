@@ -194,19 +194,6 @@ body:has(.gt) { background: #fff; }
 /* SplitText satır maskesi (overflow:clip): İ/Ğ üstü ve ş/ç/g altı kırpılmasın */
 .gt .ln-mask { padding-block: .1em .16em; margin-block: -.1em -.16em; }
 
-/* ---------- sayfa geçişi (React ViewTransition, SiteShell) ---------- */
-::view-transition { pointer-events: none; }
-::view-transition-old(.gt-page) { animation: gt-page-out .28s var(--ease, ease) both; }
-::view-transition-new(.gt-page) { animation: gt-page-in .6s cubic-bezier(.22, 1, .36, 1) .12s both; }
-::view-transition-group(gt-nav) { animation: none; z-index: 50; }
-::view-transition-old(gt-nav) { display: none; }
-::view-transition-new(gt-nav) { animation: none; }
-@keyframes gt-page-out { to { opacity: 0; transform: translateY(-10px); } }
-@keyframes gt-page-in { from { opacity: 0; transform: translateY(18px); } }
-
 @media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(*),
-  ::view-transition-new(*),
-  ::view-transition-group(*) { animation-duration: 0s !important; animation-delay: 0s !important; }
   .gt *, .gt *::before, .gt *::after { transition-duration: .01ms !important; }
 }

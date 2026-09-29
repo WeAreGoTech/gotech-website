@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element -- site IIS arkasında next start ile çalışıyor; görseller public/'ten olduğu gibi */
 import type { SiteContent } from "@/components/kurumsal/content";
 import { MikroLogo } from "@/components/kurumsal/Logo";
-import { HOME_HERO, SERVICES_HERO } from "@/components/site/content";
+import { HOME_HERO } from "@/components/site/content";
 import { Arrow } from "@/components/site/ui/icons";
 import { Label, typo } from "@/components/site/ui/parts";
 import { PlusReveal } from "./PlusReveal";
@@ -15,7 +15,7 @@ export function Stage({ content }: { content: SiteContent }) {
   return (
     <section className={s.hero} aria-labelledby="vitrin-baslik">
       <div className={s.stage}>
-        <PlusReveal image={SERVICES_HERO.image} />
+        <PlusReveal image={HOME_HERO.image} />
 
         <div className={`${s.tab} ${s.tabMain}`}>
           <Label>{HOME_HERO.label}</Label>

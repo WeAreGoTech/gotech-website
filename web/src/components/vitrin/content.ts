@@ -5,6 +5,7 @@ import { EDONUSUM_DOCS } from "@/components/kurumsal/urunler-data";
 import {
   PROCESS_STEPS,
   SERVICE_ANALYSIS,
+  SERVICES_HERO,
   SERVICE_INDEX,
   SERVICE_TRAINING,
   SUPPORT_CHANNELS,
@@ -14,7 +15,8 @@ export type Panel = { id: string; title: string; text: string; tags: string[]; i
 
 const KURULUM_STEP = PROCESS_STEPS.find((s) => s.title === "Kurulum");
 const IMAGES: Record<string, { src: string; alt: string }> = {
-  analiz: { src: "/images/stok/analiz-atolye.webp", alt: "Beyaz tahta önünde süreçleri konuşan bir ekip" },
+  // giriş fotoğrafı da not kâğıtlı tahta: aynı sahne iki kez görünmesin diye burada cam bölmeli toplantı odası
+  analiz: { src: SERVICES_HERO.image.src, alt: SERVICES_HERO.image.alt },
   kurulum: { src: "/images/stok/kurulum-ekip.webp", alt: "Dizüstü bilgisayarlarla birlikte çalışan üç kişi" },
   edonusum: { src: "/images/stok/edonusum-evrak.webp", alt: "Masada dizüstü bilgisayar ve not alınan kâğıtlar" },
   egitim: { src: "/images/stok/egitim-sunum.webp", alt: "Toplantı masasında ekibine anlatım yapan bir eğitmen" },

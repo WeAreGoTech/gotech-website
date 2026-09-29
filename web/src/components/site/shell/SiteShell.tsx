@@ -1,4 +1,4 @@
-import { ViewTransition, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { getSiteConfig } from "@/features/site-content/queries";
 import "../site.css";
 import { Footer } from "./Footer";
@@ -8,10 +8,13 @@ import { Notice } from "./Notice";
 import { Prefill } from "./Prefill";
 
 const ROOT_ID = "site";
+// sayfa içeriğinin kabı: Motion yeni sayfanın buraya girdiği anı izler
+const CONTENT_ID = "icerik";
 
 /**
  * Kamuya açık sitenin tek kabuğu (ana sayfa ve iç sayfalar): üst bant, menü, alt bilgi, hareket.
- * Menü ve alt bilgi sayfa değişince yerinde kalır; yalnız içerik geçiş yapar (React ViewTransition, site.css).
+ * Menü ve alt bilgi sayfa değişince yerinde kalır. Sayfalar arasında geçiş animasyonu yok: eski sayfanın sönüp yenisinin
+ * belirmesi (ViewTransition) kaydırma ve giriş animasyonlarıyla çakışıp sayfayı yanıp söndürüyordu (29.09).
  */
 export async function SiteShell({ children }: { children: ReactNode }) {
   const { settings, content } = await getSiteConfig();
@@ -21,11 +24,9 @@ export async function SiteShell({ children }: { children: ReactNode }) {
       <a className="skip" href="#icerik">İçeriğe geç</a>
       <Notice />
       <Nav />
-      <ViewTransition default="none" update="gt-page">
-        <div id="icerik">{children}</div>
-      </ViewTransition>
+      <div id={CONTENT_ID}>{children}</div>
       <Footer settings={settings} content={content} />
-      <Motion rootId={ROOT_ID} />
+      <Motion rootId={ROOT_ID} contentId={CONTENT_ID} />
       <Prefill rootId={ROOT_ID} />
     </div>
   );

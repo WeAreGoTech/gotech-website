@@ -5,7 +5,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import Lenis from "lenis";
 import "lenis/dist/lenis.css";
-import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 import { prefersReducedMotion } from "@/components/site/motion";
 
@@ -18,6 +17,27 @@ const REFRESH_DEBOUNCE_MS = 200;
 const WORD_TO = "#121417";
 
 let lenis: Lenis | null = null;
+
+/**
+ * Sayfalar arası geçişte yeni sayfanın ilk ekranı (sayfanın başından bir ekran boyu) giriş animasyonu beklemeden son hâlinde
+ * görünür: gizli başlayıp ardından beliren içerik "sayfa yanıp sönüyor" gibi görünüyordu. Aşağıdakiler kaydırdıkça yine belirir.
+ * Yeni içerik DOM'a girdiği anda, tarayıcı çizmeden önce çalışır (MutationObserver); konum sayfanın başına göre.
+ */
+function showFirstScreen(root: HTMLElement) {
+  const fold = window.innerHeight;
+  const onFirstScreen = (el: Element) => el.getBoundingClientRect().top + window.scrollY < fold;
+  root.querySelectorAll<HTMLElement>("[data-reveal], [data-media]").forEach((el) => {
+    if (onFirstScreen(el)) el.setAttribute("data-shown", "");
+  });
+  root.querySelectorAll<HTMLElement>("[data-split]").forEach((el) => {
+    if (!onFirstScreen(el)) return;
+    el.dataset.played = "1";
+    el.style.visibility = "visible";
+  });
+  root.querySelectorAll<HTMLElement>("[data-draw]").forEach((el) => {
+    if (onFirstScreen(el)) el.style.transform = "none";
+  });
+}
 
 /** Sayfa içi kaydırma: Lenis varsa yumuşak, yoksa tarayıcının kendi kaydırması. */
 export function scrollToTarget(target: HTMLElement | number, immediate = false) {
@@ -170,12 +190,66 @@ function steps(root: HTMLElement, animate: boolean) {
 }
 
 /**
- * Sitenin hareketi: Lenis yumuşak kaydırma + GSAP (ScrollTrigger, SplitText). Kabukta bir kez kurulur,
- * her sayfa değişiminde yeni sayfanın öğeleri için yeniden bağlanır. Hareketi kapatan ziyaretçide hiçbir şey gizlenmez.
+ * Bir sayfanın hareketini kurar (başlık, belirme, fotoğraf, çizgi, kelime, süreç), geri dönen fonksiyon söker.
+ * Yeni sayfa en üstten açılır; başka sayfanın #bölüm bağlantısıyla gelindiyse o bölüme.
  */
-export function Motion({ rootId }: { rootId: string }) {
-  const pathname = usePathname();
+function preparePage(root: HTMLElement): () => void {
+  const hashTarget = location.hash.length > 1 ? document.querySelector<HTMLElement>(decodeURIComponent(location.hash)) : null;
+  if (hashTarget) requestAnimationFrame(() => scrollToTarget(hashTarget, true));
+  else lenis?.scrollTo(0, { immediate: true, force: true });
 
+  if (prefersReducedMotion()) {
+    const still = gsap.context(() => steps(root, false), root);
+    return () => still.revert();
+  }
+
+  const ctx = gsap.context(() => {
+    try {
+      splitHeadings(root);
+      reveals(root);
+      media(root);
+      lines(root);
+      words(root);
+      steps(root, true);
+      // CSS'teki güvenlik animasyonu kapansın: başlangıç durumlarını artık GSAP yönetiyor
+      root.dataset.motionReady = "";
+    } catch (error) {
+      // kurulum yarıda kaldıysa güvenlik animasyonu içeriği görünür yapsın
+      delete root.dataset.motionReady;
+      console.error(error);
+    }
+  }, root);
+
+  // yazı tipi, görseller ya da açılan bölümler sayfanın boyunu değiştirince tetikleme konumları yenilensin;
+  // yoksa sayfanın sonundaki öğeler eski konuma göre hiç görünmeyebilir
+  const refresh = () => ScrollTrigger.refresh();
+  let pending = 0;
+  let lastHeight = root.offsetHeight;
+  const resized = new ResizeObserver(() => {
+    if (root.offsetHeight === lastHeight) return;
+    lastHeight = root.offsetHeight;
+    window.clearTimeout(pending);
+    pending = window.setTimeout(refresh, REFRESH_DEBOUNCE_MS);
+  });
+  resized.observe(root);
+  document.fonts?.ready.then(refresh);
+  window.addEventListener("load", refresh);
+
+  return () => {
+    window.clearTimeout(pending);
+    resized.disconnect();
+    window.removeEventListener("load", refresh);
+    ctx.revert();
+  };
+}
+
+/**
+ * Sitenin hareketi: Lenis yumuşak kaydırma + GSAP (ScrollTrigger, SplitText). Kabukta bir kez kurulur.
+ * Sayfa değişimi adrese göre değil içerik alanına (contentId) yeni sayfa girdiği ana göre yakalanır: Next adresi yeni sayfa
+ * gelmeden önce değiştirebiliyor; adrese bağlıyken eski sayfa sıfırlanıp en üste zıplıyor, sayfa yanıp sönüyordu (29.09).
+ * Hareketi kapatan ziyaretçide hiçbir şey gizlenmez.
+ */
+export function Motion({ rootId, contentId }: { rootId: string; contentId: string }) {
   // Lenis bir kez; GSAP'in saatiyle çalışır ki ScrollTrigger aynı karede güncellensin
   useEffect(() => {
     if (prefersReducedMotion()) return;
@@ -215,57 +289,22 @@ export function Motion({ rootId }: { rootId: string }) {
 
   useEffect(() => {
     const root = document.getElementById(rootId);
-    if (!root) return;
-
-    // yeni sayfa en üstten açılsın (başka sayfanın #bölüm bağlantısıyla gelindiyse o bölüme)
-    const hashTarget = location.hash.length > 1 ? document.querySelector<HTMLElement>(decodeURIComponent(location.hash)) : null;
-    if (hashTarget) requestAnimationFrame(() => scrollToTarget(hashTarget, true));
-    else lenis?.scrollTo(0, { immediate: true, force: true });
-
-    if (prefersReducedMotion()) {
-      const still = gsap.context(() => steps(root, false), root);
-      return () => still.revert();
-    }
-
-    const ctx = gsap.context(() => {
-      try {
-        splitHeadings(root);
-        reveals(root);
-        media(root);
-        lines(root);
-        words(root);
-        steps(root, true);
-        // CSS'teki güvenlik animasyonu kapansın: başlangıç durumlarını artık GSAP yönetiyor
-        root.dataset.motionReady = "";
-      } catch (error) {
-        // kurulum yarıda kaldıysa güvenlik animasyonu içeriği görünür yapsın
-        delete root.dataset.motionReady;
-        console.error(error);
-      }
-    }, root);
-
-    // yazı tipi, görseller ya da açılan bölümler sayfanın boyunu değiştirince tetikleme konumları yenilensin;
-    // yoksa sayfanın sonundaki öğeler eski konuma göre hiç görünmeyebilir
-    const refresh = () => ScrollTrigger.refresh();
-    let pending = 0;
-    let lastHeight = root.offsetHeight;
-    const resized = new ResizeObserver(() => {
-      if (root.offsetHeight === lastHeight) return;
-      lastHeight = root.offsetHeight;
-      window.clearTimeout(pending);
-      pending = window.setTimeout(refresh, REFRESH_DEBOUNCE_MS);
+    const content = document.getElementById(contentId);
+    if (!root || !content) return;
+    let teardown = preparePage(root);
+    // yeni sayfa içerik alanına girdi (mikro görev, çizimden önce): eskisini sök, yenisinin ilk ekranı hazır gelsin
+    const observer = new MutationObserver((records) => {
+      if (!records.some((r) => r.addedNodes.length > 0)) return;
+      teardown();
+      if (!location.hash) showFirstScreen(root);
+      teardown = preparePage(root);
     });
-    resized.observe(root);
-    document.fonts?.ready.then(refresh);
-    window.addEventListener("load", refresh);
-
+    observer.observe(content, { childList: true });
     return () => {
-      window.clearTimeout(pending);
-      resized.disconnect();
-      window.removeEventListener("load", refresh);
-      ctx.revert();
+      observer.disconnect();
+      teardown();
     };
-  }, [pathname, rootId]);
+  }, [rootId, contentId]);
 
   return null;
 }

@@ -64,9 +64,17 @@ export const V16_END = { iso: "2026-10-15", label: "15 Ekim 2026" };
 
 /* ------------------------------------------------------------------ ana sayfa */
 
-// giriş sahnesinin etiketi; başlık panelden (Site içeriği > Ana sayfa girişi), fotoğraf SERVICES_HERO'nunki
+// giriş sahnesi: etiket ve fotoğraf; başlık panelden (Site içeriği > Ana sayfa girişi).
+// Fotoğraf ekranı dolduruyor: 1400 ve 2800px iki boy (images/hero/KAYNAK.md), tarayıcı ekrana uyanı seçer.
 export const HOME_HERO = {
   label: "Mikro Yazılım iş ortağı · İzmir",
+  image: {
+    src: "/images/hero/ekip-tahta-1400.webp",
+    srcSet: "/images/hero/ekip-tahta-1400.webp 1400w, /images/hero/ekip-tahta-2800.webp 2800w",
+    alt: "Beyaz tahtaya not kâğıtları yapıştırarak anlatan bir çalışan ve onu dinleyen ekip",
+    width: 2800,
+    height: 1867,
+  },
 };
 
 // kısa tanıtım: önce iş ortaklığı
