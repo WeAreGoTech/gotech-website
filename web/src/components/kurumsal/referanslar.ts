@@ -29,7 +29,7 @@ export const INDEPENDENT_WORK = [
 ];
 
 export const MIKRO_WORK = [
-  { title: "Mikro'ya özel ekran ve raporlar", body: "Mikro'ya entegre çalışan ek ekranlar ve işletmenize özel raporlar. Verileriniz Mikro'da kalır." },
+  { title: "Mikro'ya özel ekran ve raporlar", body: "Mikro'ya entegre çalışan ek ekranlar ve işletmenize özel raporlar." },
   { title: "Bayi sipariş portalı ve saha satış", body: "Bayi siparişini ve saha satışı Mikro'ya bağlayan uygulamalar." },
   { title: "Kurup bağladığımız ek çözümler", body: "Zeus WMS, Mikro Hızlı Satış, Mikro Drive gibi çözümleri kurup Mikro'nuza bağlıyoruz." },
 ];
@@ -48,7 +48,7 @@ export const SOFTWARE_TRACKS: SoftwareTrack[] = [
     id: "mikroya-ozel",
     tag: "Mikro'ya bağlı",
     title: "Mikro'ya özel geliştirmeler",
-    body: "Mikro'nun yapısına dokunmadan işletmenize özel ekran, rapor ve bağlantılar geliştiriyoruz; verileriniz yine Mikro'da kalır.",
+    body: "İşletmenize özel ekran, rapor ve bağlantılar geliştiriyoruz.",
     image: "/images/stok/rapor-tablet.webp",
     items: MIKRO_WORK,
   },

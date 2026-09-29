@@ -47,7 +47,7 @@ export const SOFTWARE_STEPS = [
   },
   {
     title: "Destek ve geliştirme",
-    body: "Yayından sonra da aynı ekip bakıyor. Yeni bir ihtiyaç çıktığında üstüne ekliyoruz.",
+    body: "Yayından sonraki taleplerinizi destek portalından açarsınız. Yeni bir ihtiyaç çıkarsa ayrıca konuşuyoruz.",
     scope: ["Destek portalı", "Yeni geliştirmeler"],
   },
 ];
@@ -87,6 +87,6 @@ export const YAZILIM_FAQ = [
   },
   {
     q: "Yayından sonra ne oluyor?",
-    a: "Aynı ekip bakmaya devam ediyor. Talebinizi destek portalından açıyor, kimin üstlendiğini ve hangi aşamada olduğunu oradan takip ediyorsunuz.",
+    a: "Talebinizi destek portalından açıyor, kimin üstlendiğini ve hangi aşamada olduğunu oradan takip ediyorsunuz. Yeni geliştirmeleri ayrıca konuşuyoruz.",
   },
 ];

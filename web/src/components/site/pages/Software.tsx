@@ -2,7 +2,8 @@
 // /yazilim-cozumleri: iş türleri (süzgeçli), çalışma biçimi, ilkeler, referans.
 
 import { REFERENCES } from "@/components/kurumsal/referanslar";
-import { APPROACH, SOFTWARE_STEPS } from "@/components/yazilim/content";
+import { SOFTWARE_STEPS } from "@/components/yazilim/content";
+import { SOFTWARE_TOPICS } from "../content";
 import { cx, Head, typo } from "../ui/parts";
 import p from "../ui/page.module.css";
 import w from "./software.module.css";
@@ -17,7 +18,7 @@ export function Works() {
         <div className="split">
           <Head label="Ne geliştiriyoruz" title="Mikro'ya entegre işler ve bağımsız projeler" />
           <p className="lede split-side" data-reveal="">
-            Mikro&apos;ya bağlı işlerde verileriniz Mikro&apos;da kalır. Web, e-ticaret ve portal projeleri için Mikro kullanıyor olmanız gerekmez.
+            Bir kısmı Mikro&apos;yla birlikte çalışıyor, bir kısmı ondan bağımsız. Web, e-ticaret ve portal projeleri için Mikro kullanıyor olmanız gerekmez.
           </p>
         </div>
         <WorkList />
@@ -33,7 +34,7 @@ export function Steps() {
       <div className="wrap">
         <div className="split">
           <Head label="Nasıl çalışıyoruz" title="İlk görüşmeden yayından sonrasına" />
-          <p className="lede split-side" data-reveal="">Her projede aynı sırayla ilerliyoruz; hangi adımda ne yapılacağını baştan bilirsiniz.</p>
+          <p className="lede split-side" data-reveal="">Bir yazılım projesi genelde bu adımlardan geçer. Takvimi, kapsamı maddelere böldükten sonra teklifle birlikte veriyoruz.</p>
         </div>
         <ol className={w.steps}>
           {SOFTWARE_STEPS.map((step, i) => (
@@ -51,14 +52,14 @@ export function Steps() {
   );
 }
 
-/** Her işte geçerli ilkeler: başlık solda, açıklama sağda. */
+/** İşin başında birlikte karar verilen konular: soru solda, açıklama sağda. */
 export function Approach() {
   return (
     <section className="sec sec-line" id="ilkeler">
       <div className={cx("wrap", w.approach)}>
-        <Head label="Her projede" title="Baştan konuştuğumuz dört konu" />
+        <Head label={SOFTWARE_TOPICS.label} title={SOFTWARE_TOPICS.title} />
         <ul className={p.rows}>
-          {APPROACH.map((a) => (
+          {SOFTWARE_TOPICS.items.map((a) => (
             <li key={a.title} className={p.row} data-reveal="">
               <i className={p.rule} data-draw="" aria-hidden="true" />
               <h3 className={p.rowTitle}>{typo(a.title)}</h3>

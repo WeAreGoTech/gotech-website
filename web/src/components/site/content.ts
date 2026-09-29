@@ -86,7 +86,7 @@ export type ProcessStep = { title: string; body: string; scope: string[]; image:
 export const HOME_PROCESS = {
   label: "Nasıl çalışıyoruz",
   title: "İlk görüşmeden canlı kullanıma",
-  lede: "Her kurulumda aynı sırayla ilerliyoruz. Hangi adımda ne yapılacağını baştan bilirsiniz.",
+  lede: "Bir Mikro kurulumu genelde bu adımlardan geçer. Süreyi ve ayrıntıları keşif görüşmesinde işletmenize göre netleştiriyoruz.",
 };
 
 export const PROCESS_STEPS: ProcessStep[] = [
@@ -155,8 +155,8 @@ export const EDOC_NOTES: Record<string, string> = {
 
 export const HOME_SUPPORT = {
   label: "Destek",
-  title: "Kurulumdan sonra da muhatabınız biziz.",
-  body: "Bir sorun olduğunda talebinizi destek portalından açarsınız; kimin üstlendiğini ve hangi aşamada olduğunu oradan görürsünüz. Gerekirse bilgisayarınıza bağlanıp sorunu ekranınızda çözüyoruz.",
+  title: "Kurulumdan sonraki destek",
+  body: "Bir sorun olduğunda talebinizi destek portalından açarsınız; kimin üstlendiğini ve hangi aşamada olduğunu oradan görürsünüz. Gerekirse GoTech Desk ile bilgisayarınıza bağlanıyoruz.",
 };
 
 export type SupportChannel = {
@@ -173,7 +173,7 @@ export const SUPPORT_CHANNELS: SupportChannel[] = [
   {
     id: "uzak",
     title: "Uzak bağlantı",
-    body: "Kendi uygulamamız GoTech Desk ile bilgisayarınıza bağlanıyor, sorunu sizin ekranınızda birlikte çözüyoruz.",
+    body: "Kendi uygulamamız GoTech Desk ile bilgisayarınıza bağlanıp sorunu ekranınız üzerinden birlikte inceliyoruz.",
     note: "Çalışma saatlerinde",
     image: { src: "/images/stok/destek-gorusme.webp", alt: "Dizüstü bilgisayarla görüntülü görüşme yapan bir kişi" },
   },
@@ -387,6 +387,18 @@ export const SOFTWARE_HERO = {
   image: { src: "/images/stok/yazilimci.webp", alt: "Pencere kenarındaki masada iki ekranla kod yazan bir yazılımcı", width: 960, height: 641 },
 };
 
+// Her projenin başında birlikte karar verilen konular: söz değil, konuşulan sorular (eski APPROACH iddiaları doğrulanmadı)
+export const SOFTWARE_TOPICS = {
+  label: "Her projede",
+  title: "İşin başında birlikte karar verdiklerimiz",
+  items: [
+    { title: "Veriler nerede tutulacak?", body: "Mikro'ya bağlı işlerde verinin Mikro'da mı kalacağına, ayrı bir yerde mi tutulacağına işin başında birlikte karar veriyoruz." },
+    { title: "Hangi cihazlardan kullanılacak?", body: "Uygulamanın yalnız bilgisayardan mı, telefon ve tabletten de mi kullanılacağını baştan konuşuyoruz." },
+    { title: "Kim neyi görecek?", body: "Kullanıcıların neyi görüp neyi değiştirebileceğini birlikte belirliyoruz." },
+    { title: "Nerede çalışacak?", body: "Uygulamanın hangi sunucuda çalışacağını görüşmede konuşuyoruz." },
+  ],
+};
+
 export const SOFTWARE_CONTACT = {
   title: "Projenizi konuşalım",
   lead: "Ne yapmak istediğinizi ve bugün hangi programları kullandığınızı kısaca yazın. İlk görüşmede kapsamı birlikte çıkaralım; görüşme ücretsiz.",
@@ -401,9 +413,9 @@ export const ABOUT_HERO = {
 
 export const ABOUT_STORY = {
   label: "Biz kimiz",
-  title: "Mikro'yu içeriden biliyoruz",
+  title: "Mikro Yazılım'da çalışmış bir ekip",
   paragraphs: [
-    "Mikro Yazılım'da çalıştık. Programı ve işletmelerin günlük kullanımda nelere ihtiyaç duyduğunu oradan biliyoruz. 2017'den beri bu birikimle işletmelerin Mikro'ya geçişini, kurulumunu, eğitimini ve günlük desteğini yürütüyoruz.",
+    "Mikro Yazılım'da çalıştık; programı ve işletmelerin günlük kullanımda neye ihtiyaç duyduğunu orada gördük. 2017'den beri işletmelerin Mikro'ya geçişini, kurulumunu, eğitimini ve günlük desteğini yürütüyoruz.",
     "KOBİ'lere ve kurumlara iş analizi, kurulum, eğitim ve destek veriyor; Mikro'yla entegre çalışan yazılımları kurup bağlıyoruz. Mikro'nun Jumper ve Flyer iş ortaklığı programlarında Silver seviyesindeyiz.",
   ],
   image: { src: "/images/stok/izmir-kordon.webp", alt: "İzmir Kordon'da deniz kenarındaki tarihî sarı bina ve yürüyen insanlar", width: 1024, height: 768, caption: "Kordon, İzmir" },
