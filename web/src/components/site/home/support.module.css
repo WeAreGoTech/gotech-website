@@ -1,0 +1,54 @@
+/* Destek: solda açılan kanal listesi, sağda seçilen kanalın fotoğrafı (Support.tsx) */
+
+.help { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px clamp(32px, 5vw, 88px); align-items: start; }
+
+.list { border-bottom: 1px solid var(--line); }
+.item { position: relative; border-top: 1px solid var(--line); }
+/* seçilen kanalın üst çizgisi kırmızıyla dolar */
+.item::before {
+  content: ""; position: absolute; left: 0; top: -1px; width: 0; height: 2px; border-radius: 2px;
+  background: var(--red); transition: width .7s var(--ease);
+}
+.open::before { width: 100%; }
+
+.head {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 6px 16px; width: 100%;
+  padding: 24px 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer;
+}
+.title {
+  font-size: clamp(1.375rem, 1.1rem + 1vw, 2rem); line-height: 1.15; letter-spacing: -.028em; font-weight: 600;
+  color: #b3b7be; transition: color .35s var(--ease);
+}
+.head:hover .title,
+.open .title { color: var(--ink); }
+.note { color: var(--ink-3); font-size: .875rem; text-align: right; }
+
+.body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .6s var(--ease); }
+.open .body { grid-template-rows: 1fr; }
+.inner { display: grid; justify-items: start; gap: 16px; min-height: 0; overflow: hidden; opacity: 0; transition: opacity .35s var(--ease), padding .6s var(--ease); }
+.open .inner { padding-bottom: 28px; opacity: 1; transition-delay: .15s, 0s; }
+.inner p { max-width: 46ch; color: var(--ink-2); font-size: 1.0625rem; }
+.inner p a { color: var(--ink); font-weight: 600; }
+
+.media { position: relative; aspect-ratio: 3 / 2; border-radius: 24px; overflow: hidden; background: #eef0f3; }
+.media img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  opacity: 0; transform: scale(1.05); transition: opacity .8s var(--ease), transform 1.4s var(--ease);
+}
+.media img[data-on] { opacity: 1; transform: none; }
+
+.takeover {
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 12px 32px;
+  margin-top: clamp(48px, 5vw, 72px); padding-top: 24px; border-top: 1px solid var(--line);
+}
+.takeover p { max-width: 80ch; color: var(--ink-2); }
+.takeover b { color: var(--ink); font-weight: 600; }
+
+@media (max-width: 960px) {
+  .help { grid-template-columns: 1fr; }
+  .media { order: -1; aspect-ratio: 16 / 10; }
+}
+@media (max-width: 560px) {
+  .head { grid-template-columns: 1fr; }
+  .note { text-align: left; }
+}

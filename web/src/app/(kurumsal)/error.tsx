@@ -1,24 +1,22 @@
 "use client";
 
-import { PageMessage } from "@/components/home/PageMessage";
-import h from "@/components/home/home.module.css";
+import Link from "next/link";
 
-/** İç sayfaların hata sınırı: sitenin dilinde, panelin kartı değil. */
-export default function KurumsalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
+/** Sitenin hata sınırı: kabuğun (menü, alt bilgi) içinde, sitenin dilinde. */
+export default function SiteError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
-    <PageMessage
-      title="Bu sayfa açılamadı"
-      text="Geçici bir sorun olabilir. Yeniden denemek çoğu zaman yeterli oluyor; sürerse bize yazın."
-      action={
-        <button className={h.btn} type="button" onClick={reset}>
-          Yeniden dene
-        </button>
-      }
-      links={[
-        { href: "/", label: "Ana sayfa" },
-        { href: "/iletisim", label: "İletişim" },
-      ]}
-      note={error.digest ? `Hata kodu: ${error.digest}` : undefined}
-    />
+    <main className="sec">
+      <div className="wrap head">
+        <p className="label"><span className="plus" aria-hidden="true" />Bir sorun oluştu</p>
+        <h1 className="h1">Bu sayfa açılamadı</h1>
+        <p className="lede">Geçici bir sorun olabilir. Yeniden denemek çoğu zaman yeterli oluyor; sürerse bize yazın.</p>
+        <div className="actions">
+          <button className="btn" type="button" onClick={reset}>Yeniden deneyin</button>
+          <Link className="btn btn-line" href="/">Ana sayfa</Link>
+          <Link className="tlink" href="/iletisim">İletişim</Link>
+        </div>
+        {error.digest && <p className="small muted">Hata kodu: {error.digest}</p>}
+      </div>
+    </main>
   );
 }

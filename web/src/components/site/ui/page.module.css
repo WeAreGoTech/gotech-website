@@ -1,0 +1,101 @@
+/* İç sayfaların ortak kalıpları: giriş, iş ortaklığı işaretleri, dizin satırları, açık sütunlar, satırlar, fotoğraf+metin.
+   Kutu/kart yok: ayrım beyaz zemin, ince çizgi, boşluk ve yazıyla. */
+
+/* ---------- giriş ---------- */
+.hero { padding-top: clamp(28px, 4vw, 56px); padding-bottom: clamp(56px, 7vw, 104px); }
+.crumb { display: flex; flex-wrap: wrap; gap: 4px 8px; font-size: .875rem; color: var(--ink-3); }
+.crumb a { transition: color .2s; }
+.crumb a:hover { color: var(--ink); }
+.crumb i { margin-right: 8px; font-style: normal; color: var(--line-2); }
+.crumb [aria-current] { color: var(--ink-2); font-weight: 500; }
+/* ürün logosu (ProductLogo --m): Fly en dar, 104px'te 160px */
+.heroLogo { --m: 104px; margin-top: clamp(32px, 4vw, 56px); }
+.heroTitle { max-width: 18em; margin-top: clamp(22px, 2.6vw, 36px); }
+.heroLogo + .heroTitle { margin-top: 18px; }
+.heroRow {
+  display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); align-items: end; gap: 32px var(--gap);
+  margin-top: clamp(24px, 3vw, 40px);
+}
+.heroCopy { display: grid; gap: 26px; max-width: 620px; }
+.heroAside { justify-self: end; }
+.heroPhoto { margin-top: clamp(40px, 5vw, 72px); aspect-ratio: 21 / 9; }
+@media (max-width: 960px) {
+  .heroRow { grid-template-columns: 1fr; }
+  .heroAside { justify-self: start; }
+  .heroPhoto { aspect-ratio: 16 / 10; }
+}
+@media (max-width: 560px) {
+  .heroPhoto { aspect-ratio: 4 / 3; border-radius: 18px; }
+}
+
+/* ---------- Mikro iş ortaklığı işaretleri ---------- */
+.marks { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 22px; }
+/* Mikro kılavuzu: ekranda en az 120px, yalnız beyaz zeminde */
+.mikro { flex: none; width: 132px; }
+.marksText { display: grid; gap: 10px; padding-left: 22px; border-left: 1px solid var(--line); }
+.badges { display: flex; gap: 10px; }
+.badges img { width: auto; height: 50px; }
+.marksText p { color: var(--ink-3); font-size: .8125rem; line-height: 1.45; }
+@media (max-width: 560px) {
+  .marksText { padding-left: 0; border-left: 0; }
+}
+
+/* ---------- ince çizgi (data-draw ile soldan uzar) ---------- */
+.rule { position: absolute; left: 0; right: 0; top: 0; height: 1px; background: var(--line); }
+
+/* ---------- büyük puntolu dizin satırları (bağlantılı ya da düz) ---------- */
+.index { border-bottom: 1px solid var(--line); }
+.index > li { position: relative; }
+.indexRow {
+  display: grid; grid-template-columns: 3.2rem minmax(0, 5fr) minmax(0, 6fr) 2rem; align-items: baseline; gap: 8px var(--gap);
+  padding-block: clamp(20px, 2.4vw, 32px); color: inherit;
+}
+.indexNum { font-size: .9375rem; font-weight: 600; color: var(--red-ink); font-variant-numeric: tabular-nums; }
+.indexTitle { font-size: clamp(1.625rem, 1.2rem + 1.7vw, 2.75rem); line-height: 1.1; font-weight: 500; letter-spacing: -.032em; transition: transform .5s var(--ease), color .3s; }
+.indexText { max-width: 48ch; color: var(--ink-2); }
+.indexText small { display: block; margin-bottom: 4px; color: var(--ink-3); font-size: .8125rem; font-weight: 600; }
+.indexGo { justify-self: end; color: var(--ink-3); transition: transform .5s var(--ease), color .3s; }
+a.indexRow:hover .indexTitle { transform: translateX(8px); color: var(--red-ink); }
+a.indexRow:hover .indexGo { transform: translateX(4px); color: var(--red-ink); }
+@media (max-width: 860px) {
+  .indexRow { grid-template-columns: 2.6rem minmax(0, 1fr) 1.5rem; }
+  .indexText { grid-column: 2 / 4; }
+  .indexGo { grid-row: 1; grid-column: 3; }
+}
+
+/* ---------- açık sütunlar: üstte ince çizgi, kutu yok ---------- */
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 44px var(--gap); }
+.cols > * { position: relative; display: grid; align-content: start; gap: 12px; padding-top: 26px; }
+.colNum { font-size: .875rem; font-weight: 600; color: var(--red-ink); font-variant-numeric: tabular-nums; }
+.cols p { max-width: 40ch; color: var(--ink-2); }
+
+/* ---------- satırlar: başlık solda, metin sağda ---------- */
+.rows { border-bottom: 1px solid var(--line); }
+.row {
+  position: relative; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 10px var(--gap);
+  padding-block: clamp(22px, 2.6vw, 34px);
+}
+.rowTitle { font-size: clamp(1.25rem, 1.1rem + .6vw, 1.625rem); line-height: 1.25; font-weight: 600; letter-spacing: -.02em; }
+.rowBody { display: grid; justify-items: start; gap: 14px; }
+.rowBody p { max-width: 60ch; color: var(--ink-2); }
+@media (max-width: 760px) {
+  .row { grid-template-columns: 1fr; }
+}
+
+/* ---------- fotoğraf + metin ---------- */
+.duo { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 6fr); align-items: center; gap: 40px clamp(32px, 5vw, 88px); }
+.duoPhoto { aspect-ratio: 4 / 3; }
+.duoPhoto.tall { aspect-ratio: 4 / 5; }
+.duoCopy { display: grid; justify-items: start; gap: 26px; }
+.flip > :first-child { order: 2; }
+@media (max-width: 960px) {
+  .duo { grid-template-columns: 1fr; }
+  .flip > :first-child { order: 0; }
+  .duoPhoto, .duoPhoto.tall { aspect-ratio: 16 / 10; }
+}
+
+/* ---------- madde listeleri yan yana (ör. ana paket / modüller / e-Dönüşüm) ---------- */
+.lists { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 40px var(--gap); }
+.lists > div { position: relative; display: grid; align-content: start; gap: 16px; padding-top: 24px; }
+.lists h3 { font-size: 1.0625rem; font-weight: 600; }
+.lists :global(.ticks) { color: var(--ink-2); }

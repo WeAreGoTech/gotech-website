@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
-import { Faq } from "@/components/home/CompanySections";
-import { Approach, FaqSide, HowWeWork, ProjectCta, ReferenceBand, SoftwareCover, TracksSection, WorksSection } from "@/components/yazilim/Sections";
+import { SOFTWARE_CONTACT, SOFTWARE_HERO } from "@/components/site/content";
+import { Approach, Reference, Steps, Works } from "@/components/site/pages/Software";
+import { Contact } from "@/components/site/ui/Contact";
+import { Faq } from "@/components/site/ui/Faq";
+import { Arrow } from "@/components/site/ui/icons";
+import { PageHero } from "@/components/site/ui/PageHero";
 import { YAZILIM_FAQ } from "@/components/yazilim/content";
 import { getSiteConfig } from "@/features/site-content/queries";
 
@@ -34,28 +38,32 @@ function pageJsonLd() {
   ];
 }
 
-/**
- * Yazılım: tam ekran fotoğrafla açılan giriş (menü bu sayfada saydam), ne geliştirdiğimiz,
- * iki iş türü, çalışma biçimi, dört ilke, referans, SSS ve iletişim.
- */
+/** Yazılım: ne geliştirdiğimiz (süzgeçli), nasıl çalıştığımız, ilkeler, referans, SSS ve iletişim. */
 export default async function YazilimCozumleriPage() {
-  // kapanış kartı kendi metnini taşıyor: panelden yalnız iletişim bilgileri (settings) geliyor
-  const { settings } = await getSiteConfig();
+  const { settings, content } = await getSiteConfig();
 
   return (
     <main>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd()).replace(/</g, "\\u003c") }}
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(pageJsonLd()).replace(/</g, "\\u003c") }} />
+      <PageHero
+        crumbs={[{ href: "/yazilim-cozumleri", label: "Yazılım" }]}
+        title={SOFTWARE_HERO.title}
+        soft={SOFTWARE_HERO.soft}
+        lede={SOFTWARE_HERO.lede}
+        actions={
+          <>
+            <a className="btn" href="#iletisim" data-konu="bilgi" data-mesaj="Özel yazılım projemiz hakkında görüşmek istiyoruz.">Projenizi anlatın <Arrow /></a>
+            <a className="btn btn-line" href="#isler">Neler geliştiriyoruz?</a>
+          </>
+        }
+        media={SOFTWARE_HERO.image}
       />
-      <SoftwareCover />
-      <WorksSection />
-      <TracksSection />
-      <HowWeWork />
+      <Works />
+      <Steps />
       <Approach />
-      <ReferenceBand />
-      <Faq items={YAZILIM_FAQ} eyebrow="SSS" title="Sık sorulan sorular" id="sss" split side={<FaqSide />} />
-      <ProjectCta settings={settings} />
+      <Reference />
+      <Faq items={YAZILIM_FAQ} title="Yazılım projeleri hakkında sorulanlar" />
+      <Contact settings={settings} content={content} title={SOFTWARE_CONTACT.title} lead={SOFTWARE_CONTACT.lead} submitLabel="Gönderin" />
     </main>
   );
 }

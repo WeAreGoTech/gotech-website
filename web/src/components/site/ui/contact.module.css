@@ -1,0 +1,70 @@
+/* İletişim bölümü: kırmızı pano + beyaz form kartı. Her sayfa bununla biter (id="iletisim"). */
+
+.panel {
+  display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(40px, 5vw, 80px);
+  padding: clamp(28px, 5vw, 72px); border-radius: 28px;
+  background: var(--red-ink); color: #fff;
+}
+.copy { display: grid; align-content: start; gap: 22px; }
+.copy :global(.label) { color: rgba(255, 255, 255, .86); }
+.copy :global(.plus)::before,
+.copy :global(.plus)::after { background: #fff; }
+.copy :global(.h2) { color: #fff; }
+.copy :global(.lede) { color: rgba(255, 255, 255, .86); }
+
+.info { display: grid; gap: 18px; margin-top: 12px; padding-top: 26px; border-top: 1px solid rgba(255, 255, 255, .22); }
+.info div { display: grid; gap: 2px; }
+.info dt { font-size: .8125rem; font-weight: 600; color: rgba(255, 255, 255, .7); }
+.info dd { font-size: 1.0625rem; line-height: 1.5; white-space: pre-line; }
+.info a { color: #fff; text-decoration: underline; text-decoration-color: rgba(255, 255, 255, .35); text-underline-offset: 4px; transition: text-decoration-color .25s; }
+.info a:hover { text-decoration-color: #fff; }
+
+.card { align-self: start; padding: clamp(22px, 3vw, 40px); border-radius: 20px; background: #fff; color: var(--ink); }
+.note { margin-top: 18px; color: var(--ink-3); font-size: .875rem; }
+
+/* ---------- form ---------- */
+.form { display: grid; gap: 18px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.field { display: grid; gap: 7px; font-size: .875rem; font-weight: 600; color: var(--ink); }
+.field i { font-style: normal; font-weight: 400; color: var(--ink-3); }
+.field input,
+.field select,
+.field textarea {
+  width: 100%; min-height: 52px; padding: .8rem 1rem; border: 1px solid var(--line-2); border-radius: 12px;
+  background: #fff; color: var(--ink); font: 400 1rem/1.4 var(--font);
+  transition: border-color .2s, box-shadow .2s;
+}
+.field textarea { min-height: 120px; resize: vertical; }
+.field select {
+  appearance: none; padding-right: 2.6rem; cursor: pointer;
+  background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 16 16' fill='none' stroke='%23686d77' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 1rem center;
+}
+.field input::placeholder,
+.field textarea::placeholder { color: #9a9ea6; }
+.field input:hover,
+.field select:hover,
+.field textarea:hover { border-color: #b9bdc5; }
+.field input:focus,
+.field select:focus,
+.field textarea:focus { outline: none; border-color: var(--ink); box-shadow: 0 0 0 3px rgba(18, 20, 23, .08); }
+.field [aria-invalid="true"] { border-color: var(--red-ink); }
+.err { color: var(--red-ink); font-size: .8125rem; font-weight: 500; }
+.bad { padding: .8rem 1rem; border-radius: 12px; border: 1px solid var(--red-ink); color: var(--red-ink); font-size: .9375rem; }
+
+.consent { display: flex; align-items: flex-start; gap: 12px; color: var(--ink-2); font-size: .875rem; line-height: 1.5; cursor: pointer; }
+.consent input { flex: none; width: 20px; height: 20px; margin: 1px 0 0; accent-color: var(--red-ink); cursor: pointer; }
+.send { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; padding-top: 4px; }
+.trap { position: absolute; left: -10000px; width: 1px; height: 1px; }
+
+.done { display: grid; justify-items: start; gap: 12px; padding-block: 24px; }
+.done p { color: var(--ink-2); }
+.doneMark { display: grid; place-items: center; width: 48px; height: 48px; margin-bottom: 6px; border-radius: 50%; border: 1px solid var(--line-2); }
+.doneMark :global(.plus) { width: 14px; height: 14px; }
+
+@media (max-width: 960px) {
+  .panel { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .panel { border-radius: 22px; margin-inline: calc(var(--gutter) * -1 + 8px); }
+  .row { grid-template-columns: 1fr; }
+}

@@ -1,0 +1,6 @@
+.para { max-width: 56ch; color: var(--ink-2); font-size: clamp(1.0625rem, 1rem + .25vw, 1.1875rem); line-height: 1.65; }
+
+.ways { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 40px var(--gap); align-items: start; }
+@media (max-width: 960px) {
+  .ways { grid-template-columns: 1fr; }
+}
