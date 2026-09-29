@@ -48,7 +48,6 @@ export default async function YazilimCozumleriPage() {
       <PageHero
         crumbs={[{ href: "/yazilim-cozumleri", label: "Yazılım" }]}
         title={SOFTWARE_HERO.title}
-        soft={SOFTWARE_HERO.soft}
         lede={SOFTWARE_HERO.lede}
         actions={
           <>

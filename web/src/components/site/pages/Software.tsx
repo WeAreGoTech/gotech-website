@@ -16,9 +16,9 @@ export function Works() {
     <section className="sec sec-line" id="isler">
       <div className="wrap">
         <div className="split">
-          <Head label="Ne geliştiriyoruz" title="Mikro'ya entegre işler ve bağımsız projeler" />
+          <Head label="Ne geliştiriyoruz" title="Mikro'ya özel geliştirmeler, web ve portal projeleri" />
           <p className="lede split-side" data-reveal="">
-            Bir kısmı Mikro&apos;yla birlikte çalışıyor, bir kısmı ondan bağımsız. Web, e-ticaret ve portal projeleri için Mikro kullanıyor olmanız gerekmez.
+            Mikro&apos;nuza özel ekran ve raporlar geliştiriyor; kurumsal web sitesi, e-ticaret ve portal projelerini de kendi ekibimizle yapıyoruz.
           </p>
         </div>
         <WorkList />

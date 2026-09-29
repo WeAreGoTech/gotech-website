@@ -5,6 +5,8 @@
 // Yalnız GoTech'in doğruladığı bilgiler: 2017'den beri Mikro iş ortağı, ekip Mikro Yazılım'da çalıştı, Jumper ve Flyer
 // Silver Partner, hafta içi 09.00–18.00, uzak bağlantı (GoTech Desk), destek portalı, İzmir ve çevresinde yerinde destek,
 // ücretsiz keşif/demo, lisans ve veriler müşteride kalır, ASELSAN referansı. Süre, rakam ve garanti yazılmaz.
+// GoTech Mikro'nun iş ortağı olarak konuşur: "Mikro'dan bağımsız", "Mikro kullanmanız gerekmez" gibi Mikro'yla yarışıyor
+// ya da ondan ayrılmış gibi okunan cümle yazılmaz (29.09'da GoTech uyardı).
 
 import type { PageLinkData } from "@/components/home/parts";
 
@@ -62,31 +64,26 @@ export const V16_END = { iso: "2026-10-15", label: "15 Ekim 2026" };
 
 /* ------------------------------------------------------------------ ana sayfa */
 
+// giriş sahnesinin etiketi; başlık panelden (Site içeriği > Ana sayfa girişi), fotoğraf SERVICES_HERO'nunki
 export const HOME_HERO = {
   label: "Mikro Yazılım iş ortağı · İzmir",
-  // başlık ve metin panelden de değişebilir (Site içeriği > Ana sayfa girişi); boşsa bunlar
-  image: { src: "/images/mikro-gorsel/depo-ofis.webp", alt: "Depo ofisinde dizüstü bilgisayara birlikte bakan iki çalışan", width: 1080, height: 607 },
 };
 
+// kısa tanıtım: önce iş ortaklığı
 export const HOME_INTRO = {
-  label: "GoTech",
-  text: "Ekibimiz Mikro Yazılım'da çalıştıktan sonra 2017'de GoTech'i kurdu. Bugün Alsancak'taki ofisimizden işletmelere Mikro kuruyor, çalışanlarına programı öğretiyor ve kurulumdan sonraki desteği veriyoruz.",
-  link: { label: "Hakkımızda", href: "/hakkimizda" },
+  lead: "2017'den beri Mikro Yazılım iş ortağıyız.",
+  text: "İzmir'de işletmelere Mikro kuruyor, çalışanlarına öğretiyor ve kurulumdan sonra destek veriyoruz.",
 };
 
 export const HOME_PRODUCTS = {
   label: "Ürünler",
   title: "Jump mı, Fly mı?",
-  soft: "Cümleyi kendi işletmenize göre tamamlayın.",
-  lede: "Mikro, ürünlerini çalışan sayısına ve işin kapsamına göre ayırıyor. Aşağıdan size uyan ürünü görebilirsiniz; kesin kararı demo görüşmesinde birlikte veriyoruz.",
 };
 
 export type ProcessStep = { title: string; body: string; scope: string[]; image: string; alt: string };
 
 export const HOME_PROCESS = {
-  label: "Nasıl çalışıyoruz",
   title: "İlk görüşmeden canlı kullanıma",
-  lede: "Bir Mikro kurulumu genelde bu adımlardan geçer. Süreyi ve ayrıntıları keşif görüşmesinde işletmenize göre netleştiriyoruz.",
 };
 
 export const PROCESS_STEPS: ProcessStep[] = [
@@ -133,6 +130,12 @@ export const PROCESS_STEPS: ProcessStep[] = [
     alt: "Ofiste bilgisayar başında birlikte çalışan iki kişi",
   },
 ];
+
+// ana sayfa bölümlerinin başındaki bağlantılar
+export const HOME_LINKS = {
+  services: { label: "Bütün hizmetlerimiz", href: "/hizmetlerimiz" } satisfies PageLinkData,
+  compare: { label: "Hangi üründe ne olduğunu tabloda görün", href: "/urunler#karsilastirma" } satisfies PageLinkData,
+};
 
 export const HOME_EDOCS = {
   label: "e-Dönüşüm",
@@ -202,10 +205,9 @@ export const TAKEOVER = {
   link: { label: "Kurulumunuzu inceleyelim", href: "#iletisim", konu: "gecis" } satisfies PageLinkData,
 };
 
+// başlık SOFTWARE_HERO.title
 export const HOME_SOFTWARE = {
   label: "Özel yazılım",
-  title: "Mikro'ya bağlı ya da ondan bağımsız, işinize özel yazılım",
-  body: "Mikro'yla birlikte çalışan ek ekranlar, raporlar ve bayi sipariş uygulamaları geliştiriyoruz. Kurumsal web sitesi, e-ticaret ve müşteri portalı projelerini de kendi ekibimiz yapıyor.",
   image: { src: "/images/stok/kod-inceleme.webp", alt: "Dizüstü bilgisayarda kodu birlikte inceleyen iki yazılımcı", width: 960, height: 641 },
   link: { label: "Yazılım çözümleri", href: "/yazilim-cozumleri" },
 };
@@ -382,7 +384,6 @@ export const SERVICES_FAQ_QUESTIONS = [
 
 export const SOFTWARE_HERO = {
   title: "İşinize özel yazılım",
-  soft: "Mikro'ya bağlı ya da bağımsız.",
   lede: "Mikro'yla birlikte çalışan ek ekranlar, raporlar, bayi sipariş ve saha satış uygulamaları geliştiriyoruz. Kurumsal web sitesi, e-ticaret ve portal projelerini de kendi ekibimiz yapıyor.",
   image: { src: "/images/stok/yazilimci.webp", alt: "Pencere kenarındaki masada iki ekranla kod yazan bir yazılımcı", width: 960, height: 641 },
 };

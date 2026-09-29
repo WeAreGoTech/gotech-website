@@ -1,0 +1,66 @@
+/* Vitrin girişi: ekranı dolduran fotoğraf, köşelerine oyulmuş beyaz sekmeler. Ortak sınıflar (btn, label) site.css'te. */
+
+.hero { padding: 10px clamp(10px, 1.4vw, 20px) 0; }
+.stage {
+  --r: clamp(20px, 2.2vw, 32px);
+  /* ilk ekranda butonlar da görünsün: menü, duyuru ve biraz nefes payı düşülür */
+  position: relative; height: clamp(540px, calc(100svh - 190px), 880px);
+  border-radius: var(--r) var(--r) 0 0; overflow: hidden;
+}
+
+/* fotoğraf + iminin içinden açılır (PlusReveal); --t: + kolunun yarı kalınlığı, --l: kol uzunluğu */
+.mask { position: absolute; inset: 0; background: var(--red); }
+.mask img { object-fit: cover; object-position: 50% 45%; }
+@media (prefers-reduced-motion: no-preference) {
+  .mask:not([data-played]) {
+    clip-path: polygon(
+      calc(50% - var(--t, 0px)) calc(50% - var(--l, 0px)), calc(50% + var(--t, 0px)) calc(50% - var(--l, 0px)),
+      calc(50% + var(--t, 0px)) calc(50% - var(--t, 0px)), calc(50% + var(--l, 0px)) calc(50% - var(--t, 0px)),
+      calc(50% + var(--l, 0px)) calc(50% + var(--t, 0px)), calc(50% + var(--t, 0px)) calc(50% + var(--t, 0px)),
+      calc(50% + var(--t, 0px)) calc(50% + var(--l, 0px)), calc(50% - var(--t, 0px)) calc(50% + var(--l, 0px)),
+      calc(50% - var(--t, 0px)) calc(50% + var(--t, 0px)), calc(50% - var(--l, 0px)) calc(50% + var(--t, 0px)),
+      calc(50% - var(--l, 0px)) calc(50% - var(--t, 0px)), calc(50% - var(--t, 0px)) calc(50% - var(--t, 0px))
+    );
+    animation: plus-failsafe 1ms 4s forwards;
+  }
+  .mask:not([data-played]) img { opacity: 0; animation: plus-failsafe 1ms 4s forwards; }
+}
+@keyframes plus-failsafe { to { clip-path: none; opacity: 1; } }
+
+/* ---------- oyulmuş sekmeler: dışbükey köşe border-radius, içbükey köşeler ::before/::after ---------- */
+.tab { position: absolute; bottom: 0; z-index: 2; background: #fff; }
+.tab::before, .tab::after { content: ""; position: absolute; width: var(--r); height: var(--r); pointer-events: none; }
+
+.tabMain {
+  left: 0; width: min(64%, 860px); display: grid; justify-items: start; gap: 22px;
+  padding: clamp(24px, 2.4vw, 36px) clamp(24px, 3vw, 48px) 0 0; border-top-right-radius: var(--r);
+}
+.tabMain::before { left: 0; bottom: 100%; background: radial-gradient(circle at 100% 0, transparent var(--r), #fff calc(var(--r) + .5px)); }
+.tabMain::after { left: 100%; bottom: 0; background: radial-gradient(circle at 100% 0, transparent var(--r), #fff calc(var(--r) + .5px)); }
+
+.title { font-size: clamp(2.25rem, 1.1rem + 3.2vw, 4.5rem); font-weight: 600; line-height: 1.02; letter-spacing: -.035em; text-wrap: balance; }
+
+.tabTrust {
+  right: 0; display: flex; align-items: center; gap: 16px;
+  padding: 20px 0 0 28px; border-top-left-radius: var(--r);
+}
+.tabTrust::before { right: 0; bottom: 100%; background: radial-gradient(circle at 0 0, transparent var(--r), #fff calc(var(--r) + .5px)); }
+.tabTrust::after { right: 100%; bottom: 0; background: radial-gradient(circle at 0 0, transparent var(--r), #fff calc(var(--r) + .5px)); }
+/* Mikro kılavuzu: ekranda en az 120px, yalnız beyaz zeminde */
+.mikro { width: 124px; }
+.badges { display: flex; gap: 8px; }
+.badges img { width: auto; height: 46px; }
+.tabTrust p { color: var(--ink-3); font-size: .8125rem; line-height: 1.35; }
+
+/* 1100px altında sekmeler fotoğrafın altına iner */
+@media (max-width: 1099px) {
+  .stage { height: auto; overflow: visible; border-radius: 0; }
+  .mask { position: relative; aspect-ratio: 16 / 10; border-radius: var(--r); overflow: hidden; }
+  .tab { position: static; width: auto; padding: 28px 8px 0; border-radius: 0; }
+  .tab::before, .tab::after { display: none; }
+  .tabTrust { flex-wrap: wrap; padding-top: 24px; }
+}
+@media (max-width: 559px) {
+  .mask { aspect-ratio: 4 / 4.6; }
+  .tab { padding-inline: 4px; }
+}

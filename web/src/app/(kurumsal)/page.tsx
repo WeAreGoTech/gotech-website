@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import type { SiteSettings } from "@/components/kurumsal/content";
-import { HOME_FAQ } from "@/components/site/content";
-import { Hero } from "@/components/site/home/Hero";
-import { Intro } from "@/components/site/home/Intro";
-import { EDocs, Process, Products, Software } from "@/components/site/home/Sections";
-import { Support } from "@/components/site/home/Support";
 import { Contact } from "@/components/site/ui/Contact";
-import { Faq } from "@/components/site/ui/Faq";
+import { Intro, Products, Services, Software } from "@/components/vitrin/Sections";
+import { Stage } from "@/components/vitrin/Stage";
 import { getSiteConfig } from "@/features/site-content/queries";
 
 export const metadata: Metadata = {
@@ -38,8 +34,8 @@ function businessJsonLd(settings: SiteSettings) {
 }
 
 /**
- * Ana sayfa: kim olduğumuz ve ne yaptığımız (giriş), kısa tanıtım, hangi Mikro (ürün bulucu), nasıl çalıştığımız
- * (altı adım), e-Dönüşüm, kurulum sonrası destek, özel yazılım, SSS ve iletişim.
+ * Ana sayfa ("vitrin", 29.09): az metin, fotoğraf ağırlıklı. Giriş + imiyle açılan fotoğraf sahnesi (kim, ne, Mikro logosu),
+ * kısa tanıtım, genişleyen hizmet panelleri, Jump/Fly seçicisi, özel yazılım ve iletişim.
  */
 export default async function HomePage() {
   const { settings, content } = await getSiteConfig();
@@ -47,14 +43,11 @@ export default async function HomePage() {
   return (
     <main>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(businessJsonLd(settings)).replace(/</g, "\\u003c") }} />
-      <Hero content={content} />
+      <Stage content={content} />
       <Intro />
+      <Services />
       <Products />
-      <Process />
-      <EDocs />
-      <Support hours={settings.workingHours} phone={settings.supportPhone || settings.salesPhone} />
       <Software />
-      <Faq items={HOME_FAQ} />
       <Contact settings={settings} content={content} />
     </main>
   );
