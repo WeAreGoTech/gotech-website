@@ -24,7 +24,7 @@ export default async function IletisimPage() {
         settings={settings}
         content={content}
         title="Bize yazın"
-        lead="Ne kullandığınızı ve neye ihtiyacınız olduğunu kısaca anlatın; doğru kişi size dönsün."
+        lead="Mevcut sisteminizi ve ihtiyacınızı kısaca iletin; ilgili ekip arkadaşımız size dönüş yapsın."
       />
     </main>
   );

@@ -8,7 +8,7 @@ import { getSiteConfig } from "@/features/site-content/queries";
 export const metadata: Metadata = {
   title: { absolute: "GoTech | Mikro Yazılım İş Ortağı · İzmir" },
   description:
-    "Mikro Jump ve Mikro Fly kurulumu, e-Dönüşüm, eğitim ve destek. 2017'den beri İzmir'de Mikro Yazılım iş ortağı; Jumper ve Flyer Silver Partner.",
+    "İzmir'de Mikro Jump ve Mikro Fly yetkili bayisi: satış, kurulum, e-Dönüşüm, eğitim ve destek. 2017'den beri Mikro Yazılım iş ortağı; Jumper ve Flyer Silver Partner.",
 };
 
 /** Arama motorları için işletme bilgisi (yalnız doğrulanmış alanlar; adres ve saat panelden). */
@@ -17,7 +17,7 @@ function businessJsonLd(settings: SiteSettings) {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     name: "GoTech",
-    description: "Mikro Yazılım iş ortağı: Mikro Jump ve Mikro Fly kurulumu, e-Dönüşüm, eğitim ve destek.",
+    description: "Mikro Yazılım yetkili bayisi ve iş ortağı: Mikro Jump ve Mikro Fly satışı, kurulumu, e-Dönüşüm, eğitim ve destek.",
     url: process.env.SITE_URL || "http://localhost:3000",
     email: settings.email,
     ...(settings.salesPhone && { telephone: settings.salesPhone }),

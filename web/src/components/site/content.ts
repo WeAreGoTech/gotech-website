@@ -1,7 +1,8 @@
 // Kamuya açık sitenin metinleri (2026 tasarımı). Ürün bilgileri, karşılaştırma ve e-belge listesi kurumsal/*-data.ts'ten.
 //
-// Yazım kuralları: düz, bilgilendirici cümleler; "biz" ve "siz". Reklam kalıbı yok ("çözüm ortağınız", "yanınızdayız",
-// "tek elden", "uçtan uca", "profesyonel ekip", "Mikro'nun yetmediği yerde"...), ünlem yok, abartı yok.
+// Yazım kuralları (08.10): kurumsal dil. "Şunu şöyle yapıyoruz" diye iş anlatmak yerine kim olduğumuz ve hangi hizmeti
+// sunduğumuz yazılır ("Mikro kuruyoruz" değil "Mikro yetkili bayisiyiz"). Reklam kalıbı yok ("çözüm ortağınız",
+// "yanınızdayız", "tek elden", "uçtan uca", "profesyonel ekip", "Mikro'nun yetmediği yerde"...), ünlem yok, abartı yok.
 // Yalnız GoTech'in doğruladığı bilgiler: 2017'den beri Mikro iş ortağı, ekip Mikro Yazılım'da çalıştı, Jumper ve Flyer
 // Silver Partner, hafta içi 09.00–18.00, uzak bağlantı (GoTech Desk), destek portalı, İzmir ve çevresinde yerinde destek,
 // ücretsiz keşif/demo, lisans ve veriler müşteride kalır, ASELSAN referansı. Süre, rakam ve garanti yazılmaz.
@@ -67,7 +68,7 @@ export const V16_END = { iso: "2026-10-15", label: "15 Ekim 2026" };
 // giriş sahnesi: etiket ve fotoğraf; başlık panelden (Site içeriği > Ana sayfa girişi).
 // Fotoğraf ekranı dolduruyor: 1400 ve 2800px iki boy (images/hero/KAYNAK.md), tarayıcı ekrana uyanı seçer.
 export const HOME_HERO = {
-  label: "Mikro Yazılım iş ortağı · İzmir",
+  label: "Mikro Yazılım Yetkili Bayisi · İzmir",
   image: {
     src: "/images/hero/ekip-tahta-1400.webp",
     srcSet: "/images/hero/ekip-tahta-1400.webp 1400w, /images/hero/ekip-tahta-2800.webp 2800w",
@@ -80,7 +81,7 @@ export const HOME_HERO = {
 // kısa tanıtım: önce iş ortaklığı
 export const HOME_INTRO = {
   lead: "2017'den beri Mikro Yazılım iş ortağıyız.",
-  text: "İzmir'de işletmelere Mikro kuruyor, çalışanlarına öğretiyor ve kurulumdan sonra destek veriyoruz.",
+  text: "İzmir merkezli ekibimizle işletmelere ERP danışmanlığı, kurulum, eğitim ve satış sonrası destek hizmetleri sunuyoruz.",
 };
 
 export const HOME_PRODUCTS = {
@@ -91,7 +92,7 @@ export const HOME_PRODUCTS = {
 export type ProcessStep = { title: string; body: string; scope: string[]; image: string; alt: string };
 
 export const HOME_PROCESS = {
-  title: "İlk görüşmeden canlı kullanıma",
+  title: "Analizden satış sonrası desteğe",
 };
 
 export const PROCESS_STEPS: ProcessStep[] = [
@@ -148,8 +149,8 @@ export const HOME_LINKS = {
 export const HOME_EDOCS = {
   label: "e-Dönüşüm",
   title: "e-Belgeler Mikro'nun içinden kesilir",
-  body: "Hangi e-belgelerin sizin için zorunlu olduğunu çıkarıyoruz. GİB başvurusunu, entegratör bağlantısını ve Mikro'daki ayarları biz yapıyoruz; belgeleri ayrı bir programa geçmeden, kontörle kesersiniz.",
-  link: { label: "Hangi belgeler size zorunlu, birlikte bakalım", href: "#iletisim", konu: "bilgi" } satisfies PageLinkData,
+  body: "e-Dönüşüm hizmetimiz; yükümlü olduğunuz e-belgelerin tespitini, GİB başvurusunu, entegratör bağlantısını ve Mikro'daki e-belge ayarlarını kapsar. Belgeler ayrı bir programa gerek kalmadan Mikro'nun içinden, kontörle düzenlenir.",
+  link: { label: "Yükümlü olduğunuz e-belgeleri öğrenin", href: "#iletisim", konu: "bilgi" } satisfies PageLinkData,
 };
 
 // e-belge adı → tek satır açıklama (sıra: urunler-data EDONUSUM_DOCS)
@@ -166,8 +167,8 @@ export const EDOC_NOTES: Record<string, string> = {
 
 export const HOME_SUPPORT = {
   label: "Destek",
-  title: "Kurulumdan sonraki destek",
-  body: "Bir sorun olduğunda talebinizi destek portalından açarsınız; kimin üstlendiğini ve hangi aşamada olduğunu oradan görürsünüz. Gerekirse GoTech Desk ile bilgisayarınıza bağlanıyoruz.",
+  title: "Satış sonrası destek",
+  body: "Destek talepleriniz destek portalında kayıt altına alınır; talebin sorumlusunu ve aşamasını portaldan takip edersiniz. Gerektiğinde GoTech Desk üzerinden uzak bağlantıyla destek sağlanır.",
 };
 
 export type SupportChannel = {
@@ -184,21 +185,21 @@ export const SUPPORT_CHANNELS: SupportChannel[] = [
   {
     id: "uzak",
     title: "Uzak bağlantı",
-    body: "Kendi uygulamamız GoTech Desk ile bilgisayarınıza bağlanıp sorunu ekranınız üzerinden birlikte inceliyoruz.",
+    body: "Kendi uygulamamız GoTech Desk üzerinden bilgisayarınıza uzaktan bağlanarak destek sağlıyoruz.",
     note: "Çalışma saatlerinde",
     image: { src: "/images/stok/destek-gorusme.webp", alt: "Dizüstü bilgisayarla görüntülü görüşme yapan bir kişi" },
   },
   {
     id: "portal",
     title: "Destek portalı",
-    body: "Talebinizi portaldan açarsınız; kimin üstlendiğini ve hangi aşamada olduğunu (açık, işlemde, kapandı) oradan görürsünüz. Yazışmalar talebin içinde kalır.",
+    body: "Talepleriniz portalda kayıt altına alınır; sorumlusu ve aşaması (açık, işlemde, kapandı) portaldan izlenir. Yazışmalar talep kaydında saklanır.",
     note: "Talep açmak için saat sınırı yok",
     image: { src: "/images/stok/web-cihazlar.webp", alt: "Masada dizüstü bilgisayar, tablet ve telefon" },
   },
   {
     id: "yerinde",
     title: "Yerinde destek",
-    body: "Uzaktan çözülemeyen ya da yerinde bakılması gereken işlerde işletmenize geliyoruz.",
+    body: "Uzaktan çözülemeyen ya da yerinde inceleme gerektiren durumlarda işletmenizde hizmet veriyoruz.",
     note: "İzmir ve çevresi",
     image: { src: "/images/mikro-gorsel/edonusum-ofis.webp", alt: "Ofiste bilgisayar başında birlikte çalışan iki kişi" },
   },
@@ -208,8 +209,8 @@ export const PHONE_CHANNEL_IMAGE = { src: "/images/stok/kurulum-ekip.webp", alt:
 
 export const TAKEOVER = {
   title: "Mikro'yu başka bir iş ortağından aldıysanız",
-  // başlıkla tek cümle olarak okunur: "Mikro'yu ... aldıysanız desteğinizi bize taşıyabilirsiniz."
-  body: "desteğinizi bize taşıyabilirsiniz. Lisansınız ve verileriniz olduğu gibi kalır; önce mevcut kurulumunuzu inceliyoruz.",
+  // başlıkla tek cümle olarak okunur: "Mikro'yu ... aldıysanız destek hizmetinizi GoTech'e devredebilirsiniz."
+  body: "destek hizmetinizi GoTech'e devredebilirsiniz. Lisansınız ve verileriniz aynen korunur; devir öncesinde mevcut kurulumunuz incelenir.",
   link: { label: "Kurulumunuzu inceleyelim", href: "#iletisim", konu: "gecis" } satisfies PageLinkData,
 };
 
@@ -261,7 +262,7 @@ export const mapsHref = (address: string) =>
 
 export const PRODUCTS_HERO = {
   title: "Mikro Jump ve Mikro Fly",
-  lede: "Mikro'nun Jump ve Fly ürünlerinde Silver iş ortağıyız. Jump ailesi küçük ve orta ölçekli işletmeler, Fly büyük işletmeler ve grup şirketleri için. Aşağıda kime göre olduklarını ve hangisinde ne bulunduğunu görebilirsiniz; kesin kararı demo görüşmesinde birlikte veriyoruz.",
+  lede: "Mikro Yazılım'ın Jump ve Fly ürünlerinde yetkili bayisi ve Silver iş ortağıyız. Jump ailesi küçük ve orta ölçekli işletmelere, Fly büyük işletmelere ve grup şirketlerine yöneliktir. Ürünlerin kapsamını ve farklarını aşağıda inceleyebilirsiniz; işletmenize uygun ürün demo görüşmesinde birlikte belirlenir.",
 };
 
 export type ProductLine = {
@@ -320,7 +321,7 @@ export const PRODUCTS_FAQ_QUESTIONS = [
 export const PRODUCT_INTROS: Record<string, { title: string; lede: string; contactTitle: string }> = {
   "mikro-jump": {
     title: "Küçük ve orta ölçekli işletmeler için modüler ERP",
-    lede: "Satış, stok ve finans ana pakette; genel muhasebe, personel ve üretim modül olarak eklenir. Bugün gerekenle başlar, işiniz büyüdükçe modül eklersiniz. Basic, Jump ve Bulut sürümlerinden size uyanı birlikte seçiyoruz.",
+    lede: "Satış, stok ve finans ana pakette; genel muhasebe, personel ve üretim modül olarak eklenir. Bugün gerekenle başlar, işiniz büyüdükçe modül eklersiniz. Basic, Jump ve Bulut sürümleri arasından işletmenize uygun olanı için danışmanlık sunuyoruz.",
     contactTitle: "Mikro Jump için bir görüşme planlayalım",
   },
   "mikro-fly": {
@@ -331,29 +332,29 @@ export const PRODUCT_INTROS: Record<string, { title: string; lede: string; conta
 };
 
 export const PRODUCT_CONTACT_LEAD =
-  "Kaç kişinin çalışacağını ve süreçlerinizi dinleyip hangi sürüm ve modüllerin gerektiğini birlikte belirleyelim. Keşif görüşmesi ve demo ücretsiz.";
+  "Kullanıcı sayınızı ve süreçlerinizi değerlendirerek işletmenize uygun sürüm ve modülleri birlikte belirleyelim. Keşif görüşmesi ve demo ücretsizdir.";
 
 /* ------------------------------------------------------------------ hizmetler */
 
 export const SERVICES_HERO = {
-  title: "Analizden kurulum sonrası desteğe",
-  lede: "Mikro'yu kurmak işin bir parçası. Doğru ürünü ve modülleri seçmek, e-belgelere geçmek, ekibinizin programı öğrenmesi ve sonrasında çıkan sorular da işin içinde. Aşağıda her birinde ne yaptığımızı anlatıyoruz.",
+  title: "Mikro satış, kurulum ve destek hizmetleri",
+  lede: "Mikro Yazılım yetkili bayisi olarak ürün ve modül danışmanlığından kuruluma, e-Dönüşüm geçişinden kullanıcı eğitimine ve satış sonrası desteğe kadar sürecin tamamında hizmet veriyoruz. Hizmetlerimizin kapsamı aşağıda yer alıyor.",
   image: { src: "/images/mikro-gorsel/ofis-toplanti.webp", alt: "Cam bölmeli toplantı odasında çalışan bir ekip", width: 1080, height: 607 },
 };
 
 // hizmet dizini: her satır sayfadaki bölüme iner (menüdeki /hizmetlerimiz#... bağlantıları da)
 export const SERVICE_INDEX = [
-  { id: "analiz", title: "Analiz ve teklif", text: "Hangi ürünün ve modüllerin gerektiğini birlikte çıkarıyoruz." },
-  { id: "kurulum", title: "Kurulum", text: "Programı kuruyor, kullanıcıları ve yetkileri tanımlıyoruz." },
+  { id: "analiz", title: "Analiz ve teklif", text: "İhtiyaç analizi, ürün ve modül danışmanlığı, lisans ve kiralama teklifi." },
+  { id: "kurulum", title: "Kurulum", text: "Yazılım kurulumu, kullanıcı ve yetki tanımları, ek çözüm entegrasyonları." },
   { id: "edonusum", title: "e-Dönüşüm", text: "GİB başvurusu, entegratör bağlantısı ve e-belge ayarları." },
-  { id: "egitim", title: "Eğitim", text: "Kullanıcılara ve yöneticilere, kendi işleriniz üzerinden." },
-  { id: "destek", title: "Destek", text: "Uzak bağlantı, destek portalı ve gerektiğinde yerinde destek." },
+  { id: "egitim", title: "Eğitim", text: "İşletmenizin kendi süreçleri üzerinden kullanıcı ve yönetici eğitimi." },
+  { id: "destek", title: "Destek", text: "Uzak bağlantı, destek portalı ve yerinde destekle satış sonrası hizmet." },
 ];
 
 export const SERVICE_ANALYSIS = {
   label: "Analiz ve teklif",
-  title: "Hangi Mikro, hangi modüller?",
-  body: "İşinizi dinliyor; bugün ne kullandığınızı, kaç kişinin çalışacağını ve süreçlerinizi çıkarıyoruz. Hangi Mikro ürününün ve hangi modüllerin gerektiğini birlikte belirliyor, teklifi kalem kalem hazırlıyoruz.",
+  title: "İhtiyaç analizi ve ürün danışmanlığı",
+  body: "Mevcut sistemlerinizi, kullanıcı sayınızı ve iş süreçlerinizi analiz ederek işletmenize uygun Mikro ürününü ve modülleri belirliyoruz. Teklifimiz her kalemi ayrı ayrı gösterecek şekilde hazırlanır.",
   items: ["Ücretsiz keşif görüşmesi ve demo", "Süreç analizi", "Ürün ve modül önerisi", "Lisans ya da kiralama teklifi"],
   image: { src: "/images/stok/analiz-atolye.webp", alt: "Beyaz tahta önünde süreçleri konuşan bir ekip", width: 960, height: 640 },
   link: { label: "Keşif görüşmesi isteyin", href: "#iletisim", konu: "demo" } satisfies PageLinkData,
@@ -362,7 +363,7 @@ export const SERVICE_ANALYSIS = {
 export const SERVICE_SETUP = {
   label: "Kurulum",
   title: "Kurulum ve entegrasyon",
-  body: "Mikro'yu sunucunuza ya da bilgisayarlarınıza kuruyor, kullanıcıları ve yetkileri tanımlıyoruz; Jump Bulut'ta sunucu kurulumu gerekmiyor. Depo, bayi ve perakende için ek çözümleri de kurup Mikro'ya bağlıyoruz.",
+  body: "Mikro kurulumunu sunucunuzda ya da bilgisayarlarınızda gerçekleştiriyor, kullanıcı ve yetki tanımlarını yapıyoruz; Jump Bulut'ta sunucu kurulumu gerekmez. Depo, bayi ve perakende süreçlerine yönelik ek çözümlerin kurulumu ve Mikro entegrasyonu da hizmet kapsamımızdadır.",
   extras: [
     { title: "Zeus WMS", text: "Depo yönetimi" },
     { title: "B2B / B4B", text: "Bayi ve saha satış" },
@@ -375,7 +376,7 @@ export const SERVICE_SETUP = {
 export const SERVICE_TRAINING = {
   label: "Eğitim",
   title: "Kullanıcı ve yönetici eğitimi",
-  body: "Kurulumdan sonra kullanıcılarınıza ve yöneticilere Mikro'yu anlatıyoruz. Eğitimi kendi kayıtlarınız ve süreçleriniz üzerinden yapıyoruz.",
+  body: "Kurulumun ardından kullanıcılarınıza ve yöneticilerinize Mikro eğitimi veriyoruz. Eğitimler işletmenizin kendi kayıtları ve süreçleri üzerinden yürütülür.",
   items: ["Kullanıcı eğitimi", "Yönetici eğitimi"],
   image: { src: "/images/stok/egitim-sunum.webp", alt: "Toplantı masasında ekibine anlatım yapan bir eğitmen", width: 960, height: 640 },
 };
@@ -391,41 +392,41 @@ export const SERVICES_FAQ_QUESTIONS = [
 /* ------------------------------------------------------------------ yazılım */
 
 export const SOFTWARE_HERO = {
-  title: "İşinize özel yazılım",
-  lede: "Mikro'yla birlikte çalışan ek ekranlar, raporlar, bayi sipariş ve saha satış uygulamaları geliştiriyoruz. Kurumsal web sitesi, e-ticaret ve portal projelerini de kendi ekibimiz yapıyor.",
+  title: "İşletmenize özel yazılım çözümleri",
+  lede: "Mikro ile entegre çalışan ek ekranlar, raporlar, bayi sipariş ve saha satış uygulamaları geliştiriyoruz. Kurumsal web sitesi, e-ticaret ve portal projeleri de kendi yazılım ekibimiz tarafından yürütülür.",
   image: { src: "/images/stok/yazilimci.webp", alt: "Pencere kenarındaki masada iki ekranla kod yazan bir yazılımcı", width: 960, height: 641 },
 };
 
 // Her projenin başında birlikte karar verilen konular: söz değil, konuşulan sorular (eski APPROACH iddiaları doğrulanmadı)
 export const SOFTWARE_TOPICS = {
   label: "Her projede",
-  title: "İşin başında birlikte karar verdiklerimiz",
+  title: "Proje başlangıcında netleştirilen konular",
   items: [
-    { title: "Veriler nerede tutulacak?", body: "Mikro'ya bağlı işlerde verinin Mikro'da mı kalacağına, ayrı bir yerde mi tutulacağına işin başında birlikte karar veriyoruz." },
-    { title: "Hangi cihazlardan kullanılacak?", body: "Uygulamanın yalnız bilgisayardan mı, telefon ve tabletten de mi kullanılacağını baştan konuşuyoruz." },
-    { title: "Kim neyi görecek?", body: "Kullanıcıların neyi görüp neyi değiştirebileceğini birlikte belirliyoruz." },
-    { title: "Nerede çalışacak?", body: "Uygulamanın hangi sunucuda çalışacağını görüşmede konuşuyoruz." },
+    { title: "Veriler nerede tutulacak?", body: "Mikro'ya bağlı projelerde verinin Mikro'da mı, ayrı bir ortamda mı tutulacağı proje başlangıcında birlikte belirlenir." },
+    { title: "Hangi cihazlardan kullanılacak?", body: "Uygulamanın yalnız bilgisayardan mı, telefon ve tabletten de mi kullanılacağı kapsam aşamasında netleştirilir." },
+    { title: "Kim neyi görecek?", body: "Kullanıcı rolleri ile görüntüleme ve değiştirme yetkileri birlikte tanımlanır." },
+    { title: "Nerede çalışacak?", body: "Uygulamanın barındırılacağı sunucu ilk görüşmede belirlenir." },
   ],
 };
 
 export const SOFTWARE_CONTACT = {
-  title: "Projenizi konuşalım",
-  lead: "Ne yapmak istediğinizi ve bugün hangi programları kullandığınızı kısaca yazın. İlk görüşmede kapsamı birlikte çıkaralım; görüşme ücretsiz.",
+  title: "Projeniz için görüşme talep edin",
+  lead: "İhtiyacınızı ve hâlihazırda kullandığınız programları kısaca iletin. İlk görüşmede proje kapsamını birlikte belirleyelim; görüşme ücretsizdir.",
 };
 
 /* ------------------------------------------------------------------ hakkımızda */
 
 export const ABOUT_HERO = {
-  title: "Mikro Yazılım'da başladık, 2017'den beri iş ortağıyız.",
-  lede: "Ekibimiz Mikro Yazılım'da çalıştıktan sonra 2017'de GoTech'i kurdu. Alsancak'taki ofisimizden işletmelere Mikro kuruyor, eğitimini ve desteğini veriyoruz; ihtiyaç duyulan ek yazılımları da kendimiz geliştiriyoruz.",
+  title: "2017'den beri Mikro Yazılım yetkili bayisiyiz.",
+  lede: "GoTech, Mikro Yazılım'da görev yapmış bir ekip tarafından 2017'de kuruldu. Alsancak'taki ofisimizden işletmelere Mikro satış, kurulum, eğitim ve destek hizmetleri sunuyor; ihtiyaç duyulan ek yazılımları kendi ekibimizle geliştiriyoruz.",
 };
 
 export const ABOUT_STORY = {
   label: "Biz kimiz",
-  title: "Mikro Yazılım'da çalışmış bir ekip",
+  title: "Mikro Yazılım kökenli bir ekip",
   paragraphs: [
-    "Mikro Yazılım'da çalıştık; programı ve işletmelerin günlük kullanımda neye ihtiyaç duyduğunu orada gördük. 2017'den beri işletmelerin Mikro'ya geçişini, kurulumunu, eğitimini ve günlük desteğini yürütüyoruz.",
-    "KOBİ'lere ve kurumlara iş analizi, kurulum, eğitim ve destek veriyor; Mikro'yla entegre çalışan yazılımları kurup bağlıyoruz. Mikro'nun Jumper ve Flyer iş ortaklığı programlarında Silver seviyesindeyiz.",
+    "Ekibimiz, Mikro Yazılım'da edindiği ürün bilgisi ve saha deneyimiyle 2017'den beri işletmelerin Mikro'ya geçiş, kurulum, eğitim ve destek süreçlerini yürütüyor.",
+    "KOBİ'lere ve kurumsal işletmelere iş analizi, kurulum, eğitim ve destek hizmeti veriyor; Mikro ile entegre çalışan çözümlerin kurulumunu ve entegrasyonunu sağlıyoruz. Mikro Yazılım'ın Jumper ve Flyer iş ortaklığı programlarında Silver Partner seviyesindeyiz.",
   ],
   image: { src: "/images/stok/izmir-kordon.webp", alt: "İzmir Kordon'da deniz kenarındaki tarihî sarı bina ve yürüyen insanlar", width: 1024, height: 768, caption: "Kordon, İzmir" },
 };

@@ -16,9 +16,9 @@ export function Works() {
     <section className="sec sec-line" id="isler">
       <div className="wrap">
         <div className="split">
-          <Head label="Ne geliştiriyoruz" title="Mikro'ya özel geliştirmeler, web ve portal projeleri" />
+          <Head label="Çözümlerimiz" title="Mikro'ya özel geliştirmeler, web ve portal projeleri" />
           <p className="lede split-side" data-reveal="">
-            Mikro&apos;nuza özel ekran ve raporlar geliştiriyor; kurumsal web sitesi, e-ticaret ve portal projelerini de kendi ekibimizle yapıyoruz.
+            Mikro&apos;ya özel ekran ve rapor geliştirmelerinin yanında kurumsal web sitesi, e-ticaret ve portal projelerini kendi yazılım ekibimizle yürütüyoruz.
           </p>
         </div>
         <WorkList />
@@ -33,8 +33,8 @@ export function Steps() {
     <section className="sec sec-line" id="nasil">
       <div className="wrap">
         <div className="split">
-          <Head label="Nasıl çalışıyoruz" title="İlk görüşmeden yayından sonrasına" />
-          <p className="lede split-side" data-reveal="">Bir yazılım projesi genelde bu adımlardan geçer. Takvimi, kapsamı maddelere böldükten sonra teklifle birlikte veriyoruz.</p>
+          <Head label="Proje süreci" title="Ön görüşmeden yayın sonrası desteğe" />
+          <p className="lede split-side" data-reveal="">Yazılım projelerimiz aşağıdaki adımlarla yürütülür. Proje takvimi, kapsam belirlendikten sonra teklifle birlikte sunulur.</p>
         </div>
         <ol className={w.steps}>
           {SOFTWARE_STEPS.map((step, i) => (
