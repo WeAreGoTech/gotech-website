@@ -101,9 +101,13 @@ function reveals(root: HTMLElement) {
         stagger: 0.08,
         delay: (_i: number, el: HTMLElement) => Number(el.dataset.delay ?? 0),
         overwrite: true,
-        // bitince satır içi stil kalmasın (hover dönüşümleri serbest); data-shown CSS'teki başlangıç durumunu kapatır
-        clearProps: "opacity,transform",
-        onComplete: () => batch.forEach((el) => el.setAttribute("data-shown", "")),
+        // bitince satır içi stil kalmasın (hover dönüşümleri serbest); data-shown CSS'teki başlangıç durumunu kapatır.
+        // İkisi birlikte, grubun sonunda: stil öğe öğe erken silinirse (clearProps) grubun ilk öğeleri, sonuncusu bitene
+        // kadar CSS'teki gizli hâle dönüp yanıp sönüyordu.
+        onComplete: () => {
+          batch.forEach((el) => el.setAttribute("data-shown", ""));
+          gsap.set(batch, { clearProps: "opacity,transform" });
+        },
       }),
   });
 }
