@@ -37,7 +37,7 @@ export function Ways() {
   return (
     <section className="sec sec-line" id="nasil-calisiyoruz">
       <div className={cx("wrap", a.ways)}>
-        <Head label="Satış sonrası" title="Kurulumdan sonra nasıl çalışıyoruz" />
+        <Head label="Satış sonrası" title="Satış sonrası hizmetlerimiz" />
         <ul className={p.rows}>
           {WAYS.map((w) => (
             <li key={w.title} className={p.row} data-reveal="">
@@ -61,7 +61,7 @@ export function WhatWeDo() {
     <section className="sec sec-line" aria-label="Neler yapıyoruz">
       <div className="wrap">
         <div className="split">
-          <Head label="Neler yapıyoruz" title="Ürünler, hizmetler ve yazılım" />
+          <Head label="Faaliyet alanlarımız" title="Ürünler, hizmetler ve yazılım" />
         </div>
         <ul className={p.index}>
           {ABOUT_INDEX.map((item, i) => (

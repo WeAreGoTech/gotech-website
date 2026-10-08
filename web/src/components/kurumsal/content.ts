@@ -51,9 +51,9 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
 };
 
 export const DEFAULT_SITE_CONTENT: SiteContent = {
-  heroTitle: "Mikro Jump ve Mikro Fly'ı işletmenize kuruyoruz.",
+  heroTitle: "Mikro Jump ve Mikro Fly yetkili bayisiyiz.",
   heroLead:
-    "Size uygun ürünü birlikte seçiyoruz. Kurulumu, e-Dönüşüm geçişini ve ekibinizin eğitimini yapıyor, program çalışmaya başladıktan sonra desteğini de veriyoruz.",
+    "2017'den beri Mikro Yazılım iş ortağı olarak işletmelere ürün danışmanlığı, kurulum, e-Dönüşüm, eğitim ve satış sonrası destek hizmetleri sunuyoruz.",
   // yalnız doğrulanmış bilgi; boş bırakılan rakam sitede hiç görünmez
   stat1Value: "2017",
   stat1Label: "yılından beri Mikro Yazılım yetkili iş ortağı",
@@ -63,10 +63,10 @@ export const DEFAULT_SITE_CONTENT: SiteContent = {
   stat3Label: "",
   stat4Value: "",
   stat4Label: "",
-  ctaTitle: "Bir görüşme planlayalım",
-  ctaLead: "İşinizi dinleyip hangi ürünün size uygun olduğunu söyleyelim. Keşif görüşmesi ve demo için ücret almıyoruz.",
+  ctaTitle: "Görüşme talep edin",
+  ctaLead: "İhtiyaçlarınızı değerlendirip işletmenize uygun Mikro ürününü birlikte belirleyelim. Keşif görüşmesi ve demo ücretsizdir.",
   ctaButtonText: "Ücretsiz demo talep edin",
   ctaButtonLink: "/iletisim",
-  footerAbout: "Mikro Jump ve Mikro Fly için kurulum, eğitim ve destek.",
+  footerAbout: "Mikro Jump ve Mikro Fly yetkili bayisi. Satış, kurulum, eğitim ve destek.",
   footerCopyright: "© 2026 GoTech ERP Solutions · Mikro Yazılım İş Ortağı",
 };

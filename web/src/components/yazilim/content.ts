@@ -21,33 +21,33 @@ export const WORKS: Work[] = [
 /** Nasıl çalışıyoruz: ilk görüşmeden yayın sonrasına altı adım (ana sayfadaki yol haritasıyla aynı kalıp). */
 export const SOFTWARE_STEPS = [
   {
-    title: "Konuşalım",
-    body: "Ne yapmak istediğinizi dinliyoruz; bugün hangi programları kullandığınızı ve işin kimlerin elinden geçtiğini çıkarıyoruz.",
+    title: "Ön görüşme",
+    body: "İhtiyacınızı, hâlihazırda kullandığınız programları ve sürece dahil olan birimleri ön görüşmede değerlendiriyoruz.",
     scope: ["Ücretsiz ilk görüşme", "Mevcut durumun çıkarılması"],
   },
   {
     title: "Kapsam ve teklif",
-    body: "Yapılacak işi maddelere bölüyoruz. Hangi maddenin ilk sürümde olacağına birlikte karar veriyor, teklifi kalem kalem hazırlıyoruz.",
+    body: "Proje kapsamı iş maddelerine ayrılır, ilk sürümde yer alacak maddeler birlikte belirlenir ve teklif kalem kalem hazırlanır.",
     scope: ["İş maddeleri", "İlk sürümün kapsamı", "Kalem kalem teklif"],
   },
   {
     title: "Ekran tasarımı",
-    body: "Kod yazmadan önce ekranları tasarlıyoruz. Akışı sizinle konuşup onayınızı aldıktan sonra geliştirmeye başlıyoruz.",
+    body: "Geliştirme öncesinde ekran tasarımları hazırlanır; iş akışı onayınıza sunulduktan sonra geliştirmeye geçilir.",
     scope: ["Ekran taslakları", "Akış onayı"],
   },
   {
     title: "Geliştirme",
-    body: "İşi parçalara bölüp ilerliyoruz; biten parçaları arada gösteriyoruz, geri bildiriminizi bir sonraki parçaya alıyoruz.",
-    scope: ["Parça parça ilerleme", "Ara gösterimler"],
+    body: "Geliştirme aşamalar hâlinde ilerler; tamamlanan bölümler ara gösterimlerle sunulur, geri bildirimleriniz sonraki aşamaya yansıtılır.",
+    scope: ["Aşamalı geliştirme", "Ara gösterimler"],
   },
   {
     title: "Yayın",
-    body: "Uygulamayı sunucuya kuruyor, kullanıcıları ve yetkileri tanımlıyor, ekibinize kullanmayı gösteriyoruz.",
+    body: "Uygulama sunucuya kurulur, kullanıcı ve yetki tanımları yapılır, ekibinize kullanım eğitimi verilir.",
     scope: ["Kurulum", "Kullanıcı ve yetki tanımları", "Ekip eğitimi"],
   },
   {
     title: "Destek ve geliştirme",
-    body: "Yayından sonraki taleplerinizi destek portalından açarsınız. Yeni bir ihtiyaç çıkarsa ayrıca konuşuyoruz.",
+    body: "Yayın sonrası talepleriniz destek portalı üzerinden karşılanır. Yeni ihtiyaçlar ayrı bir kapsam olarak değerlendirilir.",
     scope: ["Destek portalı", "Yeni geliştirmeler"],
   },
 ];
